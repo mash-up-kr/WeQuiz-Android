@@ -7,6 +7,16 @@
   ],
   "packageRules": [
     {
+      "groupName": "Kotlin and KSP",
+      "groupSlug": "kotlin",
+      "matchPackagePrefixes": [
+        "com.google.devtools.ksp"
+      ],
+      "matchPackagePatterns": [
+        "org.jetbrains.kotlin.*"
+      ]
+    },
+    {
       "description": "Automatically merge minor and patch-level updates",
       "matchUpdateTypes": [
         "minor",
