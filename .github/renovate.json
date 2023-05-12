@@ -5,6 +5,10 @@
     "config:base",
     "schedule:daily"
   ],
+  "labels": [
+    "dependencies",
+    "gradle"
+  ],
   "packageRules": [
     {
       "groupName": "Kotlin and KSP",
