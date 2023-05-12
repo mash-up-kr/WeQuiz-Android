@@ -2,8 +2,10 @@
  * Designed and developed by "옴마야" Team 2023.
  *
  * Licensed under the MIT.
- * Please see full license: https://github.com/mash-up-kr/NINAKNOW-Android/blob/main/LICENSE
+ * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
+
+@file:Suppress("UnstableApiUsage")
 
 plugins {
     id("com.android.application")
@@ -15,7 +17,6 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "team.ommaya.wequiz.android"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
@@ -24,8 +25,6 @@ android {
 
     sourceSets {
         getByName("main").java.srcDir("src/main/kotlin")
-        getByName("test").java.srcDir("src/test/kotlin")
-        getByName("androidTest").java.srcDir("src/androidTest/kotlin")
     }
 
     compileOptions {
