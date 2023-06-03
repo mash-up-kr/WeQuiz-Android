@@ -7,6 +7,8 @@ kotlin-detekt = "1.23.0"
 kotlin-ktlint-gradle = "11.3.2"
 kotlin-ktlint-source = "0.48.2"
 
+kotlinx-coroutines = "1.3.9"
+
 compose-compiler = "1.4.7"
 compose-runtime = "1.4.3"
 compose-uiutil = "1.4.3"
@@ -18,12 +20,26 @@ compose-activity = "1.7.2"
 
 coil-compose = "2.4.0"
 
+# datastore
+preference-datastore = "1.0.0"
+
+# androidx
+androidx-appcompat = "1.4.1"
+androidx-constraintlayout = "2.1.3"
+androidx-fragment = "1.5.5"
+androidx-lifecycle = "2.4.1"
+androidx-navigation = "2.5.3"
+
+glide = "4.14.2"
+
 [plugins]
 gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.extensions", version.ref = "gradle-dependency-handler-extensions" }
 
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-core" }
 kotlin-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "kotlin-detekt" }
 kotlin-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "kotlin-ktlint-gradle" }
+
+andrdoix-navigation-safeargs = { id = "androidx.navigation.safeargs", version.ref = "androidx-navigation" }
 
 [libraries]
 gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gradle-android" }
@@ -47,3 +63,34 @@ compose-activity = { module = "androidx.activity:activity-compose", version.ref 
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
 
 detekt-plugin-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "kotlin-detekt" }
+
+# datastroe
+preference-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "preference-datastore" }
+
+# androidx
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
+androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "androidx-navigation" }
+androidx-navigtaion-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidx-navigation" }
+androidx-navigation-safe-args = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "androidx-navigation" }
+
+# glide
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+
+# kotlinx
+kotlinx-coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+
+[bundles]
+androidx-xml = [
+    "androidx-constraintlayout",
+    "androidx-fragment",
+    "androidx-appcompat",
+    "androidx-lifecycle-runtime",
+    "androidx-lifecycle-viewmodel",
+    "androidx-navigation-fragment",
+    "androidx-navigtaion-ui-ktx",
+    "androidx-navigation-safe-args",
+]
