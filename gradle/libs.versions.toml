@@ -20,6 +20,7 @@ compose-activity = "1.7.2"
 
 coil-compose = "2.4.0"
 
+# datastore
 preference-datastore = "1.0.0"
 
 # androidx
@@ -79,7 +80,7 @@ androidx-navigation-safe-args = { module = "androidx.navigation:navigation-safe-
 # glide
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 
-# coroutine
+# kotlinx
 kotlinx-coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 
 [bundles]

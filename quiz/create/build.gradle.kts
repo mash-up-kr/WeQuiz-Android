@@ -19,7 +19,9 @@ android {
 }
 
 dependencies {
-    implementations(libs.bundles.androidx.xml)
-    implementations(libs.glide)
-    implementations(libs.kotlinx.coroutine)
+    implementations(
+        libs.bundles.androidx.xml,
+        libs.glide,
+        libs.kotlinx.coroutine,
+    )
 }
