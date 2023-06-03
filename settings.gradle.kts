@@ -30,11 +30,12 @@ buildCache {
 
 include(
     ":app",
+    ":join:intro",
+    ":join:onboard",
     ":home:main",
     ":home:profile-edit",
     ":home:friend-rank",
     ":home:quiz-list",
     ":home:quiz-detail",
-    ":join:intro",
-    ":join:onboard",
+    ":quiz:create",
 )
