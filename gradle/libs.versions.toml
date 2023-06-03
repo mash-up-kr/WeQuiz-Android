@@ -7,6 +7,17 @@ kotlin-detekt = "1.22.0"
 kotlin-ktlint-gradle = "11.3.2"
 kotlin-ktlint-source = "0.48.2"
 
+compose-compiler = "1.4.7"
+compose-runtime = "1.4.3"
+compose-uiutil = "1.4.3"
+compose-foundation = "1.4.3"
+compose-ui = "1.4.3"
+compose-animation = "1.4.3"
+compose-material-ripple = "1.4.3"
+compose-activity = "1.7.2"
+
+coil-compose = "2.4.0"
+
 [plugins]
 gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.extensions", version.ref = "gradle-dependency-handler-extensions" }
 
@@ -21,5 +32,18 @@ kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 
 # This isn't strictly used but allows Renovate to see us using the ktlint artifact
 kotlin-ktlint = { module = "com.pinterest:ktlint", version.ref = "kotlin-ktlint-source" }
+
+# This isn't strictly used but allows Renovate to see us using the compose-compiler artifact
+compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
+
+compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose-runtime" }
+compose-uiutil = { module = "androidx.compose.ui:ui-util", version.ref = "compose-uiutil" }
+compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-foundation" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-ui" }
+compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose-animation" }
+compose-material-ripple = { module = "androidx.compose.material:material-ripple", version.ref = "compose-material-ripple" }
+compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
+
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
 
 detekt-plugin-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "kotlin-detekt" }
