@@ -35,4 +35,6 @@ include(
     ":home:friend-rank",
     ":home:quiz-list",
     ":home:quiz-detail",
+    ":join:intro",
+    ":join:onboard",
 )
