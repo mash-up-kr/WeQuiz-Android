@@ -35,4 +35,5 @@ include(
     ":home:friend-rank",
     ":home:quiz-list",
     ":home:quiz-detail",
+    ":quiz:create",
 )
