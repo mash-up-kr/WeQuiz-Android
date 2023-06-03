@@ -24,8 +24,6 @@ import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 
-private const val EXPLICIT_API = "-Xexplicit-api=strict"
-
 internal abstract class BuildLogicPlugin(private val block: Project.() -> Unit) : Plugin<Project> {
     final override fun apply(project: Project) {
         with(project, block = block)
