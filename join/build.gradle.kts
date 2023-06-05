@@ -10,5 +10,5 @@ plugins {
 }
 
 android {
-    namespace = "team.ommaya.wequiz.android.join.intro"
+    namespace = "team.ommaya.wequiz.android.join"
 }
