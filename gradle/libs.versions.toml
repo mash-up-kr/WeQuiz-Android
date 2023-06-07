@@ -30,7 +30,7 @@ androidx-fragment = "1.5.7"
 androidx-lifecycle = "2.6.1"
 androidx-navigation = "2.5.3"
 
-glide = "4.14.2"
+glide = "4.15.1"
 
 [plugins]
 gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.extensions", version.ref = "gradle-dependency-handler-extensions" }
