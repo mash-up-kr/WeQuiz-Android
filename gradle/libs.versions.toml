@@ -24,7 +24,7 @@ coil-compose = "2.4.0"
 preference-datastore = "1.0.0"
 
 # androidx
-androidx-appcompat = "1.4.1"
+androidx-appcompat = "1.6.1"
 androidx-constraintlayout = "2.1.4"
 androidx-fragment = "1.5.7"
 androidx-lifecycle = "2.6.1"
