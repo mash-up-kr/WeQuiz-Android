@@ -28,7 +28,7 @@ androidx-appcompat = "1.6.1"
 androidx-constraintlayout = "2.1.4"
 androidx-fragment = "1.5.7"
 androidx-lifecycle = "2.6.1"
-androidx-navigation = "2.5.3"
+androidx-navigation = "2.6.0"
 
 glide = "4.15.1"
 
