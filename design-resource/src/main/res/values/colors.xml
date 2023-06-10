@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Designed and developed by "옴마야" Team 2023.
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
+  -->
+
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Extended Gray -->
+    <color name="G1">#F1F3F5</color>
+    <color name="G2">#E9ECEF</color>
+    <color name="G3">#DEE2E6</color>
+    <color name="G4">#ADB5BD</color>
+    <color name="G5">#6E7277</color>
+    <color name="G6">#4B4C4E</color>
+    <color name="G7">#353638</color>
+    <color name="G8">#1B1B1B</color>
+    <color name="G9">#121212</color>
+
+    <!-- Primary Palette -->
+    <color name="Purple">#9146FF</color>
+
+    <!-- Secondary Palette -->
+    <color name="Green">#6AF2BB</color>
+    <color name="Mint">#71F7FF</color>
+
+    <!-- Color -->
+    <color name="Disabled">#542F89</color>
+    <color name="Alert">#FF5D47</color>
+    <color name="BTN01">#6AF2BB</color>
+    <color name="BTN02">#72D0C9</color>
+    <color name="BTN03">#7AAED7</color>
+    <color name="BTN04">#828BE4</color>
+    <color name="BTN05">#8A69F2</color>
+
+    <!-- Opacity-->
+    <color name="Dimed">#121212B2</color>
+    <color name="Black">#121212E5</color>
+
+</resources>
