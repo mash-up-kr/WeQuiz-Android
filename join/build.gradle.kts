@@ -17,10 +17,9 @@ android {
         viewBinding = true
     }
 }
+
 dependencies {
-    implementations(
-        libs.bundles.androidx.xml,
-        libs.glide,
-        libs.kotlinx.coroutine,
-    )
+    implementation(libs.bundles.androidx.xml)
+    implementation(libs.glide)
+    implementation(libs.kotlinx.coroutine)
 }
