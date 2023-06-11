@@ -12,3 +12,7 @@ plugins {
 android {
     namespace = "team.ommaya.wequiz.android.design.resource"
 }
+
+dependencies {
+    implementation(libs.bundles.androidx.xml)
+}
