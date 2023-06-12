@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Designed and developed by "옴마야" Team 2023.
-  ~
-  ~ Licensed under the MIT.
-  ~ Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
-  -->
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-<manifest>
+    <application>
+        <activity
+            android:name=".JoinActivity"
+            android:exported="false" />
+    </application>
 
 </manifest>

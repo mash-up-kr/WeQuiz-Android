@@ -7,8 +7,19 @@
 
 plugins {
     wequiz("android-library")
+    alias(libs.plugins.andrdoix.navigation.safeargs)
 }
 
 android {
     namespace = "team.ommaya.wequiz.android.join"
+
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+dependencies {
+    implementation(libs.bundles.androidx.xml)
+    implementation(libs.glide)
+    implementation(libs.kotlinx.coroutine)
 }
