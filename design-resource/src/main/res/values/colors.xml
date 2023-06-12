@@ -21,20 +21,18 @@
     <color name="G9">#121212</color>
 
     <!-- Primary Palette -->
-    <color name="Purple">#9146FF</color>
+    <color name="P1">#9146FF</color>
 
     <!-- Secondary Palette -->
-    <color name="Green">#6AF2BB</color>
-    <color name="Mint">#71F7FF</color>
+    <color name="S1">#6AF2BB</color>
+    <color name="S2">#72D0C9</color>
+    <color name="S3">#7AAED7</color>
+    <color name="S4">#828BE4</color>
+    <color name="S5">#8A69F2</color>
 
     <!-- Color -->
     <color name="Disabled">#542F89</color>
     <color name="Alert">#FF5D47</color>
-    <color name="BTN01">#6AF2BB</color>
-    <color name="BTN02">#72D0C9</color>
-    <color name="BTN03">#7AAED7</color>
-    <color name="BTN04">#828BE4</color>
-    <color name="BTN05">#8A69F2</color>
 
     <!-- Opacity-->
     <color name="Dimed">#121212B2</color>
