@@ -12,7 +12,7 @@ plugins {
 android {
     namespace = "team.ommaya.wequiz.android.util.view"
 
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
 }
@@ -21,6 +21,6 @@ dependencies {
     implementations(
         libs.androidx.appcompat,
         libs.androidx.fragment,
-        libs.glide
+        libs.glide,
     )
 }
