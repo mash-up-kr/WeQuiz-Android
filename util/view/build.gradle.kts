@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace = "team.ommaya.wequiz.util.view"
+    namespace = "team.ommaya.wequiz.android.util.view"
 
     buildFeatures{
         viewBinding = true
