@@ -38,5 +38,5 @@ include(
     ":home:quiz-detail",
     ":quiz:create",
     ":design-resource",
-    ":util:view"
+    ":util:view",
 )
