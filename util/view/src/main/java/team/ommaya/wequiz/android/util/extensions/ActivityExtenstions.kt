@@ -5,4 +5,4 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-package team.ommaya.wequiz.android.util.view
+package team.ommaya.wequiz.android.util.extensions
