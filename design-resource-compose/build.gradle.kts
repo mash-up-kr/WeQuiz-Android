@@ -17,6 +17,7 @@ import org.gradle.kotlin.dsl.KotlinClosure2
 plugins {
     wequiz("android-library")
     wequiz("android-compose")
+    wequiz("kotlin-explicit-api")
     alias(libs.plugins.test.roborazzi)
 }
 
