@@ -19,6 +19,7 @@ gradlePlugin {
         "AndroidLibraryPlugin" to "android-library",
         "AndroidComposePlugin" to "android-compose",
         "JvmKotlinPlugin" to "jvm-kotlin",
+        "KotlinExplicitApiPlugin" to "kotlin-explicit-api",
     )
 
     plugins {

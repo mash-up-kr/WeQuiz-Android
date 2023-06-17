@@ -21,6 +21,10 @@ formatting:
     active: false
   MaximumLineLength:
     active: false
+  MultiLineIfElse:
+    active: false
+  Indentation:
+    active: false
   ArgumentListWrapping:
     maxLineLength: 150
   KdocWrapping:

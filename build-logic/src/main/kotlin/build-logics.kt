@@ -23,6 +23,9 @@ import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+private const val EXPLICIT_API = "-Xexplicit-api=strict"
 
 internal abstract class BuildLogicPlugin(private val block: Project.() -> Unit) : Plugin<Project> {
     final override fun apply(project: Project) {
@@ -77,4 +80,20 @@ internal class JvmKotlinPlugin : BuildLogicPlugin({
     }
 
     dependencies.add("detektPlugins", libs.findLibrary("detekt-plugin-formatting").get())
+})
+
+internal class KotlinExplicitApiPlugin : BuildLogicPlugin({
+    tasks
+        .matching { task ->
+            task is KotlinCompile &&
+                    !task.name.contains("test", ignoreCase = true)
+        }
+        .configureEach {
+            if (!project.hasProperty("kotlin.optOutExplicitApi")) {
+                val kotlinCompile = this as KotlinCompile
+                if (EXPLICIT_API !in kotlinCompile.kotlinOptions.freeCompilerArgs) {
+                    kotlinCompile.kotlinOptions.freeCompilerArgs += EXPLICIT_API
+                }
+            }
+        }
 })

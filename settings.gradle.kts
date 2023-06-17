@@ -38,4 +38,5 @@ include(
     ":home:quiz-detail",
     ":quiz:create",
     ":design-resource",
+    ":design-resource-compose",
 )
