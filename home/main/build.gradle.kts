@@ -9,6 +9,7 @@
 
 plugins {
     wequiz("android-library")
+    wequiz("android-library-roborazzi")
 }
 
 android {
