@@ -183,7 +183,7 @@ private fun SectionTitle(
                     onClick = onRightArrowClick,
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() },
-                )
+                ),
         )
     }
 }
@@ -236,7 +236,7 @@ private fun FriendsRanking(
                                         0 -> R.drawable.ic_round_cruelty_free_24
                                         1 -> R.drawable.ic_round_cruelty_free_24
                                         2 -> R.drawable.ic_round_cruelty_free_24
-                                        else -> throw IndexOutOfBoundsException()
+                                        else -> throw IndexOutOfBoundsException("3위 이상의 친구 랭킹은 존재할 수 없습니다.")
                                     },
                                 ),
                                 colorFilter = WeQuizColor.P1.toRememberColorFilterOrNull(),
