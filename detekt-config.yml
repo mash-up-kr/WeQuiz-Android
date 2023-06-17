@@ -1,6 +1,9 @@
 complexity:
   LongMethod:
     threshold: 100
+    ignoreAnnotated: [ 'Composable' ]
+  CyclomaticComplexMethod:
+    ignoreAnnotated: [ 'Composable' ]
   LongParameterList:
     active: false
   TooManyFunctions:
@@ -25,12 +28,16 @@ formatting:
     active: false
   Indentation:
     active: false
+  ParameterListWrapping:
+    active: false
   ArgumentListWrapping:
     maxLineLength: 150
   KdocWrapping:
     active: true
+  Wrapping:
+    active: false
   CommentWrapping:
-    active: true
+    active: false
   Filename:
     active: false
   PackageName:
@@ -41,8 +48,11 @@ formatting:
 style:
   MagicNumber:
     active: false
+    ignoreAnnotated: [ 'AllowMagicNumber' ]
   ForbiddenComment:
     active: false
+  UnusedPrivateMember:
+    ignoreAnnotated: [ 'Preview' ]
   ThrowsCount:
     active: false
   ReturnCount:
@@ -52,12 +62,13 @@ style:
   DestructuringDeclarationWithTooManyEntries:
     active: false
   MaxLineLength:
-    maxLineLength: 150
-    excludeCommentStatements: true
+    active: false
 
 naming:
   TopLevelPropertyNaming:
     constantPattern: '[A-Z][A-Za-z0-9_]*'
+  FunctionNaming:
+    ignoreAnnotated: [ 'Composable' ]
   MatchingDeclarationName:
     active: false
   VariableNaming:
