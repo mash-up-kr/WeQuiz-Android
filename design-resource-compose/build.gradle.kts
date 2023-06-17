@@ -29,14 +29,9 @@ android {
         getByName("test").java.srcDir("src/test/kotlin")
     }
 
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
-            isReturnDefaultValues = true
             all { test ->
                 test.useJUnitPlatform()
                 test.systemProperty("robolectric.graphicsMode", "NATIVE")
@@ -63,10 +58,10 @@ tasks.withType<Test>().configureEach {
         KotlinClosure2<TestDescriptor, TestResult, Unit>({ desc, result ->
             if (desc.parent == null) { // will match the outermost suite
                 val output = "Results: ${result.resultType} " +
-                    "(${result.testCount} tests, " +
-                    "${result.successfulTestCount} passed, " +
-                    "${result.failedTestCount} failed, " +
-                    "${result.skippedTestCount} skipped)"
+                        "(${result.testCount} tests, " +
+                        "${result.successfulTestCount} passed, " +
+                        "${result.failedTestCount} failed, " +
+                        "${result.skippedTestCount} skipped)"
                 println(output)
             }
         }),
