@@ -9,8 +9,10 @@
 
 package team.ommaya.wequiz.android.design.resource.compose
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.SolidColor
@@ -28,6 +30,9 @@ public value class WeQuizColor private constructor(public val value: Color) :
     @Stable
     public fun toColorFilterOrNull(): ColorFilter? =
         if (this == Unspecified) null else ColorFilter.tint(value)
+
+    @Composable
+    public fun toRememberColorFilterOrNull(): ColorFilter? = remember(::toColorFilterOrNull)
 
     @Stable
     public fun change(alpha: Float): WeQuizColor =
@@ -91,6 +96,9 @@ public value class WeQuizColor private constructor(public val value: Color) :
 
         @Stable
         public val Dimmed: WeQuizColor = WeQuizColor(Color(0xB2121212))
+
+        @Stable
+        public val White: WeQuizColor = WeQuizColor(Color(0xFFFFFFFF))
 
         @Stable
         public val Black: WeQuizColor = WeQuizColor(Color(0xE5161616))
