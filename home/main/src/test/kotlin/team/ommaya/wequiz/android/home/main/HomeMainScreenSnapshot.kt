@@ -20,7 +20,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class HomeMainScreenSnapshot {
     @Test
-    fun HomeMainScreenSnapshot() {
+    fun Empty() {
         captureRoboImage("src/test/snapshots/WeQuizGradient/HomeMainScreen-empty.png") {
             HomeMainScreen(
                 nickname = "닉네임",
