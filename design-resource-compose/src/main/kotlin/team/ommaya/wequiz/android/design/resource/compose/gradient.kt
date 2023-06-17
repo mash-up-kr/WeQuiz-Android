@@ -14,9 +14,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
-object WeQuizGradient {
+public object WeQuizGradient {
     @Stable
-    val Black = Brush.linearGradient(
+    public val Black: Brush = Brush.linearGradient(
         colorStops = arrayOf(
             0f to Color(0xFF121212),
             0.53f to Color(0xFF121212),
@@ -29,7 +29,7 @@ object WeQuizGradient {
     )
 
     @Stable
-    val Secondary = Brush.linearGradient(
+    public val Secondary: Brush = Brush.linearGradient(
         colorStops = arrayOf(
             0f to Color(0xFFCDF9FF),
             0.41f to Color(0xFF6EEAF2),

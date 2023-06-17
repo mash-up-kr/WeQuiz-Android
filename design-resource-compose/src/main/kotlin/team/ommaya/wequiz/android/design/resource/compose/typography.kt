@@ -27,17 +27,17 @@ private val pretendard = FontFamily(
 )
 
 @Immutable
-class WeQuizTypography private constructor(
-    val color: WeQuizColor = WeQuizColor.Black,
-    val size: TextUnit,
-    val weight: FontWeight,
-    val letterSpacing: TextUnit,
-    val lineHeight: TextUnit,
-    val textAlign: TextAlign = TextAlign.Left,
-    val fontFamily: FontFamily = pretendard,
+public class WeQuizTypography private constructor(
+    public val color: WeQuizColor = WeQuizColor.Black,
+    public val size: TextUnit,
+    public val weight: FontWeight,
+    public val letterSpacing: TextUnit,
+    public val lineHeight: TextUnit,
+    public val textAlign: TextAlign = TextAlign.Left,
+    public val fontFamily: FontFamily = pretendard,
 ) {
     @Stable
-    fun asComposeStyle() =
+    public fun asComposeStyle(): TextStyle =
         TextStyle(
             color = color.value,
             fontSize = size,
@@ -49,10 +49,10 @@ class WeQuizTypography private constructor(
         )
 
     @Stable
-    fun change(
+    public fun change(
         color: WeQuizColor = this.color,
         textAlign: TextAlign = this.textAlign,
-    ) =
+    ): WeQuizTypography =
         if (color == this.color && textAlign == this.textAlign) {
             this
         } else {
@@ -92,20 +92,20 @@ class WeQuizTypography private constructor(
         return result
     }
 
-    override fun toString() =
+    override fun toString(): String =
         "WeQuizTypography(" +
-            "color=$color, " +
-            "size=$size, " +
-            "weight=$weight, " +
-            "letterSpacing=$letterSpacing, " +
-            "lineHeight=$lineHeight, " +
-            "textAlign=$textAlign, " +
-            "fontFamily=$fontFamily" +
-            ")"
+                "color=$color, " +
+                "size=$size, " +
+                "weight=$weight, " +
+                "letterSpacing=$letterSpacing, " +
+                "lineHeight=$lineHeight, " +
+                "textAlign=$textAlign, " +
+                "fontFamily=$fontFamily" +
+                ")"
 
-    companion object {
+    public companion object {
         @Stable
-        val B48 = WeQuizTypography(
+        public val B48: WeQuizTypography = WeQuizTypography(
             size = 48.sp,
             weight = FontWeight.Bold,
             letterSpacing = (-0.3).sp,
@@ -113,7 +113,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val B34 = WeQuizTypography(
+        public val B34: WeQuizTypography = WeQuizTypography(
             size = 34.sp,
             weight = FontWeight.Bold,
             letterSpacing = (-0.3).sp,
@@ -121,7 +121,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val M32 = WeQuizTypography(
+        public val M32: WeQuizTypography = WeQuizTypography(
             size = 32.sp,
             weight = FontWeight.Medium,
             letterSpacing = (-0.3).sp,
@@ -129,7 +129,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val B24 = WeQuizTypography(
+        public val B24: WeQuizTypography = WeQuizTypography(
             size = 24.sp,
             weight = FontWeight.Bold,
             letterSpacing = (-0.3).sp,
@@ -137,7 +137,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val M24 = WeQuizTypography(
+        public val M24: WeQuizTypography = WeQuizTypography(
             size = 24.sp,
             weight = FontWeight.Medium,
             letterSpacing = (-0.3).sp,
@@ -145,7 +145,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val R24 = WeQuizTypography(
+        public val R24: WeQuizTypography = WeQuizTypography(
             size = 24.sp,
             weight = FontWeight.Regular,
             letterSpacing = (-0.3).sp,
@@ -153,7 +153,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val B20 = WeQuizTypography(
+        public val B20: WeQuizTypography = WeQuizTypography(
             size = 20.sp,
             weight = FontWeight.Bold,
             letterSpacing = (-0.3).sp,
@@ -161,7 +161,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val M20 = WeQuizTypography(
+        public val M20: WeQuizTypography = WeQuizTypography(
             size = 20.sp,
             weight = FontWeight.Medium,
             letterSpacing = (-0.3).sp,
@@ -169,7 +169,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val R20 = WeQuizTypography(
+        public val R20: WeQuizTypography = WeQuizTypography(
             size = 20.sp,
             weight = FontWeight.Regular,
             letterSpacing = (-0.3).sp,
@@ -177,7 +177,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val B18 = WeQuizTypography(
+        public val B18: WeQuizTypography = WeQuizTypography(
             size = 18.sp,
             weight = FontWeight.Bold,
             letterSpacing = (-0.3).sp,
@@ -185,7 +185,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val B16 = WeQuizTypography(
+        public val B16: WeQuizTypography = WeQuizTypography(
             size = 16.sp,
             weight = FontWeight.Bold,
             letterSpacing = (-0.3).sp,
@@ -193,7 +193,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val SB16 = WeQuizTypography(
+        public val SB16: WeQuizTypography = WeQuizTypography(
             size = 16.sp,
             weight = FontWeight.SemiBold,
             letterSpacing = (-0.3).sp,
@@ -201,7 +201,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val M16 = WeQuizTypography(
+        public val M16: WeQuizTypography = WeQuizTypography(
             size = 16.sp,
             weight = FontWeight.Medium,
             letterSpacing = (-0.3).sp,
@@ -209,7 +209,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val R16 = WeQuizTypography(
+        public val R16: WeQuizTypography = WeQuizTypography(
             size = 16.sp,
             weight = FontWeight.Regular,
             letterSpacing = (-0.3).sp,
@@ -217,7 +217,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val B14 = WeQuizTypography(
+        public val B14: WeQuizTypography = WeQuizTypography(
             size = 14.sp,
             weight = FontWeight.Bold,
             letterSpacing = (-0.3).sp,
@@ -225,7 +225,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val M14 = WeQuizTypography(
+        public val M14: WeQuizTypography = WeQuizTypography(
             size = 14.sp,
             weight = FontWeight.Medium,
             letterSpacing = (-0.3).sp,
@@ -233,7 +233,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val R14 = WeQuizTypography(
+        public val R14: WeQuizTypography = WeQuizTypography(
             size = 14.sp,
             weight = FontWeight.Regular,
             letterSpacing = (-0.3).sp,
@@ -241,7 +241,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val M12 = WeQuizTypography(
+        public val M12: WeQuizTypography = WeQuizTypography(
             size = 12.sp,
             weight = FontWeight.Medium,
             letterSpacing = (-0.3).sp,
@@ -249,7 +249,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val R12 = WeQuizTypography(
+        public val R12: WeQuizTypography = WeQuizTypography(
             size = 12.sp,
             weight = FontWeight.Regular,
             letterSpacing = (-0.3).sp,
@@ -257,7 +257,7 @@ class WeQuizTypography private constructor(
         )
 
         @Stable
-        val M10 = WeQuizTypography(
+        public val M10: WeQuizTypography = WeQuizTypography(
             size = 10.sp,
             weight = FontWeight.Medium,
             letterSpacing = (-0.3).sp,
@@ -266,4 +266,4 @@ class WeQuizTypography private constructor(
     }
 }
 
-val FontWeight.Companion.Regular inline get() = Normal
+public val FontWeight.Companion.Regular: FontWeight inline get() = Normal
