@@ -115,6 +115,7 @@ internal class AndroidLibraryRoborazziPlugin : BuildLogicPlugin({
     }
 
     with(dependencies) {
+        add("testImplementation", libs.findLibrary("compose-activity").get()) // needed for roborazzi that used ActivityScenario internally
         add("testImplementation", libs.findLibrary("test-junit-core").get())
         add("testImplementation", libs.findLibrary("test-androidx-junit-ktx").get())
         add("testImplementation", libs.findLibrary("test-robolectric").get())

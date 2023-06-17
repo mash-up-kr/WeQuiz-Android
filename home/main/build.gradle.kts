@@ -11,6 +11,7 @@ plugins {
     wequiz("android-library")
     wequiz("android-compose")
     wequiz("android-library-roborazzi")
+    alias(libs.plugins.test.roborazzi) // TODO: android-library-roborazzi로 추가
 }
 
 android {
