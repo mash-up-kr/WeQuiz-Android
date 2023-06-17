@@ -59,7 +59,7 @@ fun HomeMainScreen(
     friendsRanking: ImmutableList<Triple<String, String, String>>,
     // 문제지명, 작성 중 여부
     examPagers: ImmutableList<Pair<String, Boolean>>,
-    onExamCreateClick: () -> Unit,
+    onExamCreateClick: () -> Unit = {},
 ) {
     val roundedCornerShape16 = remember { RoundedCornerShape(16.dp) }
 
