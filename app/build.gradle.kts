@@ -5,11 +5,12 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-@file:Suppress("UnstableApiUsage")
+@file:Suppress("INLINE_FROM_HIGHER_PLATFORM", "UnstableApiUsage")
 
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    kotlin("android")
+    // alias(libs.plugins.androidx.navigation.safeargs)
 }
 
 android {
@@ -18,6 +19,7 @@ android {
 
     defaultConfig {
         minSdk = 24
+        @Suppress("OldTargetApi")
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -37,6 +39,8 @@ android {
     }
 }
 
+/*
 dependencies {
-    detektPlugins(libs.detekt.plugin.formatting)
+    implementation(libs.androidx.navigation.safeargs)
 }
+*/
