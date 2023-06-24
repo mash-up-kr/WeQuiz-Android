@@ -8,29 +8,16 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM", "UnstableApiUsage")
 
 plugins {
-    android("application")
+    android("library")
     kotlin("android")
 }
 
 android {
-    namespace = "team.ommaya.wequiz.android"
+    namespace = "team.ommaya.wequiz.android.data"
     compileSdk = 33
 
     defaultConfig {
         minSdk = 24
-        @Suppress("OldTargetApi")
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
-    }
-
-    buildFeatures {
-        compose = true
-        viewBinding = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     sourceSets {
@@ -45,12 +32,4 @@ android {
     kotlin {
         jvmToolchain(17)
     }
-}
-
-dependencies {
-    implementations(
-        libs.compose.runtime,
-        projects.data,
-        projects.domain,
-    )
 }

@@ -28,6 +28,8 @@ buildCache {
 
 include(
     ":app",
+    ":data",
+    ":domain",
     ":design-resource",
     ":design-resource-compose",
 )
