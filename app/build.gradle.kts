@@ -48,5 +48,9 @@ android {
 }
 
 dependencies {
-    implementation(libs.compose.runtime)
+    implementations(
+        libs.compose.runtime,
+        projects.data,
+        projects.domain,
+    )
 }
