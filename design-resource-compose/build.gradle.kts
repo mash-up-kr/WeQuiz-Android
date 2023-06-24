@@ -13,6 +13,10 @@ import org.gradle.api.tasks.testing.TestResult
 import org.gradle.api.tasks.testing.TestDescriptor
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.kotlin.dsl.KotlinClosure2
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+@Suppress("PrivatePropertyName")
+private val EXPLICIT_API = "-Xexplicit-api=strict"
 
 plugins {
     android("library")
@@ -72,6 +76,20 @@ android {
         jvmToolchain(17)
     }
 }
+
+tasks
+    .matching { task ->
+        task is KotlinCompile &&
+                !task.name.contains("test", ignoreCase = true)
+    }
+    .configureEach {
+        if (!project.hasProperty("kotlin.optOutExplicitApi")) {
+            val kotlinCompile = this as KotlinCompile
+            if (EXPLICIT_API !in kotlinCompile.kotlinOptions.freeCompilerArgs) {
+                kotlinCompile.kotlinOptions.freeCompilerArgs += EXPLICIT_API
+            }
+        }
+    }
 
 tasks.withType<Test>().configureEach {
     // https://stackoverflow.com/a/36178581/14299073
