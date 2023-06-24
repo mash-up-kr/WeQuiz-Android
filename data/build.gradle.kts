@@ -10,6 +10,8 @@
 plugins {
     android("library")
     kotlin("android")
+    kotlin("kapt")
+    alias(libs.plugins.android.hilt)
 }
 
 android {
@@ -18,6 +20,10 @@ android {
 
     defaultConfig {
         minSdk = 24
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     sourceSets {
@@ -32,4 +38,13 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+}
+
+dependencies {
+    kapt(libs.android.hilt.compile)
+    implementations(
+        libs.android.hilt.runtime,
+        libs.bundles.jackson,
+        libs.bundles.ktor.client,
+    )
 }
