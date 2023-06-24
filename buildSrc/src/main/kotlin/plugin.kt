@@ -9,5 +9,5 @@ import org.gradle.plugin.use.PluginDependenciesSpec
 import org.gradle.plugin.use.PluginDependencySpec
 
 @Suppress("NOTHING_TO_INLINE")
-inline fun PluginDependenciesSpec.wequiz(pluginName: String): PluginDependencySpec =
-    id("wequiz.plugin.$pluginName")
+inline fun PluginDependenciesSpec.android(pluginId: String): PluginDependencySpec =
+    id("com.android.$pluginId")
