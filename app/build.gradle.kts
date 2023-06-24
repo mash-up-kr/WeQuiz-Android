@@ -24,6 +24,15 @@ android {
         versionName = "1.0"
     }
 
+    buildFeatures {
+        compose = true
+        viewBinding = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+
     sourceSets {
         getByName("main").java.srcDir("src/main/kotlin")
     }
@@ -36,4 +45,8 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+}
+
+dependencies {
+    implementation(libs.compose.runtime)
 }
