@@ -7,9 +7,9 @@
 
 <resources>
 
-    <style name="WeQuizTextAppearance" parent="TextAppearance.AppCompat">
+    <style name="WeQuizTextAppearance">
         <item name="android:textColor">@color/white</item>
-        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
     </style>
 
     <style name="WeQuizTextAppearance.H3">
@@ -17,39 +17,9 @@
         <item name="android:lineSpacingExtra">6sp</item>
     </style>
 
-    <style name="WeQuizTextAppearance.H3.Bold">
-        <item name="fontFamily">@font/pretendard_bold</item>
-        <item name="fontWeight">700</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.H3.Medium">
-        <item name="fontFamily">@font/pretendard_medium</item>
-        <item name="fontWeight">500</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.H3.Regular">
-        <item name="fontFamily">@font/pretendard_regular</item>
-        <item name="fontWeight">400</item>
-    </style>
-
     <style name="WeQuizTextAppearance.H4">
         <item name="android:textSize">34sp</item>
         <item name="android:lineSpacingExtra">12sp</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.H4.Bold">
-        <item name="fontFamily">@font/pretendard_bold</item>
-        <item name="fontWeight">700</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.H4.Medium">
-        <item name="fontFamily">@font/pretendard_medium</item>
-        <item name="fontWeight">500</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.H4.Regular">
-        <item name="fontFamily">@font/pretendard_regular</item>
-        <item name="fontWeight">400</item>
     </style>
 
     <style name="WeQuizTextAppearance.H5">
@@ -57,39 +27,9 @@
         <item name="android:lineSpacingExtra">6sp</item>
     </style>
 
-    <style name="WeQuizTextAppearance.H5.Bold">
-        <item name="fontFamily">@font/pretendard_bold</item>
-        <item name="fontWeight">700</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.H5.Medium">
-        <item name="fontFamily">@font/pretendard_medium</item>
-        <item name="fontWeight">500</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.H5.Regular">
-        <item name="fontFamily">@font/pretendard_regular</item>
-        <item name="fontWeight">400</item>
-    </style>
-
     <style name="WeQuizTextAppearance.H6">
         <item name="android:textSize">28sp</item>
         <item name="android:lineSpacingExtra">10sp</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.H6.Bold">
-        <item name="fontFamily">@font/pretendard_bold</item>
-        <item name="fontWeight">700</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.H6.Medium">
-        <item name="fontFamily">@font/pretendard_medium</item>
-        <item name="fontWeight">500</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.H6.Regular">
-        <item name="fontFamily">@font/pretendard_regular</item>
-        <item name="fontWeight">400</item>
     </style>
 
     <style name="WeQuizTextAppearance.Title">
@@ -97,39 +37,9 @@
         <item name="android:lineSpacingExtra">10sp</item>
     </style>
 
-    <style name="WeQuizTextAppearance.Title.Bold">
-        <item name="fontFamily">@font/pretendard_bold</item>
-        <item name="fontWeight">700</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Title.Medium">
-        <item name="fontFamily">@font/pretendard_medium</item>
-        <item name="fontWeight">500</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Title.Regular">
-        <item name="fontFamily">@font/pretendard_regular</item>
-        <item name="fontWeight">400</item>
-    </style>
-
     <style name="WeQuizTextAppearance.Subtitle1">
         <item name="android:textSize">20sp</item>
         <item name="android:lineSpacingExtra">6sp</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Subtitle1.Bold">
-        <item name="fontFamily">@font/pretendard_bold</item>
-        <item name="fontWeight">700</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Subtitle1.Medium">
-        <item name="fontFamily">@font/pretendard_medium</item>
-        <item name="fontWeight">500</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Subtitle1.Regular">
-        <item name="fontFamily">@font/pretendard_regular</item>
-        <item name="fontWeight">400</item>
     </style>
 
     <style name="WeQuizTextAppearance.Subtitle2">
@@ -137,44 +47,9 @@
         <item name="android:lineSpacingExtra">8sp</item>
     </style>
 
-    <style name="WeQuizTextAppearance.Subtitle2.Bold">
-        <item name="fontFamily">@font/pretendard_bold</item>
-        <item name="fontWeight">700</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Subtitle2.Medium">
-        <item name="fontFamily">@font/pretendard_medium</item>
-        <item name="fontWeight">500</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Subtitle2.Regular">
-        <item name="fontFamily">@font/pretendard_regular</item>
-        <item name="fontWeight">400</item>
-    </style>
-
     <style name="WeQuizTextAppearance.Base">
         <item name="android:textSize">16sp</item>
         <item name="android:lineSpacingExtra">8sp</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Base.Bold">
-        <item name="fontFamily">@font/pretendard_bold</item>
-        <item name="fontWeight">700</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Base.SemiBold">
-        <item name="fontFamily">@font/pretendard_semi_bold</item>
-        <item name="fontWeight">600</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Base.Medium">
-        <item name="fontFamily">@font/pretendard_medium</item>
-        <item name="fontWeight">500</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Base.Regular">
-        <item name="fontFamily">@font/pretendard_regular</item>
-        <item name="fontWeight">400</item>
     </style>
 
     <style name="WeQuizTextAppearance.Caption1">
@@ -182,59 +57,13 @@
         <item name="android:lineSpacingExtra">6sp</item>
     </style>
 
-    <style name="WeQuizTextAppearance.Caption1.Bold">
-        <item name="fontFamily">@font/pretendard_bold</item>
-        <item name="fontWeight">700</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Caption1.Medium">
-        <item name="fontFamily">@font/pretendard_medium</item>
-        <item name="fontWeight">500</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Caption1.Regular">
-        <item name="fontFamily">@font/pretendard_regular</item>
-        <item name="fontWeight">400</item>
-    </style>
-
     <style name="WeQuizTextAppearance.Caption2">
         <item name="android:textSize">12sp</item>
         <item name="android:lineSpacingExtra">6sp</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Caption2.Bold">
-        <item name="fontFamily">@font/pretendard_bold</item>
-        <item name="fontWeight">700</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Caption2.Medium">
-        <item name="fontFamily">@font/pretendard_medium</item>
-        <item name="fontWeight">500</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.Caption2.Regular">
-        <item name="fontFamily">@font/pretendard_regular</item>
-        <item name="fontWeight">400</item>
     </style>
 
     <style name="WeQuizTextAppearance.xs">
         <item name="android:textSize">10sp</item>
         <item name="android:lineSpacingExtra">4sp</item>
     </style>
-
-    <style name="WeQuizTextAppearance.xs.Bold">
-        <item name="fontFamily">@font/pretendard_bold</item>
-        <item name="fontWeight">700</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.xs.Medium">
-        <item name="fontFamily">@font/pretendard_medium</item>
-        <item name="fontWeight">500</item>
-    </style>
-
-    <style name="WeQuizTextAppearance.xs.Regular">
-        <item name="fontFamily">@font/pretendard_regular</item>
-        <item name="fontWeight">400</item>
-    </style>
-
 </resources>

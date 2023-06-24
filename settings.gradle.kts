@@ -18,8 +18,6 @@ pluginManagement {
         google()
         mavenCentral()
     }
-
-    includeBuild("build-logic")
 }
 
 buildCache {
@@ -30,13 +28,6 @@ buildCache {
 
 include(
     ":app",
-    ":join",
-    ":home:main",
-    ":home:profile-edit",
-    ":home:friend-rank",
-    ":home:quiz-list",
-    ":home:quiz-detail",
-    ":quiz:create",
     ":design-resource",
     ":design-resource-compose",
 )

@@ -15,18 +15,43 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.kotlin.dsl.KotlinClosure2
 
 plugins {
-    wequiz("android-library")
-    wequiz("android-compose")
-    wequiz("kotlin-explicit-api")
-    alias(libs.plugins.test.roborazzi)
+    android("library")
+    kotlin("android")
 }
 
 android {
     namespace = "team.ommaya.wequiz.android.design.resource.compose"
     resourcePrefix = "drc_"
 
+    compileSdk = 33
+
+    defaultConfig {
+        minSdk = 24
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:liveLiteralsEnabled=false",
+        )
+    }
+
     sourceSets {
+        getByName("main").java.srcDir("src/main/kotlin")
         getByName("test").java.srcDir("src/test/kotlin")
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     testOptions {
@@ -41,6 +66,10 @@ android {
                 }
             }
         }
+    }
+
+    kotlin {
+        jvmToolchain(17)
     }
 }
 
