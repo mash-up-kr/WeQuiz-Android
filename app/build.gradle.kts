@@ -8,9 +8,8 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM", "UnstableApiUsage")
 
 plugins {
-    id("com.android.application")
+    android("application")
     kotlin("android")
-    // alias(libs.plugins.androidx.navigation.safeargs)
 }
 
 android {
@@ -38,9 +37,3 @@ android {
         jvmToolchain(17)
     }
 }
-
-/*
-dependencies {
-    implementation(libs.androidx.navigation.safeargs)
-}
-*/

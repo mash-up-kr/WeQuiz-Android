@@ -15,7 +15,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.kotlin.dsl.KotlinClosure2
 
 plugins {
-    id("com.android.library")
+    android("library")
     kotlin("android")
 }
 

@@ -8,7 +8,7 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM", "UnstableApiUsage")
 
 plugins {
-    id("com.android.library")
+    android("library")
     kotlin("android")
 }
 
