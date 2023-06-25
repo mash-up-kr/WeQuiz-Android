@@ -12,6 +12,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     alias(libs.plugins.android.hilt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -46,5 +47,7 @@ dependencies {
         libs.android.hilt.runtime,
         libs.bundles.jackson,
         libs.bundles.ktor.client,
+        libs.androidx.datastore,
+        libs.kotlinx.serialization,
     )
 }
