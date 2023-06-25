@@ -66,5 +66,5 @@ private val KtorClient =
 @InstallIn(SingletonComponent::class)
 object HttpClientProvider {
     @Provides
-    fun provideKtorClientHttpClient() = KtorClient
+    fun provideKtorHttpClient() = KtorClient
 }
