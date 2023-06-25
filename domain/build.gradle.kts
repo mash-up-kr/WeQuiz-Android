@@ -37,5 +37,6 @@ android {
 dependencies {
     implementations(
         libs.kotlinx.coroutines,
+        libs.javax.inject,
     )
 }
