@@ -8,14 +8,21 @@
 package team.ommaya.wequiz.android.preference
 
 import kotlinx.serialization.Serializable
+import team.ommaya.wequiz.android.domain.model.User
 
 @Serializable
 data class UserPreference(
     val isLogin: Boolean,
     val isFirstAccess: Boolean,
     val isSaveTemporarily: Boolean,
-){
-    companion object{
+) {
+    fun toUserModel() = User(
+        isLogin = isLogin,
+        isFirstAccess = isFirstAccess,
+        isSaveTemporarily = isSaveTemporarily,
+    )
+
+    companion object {
         const val localPath = "user_preferences"
     }
 }
