@@ -29,4 +29,20 @@
         <item name="android:textColor">@color/G2</item>
     </style>
 
+    <style name="WeQuizMaxButton" parent="@android:style/Widget.Button">
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textAppearance">@style/WeQuizTextAppearance.Base.SemiBold</item>
+    </style>
+
+    <style name="WeQuizMaxButton.Disabled">
+        <item name="android:backgroundTint">@color/Disabled</item>
+        <item name="android:textColor">@color/G4</item>
+    </style>
+
+    <style name="WeQuizMaxButton.Default">
+        <item name="android:backgroundTint">@color/P1</item>
+        <item name="android:textColor">@color/G2</item>
+    </style>
+
 </resources>

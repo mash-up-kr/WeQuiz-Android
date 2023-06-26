@@ -24,5 +24,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_tmp_disabled" />
 
+    <Button
+        android:id="@+id/btn_tmp_max_disabled"
+        style="@style/WeQuizMaxButton.Disabled"
+        android:layout_marginTop="10dp"
+        android:text="btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_tmp_default" />
+
+    <Button
+        android:id="@+id/btn_tmp_max_default"
+        style="@style/WeQuizMaxButton.Default"
+        android:layout_marginTop="10dp"
+        android:text="btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_tmp_max_disabled" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
