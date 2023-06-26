@@ -49,6 +49,12 @@ android {
 
 dependencies {
     implementations(
+        libs.androidx.constraintlayout,
+        libs.androidx.fragment,
+        libs.androidx.navigation.fragment,
+        libs.androidx.navigtaion.ui.ktx,
+        libs.androidx.lifecycle.runtime,
+        libs.androidx.lifecycle.viewmodel,
         libs.compose.runtime,
         projects.data,
         projects.domain,
