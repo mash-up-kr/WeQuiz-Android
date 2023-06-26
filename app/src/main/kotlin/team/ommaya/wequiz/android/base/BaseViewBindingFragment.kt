@@ -37,4 +37,3 @@ abstract class BaseViewBindingFragment<VB : ViewBinding>(
         _binding = null
     }
 }
-

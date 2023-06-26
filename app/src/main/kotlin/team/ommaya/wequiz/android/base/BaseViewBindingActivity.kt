@@ -32,4 +32,3 @@ abstract class BaseViewBindingActivity<VB : ViewBinding>(
         _binding = null
     }
 }
-
