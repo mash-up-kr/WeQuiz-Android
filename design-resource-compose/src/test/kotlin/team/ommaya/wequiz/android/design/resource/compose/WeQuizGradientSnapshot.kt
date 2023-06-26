@@ -9,6 +9,7 @@
 
 package team.ommaya.wequiz.android.design.resource.compose
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -20,6 +21,7 @@ import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@SuppressLint("IgnoreWithoutReason")
 @RunWith(AndroidJUnit4::class)
 @Ignore
 class WeQuizGradientSnapshot {
