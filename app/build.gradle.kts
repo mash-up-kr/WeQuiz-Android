@@ -58,5 +58,6 @@ dependencies {
         libs.compose.runtime,
         projects.data,
         projects.domain,
+        projects.designResource,
     )
 }
