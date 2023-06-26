@@ -12,6 +12,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     alias(libs.plugins.android.hilt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -41,10 +42,13 @@ android {
 }
 
 dependencies {
+    implementations(project(":domain"))
     kapt(libs.android.hilt.compile)
     implementations(
         libs.android.hilt.runtime,
         libs.bundles.jackson,
         libs.bundles.ktor.client,
+        libs.androidx.datastore,
+        libs.kotlinx.serialization,
     )
 }

@@ -33,3 +33,10 @@ android {
         jvmToolchain(17)
     }
 }
+
+dependencies {
+    implementations(
+        libs.kotlinx.coroutines,
+        libs.javax.inject,
+    )
+}
