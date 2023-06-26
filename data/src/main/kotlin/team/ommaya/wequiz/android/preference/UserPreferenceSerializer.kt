@@ -30,7 +30,8 @@ class UserPreferenceSerializer @Inject constructor() : Serializer<UserPreference
     override suspend fun readFrom(input: InputStream): UserPreference =
         try {
             Json.decodeFromString(
-                UserPreference.serializer(), input.readBytes().decodeToString(),
+                UserPreference.serializer(),
+                input.readBytes().decodeToString(),
             )
         } catch (exception: SerializationException) {
             throw CorruptionException("Fail to read UserPreference", exception)
