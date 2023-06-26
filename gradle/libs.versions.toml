@@ -50,7 +50,7 @@ gradle-android-library = { id = "com.android.library", version.ref = "gradle-and
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-core" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-core" }
 kotlin-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "kotlin-ktlint-gradle" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-plugin"}
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-plugin-serialization"}
 
 android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "android-hilt" }
 
