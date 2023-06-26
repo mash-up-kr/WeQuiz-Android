@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
-
 abstract class BaseViewBindingFragment<VB : ViewBinding>(
     private val bindingInflater: (inflater: LayoutInflater) -> VB,
 ) : Fragment() {
@@ -38,3 +37,4 @@ abstract class BaseViewBindingFragment<VB : ViewBinding>(
         _binding = null
     }
 }
+

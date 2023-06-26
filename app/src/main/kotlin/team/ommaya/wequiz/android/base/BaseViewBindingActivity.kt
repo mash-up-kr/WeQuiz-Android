@@ -21,7 +21,6 @@ abstract class BaseViewBindingActivity<VB : ViewBinding>(
     protected val binding: VB
         get() = _binding ?: error("Binding is null")
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = bindingInflater(layoutInflater)
@@ -33,3 +32,4 @@ abstract class BaseViewBindingActivity<VB : ViewBinding>(
         _binding = null
     }
 }
+
