@@ -16,7 +16,7 @@ import team.ommaya.wequiz.android.preference.UserPreference
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-    private val userDataStore: DataStore<UserPreference>
+    private val userDataStore: DataStore<UserPreference>,
 ) : UserRepository {
     override fun getUser(): Flow<User> = userDataStore.data.map {
         it.toUserModel()

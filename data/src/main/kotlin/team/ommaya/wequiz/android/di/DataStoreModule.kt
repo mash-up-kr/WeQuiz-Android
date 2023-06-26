@@ -30,7 +30,7 @@ object DataStoreModule {
         @ApplicationContext context: Context,
     ): DataStore<UserPreference> {
         return DataStoreFactory.create(
-            serializer = UserPreferenceSerializer()
+            serializer = UserPreferenceSerializer(),
         ) {
             File("${context.cacheDir.path}/${UserPreference.localPath}")
         }
