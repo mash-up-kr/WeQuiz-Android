@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Designed and developed by "옴마야" Team 2023.
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_tmp_disabled"
+        style="@style/WeQuizRoundButton.Disabled"
+        android:text="btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_tmp_default"
+        style="@style/WeQuizRoundButton.Default"
+        android:text="btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_tmp_disabled" />
+
+    <Button
+        android:id="@+id/btn_tmp_max_disabled"
+        style="@style/WeQuizMaxButton.Disabled"
+        android:layout_marginTop="10dp"
+        android:text="btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_tmp_default" />
+
+    <Button
+        android:id="@+id/btn_tmp_max_default"
+        style="@style/WeQuizMaxButton.Default"
+        android:layout_marginTop="10dp"
+        android:text="btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_tmp_max_disabled" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
