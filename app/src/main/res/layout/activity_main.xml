@@ -40,4 +40,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_tmp_max_disabled" />
 
+    <EditText
+        android:id="@+id/et_quiz_default"
+        style="@style/WeQuizQuizEditText.Default"
+        android:layout_marginTop="10dp"
+        android:hint="답변 입력"
+        app:layout_constraintTop_toBottomOf="@id/btn_tmp_max_default" />
+
+    <EditText
+        style="@style/WeQuizQuizEditText.Selected"
+        android:layout_marginTop="10dp"
+        android:text="TEXT"
+        app:layout_constraintTop_toBottomOf="@id/et_quiz_default" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
