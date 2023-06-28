@@ -45,4 +45,72 @@
         <item name="android:textColor">@color/G2</item>
     </style>
 
+    <!-- EditText -->
+    <style name="WeQuizTextInputLayout" parent="Theme.MaterialComponents">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+
+        <!-- background -->
+        <item name="boxBackgroundColor">@color/G9</item>
+
+        <!-- label -->
+        <item name="android:textColorHint">@color/G2</item> <!-- 클릭 전 -->
+        <item name="hintTextColor">@color/G2</item> <!-- 클릭 후 -->
+        <item name="hintTextAppearance">@style/WeQuizTextAppearance.Caption2.Medium</item>
+        <item name="hintAnimationEnabled">false</item>
+        <item name="expandedHintEnabled">false</item>
+
+        <!-- indicator -->
+        <item name="boxStrokeColor">@color/selector_text_input_layer_indicator</item>
+        <item name="boxStrokeErrorColor">@color/Alert</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+    </style>
+
+    <style name="WeQuizTextInputLayout.Counter">
+        <!-- counter -->
+        <item name="counterEnabled">true</item>
+        <item name="counterTextColor">@color/white</item>
+        <item name="counterTextAppearance">@style/WeQuizTextAppearance.Caption2.Regular</item>
+
+        <!-- error -->
+        <item name="errorTextColor">@color/Alert</item>
+    </style>
+
+    <style name="WeQuizTextInputLayout.Clear">
+        <!-- trailing icon -->
+        <item name="endIconMode">clear_text</item>
+        <item name="endIconTint">@color/G2</item>
+    </style>
+
+    <style name="WeQuizTextInputLayout.CounterWithClear">
+        <!-- counter -->
+        <item name="counterEnabled">true</item>
+        <item name="counterTextColor">@color/white</item>
+        <item name="counterTextAppearance">@style/WeQuizTextAppearance.Caption2.Regular</item>
+
+        <!-- error -->
+        <item name="errorTextColor">@color/Alert</item>
+
+        <!-- trailing icon -->
+        <item name="endIconMode">clear_text</item>
+        <item name="endIconTint">@color/G2</item>
+    </style>
+
+    <style name="WeQuizBasicEditText" parent="Theme.MaterialComponents">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+
+        <!-- text -->
+        <item name="android:textAppearance">@style/WeQuizTextAppearance.Subtitle1.Medium</item>
+        <item name="android:textColor">@color/G2</item> <!-- text 컬러-->
+        <item name="android:textColorHint">@color/G6</item> <!-- hint 컬러 -->
+
+        <!-- cursor -->
+        <item name="colorControlActivated">@color/P1</item> <!-- cursor 컬러 -->
+        <item name="android:textColorHighlight">@color/P1</item> <!-- text 드래그 색 상-->
+    </style>
+
 </resources>
