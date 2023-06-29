@@ -7,15 +7,14 @@
 
 package team.ommaya.wequiz.android
 
+import android.app.Activity
 import android.os.Bundle
-import team.ommaya.wequiz.android.base.BaseViewBindingActivity
-import team.ommaya.wequiz.android.databinding.ActivityMainBinding
-import team.ommaya.wequiz.android.utils.phoneNumberFormatting
+import android.widget.TextView
 
-class MainActivity : BaseViewBindingActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
+class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding.etTmpDefault.phoneNumberFormatting()
+        @Suppress("SetTextI18n")
+        setContentView(TextView(this).apply { text = "Hello, World!" })
     }
 }
