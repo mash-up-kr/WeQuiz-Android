@@ -9,7 +9,12 @@ package team.ommaya.wequiz.android.utils
 
 import android.telephony.PhoneNumberFormattingTextWatcher
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 fun TextInputEditText.phoneNumberFormatting() {
     addTextChangedListener(PhoneNumberFormattingTextWatcher())
+}
+
+fun TextInputLayout.isCounterEnabled(isEnabled: Boolean) {
+    isCounterEnabled = isEnabled
 }
