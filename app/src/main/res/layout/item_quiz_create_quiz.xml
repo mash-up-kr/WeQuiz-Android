@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Designed and developed by "옴마야" Team 2023.
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:background="@drawable/btn_radius_16"
+    android:backgroundTint="@color/G8"
+    android:padding="20dp">
+
+    <EditText
+        android:id="@+id/et_quiz_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:hint="문제 입력"
+        android:textAppearance="@style/WeQuizTextAppearance.Subtitle2.Medium"
+        android:textColor="@color/G2"
+        android:textColorHint="@color/G4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_multiple_choice"
+        app:layout_constraintTop_toBottomOf="@id/et_quiz_title"
+        tools:listitem="@layout/item_quiz_create_answer" />
+
+    <TextView
+        android:id="@+id/tv_multiple_choice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="중복 선택여부"
+        android:textAppearance="@style/WeQuizTextAppearance.Base.SemiBold"
+        android:textColor="@color/G2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_multiple_choice"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="6dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/tv_multiple_choice"
+        app:layout_constraintEnd_toStartOf="@id/tv_multiple_choice"
+        app:layout_constraintTop_toTopOf="@id/tv_multiple_choice" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
