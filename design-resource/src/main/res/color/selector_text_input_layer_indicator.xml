@@ -7,5 +7,5 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:color="@color/P1" android:state_focused="true" />
-    <item android:color="@color/G2" android:state_focused="false" />
+    <item android:color="@color/G2" />
 </selector>
