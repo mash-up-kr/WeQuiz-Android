@@ -54,7 +54,7 @@
             style="@style/WeQuizBasicEditText"
             android:hint="PlaceHolder"
             android:inputType="phone"
-            android:maxLength="20" />
+            android:maxLength="13" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
