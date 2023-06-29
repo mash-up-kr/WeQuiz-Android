@@ -42,37 +42,55 @@
         app:layout_constraintTop_toBottomOf="@id/btn_tmp_max_disabled" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_layout_default"
-        style="@style/WeQuizTextInputLayout.Certification"
+        android:id="@+id/text_input_layout_tmp_phone"
+        style="@style/WeQuizTextInputLayout.Clear"
         android:layout_marginTop="20dp"
-        android:hint="label"
+        android:hint="휴대폰 번호"
+        app:counterEnabled="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_tmp_max_default">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_tmp_default"
+            android:id="@+id/et_tmp_phone"
             style="@style/WeQuizBasicEditText"
-            android:hint="PlaceHolder"
+            android:hint="휴대폰 번호 입력"
             android:inputType="phone"
             android:maxLength="13" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_layout_counter_with_clear"
-        style="@style/WeQuizTextInputLayout.CounterWithClear"
+        android:id="@+id/text_input_layout_tmp_nickname"
+        style="@style/WeQuizTextInputLayout.Clear"
         android:layout_marginTop="20dp"
-        android:hint="label"
-        app:counterMaxLength="11"
+        android:hint="닉네임 (필수)"
+        app:counterMaxLength="8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_input_layout_default">
+        app:layout_constraintTop_toBottomOf="@id/text_input_layout_tmp_phone">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_tmp_count_with_clear"
+            android:id="@+id/et_tmp_nickname"
             style="@style/WeQuizBasicEditText"
-            android:hint="PlaceHolder"
-            android:inputType="phone"
+            android:hint="닉네임 입력"
             android:maxLength="20" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_tmp_certification"
+        style="@style/WeQuizTextInputLayout.Certification"
+        android:layout_marginTop="20dp"
+        android:hint="인증번호"
+        app:counterMaxLength="6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_input_layout_tmp_nickname">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_tmp_certification"
+            style="@style/WeQuizBasicEditText"
+            android:hint="6자리 숫자"
+            android:inputType="number"
+            android:maxLength="6" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
