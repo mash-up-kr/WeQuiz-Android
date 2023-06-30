@@ -10,6 +10,7 @@
 plugins {
     android("application")
     kotlin("android")
+    alias(libs.plugins.test.roborazzi)
 }
 
 android {
@@ -35,6 +36,7 @@ android {
 
     sourceSets {
         getByName("main").java.srcDir("src/main/kotlin")
+        getByName("test").java.srcDir("src/test/kotlin")
     }
 
     compileOptions {
@@ -45,6 +47,28 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            all { test ->
+                test.useJUnitPlatform()
+                test.systemProperty("robolectric.graphicsMode", "NATIVE")
+
+                if (!test.name.contains("debug", ignoreCase = true)) {
+                    test.enabled = false
+                }
+            }
+        }
+    }
+}
+
+tasks.matching { task ->
+    task.name.contains("compareRoborazzi", ignoreCase = true) ||
+            task.name.contains("verifyRoborazzi", ignoreCase = true) ||
+            task.name.contains("verifyAndRecordRoborazzi", ignoreCase = true)
+}.configureEach {
+    enabled = false
 }
 
 dependencies {
@@ -66,4 +90,13 @@ dependencies {
         projects.designResource,
         projects.designResourceCompose,
     )
+    testImplementations(
+        libs.compose.activity, // needed for roborazzi that used ActivityScenario internally
+        libs.compose.foundation,
+        libs.test.junit.core,
+        libs.test.androidx.junit.ktx,
+        libs.test.robolectric,
+        libs.bundles.test.roborazzi,
+    )
+    testRuntimeOnly(libs.test.junit.engine)
 }
