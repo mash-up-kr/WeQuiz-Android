@@ -49,6 +49,9 @@ import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizTypography
 
+typealias NicknameUuidScoreTriple = Triple<String, Int, Int>
+typealias ExamNameAndIsWritingPair = Pair<String, Boolean>
+
 @Suppress("unused")
 @Composable
 fun HomeMainScreen(
@@ -56,10 +59,8 @@ fun HomeMainScreen(
     nickname: String,
     profileMessage: String,
     profileImageSrc: Any,
-    // 닉네임, 고유번호, 점수, 순서가 순위
-    friendsRanking: ImmutableList<Triple<String, String, String>>,
-    // 문제지명, 작성 중 여부
-    examPagers: ImmutableList<Pair<String, Boolean>>,
+    friendsRanking: ImmutableList<NicknameUuidScoreTriple>,
+    exams: ImmutableList<ExamNameAndIsWritingPair>,
     onExamCreateClick: () -> Unit = {},
 ) {
     val roundedCornerShape16 = remember { RoundedCornerShape(16.dp) }
@@ -93,7 +94,7 @@ fun HomeMainScreen(
                 modifier = Modifier
                     .fillMaxHeight()
                     .wrapContentWidth(),
-                verticalArrangement = Arrangement.SpaceBetween,
+                verticalArrangement = Arrangement.SpaceEvenly,
             ) {
                 BasicText(
                     text = nickname,
@@ -101,13 +102,15 @@ fun HomeMainScreen(
                         .change(color = WeQuizColor.G2)
                         .asRememberComposeStyle(),
                 )
-                BasicText(
-                    text = profileMessage,
-                    style = WeQuizTypography.M14
-                        .change(color = WeQuizColor.G4)
-                        .asRememberComposeStyle(),
-                    maxLines = 2,
-                )
+                if (profileMessage.isNotEmpty()) {
+                    BasicText(
+                        text = profileMessage,
+                        style = WeQuizTypography.M14
+                            .change(color = WeQuizColor.G4)
+                            .asRememberComposeStyle(),
+                        maxLines = 2,
+                    )
+                }
             }
         }
         Box(
@@ -150,13 +153,10 @@ fun HomeMainScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             SectionTitle(title = "내가 낸 문제지")
-            if (examPagers.isEmpty()) {
-                CreateExamIsEmpty(
-                    modifier = Modifier.padding(top = (90 - 24).dp),
-                )
+            if (exams.isEmpty()) {
+                CreateExamIsEmpty(modifier = Modifier.padding(top = (90 - 24).dp))
             } else {
-                @Suppress("unused")
-                CreateExams(examPagers = examPagers)
+                CreateExams(examPagers = exams)
             }
         }
     }
@@ -199,13 +199,13 @@ private fun SectionTitle(
 
 private const val FriendRankingIconLayoutId = "FriendRankingIconLayout"
 private const val FriendNicknameLayoutId = "FriendNicknameLayout"
-private const val FriendUuidLayoutId = "FriendNicknameLayout"
+private const val FriendUuidLayoutId = "FriendUuidLayout"
 private const val FriendScoreLayoutId = "FriendScoreLayout"
 
 @Composable
 private fun FriendsRanking(
     modifier: Modifier = Modifier,
-    friendsRanking: ImmutableList<Triple<String, String, String>>,
+    friendsRanking: ImmutableList<NicknameUuidScoreTriple>,
     onFriendClick: () -> Unit = {},
 ) {
     val roundedCornerShape4 = remember { RoundedCornerShape(4.dp) }
@@ -374,7 +374,7 @@ private const val ExamPageWipBadgeLayoutId = "ExamPageWipBadgeLayout"
 @Composable
 private fun CreateExams(
     modifier: Modifier = Modifier,
-    examPagers: ImmutableList<Pair<String, Boolean>>,
+    examPagers: ImmutableList<ExamNameAndIsWritingPair>,
     onExamPagerClick: () -> Unit = {},
 ) {
     val roundedCornerShape4 = remember { RoundedCornerShape(4.dp) }
