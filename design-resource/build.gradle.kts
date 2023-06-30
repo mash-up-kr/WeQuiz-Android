@@ -33,3 +33,9 @@ android {
         jvmToolchain(17)
     }
 }
+
+dependencies {
+    implementations(
+        libs.material,
+    )
+}
