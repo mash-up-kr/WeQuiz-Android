@@ -97,11 +97,15 @@ fun HomeMainScreen(
             ) {
                 BasicText(
                     text = nickname,
-                    style = WeQuizTypography.B18.asRememberComposeStyle(),
+                    style = WeQuizTypography.B18
+                        .change(color = WeQuizColor.G2)
+                        .asRememberComposeStyle(),
                 )
                 BasicText(
                     text = profileMessage,
-                    style = WeQuizTypography.M14.asRememberComposeStyle(),
+                    style = WeQuizTypography.M14
+                        .change(color = WeQuizColor.G4)
+                        .asRememberComposeStyle(),
                     maxLines = 2,
                 )
             }
@@ -119,7 +123,9 @@ fun HomeMainScreen(
         ) {
             BasicText(
                 text = "문제만들기 \uD83D\uDCAC",
-                style = WeQuizTypography.B16.asRememberComposeStyle(),
+                style = WeQuizTypography.B16
+                    .change(color = WeQuizColor.G1)
+                    .asRememberComposeStyle(),
             )
         }
         if (friendsRanking.isNotEmpty()) {
@@ -171,7 +177,9 @@ private fun SectionTitle(
     ) {
         BasicText(
             text = title,
-            style = WeQuizTypography.B20.asRememberComposeStyle(),
+            style = WeQuizTypography.B20
+                .change(color = WeQuizColor.White)
+                .asRememberComposeStyle(),
         )
         Box(
             Modifier
@@ -353,7 +361,9 @@ private fun CreateExamIsEmpty(modifier: Modifier = Modifier) {
         )
         BasicText(
             text = "아직 생성된 문제가 없어요",
-            style = WeQuizTypography.R14.asRememberComposeStyle(),
+            style = WeQuizTypography.R14
+                .change(color = WeQuizColor.G2)
+                .asRememberComposeStyle(),
         )
     }
 }

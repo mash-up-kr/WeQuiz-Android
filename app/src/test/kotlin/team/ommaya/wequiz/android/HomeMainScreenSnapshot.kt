@@ -12,12 +12,15 @@ package team.ommaya.wequiz.android
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import com.github.takahirom.roborazzi.captureRoboImage
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 import team.ommaya.wequiz.android.home.main.HomeMainScreen
 
+@Config(qualifiers = RobolectricDeviceQualifiers.Pixel7Pro)
 @RunWith(AndroidJUnit4::class)
 class HomeMainScreenSnapshot {
     @Test
