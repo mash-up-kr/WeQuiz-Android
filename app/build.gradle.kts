@@ -73,6 +73,7 @@ tasks.matching { task ->
 
 dependencies {
     implementations(
+        libs.material,
         libs.androidx.constraintlayout,
         libs.androidx.fragment,
         libs.androidx.navigation.fragment,

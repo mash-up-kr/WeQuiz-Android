@@ -42,6 +42,8 @@ test-robolectric = "4.10.3"
 
 javax-inject = "1"
 
+material = "1.9.0"
+
 [plugins]
 gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.extensions", version.ref = "gradle-dependency-handler-extensions" }
 
@@ -113,6 +115,8 @@ test-roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-com
 test-robolectric = { module = "org.robolectric:robolectric", version.ref = "test-robolectric" }
 
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "javax-inject"}
+
+material = { module = "com.google.android.material:material", version.ref = "material" }
 
 [bundles]
 jackson = ["jackson-databind", "jackson-annotation"]
