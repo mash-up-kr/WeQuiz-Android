@@ -9,8 +9,10 @@
 
 package team.ommaya.wequiz.android.design.resource.compose
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -47,6 +49,9 @@ public class WeQuizTypography private constructor(
             textAlign = textAlign,
             lineHeight = lineHeight,
         )
+
+    @Composable
+    public fun asRememberComposeStyle(): TextStyle = remember(::asComposeStyle)
 
     @Stable
     public fun change(
@@ -185,6 +190,14 @@ public class WeQuizTypography private constructor(
         )
 
         @Stable
+        public val M18: WeQuizTypography = WeQuizTypography(
+            size = 18.sp,
+            weight = FontWeight.Medium,
+            letterSpacing = (-0.3).sp,
+            lineHeight = 26.sp,
+        )
+
+        @Stable
         public val B16: WeQuizTypography = WeQuizTypography(
             size = 16.sp,
             weight = FontWeight.Bold,
@@ -260,6 +273,14 @@ public class WeQuizTypography private constructor(
         public val M10: WeQuizTypography = WeQuizTypography(
             size = 10.sp,
             weight = FontWeight.Medium,
+            letterSpacing = (-0.3).sp,
+            lineHeight = 14.sp,
+        )
+
+        @Stable
+        public val R10: WeQuizTypography = WeQuizTypography(
+            size = 10.sp,
+            weight = FontWeight.Regular,
             letterSpacing = (-0.3).sp,
             lineHeight = 14.sp,
         )
