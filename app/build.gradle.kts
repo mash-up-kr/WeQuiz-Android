@@ -56,8 +56,14 @@ dependencies {
         libs.androidx.lifecycle.runtime,
         libs.androidx.lifecycle.viewmodel,
         libs.compose.runtime,
+        libs.compose.ui,
+        libs.compose.uiutil,
+        libs.compose.foundation,
+        libs.kotlinx.collections.immutable,
+        libs.coil.compose,
         projects.data,
         projects.domain,
         projects.designResource,
+        projects.designResourceCompose,
     )
 }
