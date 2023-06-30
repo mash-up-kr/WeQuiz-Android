@@ -26,6 +26,10 @@
 
         </activity>
 
+        <activity
+            android:name=".intro.IntroActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>
