@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-package team.ommaya.wequiz.android.home.main
+package team.ommaya.wequiz.android.home
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.background
@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
@@ -206,148 +205,6 @@ private fun SectionTitle(
                     interactionSource = remember { MutableInteractionSource() },
                 ),
         )
-    }
-}
-
-private const val FriendRankingIconLayoutId = "FriendRankingIconLayout"
-private const val FriendNicknameLayoutId = "FriendNicknameLayout"
-private const val FriendUuidLayoutId = "FriendUuidLayout"
-private const val FriendScoreLayoutId = "FriendScoreLayout"
-
-@Composable
-private fun FriendsRanking(
-    modifier: Modifier = Modifier,
-    friendsRanking: ImmutableList<NicknameUuidScoreTriple>,
-    onFriendClick: () -> Unit = {},
-) {
-    val roundedCornerShape4 = remember { RoundedCornerShape(4.dp) }
-    val roundedCornerShape16 = remember { RoundedCornerShape(16.dp) }
-
-    @Suppress("RememberReturnType")
-    remember(friendsRanking) {
-        check(friendsRanking.size <= 3) { "친구 랭킹은 최대 3위까지만 노출 가능합니다." }
-    }
-
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .then(modifier),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-        itemsIndexed(friendsRanking) { rankNumber, (nickname, uuid, score) ->
-            @Suppress("RememberReturnType")
-            remember(nickname) {
-                check(nickname.length in 1..8) { "닉네임 길이가 1..8 이여야 합니다." }
-            }
-
-            Layout(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(roundedCornerShape16)
-                    .background(
-                        color = WeQuizColor.G8.value,
-                        shape = roundedCornerShape16,
-                    )
-                    .clickable(onClick = onFriendClick),
-                content = {
-                    Box(
-                        Modifier
-                            .layoutId(FriendRankingIconLayoutId)
-                            .size(24.dp)
-                            .fitPaint(
-                                drawableId = when (rankNumber) {
-                                    0 -> R.drawable.ic_color_grade_gold_24
-                                    1 -> R.drawable.ic_color_grade_silver_24
-                                    2 -> R.drawable.ic_color_grade_bronze_24
-                                    else -> throw IndexOutOfBoundsException("3위 이상의 친구 랭킹은 존재할 수 없습니다.")
-                                },
-                            ),
-                    )
-                    BasicText(
-                        modifier = Modifier.layoutId(FriendNicknameLayoutId),
-                        text = nickname,
-                        style = WeQuizTypography.R16
-                            .change(color = WeQuizColor.G2)
-                            .asRememberComposeStyle(),
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                    Box(
-                        modifier = Modifier
-                            .layoutId(FriendUuidLayoutId)
-                            .background(
-                                color = WeQuizColor.Black.value,
-                                shape = roundedCornerShape4,
-                            )
-                            .padding(4.dp),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        BasicText(
-                            text = "#$uuid",
-                            style = WeQuizTypography.R10
-                                .change(color = WeQuizColor.White)
-                                .asRememberComposeStyle(),
-                        )
-                    }
-                    BasicText(
-                        modifier = Modifier.layoutId(FriendScoreLayoutId),
-                        text = "${score}점",
-                        style = WeQuizTypography.M18
-                            .change(color = WeQuizColor.G1)
-                            .asRememberComposeStyle(),
-                    )
-                },
-            ) { measurables, constraints ->
-                val rankIconMeasurable = measurables[FriendRankingIconLayoutId]
-                val nicknameMeasurable = measurables[FriendNicknameLayoutId]
-                val uuidMeasurable = measurables[FriendUuidLayoutId]
-                val scoreMeasurable = measurables[FriendScoreLayoutId]
-
-                val looseConstraints = constraints.asLoose(width = true, height = true)
-
-                val rankIconPlaceable = rankIconMeasurable.measure(looseConstraints)
-                val nicknamePlaceable = nicknameMeasurable.measure(looseConstraints)
-                val uuidPlaceable = uuidMeasurable.measure(looseConstraints)
-                val scorePlaceable = scoreMeasurable.measure(looseConstraints)
-
-                val horizontalPadding = 16.dp.roundToPx()
-                val verticalPadding = 17.dp.roundToPx()
-                val badgeAndNicknameGap = 8.dp.roundToPx()
-                val nicknameAndUuidGap = 6.dp.roundToPx()
-
-                val height = nicknamePlaceable.height + verticalPadding * 2
-
-                layout(width = constraints.maxWidth, height = height) {
-                    rankIconPlaceable.place(
-                        x = horizontalPadding,
-                        y = Alignment.CenterVertically.align(
-                            size = rankIconPlaceable.height,
-                            space = height,
-                        ),
-                    )
-                    nicknamePlaceable.place(
-                        x = horizontalPadding + rankIconPlaceable.width + badgeAndNicknameGap,
-                        y = Alignment.CenterVertically.align(
-                            size = nicknamePlaceable.height,
-                            space = height,
-                        ),
-                    )
-                    uuidPlaceable.place(
-                        x = horizontalPadding + rankIconPlaceable.width + badgeAndNicknameGap + nicknamePlaceable.width + nicknameAndUuidGap,
-                        y = Alignment.CenterVertically.align(
-                            size = uuidPlaceable.height,
-                            space = height,
-                        ),
-                    )
-                    scorePlaceable.place(
-                        x = constraints.maxWidth - horizontalPadding - scorePlaceable.width,
-                        y = Alignment.CenterVertically.align(
-                            size = scorePlaceable.height,
-                            space = height,
-                        ),
-                    )
-                }
-            }
-        }
     }
 }
 
