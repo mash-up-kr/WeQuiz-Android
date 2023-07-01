@@ -28,7 +28,7 @@ val DummyExams =
         val index = index + 1
         val boolean = index % 2 == 0
         ExamNameAndIsWritingPair(
-            "${index}번${"_시험지".repeat(10)}".take(if (!boolean) 10 else 38),
-            boolean,
+            /*examName = */ "${index}번${"_시험지".repeat(10)}".take(if (!boolean) 10 else 38),
+            /*isWip = */ boolean,
         )
     }.toImmutableList()
