@@ -8,7 +8,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/G9">
 
     <Button
         android:id="@+id/btn_tmp_disabled"
@@ -40,17 +41,57 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_tmp_max_disabled" />
 
-    <EditText
-        android:id="@+id/et_quiz_default"
-        style="@style/WeQuizQuizEditText.Default"
-        android:layout_marginTop="10dp"
-        android:hint="답변 입력"
-        app:layout_constraintTop_toBottomOf="@id/btn_tmp_max_default" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_tmp_phone"
+        style="@style/WeQuizTextInputLayout.Clear"
+        android:layout_marginTop="20dp"
+        android:hint="휴대폰 번호"
+        app:counterEnabled="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_tmp_max_default">
 
-    <EditText
-        style="@style/WeQuizQuizEditText.Selected"
-        android:layout_marginTop="10dp"
-        android:text="TEXT"
-        app:layout_constraintTop_toBottomOf="@id/et_quiz_default" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_tmp_phone"
+            style="@style/WeQuizBasicEditText"
+            android:hint="휴대폰 번호 입력"
+            android:inputType="phone"
+            android:maxLength="13" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_tmp_nickname"
+        style="@style/WeQuizTextInputLayout.Clear"
+        android:layout_marginTop="20dp"
+        android:hint="닉네임 (필수)"
+        app:counterMaxLength="8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_input_layout_tmp_phone">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_tmp_nickname"
+            style="@style/WeQuizBasicEditText"
+            android:hint="닉네임 입력"
+            android:maxLength="20" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_tmp_certification"
+        style="@style/WeQuizTextInputLayout.Certification"
+        android:layout_marginTop="20dp"
+        android:hint="인증번호"
+        app:counterMaxLength="6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_input_layout_tmp_nickname">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_tmp_certification"
+            style="@style/WeQuizBasicEditText"
+            android:hint="6자리 숫자"
+            android:inputType="number"
+            android:maxLength="6" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
