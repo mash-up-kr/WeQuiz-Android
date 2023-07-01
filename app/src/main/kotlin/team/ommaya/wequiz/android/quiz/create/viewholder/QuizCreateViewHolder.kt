@@ -20,9 +20,17 @@ import team.ommaya.wequiz.android.quiz.create.Quiz
 
 class QuizCreateViewHolder(
     private val binding: ItemQuizCreateQuizBinding,
+    private val onCreateItemClickListener: (Quiz) -> Unit,
 ) : ViewHolder(binding.root) {
 
     fun bind(item: Quiz) {
-        binding.etQuizTitle.hint = item.title
+        binding.apply {
+            etQuizTitle.hint = item.title
+            etQuizTitle.setOnFocusChangeListener { _, isFocus ->
+                if (isFocus) {
+                    onCreateItemClickListener(item)
+                }
+            }
+        }
     }
 }

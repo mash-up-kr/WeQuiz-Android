@@ -23,6 +23,9 @@ class QuizCreateActivity :
         QuizCreateAdapter(
             onAddItemClickListener = {
                 onAddItemClickListener()
+            },
+            onCreateItemClickListener = { quiz ->
+
             }
         )
     }

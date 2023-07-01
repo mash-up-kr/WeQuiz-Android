@@ -29,6 +29,9 @@ class QuizCreateViewModel : ViewModel() {
     private val _quizList: MutableStateFlow<List<Quiz>> = MutableStateFlow(initialList)
     val quizList = _quizList.asStateFlow()
 
+    private val _focusedViewId: MutableStateFlow<Int> = MutableStateFlow(0)
+    val focusedViewId = _focusedViewId.asStateFlow()
+
     fun addQuiz() {
         val currentSize = quizList.value.size
         val list = mutableListOf<Quiz>().apply {
@@ -40,6 +43,10 @@ class QuizCreateViewModel : ViewModel() {
             list.add(index = currentSize - 1, Quiz(currentSize - 1))
         }
         _quizList.value = list.toList()
+    }
+
+    fun setFocusedView(viewId: Int) {
+        _focusedViewId.value = viewId
     }
 
 }

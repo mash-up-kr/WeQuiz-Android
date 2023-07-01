@@ -19,6 +19,7 @@ import team.ommaya.wequiz.android.quiz.create.viewholder.QuizCreateViewHolder
 
 class QuizCreateAdapter(
     private val onAddItemClickListener: () -> Unit,
+    private val onCreateItemClickListener: (Quiz) -> Unit,
 ) : ListAdapter<Quiz, ViewHolder>(quizDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return if (viewType == Quiz.QuizType.Create.typeNum) {
@@ -27,7 +28,8 @@ class QuizCreateAdapter(
                     LayoutInflater.from(parent.context),
                     parent,
                     false,
-                )
+                ),
+                onCreateItemClickListener,
             )
         } else {
             QuizAddViewHolder(
@@ -71,6 +73,7 @@ data class Quiz(
     val index: Int = 0,
     val title: String = "문제입력",
     val answerList: List<Answer> = emptyList(),
+    val isFocusable: Boolean = false,
     val type: QuizType = QuizType.Create,
 ) {
     sealed interface QuizType {
