@@ -31,8 +31,9 @@ public value class WeQuizColor private constructor(public val value: Color) :
     public fun toColorFilterOrNull(): ColorFilter? =
         if (this == Unspecified) null else ColorFilter.tint(value)
 
+    @Suppress("NOTHING_TO_INLINE")
     @Composable
-    public fun toRememberColorFilterOrNull(): ColorFilter? = remember(::toColorFilterOrNull)
+    public inline fun toRememberColorFilterOrNull(): ColorFilter? = remember(::toColorFilterOrNull)
 
     @Stable
     public fun change(alpha: Float): WeQuizColor =

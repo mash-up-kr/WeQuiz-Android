@@ -50,8 +50,9 @@ public class WeQuizTypography private constructor(
             lineHeight = lineHeight,
         )
 
+    @Suppress("NOTHING_TO_INLINE")
     @Composable
-    public fun asRememberComposeStyle(): TextStyle = remember(::asComposeStyle)
+    public inline fun asRememberComposeStyle(): TextStyle = remember(::asComposeStyle)
 
     @Stable
     public fun change(
