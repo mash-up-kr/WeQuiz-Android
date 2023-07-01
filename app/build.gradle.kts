@@ -85,7 +85,7 @@ tasks.withType<Test>().configureEach {
                         "${result.skippedTestCount} skipped)"
                 println(output)
             }
-        })
+        }),
     )
 }
 
