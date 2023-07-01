@@ -10,7 +10,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp"
-    android:background="@drawable/btn_radius_16"
+    android:background="@drawable/bg_dot_stroke_radius_16"
     android:backgroundTint="@color/G8"
     android:paddingVertical="16dp">
 

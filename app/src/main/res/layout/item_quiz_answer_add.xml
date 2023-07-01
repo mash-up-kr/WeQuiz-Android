@@ -10,35 +10,31 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
-    android:background="@drawable/bg_g7_radius_16">
+    android:background="@drawable/bg_dot_stroke_radius_16">
 
     <ImageView
         android:id="@+id/iv_answer_index"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
-        android:src="@drawable/ic_index_a"
+        android:src="@drawable/ic_index_c_empty"
         app:layout_constraintBottom_toBottomOf="@id/et_quiz_default"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/et_quiz_default" />
 
-    <EditText
+    <TextView
         android:id="@+id/et_quiz_default"
-        style="@style/WeQuizQuizEditText"
-        android:background="@null"
-        android:hint="답변 입력"
+        android:layout_width="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="6dp"
-        app:layout_constraintEnd_toStartOf="@id/iv_answer_close"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@null"
+        android:text="답변 추가"
+        android:textColor="@color/G6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_answer_index"
+        app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/iv_answer_close"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_close_white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp"
-    android:background="@drawable/btn_radius_16"
+    android:background="@drawable/bg_g7_radius_16"
     android:backgroundTint="@color/G8"
     android:padding="20dp">
 
@@ -30,9 +30,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/tv_multiple_choice"
         app:layout_constraintTop_toBottomOf="@id/et_quiz_title"
         tools:listitem="@layout/item_quiz_create_answer" />
@@ -44,7 +44,6 @@
         android:text="중복 선택여부"
         android:textAppearance="@style/WeQuizTextAppearance.Base.SemiBold"
         android:textColor="@color/G2"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -53,8 +52,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginEnd="6dp"
-        android:background="@color/white"
-        android:visibility="gone"
+        android:src="@drawable/ic_checkmark"
         app:layout_constraintBottom_toBottomOf="@id/tv_multiple_choice"
         app:layout_constraintEnd_toStartOf="@id/tv_multiple_choice"
         app:layout_constraintTop_toTopOf="@id/tv_multiple_choice" />
