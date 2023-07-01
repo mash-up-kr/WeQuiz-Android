@@ -28,7 +28,10 @@
 
         <activity
             android:name=".intro.IntroActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        </activity>
 
     </application>
 
