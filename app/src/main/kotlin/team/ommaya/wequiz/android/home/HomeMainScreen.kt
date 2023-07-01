@@ -181,7 +181,7 @@ private fun SectionTitle(
                 .size(24.dp)
                 .fitPaint(
                     drawableId = R.drawable.ic_round_chevron_right_24,
-                    tint = WeQuizColor.G2,
+                    colorFilter = WeQuizColor.G2.toRememberColorFilterOrNull(),
                 )
                 .noRippleClickable(onRightArrowClick),
         )
@@ -203,7 +203,7 @@ private fun CreateExamIsEmpty(modifier: Modifier = Modifier) {
                 .size(40.dp)
                 .fitPaint(
                     drawableId = R.drawable.ic_fill_document_24,
-                    tint = WeQuizColor.G2,
+                    colorFilter = WeQuizColor.G2.toRememberColorFilterOrNull(),
                 ),
         )
         BasicText(
