@@ -35,11 +35,15 @@ class HomeMainScreenSnapshot {
             }
     private val DummyFriendsRanking =
         List(10) { index ->
-            NicknameUuidScoreTriple("${index}번 친구", index * 1_000, index * 100)
+            @Suppress("NAME_SHADOWING")
+            val index = index + 1
+            NicknameUuidScoreTriple("${index}번_친구_친구", index * 1_000, index * 100)
         }.toImmutableList()
     private val DummyExams =
         List(10) { index ->
-            ExamNameAndIsWritingPair("${index}번 시험지", index / 2 == 0)
+            @Suppress("NAME_SHADOWING")
+            val index = index + 1
+            ExamNameAndIsWritingPair("${index}번${"_시험지".repeat(10)}".take(38), index / 2 == 0)
         }.toImmutableList()
 
     @Test

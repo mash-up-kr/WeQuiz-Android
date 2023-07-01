@@ -7,6 +7,7 @@
 
 package team.ommaya.wequiz.android.home.main
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -30,7 +31,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,8 +48,15 @@ import kotlinx.collections.immutable.toImmutableList
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizTypography
+import team.ommaya.wequiz.android.utils.asLoose
+import team.ommaya.wequiz.android.utils.get
 
+@Suppress("WRONG_ANNOTATION_TARGET")
+@VisibleForTesting
 typealias NicknameUuidScoreTriple = Triple<String, Int, Int>
+
+@Suppress("WRONG_ANNOTATION_TARGET")
+@VisibleForTesting
 typealias ExamNameAndIsWritingPair = Pair<String, Boolean>
 
 @Suppress("unused")
@@ -154,9 +161,13 @@ fun HomeMainScreen(
         ) {
             SectionTitle(title = "내가 낸 문제지")
             if (exams.isEmpty()) {
-                CreateExamIsEmpty(modifier = Modifier.padding(top = (90 - 24).dp))
+                CreateExamIsEmpty(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                )
             } else {
-                CreateExams(examPagers = exams)
+                CreateExams(exams = exams)
             }
         }
     }
@@ -183,7 +194,7 @@ private fun SectionTitle(
         )
         Box(
             Modifier
-                .size(width = 9.dp, height = 16.dp)
+                .size(24.dp)
                 .paint(
                     painter = painterResource(R.drawable.ic_round_arrow_24),
                     colorFilter = WeQuizColor.G2.toRememberColorFilterOrNull(),
@@ -211,10 +222,9 @@ private fun FriendsRanking(
     val roundedCornerShape4 = remember { RoundedCornerShape(4.dp) }
     val roundedCornerShape16 = remember { RoundedCornerShape(16.dp) }
 
-    LaunchedEffect(friendsRanking) {
-        require(friendsRanking.size <= 3) {
-            "친구 랭킹은 최대 3위까지만 노출 가능합니다."
-        }
+    @Suppress("RememberReturnType")
+    remember(friendsRanking) {
+        check(friendsRanking.size <= 3) { "친구 랭킹은 최대 3위까지만 노출 가능합니다." }
     }
 
     LazyColumn(
@@ -223,7 +233,12 @@ private fun FriendsRanking(
             .then(modifier),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        itemsIndexed(friendsRanking) { rankNum, (nickname, uuid, scroe) ->
+        itemsIndexed(friendsRanking) { rankNumber, (nickname, uuid, scroe) ->
+            @Suppress("RememberReturnType")
+            remember(nickname) {
+                check(nickname.length in 1..8) { "닉네임 길이가 1..8 이여야 합니다." }
+            }
+
             Layout(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -232,16 +247,15 @@ private fun FriendsRanking(
                         color = WeQuizColor.G8.value,
                         shape = roundedCornerShape16,
                     )
-                    .clickable(onClick = onFriendClick)
-                    .padding(horizontal = 16.dp),
+                    .clickable(onClick = onFriendClick),
                 content = {
                     Box(
                         Modifier
                             .layoutId(FriendRankingIconLayoutId)
-                            .size(20.dp)
+                            .size(24.dp)
                             .paint(
                                 painter = painterResource(
-                                    when (rankNum) {
+                                    when (rankNumber) {
                                         0 -> R.drawable.ic_round_cruelty_free_24
                                         1 -> R.drawable.ic_round_cruelty_free_24
                                         2 -> R.drawable.ic_round_cruelty_free_24
@@ -254,7 +268,9 @@ private fun FriendsRanking(
                     BasicText(
                         modifier = Modifier.layoutId(FriendNicknameLayoutId),
                         text = nickname,
-                        style = WeQuizTypography.R16.asRememberComposeStyle(),
+                        style = WeQuizTypography.R16
+                            .change(color = WeQuizColor.G2)
+                            .asRememberComposeStyle(),
                         overflow = TextOverflow.Ellipsis,
                     )
                     Box(
@@ -283,57 +299,52 @@ private fun FriendsRanking(
                     )
                 },
             ) { measurables, constraints ->
-                val rankIconMeasurable = measurables.fastFirstOrNull { measurable ->
-                    measurable.layoutId == FriendRankingIconLayoutId
-                }!!
-                val nicknameMeasurable = measurables.fastFirstOrNull { measurable ->
-                    measurable.layoutId == FriendNicknameLayoutId
-                }!!
-                val uuidMeasurable = measurables.fastFirstOrNull { measurable ->
-                    measurable.layoutId == FriendUuidLayoutId
-                }!!
-                val scoreMeasurable = measurables.fastFirstOrNull { measurable ->
-                    measurable.layoutId == FriendScoreLayoutId
-                }!!
+                val rankIconMeasurable = measurables[FriendRankingIconLayoutId]
+                val nicknameMeasurable = measurables[FriendNicknameLayoutId]
+                val uuidMeasurable = measurables[FriendUuidLayoutId]
+                val scoreMeasurable = measurables[FriendScoreLayoutId]
 
-                val looseConstraints = constraints.copy(minWidth = 0, minHeight = 0)
+                val looseConstraints = constraints.asLoose(width = true, height = true)
 
                 val rankIconPlaceable = rankIconMeasurable.measure(looseConstraints)
                 val nicknamePlaceable = nicknameMeasurable.measure(looseConstraints)
                 val uuidPlaceable = uuidMeasurable.measure(looseConstraints)
                 val scorePlaceable = scoreMeasurable.measure(looseConstraints)
 
-                val startPadding = 18.dp.roundToPx()
-                val endPadding = 16.dp.roundToPx()
-                val spacedBy = 6.dp.roundToPx()
+                val horizontalPadding = 16.dp.roundToPx()
+                val verticalPadding = 17.dp.roundToPx()
+                val badgeAndNicknameGap = 8.dp.roundToPx()
+                val nicknameAndUuidGap = 6.dp.roundToPx()
 
-                layout(width = constraints.maxWidth, height = constraints.maxHeight) {
+                val height = nicknamePlaceable.height + verticalPadding * 2
+
+                layout(width = constraints.maxWidth, height = height) {
                     rankIconPlaceable.place(
-                        x = startPadding,
+                        x = horizontalPadding,
                         y = Alignment.CenterVertically.align(
                             size = rankIconPlaceable.height,
-                            space = constraints.maxHeight,
+                            space = height,
                         ),
                     )
                     nicknamePlaceable.place(
-                        x = startPadding + rankIconPlaceable.width + spacedBy,
+                        x = horizontalPadding + rankIconPlaceable.width + badgeAndNicknameGap,
                         y = Alignment.CenterVertically.align(
                             size = nicknamePlaceable.height,
-                            space = constraints.maxHeight,
+                            space = height,
                         ),
                     )
                     uuidPlaceable.place(
-                        x = startPadding + rankIconPlaceable.width + spacedBy + nicknamePlaceable.width + spacedBy,
+                        x = horizontalPadding + rankIconPlaceable.width + badgeAndNicknameGap + nicknamePlaceable.width + nicknameAndUuidGap,
                         y = Alignment.CenterVertically.align(
                             size = uuidPlaceable.height,
-                            space = constraints.maxHeight,
+                            space = height,
                         ),
                     )
                     scorePlaceable.place(
-                        x = constraints.maxWidth - endPadding - scorePlaceable.width,
+                        x = constraints.maxWidth - horizontalPadding - scorePlaceable.width,
                         y = Alignment.CenterVertically.align(
                             size = scorePlaceable.height,
-                            space = constraints.maxHeight,
+                            space = height,
                         ),
                     )
                 }
@@ -345,15 +356,16 @@ private fun FriendsRanking(
 @Composable
 private fun CreateExamIsEmpty(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .then(modifier),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy((14.5).dp),
+        verticalArrangement = Arrangement.spacedBy(
+            space = 12.dp,
+            alignment = Alignment.CenterVertically,
+        ),
     ) {
         Box(
             Modifier
-                .size(width = 28.dp, height = 35.dp)
+                .size(40.dp)
                 .paint(
                     painter = painterResource(R.drawable.ic_round_pager),
                     colorFilter = WeQuizColor.G2.toRememberColorFilterOrNull(),
@@ -374,7 +386,7 @@ private const val ExamPageWipBadgeLayoutId = "ExamPageWipBadgeLayout"
 @Composable
 private fun CreateExams(
     modifier: Modifier = Modifier,
-    examPagers: ImmutableList<ExamNameAndIsWritingPair>,
+    exams: ImmutableList<ExamNameAndIsWritingPair>,
     onExamPagerClick: () -> Unit = {},
 ) {
     val roundedCornerShape4 = remember { RoundedCornerShape(4.dp) }
@@ -386,7 +398,12 @@ private fun CreateExams(
             .then(modifier),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        items(examPagers) { (name, isWIP) ->
+        items(exams) { (name, isWIP) ->
+            @Suppress("RememberReturnType")
+            remember(name) {
+                check(name.length in 1..38) { "문제지명 길이가 1..38 이여야 합니다." }
+            }
+
             Layout(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -395,13 +412,14 @@ private fun CreateExams(
                         color = WeQuizColor.G8.value,
                         shape = roundedCornerShape16,
                     )
-                    .clickable(onClick = onExamPagerClick)
-                    .padding(horizontal = 16.dp),
+                    .clickable(onClick = onExamPagerClick),
                 content = {
                     BasicText(
                         modifier = Modifier.layoutId(ExamPageNameLayoutId),
                         text = name,
-                        style = WeQuizTypography.M16.asRememberComposeStyle(),
+                        style = WeQuizTypography.M16
+                            .change(color = WeQuizColor.G2)
+                            .asRememberComposeStyle(),
                         overflow = TextOverflow.Ellipsis,
                     )
                     if (isWIP) {
@@ -412,7 +430,7 @@ private fun CreateExams(
                                     color = WeQuizColor.Black.value,
                                     shape = roundedCornerShape4,
                                 )
-                                .padding(4.dp),
+                                .padding(vertical = 4.dp, horizontal = 12.dp),
                             contentAlignment = Alignment.Center,
                         ) {
                             BasicText(
@@ -425,16 +443,15 @@ private fun CreateExams(
                     }
                 },
             ) { measurables, constraints ->
-                val pageNameMeasurable = measurables.fastFirstOrNull { measurable ->
-                    measurable.layoutId == ExamPageNameLayoutId
-                }!!
+                val pageNameMeasurable = measurables[ExamPageNameLayoutId]
                 val pageWipBadgeMeasurable = measurables.fastFirstOrNull { measurable ->
                     measurable.layoutId == ExamPageWipBadgeLayoutId
                 }
 
-                val horizontalPadding = 16.dp.roundToPx()
+                val padding = 16.dp.roundToPx()
+                val nameAndWipBadgeGap = 8.dp.roundToPx()
 
-                val looseConstraints = constraints.copy(minWidth = 0, minHeight = 0)
+                val looseConstraints = constraints.asLoose(width = true, height = true)
                 val pageWipBadgePlaceable = pageWipBadgeMeasurable?.measure(looseConstraints)
 
                 val pageNameConstraints = constraints
@@ -443,28 +460,30 @@ private fun CreateExams(
                         minHeight = 0,
                         maxWidth = 0
                             .plus(constraints.maxWidth)
-                            .minus(horizontalPadding * 2)
+                            .minus(padding * 2)
                             .minus(
-                                pageWipBadgePlaceable?.width?.let { width ->
-                                    width + 8.dp.roundToPx()
+                                pageWipBadgePlaceable?.width?.let { nameWidth ->
+                                    nameWidth + nameAndWipBadgeGap
                                 } ?: 0,
                             ),
                     )
                 val pageNamePlaceable = pageNameMeasurable.measure(pageNameConstraints)
 
-                layout(width = constraints.maxWidth, height = constraints.maxHeight) {
+                val height = pageNamePlaceable.height + padding * 2
+
+                layout(width = constraints.maxWidth, height = height) {
                     pageNamePlaceable.place(
-                        x = horizontalPadding,
+                        x = padding,
                         y = Alignment.CenterVertically.align(
                             size = pageNamePlaceable.height,
-                            space = constraints.maxHeight,
+                            space = height,
                         ),
                     )
                     pageWipBadgePlaceable?.place(
-                        x = constraints.maxHeight - horizontalPadding - pageWipBadgePlaceable.width,
+                        x = constraints.maxHeight - padding - pageWipBadgePlaceable.width,
                         y = Alignment.CenterVertically.align(
                             size = pageWipBadgePlaceable.height,
-                            space = constraints.maxHeight,
+                            space = height,
                         ),
                     )
                 }
