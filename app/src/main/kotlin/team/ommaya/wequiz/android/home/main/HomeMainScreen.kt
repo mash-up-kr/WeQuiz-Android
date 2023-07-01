@@ -166,7 +166,11 @@ fun HomeMainScreen(
                         .height(200.dp),
                 )
             } else {
-                CreateExams(exams = exams)
+                CreateExams(
+                    exams = remember(exams) {
+                        exams.take(4).toImmutableList()
+                    },
+                )
             }
         }
     }

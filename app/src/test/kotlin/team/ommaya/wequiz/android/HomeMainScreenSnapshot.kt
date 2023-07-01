@@ -34,13 +34,13 @@ class HomeMainScreenSnapshot {
                 drawColor(Color.parseColor("#71F7FF"))
             }
     private val DummyFriendsRanking =
-        List(10) { index ->
+        List(5) { index ->
             @Suppress("NAME_SHADOWING")
             val index = index + 1
             NicknameUuidScoreTriple("${index}번_친구_친구", index * 1_000, index * 100)
         }.toImmutableList()
     private val DummyExams =
-        List(10) { index ->
+        List(5) { index ->
             @Suppress("NAME_SHADOWING")
             val index = index + 1
             val boolean = index % 2 == 0
