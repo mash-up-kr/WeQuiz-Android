@@ -11,6 +11,7 @@ ktlint_standard_indent = disabled
 ktlint_standard_multiline-if-else = disabled
 ktlint_standard_max-line-length = disabled
 ktlint_standard_import-ordering = disabled
+ktlint_standard_comment-wrapping = disabled
 
 [*.{kt,kts}]
 ij_kotlin_imports_layout = *

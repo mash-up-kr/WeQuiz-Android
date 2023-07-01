@@ -91,6 +91,7 @@ fun FriendsRanking(
                             },
                         contentAlignment = Alignment.Center,
                     ) {
+                        @Suppress("KotlinConstantConditions")
                         if (rankNumber >= 4) {
                             BasicText(
                                 text = "$rankNumber",

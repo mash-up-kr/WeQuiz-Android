@@ -5,8 +5,6 @@
  * Please see full license: https://github.com/duckie-team/quack-quack-android/blob/main/LICENSE
  */
 
-@file:Suppress("NOTHING_TO_INLINE")
-
 package team.ommaya.wequiz.android.rule
 
 import org.junit.rules.TestWatcher
