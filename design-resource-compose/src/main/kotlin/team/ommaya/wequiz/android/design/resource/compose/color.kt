@@ -33,7 +33,8 @@ public value class WeQuizColor private constructor(public val value: Color) :
 
     @Suppress("NOTHING_TO_INLINE")
     @Composable
-    public inline fun toRememberColorFilterOrNull(): ColorFilter? = remember(::toColorFilterOrNull)
+    public inline fun toRememberColorFilterOrNull(vararg keys: Any?): ColorFilter? =
+        remember(keys = keys, ::toColorFilterOrNull)
 
     @Stable
     public fun change(alpha: Float): WeQuizColor =

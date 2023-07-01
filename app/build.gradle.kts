@@ -7,6 +7,9 @@
 
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM", "UnstableApiUsage")
 
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     android("application")
     kotlin("android")
@@ -51,6 +54,7 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
+            isReturnDefaultValues = true
             all { test ->
                 test.useJUnitPlatform()
                 test.systemProperty("robolectric.graphicsMode", "NATIVE")
@@ -61,6 +65,30 @@ android {
             }
         }
     }
+}
+
+tasks.withType<Test>().configureEach {
+    // https://stackoverflow.com/a/36178581/14299073
+    outputs.upToDateWhen { false }
+    testLogging {
+        events = setOf(
+            TestLogEvent.PASSED,
+            TestLogEvent.SKIPPED,
+            TestLogEvent.FAILED,
+        )
+    }
+    afterSuite(
+        KotlinClosure2<TestDescriptor, TestResult, Unit>({ desc, result ->
+            if (desc.parent == null) { // will match the outermost suite
+                val output = "Results: ${result.resultType} " +
+                        "(${result.testCount} tests, " +
+                        "${result.successfulTestCount} passed, " +
+                        "${result.failedTestCount} failed, " +
+                        "${result.skippedTestCount} skipped)"
+                println(output)
+            }
+        })
+    )
 }
 
 tasks.matching { task ->
@@ -86,6 +114,7 @@ dependencies {
         libs.compose.ui,
         libs.compose.uiutil,
         libs.compose.foundation,
+        // libs.compose.activity,
         projects.data,
         projects.domain,
         projects.designResource,
@@ -98,6 +127,7 @@ dependencies {
         libs.test.androidx.junit.ktx,
         libs.test.robolectric,
         libs.bundles.test.roborazzi,
+        "androidx.compose.ui:ui-test-junit4:1.4.3",
     )
     testRuntimeOnly(libs.test.junit.engine)
 }

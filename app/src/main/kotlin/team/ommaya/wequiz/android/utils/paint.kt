@@ -20,11 +20,12 @@ import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 fun Modifier.fitPaint(
     @DrawableRes drawableId: Int,
     tint: WeQuizColor = WeQuizColor.Unspecified,
+    vararg keys: Any?,
 ) =
     composed {
         paint(
             painter = painterResource(drawableId),
-            colorFilter = tint.toRememberColorFilterOrNull(),
+            colorFilter = tint.toRememberColorFilterOrNull(*keys),
             contentScale = ContentScale.Fit,
         )
     }

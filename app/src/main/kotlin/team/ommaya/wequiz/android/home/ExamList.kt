@@ -27,7 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
@@ -39,7 +38,6 @@ import kotlinx.collections.immutable.PersistentList
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizTypography
-import team.ommaya.wequiz.android.utils.AnimationSpecTestingSupports
 import team.ommaya.wequiz.android.utils.asLoose
 import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.get
@@ -78,11 +76,11 @@ fun ExamList(
 
     val deleteIconAlpahAnimation by animateFloatAsState(
         targetValue = if (deleteModeEnable) 1f else 0f,
-        animationSpec = AnimationSpecTestingSupports(tween(ExamPageAninmationMillis)),
+        animationSpec = tween(ExamPageAninmationMillis),
     )
     val deleteModeContentWidthAnimation by animateIntAsState(
         targetValue = if (deleteModeEnable) deleteModeContentWidthStatic else 0,
-        animationSpec = AnimationSpecTestingSupports(tween(ExamPageAninmationMillis)),
+        animationSpec = tween(ExamPageAninmationMillis),
     )
 
     LazyColumn(
@@ -111,9 +109,9 @@ fun ExamList(
                             .size(ExamPageDeleteIconSize)
                             .fitPaint(
                                 drawableId = R.drawable.ic_fill_minus_circle_24,
-                                tint = WeQuizColor.Alert,
-                            )
-                            .graphicsLayer { alpha = deleteIconAlpahAnimation },
+                                tint = WeQuizColor.Alert.change(deleteIconAlpahAnimation),
+                                keys = arrayOf(deleteIconAlpahAnimation),
+                            ),
                     )
                     Box(
                         Modifier
