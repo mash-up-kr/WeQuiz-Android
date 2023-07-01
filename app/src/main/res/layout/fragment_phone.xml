@@ -6,9 +6,59 @@
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/G9"
     tools:context=".intro.phone.PhoneFragment">
+
+    <View
+        android:id="@+id/btn_phone_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/G2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_phone_title"
+        style="@style/WeQuizTextAppearance.Title.Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="36dp"
+        android:text="회원가입을 위해\n휴대폰 번호를 입력해 주세요"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_phone_back" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_phone_input"
+        style="@style/WeQuizTextInputLayout.Clear"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="36dp"
+        android:hint="휴대폰 번호"
+        app:counterEnabled="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_phone_title">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_phone_input"
+            style="@style/WeQuizBasicEditText"
+            android:hint="휴대폰 번호 입력"
+            android:inputType="phone"
+            android:maxLength="13" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_phone_request_verify_code"
+        style="@style/WeQuizMaxButton"
+        android:enabled="false"
+        android:text="인증번호 받기"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
