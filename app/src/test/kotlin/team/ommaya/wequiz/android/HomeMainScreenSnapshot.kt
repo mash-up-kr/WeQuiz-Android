@@ -31,7 +31,7 @@ class HomeMainScreenSnapshot {
         Bitmap
             .createBitmap(100, 100, Bitmap.Config.ARGB_8888)
             .applyCanvas {
-                drawColor(Color.YELLOW)
+                drawColor(Color.parseColor("#71F7FF"))
             }
     private val DummyFriendsRanking =
         List(10) { index ->

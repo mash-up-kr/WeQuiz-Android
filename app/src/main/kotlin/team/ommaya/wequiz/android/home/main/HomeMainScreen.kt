@@ -193,7 +193,7 @@ private fun SectionTitle(
             Modifier
                 .size(24.dp)
                 .fitPaint(
-                    drawableId = R.drawable.ic_round_arrow_24,
+                    drawableId = R.drawable.ic_round_chevron_right_24,
                     tint = WeQuizColor.G2,
                 )
                 .clickable(
@@ -252,12 +252,11 @@ private fun FriendsRanking(
                             .size(24.dp)
                             .fitPaint(
                                 drawableId = when (rankNumber) {
-                                    0 -> R.drawable.ic_round_cruelty_free_24
-                                    1 -> R.drawable.ic_round_cruelty_free_24
-                                    2 -> R.drawable.ic_round_cruelty_free_24
+                                    0 -> R.drawable.ic_color_grade_gold_24
+                                    1 -> R.drawable.ic_color_grade_silver_24
+                                    2 -> R.drawable.ic_color_grade_bronze_24
                                     else -> throw IndexOutOfBoundsException("3위 이상의 친구 랭킹은 존재할 수 없습니다.")
                                 },
-                                tint = WeQuizColor.P1,
                             ),
                     )
                     BasicText(
@@ -362,7 +361,7 @@ private fun CreateExamIsEmpty(modifier: Modifier = Modifier) {
             Modifier
                 .size(40.dp)
                 .fitPaint(
-                    drawableId = R.drawable.ic_round_pager,
+                    drawableId = R.drawable.ic_fill_document_24,
                     tint = WeQuizColor.G2,
                 ),
         )
