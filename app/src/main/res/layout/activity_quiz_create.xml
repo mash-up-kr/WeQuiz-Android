@@ -39,7 +39,7 @@
         android:layout_height="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="2dp"
-        android:background="@color/white"
+        android:src="@drawable/ic_edit"
         app:layout_constraintEnd_toStartOf="@id/tv_quiz_eidt"
         app:layout_constraintTop_toTopOf="parent" />
 

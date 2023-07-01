@@ -29,7 +29,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="start|center_vertical"
-            android:background="@color/white" />
+            android:src="@drawable/ic_question_add" />
 
         <TextView
             android:id="@+id/tv_add_question"
