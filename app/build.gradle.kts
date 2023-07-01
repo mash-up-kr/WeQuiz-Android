@@ -56,6 +56,7 @@ dependencies {
         libs.androidx.lifecycle.runtime,
         libs.androidx.lifecycle.viewmodel,
         libs.compose.runtime,
+        libs.material,
         projects.data,
         projects.domain,
         projects.designResource,
