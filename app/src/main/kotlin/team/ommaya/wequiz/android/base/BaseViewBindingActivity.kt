@@ -7,14 +7,14 @@
 
 package team.ommaya.wequiz.android.base
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 
 abstract class BaseViewBindingActivity<VB : ViewBinding>(
     private val bindingInflater: (inflater: LayoutInflater) -> VB,
-) : Activity() {
+) : AppCompatActivity() {
 
     private var _binding: VB? = null
 
