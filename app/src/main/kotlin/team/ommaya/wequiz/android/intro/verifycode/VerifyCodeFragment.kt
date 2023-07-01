@@ -9,12 +9,21 @@ package team.ommaya.wequiz.android.intro.verifycode
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentVerifyCodeBinding
+import team.ommaya.wequiz.android.utils.observeTextLengthForAction
 
 class VerifyCodeFragment :
     BaseViewBindingFragment<FragmentVerifyCodeBinding>(FragmentVerifyCodeBinding::inflate) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.etVerifyCodeInput.observeTextLengthForAction {
+            popBackStack()
+        }
+    }
+
+    private fun popBackStack() {
+        findNavController().popBackStack()
     }
 }

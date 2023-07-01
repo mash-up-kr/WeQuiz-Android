@@ -13,6 +13,7 @@ import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputEditText
 
 const val PHONE_NUMBER_MAX_LENGTH_KR = 13
+const val VERIFY_CODE_LENGTH = 6
 
 fun TextInputEditText.formatTextAsPhoneNumber() {
     addTextChangedListener(PhoneNumberFormattingTextWatcher("KR"))
@@ -26,5 +27,12 @@ fun TextInputEditText.setRequestVerifyCodeButtonEnable(button: Button) {
     addTextChangedListener {
         val text = text ?: ""
         setButtonEnable(button, text.length == PHONE_NUMBER_MAX_LENGTH_KR)
+    }
+}
+
+fun TextInputEditText.observeTextLengthForAction(action: () -> Unit) {
+    addTextChangedListener {
+        val text = text ?: ""
+        if (text.length == VERIFY_CODE_LENGTH) action()
     }
 }
