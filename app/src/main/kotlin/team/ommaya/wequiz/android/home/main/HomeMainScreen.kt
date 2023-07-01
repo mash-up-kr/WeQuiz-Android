@@ -234,7 +234,7 @@ private fun FriendsRanking(
             .then(modifier),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        itemsIndexed(friendsRanking) { rankNumber, (nickname, uuid, scroe) ->
+        itemsIndexed(friendsRanking) { rankNumber, (nickname, uuid, score) ->
             @Suppress("RememberReturnType")
             remember(nickname) {
                 check(nickname.length in 1..8) { "닉네임 길이가 1..8 이여야 합니다." }
@@ -290,7 +290,7 @@ private fun FriendsRanking(
                     }
                     BasicText(
                         modifier = Modifier.layoutId(FriendScoreLayoutId),
-                        text = "${scroe}점",
+                        text = "${score}점",
                         style = WeQuizTypography.M18
                             .change(color = WeQuizColor.G1)
                             .asRememberComposeStyle(),
