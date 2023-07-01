@@ -20,9 +20,12 @@ import team.ommaya.wequiz.android.quiz.create.Quiz
 
 class QuizAddViewHolder(
     private val binding: ItemQuizCreateAddBinding,
+    private val onAddItemClickListener: () -> Unit,
 ) : ViewHolder(binding.root) {
 
     fun bind(item: Quiz) {
-
+        binding.root.setOnClickListener {
+            onAddItemClickListener()
+        }
     }
 }

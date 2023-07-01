@@ -23,6 +23,6 @@ class QuizCreateViewHolder(
 ) : ViewHolder(binding.root) {
 
     fun bind(item: Quiz) {
-
+        binding.etQuizTitle.hint = item.title
     }
 }
