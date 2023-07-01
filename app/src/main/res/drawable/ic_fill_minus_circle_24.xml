@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Designed and developed by "옴마야" Team 2023.
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="20"
+    android:viewportHeight="20">
+    <group>
+        <clip-path android:pathData="M0,0h20v20h-20z" />
+        <path
+            android:fillColor="#ADB5BD"
+            android:fillType="evenOdd"
+            android:pathData="M13.743,10.884H6.243C6.125,10.888 6.007,10.868 5.897,10.825C5.786,10.782 5.686,10.717 5.601,10.635C5.516,10.553 5.448,10.454 5.402,10.345C5.356,10.236 5.332,10.119 5.332,10C5.332,9.882 5.356,9.765 5.402,9.656C5.448,9.547 5.516,9.448 5.601,9.366C5.686,9.283 5.786,9.219 5.897,9.176C6.007,9.133 6.125,9.113 6.243,9.117H13.743C13.973,9.124 14.191,9.22 14.351,9.385C14.511,9.55 14.6,9.771 14.6,10C14.6,10.23 14.511,10.451 14.351,10.616C14.191,10.781 13.973,10.877 13.743,10.884ZM10,0.833C4.937,0.833 0.833,4.937 0.833,10C0.833,15.063 4.937,19.167 10,19.167C15.063,19.167 19.167,15.063 19.167,10C19.167,4.937 15.063,0.833 10,0.833Z" />
+    </group>
+</vector>

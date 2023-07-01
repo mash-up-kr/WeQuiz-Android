@@ -36,6 +36,8 @@ import team.ommaya.wequiz.android.utils.asLoose
 import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.get
 
+typealias NicknameUuidScoreTriple = Triple<String, Int, Int>
+
 private const val FriendRankingIconLayoutId = "FriendRankingIconLayout"
 private const val FriendNicknameLayoutId = "FriendNicknameLayout"
 private const val FriendUuidLayoutId = "FriendUuidLayout"
