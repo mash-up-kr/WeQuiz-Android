@@ -8,7 +8,6 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM", "UnstableApiUsage")
 
 import org.gradle.api.tasks.testing.logging.TestLogEvent
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     android("application")
@@ -54,7 +53,6 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
-            isReturnDefaultValues = true
             all { test ->
                 test.useJUnitPlatform()
                 test.systemProperty("robolectric.graphicsMode", "NATIVE")
@@ -114,7 +112,7 @@ dependencies {
         libs.compose.ui,
         libs.compose.uiutil,
         libs.compose.foundation,
-        // libs.compose.activity,
+        libs.compose.activity,
         projects.data,
         projects.domain,
         projects.designResource,
@@ -127,7 +125,6 @@ dependencies {
         libs.test.androidx.junit.ktx,
         libs.test.robolectric,
         libs.bundles.test.roborazzi,
-        "androidx.compose.ui:ui-test-junit4:1.4.3",
     )
     testRuntimeOnly(libs.test.junit.engine)
 }
