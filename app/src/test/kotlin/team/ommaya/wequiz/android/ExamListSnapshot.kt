@@ -50,11 +50,11 @@ class ExamListSnapshot {
     val compose = createAndroidComposeRule<ComponentActivity>()
 
     @get:Rule
-    val roborazziRule = RoborazziRule(
+    val roborazzi = RoborazziRule(
         composeRule = compose,
         captureRoot = compose.onRoot(),
         options = RoborazziRule.Options(
-            captureType = RoborazziRule.CaptureType.Gif,
+            captureType = RoborazziRule.CaptureType.AllImage,
             outputFileProvider = { description, _, fileExtension ->
                 File("$BaseSnapshotPath/ExamList/${description.methodName}.$fileExtension")
                     .also { it.parentFile?.mkdirs() }
