@@ -25,12 +25,13 @@
 
     <TextView
         android:id="@+id/tv_phone_title"
-        style="@style/WeQuizTextAppearance.Title.Bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="36dp"
         android:text="회원가입을 위해\n휴대폰 번호를 입력해 주세요"
+        android:textAppearance="@style/WeQuizTextAppearance.Title.Bold"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_phone_back" />
 
