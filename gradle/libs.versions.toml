@@ -9,6 +9,7 @@ kotlin-plugin-serialization = "1.7.20"
 
 kotlinx-serialization = "1.4.1"
 kotlinx-coroutines = "1.7.1"
+kotlinx-collections-immutable = "0.3.5"
 
 compose-compiler = "1.4.7"
 compose-runtime = "1.4.3"
@@ -68,6 +69,7 @@ kotlin-ktlint = { module = "com.pinterest:ktlint", version.ref = "kotlin-ktlint-
 
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }
 
 # This isn't strictly used but allows Renovate to see us using the compose-compiler artifact
 compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
