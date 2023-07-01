@@ -35,10 +35,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastFirstOrNull
@@ -49,6 +47,7 @@ import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizTypography
 import team.ommaya.wequiz.android.utils.asLoose
+import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.get
 
 @Suppress("WRONG_ANNOTATION_TARGET")
@@ -141,7 +140,7 @@ fun HomeMainScreen(
         if (friendsRanking.isNotEmpty()) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
                     .padding(top = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
@@ -155,7 +154,7 @@ fun HomeMainScreen(
         }
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(top = if (friendsRanking.isEmpty()) 20.dp else 26.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
@@ -180,9 +179,7 @@ private fun SectionTitle(
     onRightArrowClick: () -> Unit = {},
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
@@ -195,9 +192,9 @@ private fun SectionTitle(
         Box(
             Modifier
                 .size(24.dp)
-                .paint(
-                    painter = painterResource(R.drawable.ic_round_arrow_24),
-                    colorFilter = WeQuizColor.G2.toRememberColorFilterOrNull(),
+                .fitPaint(
+                    drawableId = R.drawable.ic_round_arrow_24,
+                    tint = WeQuizColor.G2,
                 )
                 .clickable(
                     onClick = onRightArrowClick,
@@ -253,16 +250,14 @@ private fun FriendsRanking(
                         Modifier
                             .layoutId(FriendRankingIconLayoutId)
                             .size(24.dp)
-                            .paint(
-                                painter = painterResource(
-                                    when (rankNumber) {
-                                        0 -> R.drawable.ic_round_cruelty_free_24
-                                        1 -> R.drawable.ic_round_cruelty_free_24
-                                        2 -> R.drawable.ic_round_cruelty_free_24
-                                        else -> throw IndexOutOfBoundsException("3위 이상의 친구 랭킹은 존재할 수 없습니다.")
-                                    },
-                                ),
-                                colorFilter = WeQuizColor.P1.toRememberColorFilterOrNull(),
+                            .fitPaint(
+                                drawableId = when (rankNumber) {
+                                    0 -> R.drawable.ic_round_cruelty_free_24
+                                    1 -> R.drawable.ic_round_cruelty_free_24
+                                    2 -> R.drawable.ic_round_cruelty_free_24
+                                    else -> throw IndexOutOfBoundsException("3위 이상의 친구 랭킹은 존재할 수 없습니다.")
+                                },
+                                tint = WeQuizColor.P1,
                             ),
                     )
                     BasicText(
@@ -366,9 +361,9 @@ private fun CreateExamIsEmpty(modifier: Modifier = Modifier) {
         Box(
             Modifier
                 .size(40.dp)
-                .paint(
-                    painter = painterResource(R.drawable.ic_round_pager),
-                    colorFilter = WeQuizColor.G2.toRememberColorFilterOrNull(),
+                .fitPaint(
+                    drawableId = R.drawable.ic_round_pager,
+                    tint = WeQuizColor.G2,
                 ),
         )
         BasicText(
@@ -480,7 +475,7 @@ private fun CreateExams(
                         ),
                     )
                     pageWipBadgePlaceable?.place(
-                        x = constraints.maxHeight - padding - pageWipBadgePlaceable.width,
+                        x = constraints.maxWidth - padding - pageWipBadgePlaceable.width,
                         y = Alignment.CenterVertically.align(
                             size = pageWipBadgePlaceable.height,
                             space = height,

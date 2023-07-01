@@ -43,12 +43,16 @@ class HomeMainScreenSnapshot {
         List(10) { index ->
             @Suppress("NAME_SHADOWING")
             val index = index + 1
-            ExamNameAndIsWritingPair("${index}번${"_시험지".repeat(10)}".take(38), index / 2 == 0)
+            val boolean = index % 2 == 0
+            ExamNameAndIsWritingPair(
+                "${index}번${"_시험지".repeat(10)}".take(if (!boolean) 10 else 38),
+                boolean,
+            )
         }.toImmutableList()
 
     @Test
     fun Empty() {
-        captureRoboImage("src/test/snapshots/WeQuizGradient/HomeMainScreen-Empty.png") {
+        captureRoboImage("src/test/snapshots/HomeMainScreen/Empty.png") {
             HomeMainScreen(
                 nickname = "닉네임",
                 profileMessage = "",
@@ -61,7 +65,7 @@ class HomeMainScreenSnapshot {
 
     @Test
     fun OnlyExam() {
-        captureRoboImage("src/test/snapshots/WeQuizGradient/HomeMainScreen-OnlyExam.png") {
+        captureRoboImage("src/test/snapshots/HomeMainScreen/OnlyExam.png") {
             HomeMainScreen(
                 nickname = "닉네임",
                 profileMessage = "프로필 메시지",
@@ -74,7 +78,7 @@ class HomeMainScreenSnapshot {
 
     @Test
     fun FriendsRankingAndExam() {
-        captureRoboImage("src/test/snapshots/WeQuizGradient/HomeMainScreen-FriendsRankingAndExam.png") {
+        captureRoboImage("src/test/snapshots/HomeMainScreen/FriendsRankingAndExam.png") {
             HomeMainScreen(
                 nickname = "닉네임",
                 profileMessage = "프로필 메시지\n프로필 메시지",
