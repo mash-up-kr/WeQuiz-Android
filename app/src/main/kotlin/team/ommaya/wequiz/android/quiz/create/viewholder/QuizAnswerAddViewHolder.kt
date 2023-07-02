@@ -7,21 +7,16 @@
 
 package team.ommaya.wequiz.android.quiz.create.viewholder
 
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import team.ommaya.wequiz.android.databinding.ItemQuizAnswerBinding
+import team.ommaya.wequiz.android.databinding.ItemQuizAnswerAddBinding
 import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 
-class QuizAnswerViewHolder(
-    private val binding: ItemQuizAnswerBinding,
+class QuizAnswerAddViewHolder(
+    private val binding: ItemQuizAnswerAddBinding,
     private val quizViewModel: QuizCreateViewModel,
 ) : ViewHolder(binding.root) {
 
     fun bind() {
-        binding.apply {
-            etQuizDefault.setOnFocusChangeListener { v, isFocus ->
-                ivAnswerClose.isVisible = isFocus
-            }
-        }
+
     }
 }

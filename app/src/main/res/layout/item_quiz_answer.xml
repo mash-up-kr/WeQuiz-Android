@@ -24,12 +24,18 @@
 
     <EditText
         android:id="@+id/et_quiz_default"
-        style="@style/WeQuizQuizEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="6dp"
         android:background="@null"
         android:hint="답변 입력"
-        android:layout_marginEnd="6dp"
+        android:paddingVertical="16dp"
+        android:textAppearance="@style/WeQuizTextAppearance.Base.Medium"
+        android:textColor="@color/white"
+        android:textColorHint="@color/G4"
         app:layout_constraintEnd_toStartOf="@id/iv_answer_close"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_answer_index"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -38,6 +44,7 @@
         android:layout_height="20dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/ic_close_white"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
