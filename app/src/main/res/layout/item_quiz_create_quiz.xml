@@ -35,7 +35,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/tv_multiple_choice"
         app:layout_constraintTop_toBottomOf="@id/et_quiz_title"
-        tools:listitem="@layout/item_quiz_create_answer" />
+        tools:listitem="@layout/item_quiz_answer" />
 
     <TextView
         android:id="@+id/tv_multiple_choice"

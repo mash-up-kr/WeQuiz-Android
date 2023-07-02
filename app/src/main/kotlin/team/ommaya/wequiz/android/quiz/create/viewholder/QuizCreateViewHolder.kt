@@ -17,19 +17,18 @@ package team.ommaya.wequiz.android.quiz.create.viewholder
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import team.ommaya.wequiz.android.databinding.ItemQuizCreateQuizBinding
 import team.ommaya.wequiz.android.quiz.create.Quiz
+import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 
 class QuizCreateViewHolder(
     private val binding: ItemQuizCreateQuizBinding,
-    private val onCreateItemClickListener: (Quiz) -> Unit,
+    private val viewModel: QuizCreateViewModel,
 ) : ViewHolder(binding.root) {
 
     fun bind(item: Quiz) {
         binding.apply {
             etQuizTitle.hint = item.title
             etQuizTitle.setOnFocusChangeListener { _, isFocus ->
-                if (isFocus) {
-                    onCreateItemClickListener(item)
-                }
+
             }
         }
     }

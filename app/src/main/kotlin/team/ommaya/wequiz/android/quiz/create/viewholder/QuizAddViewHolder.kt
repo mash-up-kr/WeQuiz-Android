@@ -17,15 +17,16 @@ package team.ommaya.wequiz.android.quiz.create.viewholder
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import team.ommaya.wequiz.android.databinding.ItemQuizCreateAddBinding
 import team.ommaya.wequiz.android.quiz.create.Quiz
+import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 
 class QuizAddViewHolder(
     private val binding: ItemQuizCreateAddBinding,
-    private val onAddItemClickListener: () -> Unit,
+    private val viewModel: QuizCreateViewModel,
 ) : ViewHolder(binding.root) {
 
-    fun bind(item: Quiz) {
+    fun bind() {
         binding.root.setOnClickListener {
-            onAddItemClickListener()
+            viewModel.addQuiz()
         }
     }
 }

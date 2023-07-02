@@ -20,14 +20,7 @@ class QuizCreateActivity :
     BaseViewBindingActivity<ActivityQuizCreateBinding>(ActivityQuizCreateBinding::inflate) {
 
     private val quizAdapter by lazy {
-        QuizCreateAdapter(
-            onAddItemClickListener = {
-                onAddItemClickListener()
-            },
-            onCreateItemClickListener = { quiz ->
-
-            }
-        )
+        QuizCreateAdapter(quizCreateViewModel)
     }
 
     private val quizCreateViewModel: QuizCreateViewModel by viewModels()
