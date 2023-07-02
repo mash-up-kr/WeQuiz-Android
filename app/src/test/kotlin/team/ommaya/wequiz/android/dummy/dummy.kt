@@ -8,6 +8,7 @@
 package team.ommaya.wequiz.android.dummy
 
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toPersistentList
 import team.ommaya.wequiz.android.home.ExamNameAndIsWritingPair
 import team.ommaya.wequiz.android.home.NicknameUuidScoreTriple
 
@@ -31,4 +32,4 @@ val DummyExams =
             /*examName = */ "${index}번${"_시험지".repeat(10)}".take(if (!boolean) 10 else 38),
             /*isWip = */ boolean,
         )
-    }.toImmutableList()
+    }.toPersistentList()

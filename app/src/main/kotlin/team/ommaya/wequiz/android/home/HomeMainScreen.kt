@@ -7,11 +7,9 @@
 
 package team.ommaya.wequiz.android.home
 
-import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,8 +22,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
@@ -34,28 +30,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastFirstOrNull
 import coil.compose.AsyncImage
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toPersistentList
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizTypography
-import team.ommaya.wequiz.android.utils.asLoose
 import team.ommaya.wequiz.android.utils.fitPaint
-import team.ommaya.wequiz.android.utils.get
-
-@Suppress("WRONG_ANNOTATION_TARGET")
-@VisibleForTesting
-typealias NicknameUuidScoreTriple = Triple<String, Int, Int>
-
-@Suppress("WRONG_ANNOTATION_TARGET")
-@VisibleForTesting
-typealias ExamNameAndIsWritingPair = Pair<String, Boolean>
+import team.ommaya.wequiz.android.utils.noRippleClickable
 
 @Suppress("unused")
 @Composable
@@ -165,10 +149,10 @@ fun HomeMainScreen(
                         .height(200.dp),
                 )
             } else {
-                CreateExams(
+                ExamList(
                     exams = remember(exams) {
                         exams.take(4).toImmutableList()
-                    },
+                    }.toPersistentList(),
                 )
             }
         }
@@ -197,13 +181,9 @@ private fun SectionTitle(
                 .size(24.dp)
                 .fitPaint(
                     drawableId = R.drawable.ic_round_chevron_right_24,
-                    tint = WeQuizColor.G2,
+                    colorFilter = WeQuizColor.G2.toRememberColorFilterOrNull(),
                 )
-                .clickable(
-                    onClick = onRightArrowClick,
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() },
-                ),
+                .noRippleClickable(onRightArrowClick),
         )
     }
 }
@@ -223,7 +203,7 @@ private fun CreateExamIsEmpty(modifier: Modifier = Modifier) {
                 .size(40.dp)
                 .fitPaint(
                     drawableId = R.drawable.ic_fill_document_24,
-                    tint = WeQuizColor.G2,
+                    colorFilter = WeQuizColor.G2.toRememberColorFilterOrNull(),
                 ),
         )
         BasicText(
@@ -232,117 +212,5 @@ private fun CreateExamIsEmpty(modifier: Modifier = Modifier) {
                 .change(color = WeQuizColor.G2)
                 .asRememberComposeStyle(),
         )
-    }
-}
-
-private const val ExamPageNameLayoutId = "ExamPageNameLayout"
-private const val ExamPageWipBadgeLayoutId = "ExamPageWipBadgeLayout"
-
-@Composable
-private fun CreateExams(
-    modifier: Modifier = Modifier,
-    exams: ImmutableList<ExamNameAndIsWritingPair>,
-    onExamPagerClick: () -> Unit = {},
-) {
-    val roundedCornerShape4 = remember { RoundedCornerShape(4.dp) }
-    val roundedCornerShape16 = remember { RoundedCornerShape(16.dp) }
-
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .then(modifier),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-        items(exams) { (name, isWIP) ->
-            @Suppress("RememberReturnType")
-            remember(name) {
-                check(name.length in 1..38) { "문제지명 길이가 1..38 이여야 합니다." }
-            }
-
-            Layout(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(roundedCornerShape16)
-                    .background(
-                        color = WeQuizColor.G8.value,
-                        shape = roundedCornerShape16,
-                    )
-                    .clickable(onClick = onExamPagerClick),
-                content = {
-                    BasicText(
-                        modifier = Modifier.layoutId(ExamPageNameLayoutId),
-                        text = name,
-                        style = WeQuizTypography.M16
-                            .change(color = WeQuizColor.G2)
-                            .asRememberComposeStyle(),
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                    if (isWIP) {
-                        Box(
-                            modifier = Modifier
-                                .layoutId(ExamPageWipBadgeLayoutId)
-                                .background(
-                                    color = WeQuizColor.Black.value,
-                                    shape = roundedCornerShape4,
-                                )
-                                .padding(vertical = 4.dp, horizontal = 12.dp),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            BasicText(
-                                text = "작성 중",
-                                style = WeQuizTypography.M12
-                                    .change(color = WeQuizColor.S1)
-                                    .asRememberComposeStyle(),
-                            )
-                        }
-                    }
-                },
-            ) { measurables, constraints ->
-                val pageNameMeasurable = measurables[ExamPageNameLayoutId]
-                val pageWipBadgeMeasurable = measurables.fastFirstOrNull { measurable ->
-                    measurable.layoutId == ExamPageWipBadgeLayoutId
-                }
-
-                val padding = 16.dp.roundToPx()
-                val nameAndWipBadgeGap = 8.dp.roundToPx()
-
-                val looseConstraints = constraints.asLoose(width = true, height = true)
-                val pageWipBadgePlaceable = pageWipBadgeMeasurable?.measure(looseConstraints)
-
-                val pageNameConstraints = constraints
-                    .copy(
-                        minWidth = 0,
-                        minHeight = 0,
-                        maxWidth = 0
-                            .plus(constraints.maxWidth)
-                            .minus(padding * 2)
-                            .minus(
-                                pageWipBadgePlaceable?.width?.let { nameWidth ->
-                                    nameWidth + nameAndWipBadgeGap
-                                } ?: 0,
-                            ),
-                    )
-                val pageNamePlaceable = pageNameMeasurable.measure(pageNameConstraints)
-
-                val height = pageNamePlaceable.height + padding * 2
-
-                layout(width = constraints.maxWidth, height = height) {
-                    pageNamePlaceable.place(
-                        x = padding,
-                        y = Alignment.CenterVertically.align(
-                            size = pageNamePlaceable.height,
-                            space = height,
-                        ),
-                    )
-                    pageWipBadgePlaceable?.place(
-                        x = constraints.maxWidth - padding - pageWipBadgePlaceable.width,
-                        y = Alignment.CenterVertically.align(
-                            size = pageWipBadgePlaceable.height,
-                            space = height,
-                        ),
-                    )
-                }
-            }
-        }
     }
 }
