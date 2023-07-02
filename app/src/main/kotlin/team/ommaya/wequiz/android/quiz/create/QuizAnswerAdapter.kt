@@ -14,6 +14,7 @@
 
 package team.ommaya.wequiz.android.quiz.create
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -26,6 +27,8 @@ import team.ommaya.wequiz.android.quiz.create.viewholder.QuizAnswerViewHolder
 
 class QuizAnswerAdapter(
     private val quizViewModel: QuizCreateViewModel,
+    private val onAnswerAddItemClickListener: () -> Unit,
+    private val context: Context,
 ) : ListAdapter<Answer, ViewHolder>(answerDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,6 +40,7 @@ class QuizAnswerAdapter(
                     false
                 ),
                 quizViewModel,
+                context,
             )
         } else {
             QuizAnswerAddViewHolder(
@@ -46,16 +50,18 @@ class QuizAnswerAdapter(
                     false
                 ),
                 quizViewModel,
+                onAnswerAddItemClickListener,
+                context,
             )
         }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (holder is QuizAnswerViewHolder) {
-            holder.bind()
+            holder.bind(position)
         }
         if (holder is QuizAnswerAddViewHolder) {
-            holder.bind()
+            holder.bind(position)
         }
     }
 
@@ -78,6 +84,7 @@ class QuizAnswerAdapter(
 data class Answer(
     val index: Int = 0,
     val answer: String = "",
+    val isAnswer: Boolean = false,
     val type: AnswerType = AnswerType.Default
 ) {
     sealed interface AnswerType {

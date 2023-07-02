@@ -23,7 +23,7 @@ class QuizCreateViewModel : ViewModel() {
     private val initialList = listOf(
         Quiz(0),
         Quiz(1),
-        Quiz(2, type = Quiz.QuizType.Add)
+        Quiz(-1, type = Quiz.QuizType.Add)
     )
 
     private val _quizList: MutableStateFlow<List<Quiz>> = MutableStateFlow(initialList)
@@ -38,7 +38,8 @@ class QuizCreateViewModel : ViewModel() {
             addAll(quizList.value)
         }
         if (currentSize == 10) {
-            list[currentSize - 1] = list.last().copy(type = Quiz.QuizType.Create)
+            list[currentSize - 1] =
+                list.last().copy(index = currentSize - 1, type = Quiz.QuizType.Create)
         } else {
             list.add(index = currentSize - 1, Quiz(currentSize - 1))
         }

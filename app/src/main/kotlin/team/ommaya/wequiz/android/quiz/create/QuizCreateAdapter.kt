@@ -7,6 +7,7 @@
 
 package team.ommaya.wequiz.android.quiz.create
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -19,6 +20,8 @@ import team.ommaya.wequiz.android.quiz.create.viewholder.QuizCreateViewHolder
 
 class QuizCreateAdapter(
     private val quizViewModel: QuizCreateViewModel,
+    private val onAnswerItemClickListener: (Int) -> Unit,
+    private val context: Context,
 ) : ListAdapter<Quiz, ViewHolder>(quizDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return if (viewType == Quiz.QuizType.Create.typeNum) {
@@ -29,6 +32,8 @@ class QuizCreateAdapter(
                     false,
                 ),
                 quizViewModel,
+                onAnswerItemClickListener,
+                context,
             )
         } else {
             QuizAddViewHolder(
@@ -44,7 +49,7 @@ class QuizCreateAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (holder is QuizCreateViewHolder) {
-            holder.bind(getItem(position))
+            holder.bind(getItem(position), position)
         }
         if (holder is QuizAddViewHolder) {
             holder.bind()

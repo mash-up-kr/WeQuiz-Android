@@ -14,6 +14,7 @@
 
 package team.ommaya.wequiz.android.quiz.create.viewholder
 
+import android.content.Context
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import team.ommaya.wequiz.android.databinding.ItemQuizCreateQuizBinding
@@ -25,6 +26,8 @@ import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 class QuizCreateViewHolder(
     private val binding: ItemQuizCreateQuizBinding,
     private val viewModel: QuizCreateViewModel,
+    private val onAnswerItemClickListener: (Int) -> Unit,
+    private val context: Context,
 ) : ViewHolder(binding.root) {
 
     private val initialList: List<Answer> = listOf(
@@ -33,10 +36,14 @@ class QuizCreateViewHolder(
         Answer(index = -1, type = Answer.AnswerType.Add)
     )
     private val quizAnswerAdapter by lazy {
-        QuizAnswerAdapter(viewModel)
+        QuizAnswerAdapter(
+            viewModel,
+            onAnswerAddItemClickListener = { onAnswerAddItemClickListener() },
+            context,
+        )
     }
 
-    fun bind(item: Quiz) {
+    fun bind(item: Quiz, position: Int) {
         binding.apply {
             etQuizTitle.hint = item.title
             etQuizTitle.setOnFocusChangeListener { _, isFocus ->
@@ -45,9 +52,25 @@ class QuizCreateViewHolder(
                 ivMultipleChoice.isVisible = true
                 tvMultipleChoice.isVisible = true
             }
+
             rvAnswerList.adapter = quizAnswerAdapter
             quizAnswerAdapter.submitList(initialList)
-            root.animate().duration = 200
         }
+    }
+
+    private fun onAnswerAddItemClickListener() {
+        val currentSize = quizAnswerAdapter.currentList.size
+        val list = mutableListOf<Answer>().apply {
+            addAll(quizAnswerAdapter.currentList)
+        }
+        if (currentSize == 5) {
+            list[currentSize - 1] =
+                list.last().copy(index = currentSize - 1, type = Answer.AnswerType.Default)
+        } else {
+            list[list.lastIndex] =
+                list.last().copy(index = list.lastIndex, type = Answer.AnswerType.Default)
+            list.add(Answer(index = list.size, type = Answer.AnswerType.Add))
+        }
+        quizAnswerAdapter.submitList(list)
     }
 }

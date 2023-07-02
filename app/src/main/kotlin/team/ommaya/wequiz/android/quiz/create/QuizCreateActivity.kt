@@ -20,7 +20,13 @@ class QuizCreateActivity :
     BaseViewBindingActivity<ActivityQuizCreateBinding>(ActivityQuizCreateBinding::inflate) {
 
     private val quizAdapter by lazy {
-        QuizCreateAdapter(quizCreateViewModel)
+        QuizCreateAdapter(
+            quizCreateViewModel,
+            onAnswerItemClickListener = { position ->
+                onQuizItemClickListener(position)
+            },
+            this,
+        )
     }
 
     private val quizCreateViewModel: QuizCreateViewModel by viewModels()
@@ -46,7 +52,7 @@ class QuizCreateActivity :
         }
     }
 
-    private fun onAddItemClickListener() {
-        quizCreateViewModel.addQuiz()
+    private fun onQuizItemClickListener(position: Int) {
+        binding.rvQuizList.smoothScrollToPosition(position)
     }
 }
