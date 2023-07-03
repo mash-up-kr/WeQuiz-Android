@@ -29,7 +29,8 @@
         <activity
             android:name=".intro.IntroActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
 
         </activity>
 
