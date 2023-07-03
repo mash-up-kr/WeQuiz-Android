@@ -21,40 +21,31 @@ import team.ommaya.wequiz.android.databinding.ItemQuizCreateQuizBinding
 import team.ommaya.wequiz.android.quiz.create.Answer
 import team.ommaya.wequiz.android.quiz.create.Quiz
 import team.ommaya.wequiz.android.quiz.create.QuizAnswerAdapter
-import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 
 class QuizCreateViewHolder(
     private val binding: ItemQuizCreateQuizBinding,
-    private val viewModel: QuizCreateViewModel,
-    private val onAnswerItemClickListener: (Int) -> Unit,
     private val context: Context,
 ) : ViewHolder(binding.root) {
 
-    private val initialList: List<Answer> = listOf(
-        Answer(index = 0),
-        Answer(index = 1),
-        Answer(index = -1, type = Answer.AnswerType.Add)
-    )
     private val quizAnswerAdapter by lazy {
         QuizAnswerAdapter(
-            viewModel,
             onAnswerAddItemClickListener = { onAnswerAddItemClickListener() },
             context,
         )
     }
 
-    fun bind(item: Quiz, position: Int) {
+    fun bind(item: Quiz) {
         binding.apply {
-            etQuizTitle.hint = item.title
-            etQuizTitle.setOnFocusChangeListener { _, isFocus ->
-                ivTitleCancel.isVisible = isFocus
-                rvAnswerList.isVisible = true
-                ivMultipleChoice.isVisible = true
-                tvMultipleChoice.isVisible = true
+            with(etQuizTitle) {
+                hint = item.title
+                setOnFocusChangeListener { _, isFocus ->
+                    ivTitleCancel.isVisible = isFocus
+                    rvAnswerList.isVisible = true
+                    ivMultipleChoice.isVisible = true
+                    tvMultipleChoice.isVisible = true
+                }
             }
-
             rvAnswerList.adapter = quizAnswerAdapter
-            quizAnswerAdapter.submitList(initialList)
         }
     }
 

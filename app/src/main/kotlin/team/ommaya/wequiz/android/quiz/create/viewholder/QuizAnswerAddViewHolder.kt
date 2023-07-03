@@ -16,7 +16,6 @@ import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 
 class QuizAnswerAddViewHolder(
     private val binding: ItemQuizAnswerAddBinding,
-    private val quizViewModel: QuizCreateViewModel,
     private val onAnswerAddItemClickListener: () -> Unit,
     private val context: Context,
 ) : ViewHolder(binding.root) {

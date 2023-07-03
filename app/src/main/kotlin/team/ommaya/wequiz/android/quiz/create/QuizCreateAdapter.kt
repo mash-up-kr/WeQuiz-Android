@@ -31,8 +31,6 @@ class QuizCreateAdapter(
                     parent,
                     false,
                 ),
-                quizViewModel,
-                onAnswerItemClickListener,
                 context,
             )
         } else {
@@ -49,7 +47,7 @@ class QuizCreateAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (holder is QuizCreateViewHolder) {
-            holder.bind(getItem(position), position)
+            holder.bind(getItem(position))
         }
         if (holder is QuizAddViewHolder) {
             holder.bind()
