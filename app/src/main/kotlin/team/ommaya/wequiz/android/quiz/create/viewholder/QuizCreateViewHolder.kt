@@ -27,11 +27,19 @@ class QuizCreateViewHolder(
     private val context: Context,
 ) : ViewHolder(binding.root) {
 
+    private val initialList: List<Answer> = listOf(
+        Answer(index = 0),
+        Answer(index = 1),
+        Answer(index = -1, type = Answer.AnswerType.Add)
+    )
+
     private val quizAnswerAdapter by lazy {
         QuizAnswerAdapter(
             onAnswerAddItemClickListener = { onAnswerAddItemClickListener() },
             context,
-        )
+        ).apply {
+            submitList(initialList)
+        }
     }
 
     fun bind(item: Quiz) {

@@ -12,7 +12,6 @@ import android.content.Context
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import team.ommaya.wequiz.android.databinding.ItemQuizAnswerAddBinding
 import team.ommaya.wequiz.android.design.resource.R
-import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 
 class QuizAnswerAddViewHolder(
     private val binding: ItemQuizAnswerAddBinding,
