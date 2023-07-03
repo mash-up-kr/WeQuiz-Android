@@ -18,6 +18,7 @@
         android:layout_height="24dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
+        android:contentDescription="@string/string_go_back"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:text="문제 만들기"
+        android:text="@string/create_quiz"
         android:textAppearance="@style/WeQuizTextAppearance.Subtitle2.Bold"
         app:layout_constraintBottom_toBottomOf="@id/iv_quiz_create_back"
         app:layout_constraintStart_toEndOf="@id/iv_quiz_create_back"
@@ -39,6 +40,7 @@
         android:layout_height="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="2dp"
+        android:contentDescription="@string/edit_order"
         android:src="@drawable/ic_edit"
         app:layout_constraintEnd_toStartOf="@id/tv_quiz_eidt"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
-        android:text="순서 편집"
+        android:text="@string/edit_order"
         android:textAppearance="@style/WeQuizTextAppearance.Subtitle2.Bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -61,7 +63,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="40dp"
         android:background="@null"
-        android:hint="제목없는 시험지"
+        android:hint="@string/untitled_quiz"
         android:maxLength="38"
         android:textAppearance="@style/WeQuizTextAppearance.Title.Medium"
         android:textColor="@color/white"
@@ -71,7 +73,7 @@
     <Button
         android:id="@+id/btn_quiz_complete"
         style="@style/WeQuizRoundButton.Disabled"
-        android:text="시험지 완성하기"
+        android:text="@string/complete_quiz"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -20,7 +20,8 @@
         android:src="@drawable/ic_index_a"
         app:layout_constraintBottom_toBottomOf="@id/et_quiz_default"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/et_quiz_default" />
+        app:layout_constraintTop_toTopOf="@id/et_quiz_default"
+        android:contentDescription="@string/index_answer" />
 
     <EditText
         android:id="@+id/et_quiz_default"
@@ -29,7 +30,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="6dp"
         android:background="@null"
-        android:hint="답변 입력"
+        android:hint="@string/enter_answer"
         android:paddingVertical="16dp"
         android:textAppearance="@style/WeQuizTextAppearance.Base.Medium"
         android:textColor="@color/white"
@@ -47,5 +48,6 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/cancel" />
 </androidx.constraintlayout.widget.ConstraintLayout>

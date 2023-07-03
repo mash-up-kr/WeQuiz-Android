@@ -29,6 +29,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="start|center_vertical"
+            android:contentDescription="@string/add_question"
             android:src="@drawable/ic_question_add" />
 
         <TextView
@@ -37,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             android:layout_marginStart="26dp"
-            android:text="질문 추가"
+            android:text="@string/add_question"
             android:textAppearance="@style/WeQuizTextAppearance.Base.Bold" />
     </androidx.cardview.widget.CardView>
 
