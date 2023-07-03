@@ -56,7 +56,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_phone_request_verify_code"
-        style="@style/WeQuizMaxButton"
+        style="@style/WeQuizRoundButton"
         android:enabled="false"
         android:text="인증번호 받기"
         app:layout_constraintBottom_toBottomOf="parent"
