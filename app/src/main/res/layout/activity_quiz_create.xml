@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Designed and developed by "옴마야" Team 2023.
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/G9">
+
+    <ImageView
+        android:id="@+id/iv_quiz_create_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/string_go_back"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_quiz_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="@string/create_quiz"
+        android:textAppearance="@style/WeQuizTextAppearance.Subtitle2.Bold"
+        app:layout_constraintBottom_toBottomOf="@id/iv_quiz_create_back"
+        app:layout_constraintStart_toEndOf="@id/iv_quiz_create_back"
+        app:layout_constraintTop_toTopOf="@id/iv_quiz_create_back" />
+
+    <ImageView
+        android:id="@+id/iv_quiz_edit"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="2dp"
+        android:contentDescription="@string/edit_order"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintEnd_toStartOf="@id/tv_quiz_eidt"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_quiz_eidt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/edit_order"
+        android:textAppearance="@style/WeQuizTextAppearance.Subtitle2.Bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_quiz_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="40dp"
+        android:background="@null"
+        android:hint="@string/untitled_quiz"
+        android:maxLength="38"
+        android:textAppearance="@style/WeQuizTextAppearance.Title.Medium"
+        android:textColor="@color/white"
+        android:textColorHint="@color/G4"
+        app:layout_constraintTop_toBottomOf="@id/tv_quiz_create" />
+
+    <Button
+        android:id="@+id/btn_quiz_complete"
+        style="@style/WeQuizRoundButton.Disabled"
+        android:text="@string/complete_quiz"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_quiz_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="20dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/btn_quiz_complete"
+        app:layout_constraintTop_toBottomOf="@id/et_quiz_title"
+        tools:listitem="@layout/item_quiz_create_quiz" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
