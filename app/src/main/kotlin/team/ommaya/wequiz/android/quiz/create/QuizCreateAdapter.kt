@@ -65,11 +65,9 @@ class QuizCreateAdapter(
 
             override fun areContentsTheSame(oldItem: Quiz, newItem: Quiz): Boolean =
                 oldItem == newItem
-
         }
     }
 }
-
 
 data class Quiz(
     val index: Int = 0,

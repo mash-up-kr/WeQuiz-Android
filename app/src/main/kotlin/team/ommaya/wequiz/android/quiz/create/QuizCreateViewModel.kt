@@ -44,5 +44,4 @@ class QuizCreateViewModel : ViewModel() {
         }
         _quizList.value = list.toList()
     }
-
 }

@@ -19,7 +19,6 @@ class QuizAnswerViewHolder(
     private val context: Context,
 ) : ViewHolder(binding.root) {
 
-
     @SuppressLint("UseCompatLoadingForDrawables")
     fun bind(position: Int) {
         val indexIconRes: Int = when (position) {

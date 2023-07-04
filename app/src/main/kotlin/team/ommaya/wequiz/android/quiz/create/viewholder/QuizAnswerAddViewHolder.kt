@@ -33,5 +33,4 @@ class QuizAnswerAddViewHolder(
             ivAnswerIndex.setImageDrawable(context.getDrawable(indexIconRes))
         }
     }
-
 }

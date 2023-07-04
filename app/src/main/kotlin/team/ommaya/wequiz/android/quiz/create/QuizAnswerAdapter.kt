@@ -36,7 +36,7 @@ class QuizAnswerAdapter(
                 ItemQuizAnswerBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
-                    false
+                    false,
                 ),
                 context,
             )
@@ -45,7 +45,7 @@ class QuizAnswerAdapter(
                 ItemQuizAnswerAddBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
-                    false
+                    false,
                 ),
                 onAnswerAddItemClickListener,
                 context,
@@ -73,7 +73,6 @@ class QuizAnswerAdapter(
 
             override fun areContentsTheSame(oldItem: Answer, newItem: Answer): Boolean =
                 oldItem == newItem
-
         }
     }
 }
@@ -82,7 +81,7 @@ data class Answer(
     val index: Int = 0,
     val answer: String = "",
     val isAnswer: Boolean = false,
-    val type: AnswerType = AnswerType.Default
+    val type: AnswerType = AnswerType.Default,
 ) {
     sealed interface AnswerType {
         val typeNum: Int

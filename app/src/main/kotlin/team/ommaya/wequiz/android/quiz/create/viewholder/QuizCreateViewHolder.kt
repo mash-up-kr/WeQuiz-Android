@@ -30,7 +30,7 @@ class QuizCreateViewHolder(
     private val initialList: List<Answer> = listOf(
         Answer(index = 0),
         Answer(index = 1),
-        Answer(index = -1, type = Answer.AnswerType.Add)
+        Answer(index = -1, type = Answer.AnswerType.Add),
     )
 
     private val quizAnswerAdapter by lazy {
