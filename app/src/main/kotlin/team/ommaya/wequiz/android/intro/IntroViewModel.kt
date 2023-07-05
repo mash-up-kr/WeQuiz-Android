@@ -10,10 +10,18 @@ package team.ommaya.wequiz.android.intro
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import team.ommaya.wequiz.android.intro.IntroActivity.Companion.LOG_IN_MODE
 
 class IntroViewModel : ViewModel() {
+    private val _mode: MutableStateFlow<Int> = MutableStateFlow(LOG_IN_MODE)
+    val mode = _mode.asStateFlow()
+
     private val _isVerificationSucceed: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isVerificationSucceed = _isVerificationSucceed.asStateFlow()
+
+    fun setStartMode(mode: Int) {
+        _mode.value = mode
+    }
 
     fun setVerificationSucceed(isSucceed: Boolean) {
         _isVerificationSucceed.value = isSucceed

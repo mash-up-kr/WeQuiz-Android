@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="36dp"
-        android:text="@string/phone_title"
+        android:text="@string/phone_log_in_mode_title"
         android:textAppearance="@style/WeQuizTextAppearance.Title.Bold"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
