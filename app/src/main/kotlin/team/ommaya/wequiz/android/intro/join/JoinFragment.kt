@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentJoinBinding
+import team.ommaya.wequiz.android.utils.setJoinNextButtonEnable
 
 class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBinding::inflate) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -23,6 +24,22 @@ class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBi
 
     private fun initView() {
         binding.apply {
+            setJoinNextButtonEnable(btnJoinNext, etJoinInputNickname, etJoinInputIntroduction)
+
+            etJoinInputNickname.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    textInputLayoutJoinInputNickname.isCounterEnabled = true
+                    textInputLayoutJoinInputIntroduction.isCounterEnabled = false
+                }
+            }
+
+            etJoinInputIntroduction.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    textInputLayoutJoinInputNickname.isCounterEnabled = false
+                    textInputLayoutJoinInputIntroduction.isCounterEnabled = true
+                }
+            }
+
             btnJoinNext.setOnClickListener {
                 findNavController().navigate(R.id.action_joinFragment_to_welcomeFragment)
             }

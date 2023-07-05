@@ -32,7 +32,7 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
         binding.apply {
             etPhoneInput.apply {
                 formatTextAsPhoneNumber()
-                setRequestVerifyCodeButtonEnable(button = binding.btnPhoneRequestVerifyCode)
+                setRequestVerifyCodeButtonEnable(binding.btnPhoneRequestVerifyCode)
             }
 
             btnPhoneRequestVerifyCode.setOnClickListener {

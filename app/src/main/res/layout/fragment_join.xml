@@ -40,7 +40,7 @@
         style="@style/WeQuizTextInputLayout"
         android:layout_marginTop="20dp"
         android:hint="닉네임 (필수)"
-        app:counterEnabled="true"
+        app:counterEnabled="false"
         app:counterMaxLength="8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_join_title">
@@ -59,7 +59,7 @@
         style="@style/WeQuizTextInputLayout"
         android:layout_marginTop="30dp"
         android:hint="자기소개 (선택)"
-        app:counterEnabled="true"
+        app:counterEnabled="false"
         app:counterMaxLength="30"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_input_layout_join_input_nickname">

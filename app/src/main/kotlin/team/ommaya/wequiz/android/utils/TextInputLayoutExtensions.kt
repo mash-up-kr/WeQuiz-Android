@@ -12,27 +12,50 @@ import android.widget.Button
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputEditText
 
-const val PHONE_NUMBER_MAX_LENGTH_KR = 13
-const val VERIFY_CODE_LENGTH = 6
-
 fun TextInputEditText.formatTextAsPhoneNumber() {
     addTextChangedListener(PhoneNumberFormattingTextWatcher("KR"))
 }
 
-fun TextInputEditText.setButtonEnable(button: Button, isEnabled: Boolean) {
-    button.isEnabled = isEnabled
-}
-
 fun TextInputEditText.setRequestVerifyCodeButtonEnable(button: Button) {
     addTextChangedListener {
-        val text = text ?: ""
-        setButtonEnable(button, text.length == PHONE_NUMBER_MAX_LENGTH_KR)
+        button.isEnabled = isValidPhoneNumber(text.toString())
     }
 }
 
 fun TextInputEditText.observeTextLengthForAction(action: () -> Unit) {
     addTextChangedListener {
-        val text = text ?: ""
-        if (text.length == VERIFY_CODE_LENGTH) action()
+        if (isValidVerifyCode(text.toString())) action()
     }
 }
+
+fun setJoinNextButtonEnable(
+    button: Button,
+    nicknameEditText: TextInputEditText,
+    introductionEditText: TextInputEditText
+) {
+    nicknameEditText.addTextChangedListener {
+        button.isEnabled =
+            isValidNickname(
+                nicknameEditText.text.toString()
+            ) && isValidIntroduction(
+                introductionEditText.text.toString()
+            )
+    }
+
+    introductionEditText.addTextChangedListener {
+        button.isEnabled =
+            isValidNickname(
+                nicknameEditText.text.toString()
+            ) && isValidIntroduction(
+                introductionEditText.text.toString()
+            )
+    }
+}
+
+private fun isValidPhoneNumber(text: String) = text.length == 13
+
+private fun isValidVerifyCode(text: String) = text.length == 6
+
+private fun isValidNickname(text: String) = text.length in 1..8
+
+private fun isValidIntroduction(text: String) = text.length in 0..30
