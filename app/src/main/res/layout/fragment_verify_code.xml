@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="36dp"
-        android:text="휴대폰 인증번호를\n입력해 주세요"
+        android:text="@string/verify_code_title"
         android:textAppearance="@style/WeQuizTextAppearance.Title.Bold"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
         android:id="@+id/text_input_layout_verify_code_input"
         style="@style/WeQuizTextInputLayout.Certification"
         android:layout_marginTop="20dp"
-        android:hint="인증번호"
+        android:hint="@string/verify_code"
         app:counterEnabled="false"
         app:counterMaxLength="6"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_verify_code_input"
             style="@style/WeQuizBasicEditText"
-            android:hint="6자리 숫자"
+            android:hint="@string/verify_code_hint"
             android:inputType="number"
             android:maxLength="6" />
 

@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="53dp"
-        android:text=" 반가워요\n{NAME}"
+        android:text="@string/welcome_comment"
         android:textAppearance="@style/WeQuizTextAppearance.H4.Bold"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

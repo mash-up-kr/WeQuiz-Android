@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="36dp"
-        android:text="{서비스명}에서 사용 할\n닉네임을 입력해 주세요"
+        android:text="@string/join_title"
         android:textAppearance="@style/WeQuizTextAppearance.Title.Bold"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
         android:id="@+id/text_input_layout_join_input_nickname"
         style="@style/WeQuizTextInputLayout"
         android:layout_marginTop="20dp"
-        android:hint="닉네임 (필수)"
+        android:hint="@string/nickname"
         app:counterEnabled="false"
         app:counterMaxLength="8"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_join_input_nickname"
             style="@style/WeQuizBasicEditText"
-            android:hint="닉네임 입력"
+            android:hint="@string/nickname_hint"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -57,7 +57,7 @@
         android:id="@+id/text_input_layout_join_input_introduction"
         style="@style/WeQuizTextInputLayout"
         android:layout_marginTop="30dp"
-        android:hint="자기소개 (선택)"
+        android:hint="@string/introduction"
         app:counterEnabled="false"
         app:counterMaxLength="30"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_join_input_introduction"
             style="@style/WeQuizBasicEditText"
-            android:hint="자기소개 입력"
+            android:hint="@string/introduction_hint"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -75,7 +75,7 @@
         android:id="@+id/btn_join_next"
         style="@style/WeQuizRoundButton"
         android:enabled="false"
-        android:text="다음"
+        android:text="@string/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

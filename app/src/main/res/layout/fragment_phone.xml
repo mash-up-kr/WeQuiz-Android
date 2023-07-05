@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="36dp"
-        android:text="회원가입을 위해\n휴대폰 번호를 입력해 주세요"
+        android:text="@string/phone_title"
         android:textAppearance="@style/WeQuizTextAppearance.Title.Bold"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
         style="@style/WeQuizTextInputLayout.Clear"
         android:layout_marginStart="20dp"
         android:layout_marginTop="36dp"
-        android:hint="휴대폰 번호"
+        android:hint="@string/phone_number"
         app:counterEnabled="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_phone_title">
@@ -48,7 +48,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_phone_input"
             style="@style/WeQuizBasicEditText"
-            android:hint="휴대폰 번호 입력"
+            android:hint="@string/phone_number_hint"
             android:inputType="phone"
             android:maxLength="13" />
 
@@ -58,7 +58,7 @@
         android:id="@+id/btn_phone_request_verify_code"
         style="@style/WeQuizRoundButton"
         android:enabled="false"
-        android:text="인증번호 받기"
+        android:text="@string/request_verify_code"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

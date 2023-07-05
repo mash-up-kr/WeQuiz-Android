@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="40dp"
-        android:text="이미 계정이 있나요?"
+        android:text="@string/already_have_account"
         android:textColor="@color/G2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btn_onboarding_login"
@@ -37,7 +37,7 @@
         style="@style/WeQuizTextAppearance.Caption1.Bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="로그인"
+        android:text="@string/login"
         android:textColor="@color/P1"
         app:layout_constraintBottom_toBottomOf="@id/tv_onboarding_login_header"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +47,7 @@
     <Button
         android:id="@+id/btn_onboarding_service_start"
         style="@style/WeQuizRoundButton.Default"
-        android:text="{서비스명} 시작하기"
+        android:text="@string/start_service"
         app:layout_constraintBottom_toTopOf="@id/tv_onboarding_login_header"
         app:layout_constraintStart_toStartOf="parent" />
 
