@@ -6,9 +6,78 @@
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/G9"
     tools:context=".intro.join.JoinFragment">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_join_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ic_back_big"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_join_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="36dp"
+        android:text="{서비스명}에서 사용 할\n닉네임을 입력해 주세요"
+        android:textAppearance="@style/WeQuizTextAppearance.Title.Bold"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_join_back" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_join_input_nickname"
+        style="@style/WeQuizTextInputLayout"
+        android:layout_marginTop="20dp"
+        android:hint="닉네임 (필수)"
+        app:counterEnabled="true"
+        app:counterMaxLength="8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_join_title">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_join_input_nickname"
+            style="@style/WeQuizBasicEditText"
+            android:hint="닉네임 입력"
+            android:inputType="text"
+            android:privateImeOptions="defaultInputmode=korean" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_join_input_introduction"
+        style="@style/WeQuizTextInputLayout"
+        android:layout_marginTop="30dp"
+        android:hint="자기소개 (선택)"
+        app:counterEnabled="true"
+        app:counterMaxLength="30"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_input_layout_join_input_nickname">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_join_input_introduction"
+            style="@style/WeQuizBasicEditText"
+            android:hint="자기소개 입력"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_join_next"
+        style="@style/WeQuizRoundButton"
+        android:enabled="false"
+        android:text="다음"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
