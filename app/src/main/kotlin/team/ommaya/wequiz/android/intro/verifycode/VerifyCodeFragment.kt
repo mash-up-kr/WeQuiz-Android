@@ -18,12 +18,13 @@ class VerifyCodeFragment :
     BaseViewBindingFragment<FragmentVerifyCodeBinding>(FragmentVerifyCodeBinding::inflate) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.etVerifyCodeInput.observeTextLengthForAction {
-            popBackStack()
-        }
+
+        initView()
     }
 
-    private fun popBackStack() {
-        findNavController().popBackStack()
+    private fun initView() {
+        binding.etVerifyCodeInput.observeTextLengthForAction {
+            findNavController().popBackStack() // 데이터 전달
+        }
     }
 }

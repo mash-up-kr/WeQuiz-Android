@@ -39,6 +39,10 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
 //                findNavController().navigate(R.id.action_phoneFragment_to_verifyCodeFragment)
                 findNavController().navigate(R.id.action_phoneFragment_to_joinFragment)
             }
+
+            btnPhoneBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 
