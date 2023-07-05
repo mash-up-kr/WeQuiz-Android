@@ -49,8 +49,7 @@
             android:id="@+id/et_join_input_nickname"
             style="@style/WeQuizBasicEditText"
             android:hint="닉네임 입력"
-            android:inputType="text"
-            android:privateImeOptions="defaultInputmode=korean" />
+            android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
