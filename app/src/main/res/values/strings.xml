@@ -7,6 +7,8 @@
 
 <resources>
     <!-- 공통 -->
+    <string name="string_go_back">뒤로 가기</string>
+    <string name="cancel">취소</string>
     <string name="next">다음</string>
 
     <!-- 인트로 -->
@@ -27,4 +29,17 @@
     <string name="nickname">닉네임 (필수)</string>
     <string name="nickname_hint">닉네임 입력</string>
     <string name="welcome_comment">반가워요\n{NAME}</string>
+
+    <!-- 문제 만들기 -->
+    <string name="create_quiz">문제 만들기</string>
+    <string name="edit_order">순서 편집</string>
+    <string name="untitled_quiz">제목없는 시험지</string>
+    <string name="complete_quiz">시험지 완성하기</string>
+    <string name="index_answer">답변 인덱스</string>
+    <string name="enter_answer">답변 입력</string>
+    <string name="add_answer">답변 추가</string>
+    <string name="add_question">질문 추가</string>
+    <string name="enter_question">문제 입력</string>
+    <string name="allow_duplication">중복 선택여부</string>
+  
 </resources>

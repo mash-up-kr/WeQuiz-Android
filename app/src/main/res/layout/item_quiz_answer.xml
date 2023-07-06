@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Designed and developed by "옴마야" Team 2023.
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:background="@drawable/bg_g7_radius_16">
+
+    <ImageView
+        android:id="@+id/iv_answer_index"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_index_a"
+        app:layout_constraintBottom_toBottomOf="@id/et_quiz_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/et_quiz_default"
+        android:contentDescription="@string/index_answer" />
+
+    <EditText
+        android:id="@+id/et_quiz_default"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="6dp"
+        android:background="@null"
+        android:hint="@string/enter_answer"
+        android:paddingVertical="16dp"
+        android:textAppearance="@style/WeQuizTextAppearance.Base.Medium"
+        android:textColor="@color/white"
+        android:textColorHint="@color/G4"
+        app:layout_constraintEnd_toStartOf="@id/iv_answer_close"
+        app:layout_constraintStart_toEndOf="@id/iv_answer_index"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_answer_close"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_close_white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/cancel" />
+</androidx.constraintlayout.widget.ConstraintLayout>

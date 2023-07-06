@@ -7,9 +7,12 @@
 
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM", "UnstableApiUsage")
 
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 plugins {
     android("application")
     kotlin("android")
+    alias(libs.plugins.test.roborazzi)
 }
 
 android {
@@ -35,6 +38,7 @@ android {
 
     sourceSets {
         getByName("main").java.srcDir("src/main/kotlin")
+        getByName("test").java.srcDir("src/test/kotlin")
     }
 
     compileOptions {
@@ -45,20 +49,82 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            all { test ->
+                test.useJUnitPlatform()
+                test.systemProperty("robolectric.graphicsMode", "NATIVE")
+
+                if (!test.name.contains("debug", ignoreCase = true)) {
+                    test.enabled = false
+                }
+            }
+        }
+    }
+}
+
+tasks.withType<Test>().configureEach {
+    // https://stackoverflow.com/a/36178581/14299073
+    outputs.upToDateWhen { false }
+    testLogging {
+        events = setOf(
+            TestLogEvent.PASSED,
+            TestLogEvent.SKIPPED,
+            TestLogEvent.FAILED,
+        )
+    }
+    afterSuite(
+        KotlinClosure2<TestDescriptor, TestResult, Unit>({ desc, result ->
+            if (desc.parent == null) { // will match the outermost suite
+                val output = "Results: ${result.resultType} " +
+                        "(${result.testCount} tests, " +
+                        "${result.successfulTestCount} passed, " +
+                        "${result.failedTestCount} failed, " +
+                        "${result.skippedTestCount} skipped)"
+                println(output)
+            }
+        }),
+    )
+}
+
+tasks.matching { task ->
+    task.name.contains("compareRoborazzi", ignoreCase = true) ||
+            task.name.contains("verifyRoborazzi", ignoreCase = true) ||
+            task.name.contains("verifyAndRecordRoborazzi", ignoreCase = true)
+}.configureEach {
+    enabled = false
 }
 
 dependencies {
     implementations(
+        libs.material,
+        libs.coil.compose,
         libs.androidx.constraintlayout,
         libs.androidx.fragment,
         libs.androidx.navigation.fragment,
         libs.androidx.navigtaion.ui.ktx,
         libs.androidx.lifecycle.runtime,
         libs.androidx.lifecycle.viewmodel,
+        libs.kotlinx.collections.immutable,
         libs.compose.runtime,
-        libs.material,
+        libs.compose.ui,
+        libs.compose.uiutil,
+        libs.compose.foundation,
+        libs.compose.activity,
         projects.data,
         projects.domain,
         projects.designResource,
+        projects.designResourceCompose,
     )
+    testImplementations(
+        libs.compose.activity, // needed for roborazzi that used ActivityScenario internally
+        libs.compose.foundation,
+        libs.test.junit.core,
+        libs.test.androidx.junit.ktx,
+        libs.test.robolectric,
+        libs.bundles.test.roborazzi,
+    )
+    testRuntimeOnly(libs.test.junit.engine)
 }
