@@ -49,6 +49,16 @@
         <item name="android:textColor">@color/G2</item>
     </style>
 
+    <!-- Quiz Edit Text-->
+    <style name="WeQuizQuizEditText" parent="@android:style/Widget.EditText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColorHint">@color/G4</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:textAppearance">@style/WeQuizTextAppearance.Base.Medium</item>
+    </style>
+
     <!-- EditText -->
     <style name="WeQuizTextInputLayout" parent="Theme.MaterialComponents">
         <item name="android:layout_height">wrap_content</item>

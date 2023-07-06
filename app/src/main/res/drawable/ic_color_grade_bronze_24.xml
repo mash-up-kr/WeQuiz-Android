@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Designed and developed by "옴마야" Team 2023.
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#7AAED7"
+        android:pathData="M3.2,0H9.867L15.2,9.6H8.533L3.2,0Z" />
+    <path
+        android:fillColor="#828BE4"
+        android:pathData="M20,0H13.333L8,9.6H14.667L20,0Z" />
+    <path
+        android:fillColor="#CC9969"
+        android:pathData="M11.6,14.4m-9.6,0a9.6,9.6 0,1 1,19.2 0a9.6,9.6 0,1 1,-19.2 0" />
+    <group>
+        <clip-path android:pathData="M7,9.5h9.5v9.5h-9.5z" />
+        <path
+            android:fillColor="#ffffff"
+            android:fillType="evenOdd"
+            android:pathData="M12.207,10.263L13.128,12.129C13.202,12.279 13.345,12.383 13.511,12.407L15.571,12.707C15.988,12.767 16.155,13.281 15.852,13.575L14.362,15.028C14.303,15.085 14.259,15.156 14.233,15.235C14.208,15.313 14.202,15.397 14.216,15.478L14.568,17.529C14.639,17.945 14.203,18.262 13.829,18.066L11.987,17.097C11.914,17.059 11.833,17.039 11.75,17.039C11.668,17.039 11.587,17.059 11.514,17.097L9.672,18.066C9.298,18.262 8.862,17.945 8.933,17.529L9.285,15.478C9.299,15.397 9.293,15.313 9.267,15.235C9.242,15.156 9.197,15.085 9.138,15.028L7.648,13.575C7.346,13.281 7.513,12.767 7.93,12.707L9.989,12.407C10.155,12.383 10.299,12.279 10.373,12.129L11.294,10.263C11.481,9.884 12.02,9.884 12.207,10.263Z" />
+    </group>
+</vector>
