@@ -79,7 +79,7 @@ class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBi
                 binding.etJoinInputIntroduction.clearFocus()
                 binding.textInputLayoutJoinInputNickname.isCounterEnabled = false
                 binding.textInputLayoutJoinInputIntroduction.isCounterEnabled = false
-            }
+            },
         )
     }
 

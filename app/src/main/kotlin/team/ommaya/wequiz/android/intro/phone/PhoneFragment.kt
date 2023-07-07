@@ -81,7 +81,7 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
                 params.setMargins(dpToPx(20), dpToPx(12), dpToPx(20), dpToPx(20))
                 binding.btnPhoneRequestVerifyCode.layoutParams = params
                 binding.etPhoneInput.clearFocus()
-            }
+            },
         )
     }
 

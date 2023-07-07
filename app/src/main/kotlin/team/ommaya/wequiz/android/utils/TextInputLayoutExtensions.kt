@@ -31,23 +31,23 @@ fun TextInputEditText.observeTextLengthForAction(action: () -> Unit) {
 fun setJoinNextButtonEnable(
     button: Button,
     nicknameEditText: TextInputEditText,
-    introductionEditText: TextInputEditText
+    introductionEditText: TextInputEditText,
 ) {
     nicknameEditText.addTextChangedListener {
         button.isEnabled =
             isValidNickname(
-                nicknameEditText.text.toString()
+                nicknameEditText.text.toString(),
             ) && isValidIntroduction(
-                introductionEditText.text.toString()
+                introductionEditText.text.toString(),
             )
     }
 
     introductionEditText.addTextChangedListener {
         button.isEnabled =
             isValidNickname(
-                nicknameEditText.text.toString()
+                nicknameEditText.text.toString(),
             ) && isValidIntroduction(
-                introductionEditText.text.toString()
+                introductionEditText.text.toString(),
             )
     }
 }
