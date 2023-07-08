@@ -17,31 +17,76 @@ package team.ommaya.wequiz.android.quiz.create
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class QuizCreateViewModel : ViewModel() {
 
-    private val initialList = listOf(
-        Quiz(0),
-        Quiz(1),
-        Quiz(-1, type = Quiz.QuizType.Add),
+    private val initialQuestionList = listOf(
+        Question(0),
+        Question(1),
+        Question(-1, type = Question.QuestionType.Add),
     )
 
-    private val _quizList: MutableStateFlow<List<Quiz>> = MutableStateFlow(initialList)
-    val quizList = _quizList.asStateFlow()
+    private val _questionList: MutableStateFlow<List<Question>> =
+        MutableStateFlow(initialQuestionList)
+    val questionList = _questionList.asStateFlow()
 
     fun addQuiz() {
-        val currentSize = quizList.value.size
-        val list = mutableListOf<Quiz>().apply {
-            addAll(quizList.value)
+        val currentSize = questionList.value.size
+        val list = mutableListOf<Question>().apply {
+            addAll(questionList.value)
         }
         if (currentSize == 10) {
             list[currentSize - 1] =
-                list.last().copy(index = currentSize - 1, type = Quiz.QuizType.Create)
+                list.last().copy(index = currentSize - 1, type = Question.QuestionType.Default)
         } else {
             list[list.lastIndex] =
-                list.last().copy(index = list.lastIndex, type = Quiz.QuizType.Create)
-            list.add(Quiz(index = list.size, type = Quiz.QuizType.Add))
+                list.last().copy(index = list.lastIndex, type = Question.QuestionType.Default)
+            list.add(Question(index = currentSize, type = Question.QuestionType.Add))
         }
-        _quizList.value = list.toList()
+        _questionList.value = list.toList()
     }
+
+    fun addAnswer(questionPosition: Int) {
+        val currentSize = questionList.value[questionPosition].answerList.size
+        val list = mutableListOf<Answer>().apply {
+            addAll(questionList.value[questionPosition].answerList)
+        }
+        if (currentSize == 5) {
+            list[currentSize - 1] =
+                list.last().copy(index = currentSize - 1, type = Answer.AnswerType.Default)
+        } else {
+            list[list.lastIndex] =
+                list.last().copy(index = list.lastIndex, type = Answer.AnswerType.Default)
+            list.add(Answer(index = currentSize, type = Answer.AnswerType.Add))
+        }
+        val questionList = mutableListOf<Question>().apply {
+            addAll(questionList.value)
+        }
+        questionList.forEachIndexed { index, question ->
+            if (index == questionPosition) {
+                questionList[index] = question.copy(answerList = list)
+            }
+        }
+        _questionList.update { questionList }
+    }
+
+    fun setQuestionFocus(questionPosition: Int) {
+        if (questionPosition == -1) {
+            return
+        }
+        val list = mutableListOf<Question>().apply {
+            addAll(questionList.value)
+        }
+        list.forEachIndexed { index, question ->
+            if (index == questionPosition) {
+                list[index] = question.copy(isFocus = true)
+            } else {
+                list[index] = question.copy(isFocus = false)
+            }
+        }
+        _questionList.update { list }
+    }
+
+    fun getAnswerList(questionPosition: Int) = questionList.value[questionPosition].answerList
 }

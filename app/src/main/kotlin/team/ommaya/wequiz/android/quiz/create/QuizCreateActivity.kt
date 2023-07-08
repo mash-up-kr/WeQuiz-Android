@@ -8,6 +8,7 @@
 package team.ommaya.wequiz.android.quiz.create
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -22,10 +23,8 @@ class QuizCreateActivity :
     private val quizAdapter by lazy {
         QuizCreateAdapter(
             quizCreateViewModel,
-            onAnswerItemClickListener = { position ->
-                onQuizItemClickListener(position)
-            },
             this,
+            lifecycle,
         )
     }
 
@@ -45,14 +44,11 @@ class QuizCreateActivity :
     private fun collectFlows() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                quizCreateViewModel.quizList.collect { list ->
+                quizCreateViewModel.questionList.collect { list ->
                     quizAdapter.submitList(list)
+                    Log.d("리스트", "collectFlows: $list")
                 }
             }
         }
-    }
-
-    private fun onQuizItemClickListener(position: Int) {
-        binding.rvQuizList.smoothScrollToPosition(position)
     }
 }
