@@ -23,8 +23,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.databinding.ItemQuizCreateQuizBinding
+import team.ommaya.wequiz.android.quiz.create.adapter.AnswerAdapter
 import team.ommaya.wequiz.android.quiz.create.Question
-import team.ommaya.wequiz.android.quiz.create.AnswerAdapter
 import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 
 class QuestionViewHolder(
@@ -34,46 +34,40 @@ class QuestionViewHolder(
     private val context: Context,
 ) : ViewHolder(binding.root) {
 
-    private val answerAdapter by lazy {
-        AnswerAdapter(
-            viewModel,
-            onAnswerAddItemClickListener = { onAnswerAddItemClickListener() },
-            adapterPosition,
-            context,
-        ).apply {
-            submitList(viewModel.getAnswerList(adapterPosition))
-        }
-    }
+    private lateinit var answerAdapter: AnswerAdapter
 
-    fun bind(item: Question) {
+    fun bind(item: Question, position: Int) {
         binding.apply {
             with(etQuizTitle) {
                 hint = item.title
-                setOnFocusChangeListener { _, isFocus ->
-                    if (isFocus) {
-                        viewModel.setQuestionFocus(adapterPosition)
+                setOnFocusChangeListener { _, hasFocus ->
+                    if (hasFocus) {
+                        viewModel.setQuestionFocus(position)
                     }
-                    ivTitleCancel.isVisible = isFocus
                 }
-
                 doOnTextChanged { text, _, _, _ ->
                     // TODO 타이틀 설정
                 }
             }
-            root.setOnClickListener {
-                viewModel.setQuestionFocus(adapterPosition)
+            answerAdapter = AnswerAdapter(
+                viewModel,
+                onAnswerAddItemClickListener = { onAnswerAddItemClickListener() },
+                position,
+                context,
+            ).apply {
+                submitList(viewModel.getAnswerList(position))
             }
             rvAnswerList.adapter = answerAdapter
         }
 
         lifecycle.coroutineScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.questionList.collect { list ->
-                    val isFocus = list[adapterPosition].isFocus
+                viewModel.focusedPosition.collect { position ->
+                    val isFocused = position == adapterPosition
                     with(binding) {
-                        rvAnswerList.isVisible = isFocus
-                        ivMultipleChoice.isVisible = isFocus
-                        tvMultipleChoice.isVisible = isFocus
+                        rvAnswerList.isVisible = isFocused
+                        ivMultipleChoice.isVisible = isFocused
+                        tvMultipleChoice.isVisible = isFocused
                     }
 
                 }

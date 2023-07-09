@@ -31,6 +31,9 @@ class QuizCreateViewModel : ViewModel() {
         MutableStateFlow(initialQuestionList)
     val questionList = _questionList.asStateFlow()
 
+    private val _focusedPosition: MutableStateFlow<Int> = MutableStateFlow(-1)
+    val focusedPosition = _focusedPosition.asStateFlow()
+
     fun addQuiz() {
         val currentSize = questionList.value.size
         val list = mutableListOf<Question>().apply {
@@ -72,20 +75,7 @@ class QuizCreateViewModel : ViewModel() {
     }
 
     fun setQuestionFocus(questionPosition: Int) {
-        if (questionPosition == -1) {
-            return
-        }
-        val list = mutableListOf<Question>().apply {
-            addAll(questionList.value)
-        }
-        list.forEachIndexed { index, question ->
-            if (index == questionPosition) {
-                list[index] = question.copy(isFocus = true)
-            } else {
-                list[index] = question.copy(isFocus = false)
-            }
-        }
-        _questionList.update { list }
+        _focusedPosition.value = questionPosition
     }
 
     fun getAnswerList(questionPosition: Int) = questionList.value[questionPosition].answerList

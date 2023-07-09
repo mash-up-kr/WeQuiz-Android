@@ -12,7 +12,14 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-package team.ommaya.wequiz.android.quiz.create
+/*
+ * Designed and developed by "옴마야" Team 2023.
+ *
+ * Licensed under the MIT.
+ * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
+ */
+
+package team.ommaya.wequiz.android.quiz.create.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -22,6 +29,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import team.ommaya.wequiz.android.databinding.ItemQuizAnswerAddBinding
 import team.ommaya.wequiz.android.databinding.ItemQuizAnswerBinding
+import team.ommaya.wequiz.android.quiz.create.Answer
+import team.ommaya.wequiz.android.quiz.create.Question
+import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 import team.ommaya.wequiz.android.quiz.create.viewholder.AnswerAddViewHolder
 import team.ommaya.wequiz.android.quiz.create.viewholder.AnswerViewHolder
 

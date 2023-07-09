@@ -16,6 +16,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.base.BaseViewBindingActivity
 import team.ommaya.wequiz.android.databinding.ActivityQuizCreateBinding
+import team.ommaya.wequiz.android.quiz.create.adapter.QuizCreateAdapter
 
 class QuizCreateActivity :
     BaseViewBindingActivity<ActivityQuizCreateBinding>(ActivityQuizCreateBinding::inflate) {
@@ -25,6 +26,9 @@ class QuizCreateActivity :
             quizCreateViewModel,
             this,
             lifecycle,
+            onFocusClear = {
+                clearFocus()
+            }
         )
     }
 
@@ -50,5 +54,9 @@ class QuizCreateActivity :
                 }
             }
         }
+    }
+
+    private fun clearFocus() {
+        binding.root.clearFocus()
     }
 }

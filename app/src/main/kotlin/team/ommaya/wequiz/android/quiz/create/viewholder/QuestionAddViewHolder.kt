@@ -21,14 +21,16 @@ import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 class QuestionAddViewHolder(
     private val binding: ItemQuizCreateAddBinding,
     private val viewModel: QuizCreateViewModel,
+    private val onFocusClear: () -> Unit,
 ) : ViewHolder(binding.root) {
 
-    fun bind(position: Int) {
+    fun bind() {
         binding.root.setOnClickListener {
             with(viewModel) {
                 addQuiz()
-                setQuestionFocus(position)
+                setQuestionFocus(-1)
             }
+            onFocusClear()
         }
     }
 }
