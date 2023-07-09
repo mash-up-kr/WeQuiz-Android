@@ -44,25 +44,25 @@ import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.get
 import team.ommaya.wequiz.android.utils.noRippleClickable
 
-typealias ExamNameAndIsWritingPair = Pair<String, Boolean>
+typealias QuizNameAndIsWritingPair = Pair<String, Boolean>
 
-private const val ExamListDeleteIconLayoutId = "ExamListDeleteIconLayout"
-private const val ExamListDeleteIconContainerLayoutId = "ExamListDeleteIconContainerLayout"
-private const val ExamListContentBackgroundLayoutId = "ExamListContentBackgroundLayout"
-private const val ExamListNameLayoutId = "ExamListNameLayout"
-private const val ExamListWipBadgeLayoutId = "ExamListWipBadgeLayout"
+private const val QuizListDeleteIconLayoutId = "QuizListDeleteIconLayout"
+private const val QuizListDeleteIconContainerLayoutId = "QuizListDeleteIconContainerLayout"
+private const val QuizListContentBackgroundLayoutId = "QuizListContentBackgroundLayout"
+private const val QuizListNameLayoutId = "QuizListNameLayout"
+private const val QuizListWipBadgeLayoutId = "QuizListWipBadgeLayout"
 
-private val ExamListDeleteIconSize = 20.dp
+private val QuizListDeleteIconSize = 20.dp
 
-private const val ExamListAninmationMillis = 300
+private const val QuizListAninmationMillis = 300
 
 @Composable
-fun ExamList(
+fun QuizList(
     modifier: Modifier = Modifier,
-    exams: PersistentList<ExamNameAndIsWritingPair>,
+    quizs: PersistentList<QuizNameAndIsWritingPair>,
     deleteModeEnable: Boolean = false,
     onDeleteIconClick: (index: Int) -> Unit = {},
-    onExamListrClick: () -> Unit = {},
+    onQuizClick: () -> Unit = {},
 ) {
     val density = LocalDensity.current
     val roundedCornerShape4 = remember { RoundedCornerShape(4.dp) }
@@ -71,17 +71,17 @@ fun ExamList(
     val deleteModeContentWidthStatic = remember(density) {
         with(density) {
             val deleteIconAndContentGap = 12.dp.roundToPx()
-            ExamListDeleteIconSize.roundToPx() + deleteIconAndContentGap
+            QuizListDeleteIconSize.roundToPx() + deleteIconAndContentGap
         }
     }
 
     val deleteIconAlpahAnimation by animateFloatAsState(
         targetValue = if (deleteModeEnable) 1f else 0f,
-        animationSpec = tween(ExamListAninmationMillis),
+        animationSpec = tween(QuizListAninmationMillis),
     )
     val deleteModeContentWidthAnimation by animateIntAsState(
         targetValue = if (deleteModeEnable) deleteModeContentWidthStatic else 0,
-        animationSpec = tween(ExamListAninmationMillis),
+        animationSpec = tween(QuizListAninmationMillis),
     )
 
     LazyColumn(
@@ -90,7 +90,7 @@ fun ExamList(
             .then(modifier),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        itemsIndexed(exams) { index, (name, wip) ->
+        itemsIndexed(quizs) { index, (name, wip) ->
             @Suppress("RememberReturnType")
             remember(name) {
                 check(name.length in 1..38) { "문제지명 길이가 1..38 이여야 합니다." }
@@ -99,17 +99,17 @@ fun ExamList(
             Layout(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .animateContentSize(tween(ExamListAninmationMillis)),
+                    .animateContentSize(tween(QuizListAninmationMillis)),
                 content = {
                     Box(
                         Modifier
-                            .layoutId(ExamListDeleteIconContainerLayoutId)
+                            .layoutId(QuizListDeleteIconContainerLayoutId)
                             .noRippleClickable { onDeleteIconClick(index) },
                     )
                     Box(
                         Modifier
-                            .layoutId(ExamListDeleteIconLayoutId)
-                            .size(ExamListDeleteIconSize)
+                            .layoutId(QuizListDeleteIconLayoutId)
+                            .size(QuizListDeleteIconSize)
                             .fitPaint(
                                 drawableId = R.drawable.ic_fill_minus_circle_24,
                                 colorFilter = remember(deleteIconAlpahAnimation) {
@@ -121,16 +121,16 @@ fun ExamList(
                     )
                     Box(
                         Modifier
-                            .layoutId(ExamListContentBackgroundLayoutId)
+                            .layoutId(QuizListContentBackgroundLayoutId)
                             .clip(roundedCornerShape16)
                             .background(
                                 color = WeQuizColor.G8.value,
                                 shape = roundedCornerShape16,
                             )
-                            .clickable(onClick = onExamListrClick),
+                            .clickable(onClick = onQuizClick),
                     )
                     BasicText(
-                        modifier = Modifier.layoutId(ExamListNameLayoutId),
+                        modifier = Modifier.layoutId(QuizListNameLayoutId),
                         text = name,
                         style = WeQuizTypography.M16
                             .change(color = WeQuizColor.G2)
@@ -140,7 +140,7 @@ fun ExamList(
                     if (wip) {
                         Box(
                             modifier = Modifier
-                                .layoutId(ExamListWipBadgeLayoutId)
+                                .layoutId(QuizListWipBadgeLayoutId)
                                 .background(
                                     color = WeQuizColor.Black.value,
                                     shape = roundedCornerShape4,
@@ -158,12 +158,12 @@ fun ExamList(
                     }
                 },
             ) { measurables, constraints ->
-                val deleteIconMeasurable = measurables[ExamListDeleteIconLayoutId]
-                val deleteIconContainerMeasurable = measurables[ExamListDeleteIconContainerLayoutId]
-                val contentBackgroundMeasurable = measurables[ExamListContentBackgroundLayoutId]
-                val pageNameMeasurable = measurables[ExamListNameLayoutId]
+                val deleteIconMeasurable = measurables[QuizListDeleteIconLayoutId]
+                val deleteIconContainerMeasurable = measurables[QuizListDeleteIconContainerLayoutId]
+                val contentBackgroundMeasurable = measurables[QuizListContentBackgroundLayoutId]
+                val pageNameMeasurable = measurables[QuizListNameLayoutId]
                 val pageWipBadgeMeasurable = measurables.fastFirstOrNull { measurable ->
-                    measurable.layoutId == ExamListWipBadgeLayoutId
+                    measurable.layoutId == QuizListWipBadgeLayoutId
                 }
 
                 val contentPadding = 16.dp.roundToPx()

@@ -20,7 +20,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
-import team.ommaya.wequiz.android.dummy.DummyExams
+import team.ommaya.wequiz.android.dummy.DummyQuizs
 import team.ommaya.wequiz.android.dummy.DummyFriendsRanking
 import team.ommaya.wequiz.android.home.HomeMainScreen
 import team.ommaya.wequiz.android.rule.SnapshotPathGeneratorRule
@@ -46,33 +46,33 @@ class HomeMainScreenSnapshot {
                 profileMessage = "",
                 profileImageSrc = DummyProfileImage,
                 friendsRanking = persistentListOf(),
-                exams = persistentListOf(),
+                Quizs = persistentListOf(),
             )
         }
     }
 
     @Test
-    fun OnlyExam() {
+    fun OnlyQuiz() {
         captureRoboImage(snapshotPath()) {
             HomeMainScreen(
                 nickname = "닉네임",
                 profileMessage = "프로필 메시지",
                 profileImageSrc = DummyProfileImage,
                 friendsRanking = persistentListOf(),
-                exams = DummyExams,
+                Quizs = DummyQuizs,
             )
         }
     }
 
     @Test
-    fun FriendsRankingAndExam() {
+    fun FriendsRankingAndQuiz() {
         captureRoboImage(snapshotPath()) {
             HomeMainScreen(
                 nickname = "닉네임",
                 profileMessage = "프로필 메시지\n프로필 메시지",
                 profileImageSrc = DummyProfileImage,
                 friendsRanking = DummyFriendsRanking,
-                exams = DummyExams,
+                Quizs = DummyQuizs,
             )
         }
     }
