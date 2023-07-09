@@ -5,13 +5,6 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-/*
- * Designed and developed by "옴마야" Team 2023.
- *
- * Licensed under the MIT.
- * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
- */
-
 package team.ommaya.wequiz.android.quiz.create.adapter
 
 import android.content.Context
@@ -32,7 +25,7 @@ class QuizCreateAdapter(
     private val quizViewModel: QuizCreateViewModel,
     private val context: Context,
     private val lifecycle: Lifecycle,
-    private val onFocusClear: () -> Unit,
+    private val onQuestionAddItemClickListener: () -> Unit,
 ) : ListAdapter<Question, ViewHolder>(questionDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return if (viewType == Question.QuestionType.Default.typeNum) {
@@ -54,7 +47,7 @@ class QuizCreateAdapter(
                     false,
                 ),
                 quizViewModel,
-                onFocusClear,
+                onQuestionAddItemClickListener,
             )
         }
     }

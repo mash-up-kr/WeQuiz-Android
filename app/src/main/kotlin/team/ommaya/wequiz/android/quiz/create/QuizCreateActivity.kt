@@ -13,6 +13,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.base.BaseViewBindingActivity
 import team.ommaya.wequiz.android.databinding.ActivityQuizCreateBinding
@@ -21,18 +22,26 @@ import team.ommaya.wequiz.android.quiz.create.adapter.QuizCreateAdapter
 class QuizCreateActivity :
     BaseViewBindingActivity<ActivityQuizCreateBinding>(ActivityQuizCreateBinding::inflate) {
 
+    private val quizCreateViewModel: QuizCreateViewModel by viewModels()
+
     private val quizAdapter by lazy {
         QuizCreateAdapter(
             quizCreateViewModel,
             this,
             lifecycle,
-            onFocusClear = {
-                clearFocus()
+            onQuestionAddItemClickListener = {
+                onQuestionAddItemClickListener()
             }
         )
     }
 
-    private val quizCreateViewModel: QuizCreateViewModel by viewModels()
+    private val adapterDataObserver = object : RecyclerView.AdapterDataObserver() {
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            super.onItemRangeInserted(positionStart, itemCount)
+            binding.rvQuizList.scrollToPosition(positionStart)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
@@ -43,6 +52,7 @@ class QuizCreateActivity :
         binding.apply {
             rvQuizList.adapter = quizAdapter
         }
+        quizAdapter.registerAdapterDataObserver(adapterDataObserver)
     }
 
     private fun collectFlows() {
@@ -56,7 +66,12 @@ class QuizCreateActivity :
         }
     }
 
-    private fun clearFocus() {
+    override fun onDestroy() {
+        super.onDestroy()
+        quizAdapter.unregisterAdapterDataObserver(adapterDataObserver)
+    }
+
+    private fun onQuestionAddItemClickListener() {
         binding.root.clearFocus()
     }
 }

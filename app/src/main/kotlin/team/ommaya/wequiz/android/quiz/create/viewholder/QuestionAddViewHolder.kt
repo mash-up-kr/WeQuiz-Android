@@ -5,13 +5,6 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-/*
- * Designed and developed by "옴마야" Team 2023.
- *
- * Licensed under the MIT.
- * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
- */
-
 package team.ommaya.wequiz.android.quiz.create.viewholder
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -21,7 +14,7 @@ import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 class QuestionAddViewHolder(
     private val binding: ItemQuizCreateAddBinding,
     private val viewModel: QuizCreateViewModel,
-    private val onFocusClear: () -> Unit,
+    private val onQuestionItemClickListener: () -> Unit,
 ) : ViewHolder(binding.root) {
 
     fun bind() {
@@ -30,7 +23,7 @@ class QuestionAddViewHolder(
                 addQuiz()
                 setQuestionFocus(-1)
             }
-            onFocusClear()
+            onQuestionItemClickListener()
         }
     }
 }
