@@ -49,8 +49,8 @@ fun HomeMainScreen(
     profileMessage: String,
     profileImageSrc: Any,
     friendsRanking: ImmutableList<NicknameUuidScoreTriple>,
-    exams: ImmutableList<ExamNameAndIsWritingPair>,
-    onExamCreateClick: () -> Unit = {},
+    Quizs: ImmutableList<QuizNameAndIsWritingPair>,
+    onQuizCreateClick: () -> Unit = {},
 ) {
     val roundedCornerShape16 = remember { RoundedCornerShape(16.dp) }
 
@@ -109,7 +109,7 @@ fun HomeMainScreen(
                 .wrapContentHeight()
                 .clip(roundedCornerShape16)
                 .background(color = WeQuizColor.P1.value, shape = roundedCornerShape16)
-                .clickable(onClick = onExamCreateClick)
+                .clickable(onClick = onQuizCreateClick)
                 .padding(vertical = 16.dp),
             contentAlignment = Alignment.Center,
         ) {
@@ -142,16 +142,16 @@ fun HomeMainScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             SectionTitle(title = "내가 낸 문제지")
-            if (exams.isEmpty()) {
-                CreateExamIsEmpty(
+            if (Quizs.isEmpty()) {
+                CreateQuizIsEmpty(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp),
                 )
             } else {
-                ExamList(
-                    exams = remember(exams) {
-                        exams.take(4).toImmutableList()
+                QuizList(
+                    quizs = remember(Quizs) {
+                        Quizs.take(4).toImmutableList()
                     }.toPersistentList(),
                 )
             }
@@ -189,7 +189,7 @@ private fun SectionTitle(
 }
 
 @Composable
-private fun CreateExamIsEmpty(modifier: Modifier = Modifier) {
+private fun CreateQuizIsEmpty(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,

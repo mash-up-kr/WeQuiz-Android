@@ -22,25 +22,25 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
-import team.ommaya.wequiz.android.dummy.DummyExams
-import team.ommaya.wequiz.android.home.ExamList
+import team.ommaya.wequiz.android.dummy.DummyQuizs
+import team.ommaya.wequiz.android.home.QuizList
 import team.ommaya.wequiz.android.rule.SnapshotPathGeneratorRule
 
 @Config(qualifiers = RobolectricDeviceQualifiers.Pixel7Pro)
 @RunWith(AndroidJUnit4::class)
-class ExamListSnapshot {
+class QuizListSnapshot {
     @get:Rule
-    val snapshotPath = SnapshotPathGeneratorRule("ExamList")
+    val snapshotPath = SnapshotPathGeneratorRule("QuizList")
 
     @Test
     fun DeleteModeOn() {
         captureRoboImage(snapshotPath()) {
-            ExamList(
+            QuizList(
                 modifier = Modifier
                     .background(color = WeQuizColor.G9.value)
                     .padding(20.dp)
                     .fillMaxSize(),
-                exams = DummyExams,
+                quizs = DummyQuizs,
                 deleteModeEnable = true,
             )
         }
@@ -49,12 +49,12 @@ class ExamListSnapshot {
     @Test
     fun DeleteModeOff() {
         captureRoboImage(snapshotPath()) {
-            ExamList(
+            QuizList(
                 modifier = Modifier
                     .background(color = WeQuizColor.G9.value)
                     .padding(20.dp)
                     .fillMaxSize(),
-                exams = DummyExams,
+                quizs = DummyQuizs,
                 deleteModeEnable = false,
             )
         }
