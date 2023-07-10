@@ -175,7 +175,7 @@ fun QuizDetail(
                             val newAnswerModeHeightStore =
                                 answerModeHeightStore.put(
                                     answerModeHeightScoreKey,
-                                    coordinates.size.height
+                                    coordinates.size.height,
                                 )
                             updateAnswerModeHeightStore(newAnswerModeHeightStore)
                         }
