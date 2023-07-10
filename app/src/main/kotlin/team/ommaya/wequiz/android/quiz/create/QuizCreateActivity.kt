@@ -31,6 +31,9 @@ class QuizCreateActivity :
             lifecycle,
             onQuestionAddItemClickListener = {
                 onQuestionAddItemClickListener()
+            },
+            onQuestionItemClickListener = { position ->
+                onQuestionItemClickListener(position)
             }
         )
     }
@@ -73,5 +76,9 @@ class QuizCreateActivity :
 
     private fun onQuestionAddItemClickListener() {
         binding.root.clearFocus()
+    }
+
+    private fun onQuestionItemClickListener(itemPosition: Int) {
+        binding.rvQuizList.scrollToPosition(itemPosition)
     }
 }

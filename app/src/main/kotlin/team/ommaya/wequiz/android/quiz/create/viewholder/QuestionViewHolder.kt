@@ -16,15 +16,16 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.databinding.ItemQuizCreateQuizBinding
-import team.ommaya.wequiz.android.quiz.create.adapter.AnswerAdapter
 import team.ommaya.wequiz.android.quiz.create.Question
 import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
+import team.ommaya.wequiz.android.quiz.create.adapter.AnswerAdapter
 
 class QuestionViewHolder(
     private val binding: ItemQuizCreateQuizBinding,
     private val viewModel: QuizCreateViewModel,
     private val lifecycle: Lifecycle,
     private val context: Context,
+    private val onQuestionItemClickListener: (Int) -> Unit,
 ) : ViewHolder(binding.root) {
 
     private lateinit var answerAdapter: AnswerAdapter
@@ -36,11 +37,15 @@ class QuestionViewHolder(
                 setOnFocusChangeListener { _, hasFocus ->
                     if (hasFocus) {
                         viewModel.setQuestionFocus(position)
+                        onQuestionItemClickListener(position)
                     }
                 }
                 doOnTextChanged { text, _, _, _ ->
                     // TODO 타이틀 설정
                 }
+            }
+            root.setOnClickListener {
+                viewModel.setQuestionFocus(position)
             }
             answerAdapter = AnswerAdapter(
                 viewModel,
