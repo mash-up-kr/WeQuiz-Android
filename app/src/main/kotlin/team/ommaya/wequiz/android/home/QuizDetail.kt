@@ -16,7 +16,6 @@ import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,30 +25,42 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.currentRecomposeScope
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.CacheDrawScope
+import androidx.compose.ui.draw.DrawResult
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.center
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastForEachIndexed
@@ -60,11 +71,11 @@ import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizTypography
-import team.ommaya.wequiz.android.utils.applyIf
 import team.ommaya.wequiz.android.utils.asLoose
 import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.get
 import team.ommaya.wequiz.android.utils.noRippleClickable
+import kotlin.math.roundToInt
 
 @Immutable
 enum class QuizDetailViewMode {
@@ -98,15 +109,10 @@ data class AnswerDetailData(
     @Stable
     val chosenPercent = 100 * chosenCount / totalExamineeCount
 
-    // TODO: 블렌딩 문제 수정 (https://youtube.com/watch?v=v4E2Jp4lXt8)
     @Stable
-    fun overlayColorForBackgroundColorSafely(chosenPercentThreshold: Int) =
-        if (chosenPercentThreshold <= chosenPercent) {
-            if (backgroundColor.value.luminance() <= 0.5) WeQuizColor.G1
-            else WeQuizColor.G9
-        } else {
-            WeQuizColor.G1
-        }
+    val overlayColorForBackgroundColor =
+        if (backgroundColor.value.luminance() <= 0.5) WeQuizColor.G1
+        else WeQuizColor.G9
 }
 
 private val QuizDetailContainerShape = RoundedCornerShape(16.dp)
@@ -117,17 +123,6 @@ private val QuizDetailFlipTween =
         durationMillis = QuizDetailAnimationDurationMillis,
         easing = FastOutSlowInEasing,
     )
-
-@Immutable
-@JvmInline
-value class AnswerModeHeightStoreKey private constructor(val key: Int) {
-    companion object {
-        fun of(index: Int, title: String) =
-            AnswerModeHeightStoreKey(index.hashCode() + title.hashCode() * 31)
-    }
-}
-
-private val answerModeHeightStore = mutableMapOf<AnswerModeHeightStoreKey, Int>()
 
 @Composable
 fun QuizDetail(
@@ -149,9 +144,8 @@ fun QuizDetail(
         },
         animationSpec = QuizDetailFlipTween,
     )
-    val answerModeHeightScoreKey = remember(quizIndex, title) {
-        AnswerModeHeightStoreKey.of(index = quizIndex, title = title)
-    }
+
+    var lastAnswerModeHeight by rememberSaveable { mutableStateOf<Int?>(null) }
 
     Box(
         modifier = modifier.graphicsLayer {
@@ -161,14 +155,15 @@ fun QuizDetail(
     ) {
         if (rotation <= 90f) {
             QuizAnswer(
-                modifier = Modifier
-                    .then(Modifier)
-                    .applyIf(answerModeHeightStore[answerModeHeightScoreKey] == null) {
-                        onPlaced { coordinates ->
-                            answerModeHeightStore[answerModeHeightScoreKey] =
-                                coordinates.size.height
-                        }
-                    },
+                modifier = Modifier.layout { measurable, constraints ->
+                    val looseConstraints = constraints.asLoose(width = true, height = true)
+                    val placeable = measurable.measure(looseConstraints)
+
+                    lastAnswerModeHeight = placeable.height
+                    layout(width = placeable.width, height = placeable.height) {
+                        placeable.place(x = 0, y = 0)
+                    }
+                },
                 title = title,
                 answerContents = answerContents,
                 quizIndex = quizIndex,
@@ -178,11 +173,7 @@ fun QuizDetail(
         } else {
             QuizResult(
                 modifier = Modifier
-                    .height(
-                        with(LocalDensity.current) {
-                            answerModeHeightStore[answerModeHeightScoreKey]!!.toDp()
-                        },
-                    )
+                    .height(with(LocalDensity.current) { lastAnswerModeHeight!!.toDp() })
                     .graphicsLayer { rotationY = 180f },
                 title = title,
                 answerDatas = answerDatas,
@@ -206,14 +197,8 @@ private fun QuizTitle(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        BasicText(
-            text = "$index.",
-            style = typography,
-        )
-        BasicText(
-            text = title,
-            style = typography,
-        )
+        BasicText(text = "$index.", style = typography)
+        BasicText(text = title, style = typography)
     }
 }
 
@@ -352,58 +337,49 @@ private fun QuizResult(
     }
 }
 
+private enum class DrawTime {
+    Behind, Front,
+}
+
 private val HeaderChars = charArrayOf('A', 'B', 'C', 'D', 'E')
 
-@Composable
-private fun HeaderCharCircle(
-    modifier: Modifier = Modifier,
-    color: WeQuizColor,
+private fun CacheDrawScope.withDrawHeaderCharCircle(
     index: Int,
-) {
-    val textMeasurer = rememberTextMeasurer()
-    val typography = WeQuizTypography.M14.change(color = color).asRememberComposeStyle()
+    textMeasurer: TextMeasurer,
+    color: WeQuizColor,
+    center: Offset,
+    topLeft: Density.(textMeasureResult: TextLayoutResult) -> Offset,
+    drawTime: DrawTime = DrawTime.Front,
+    onDrawBehind: (ContentDrawScope.() -> Unit)? = null,
+    onDrawFront: (ContentDrawScope.() -> Unit)? = null,
+): DrawResult {
+    val typography = WeQuizTypography.M14.change(color = color).asComposeStyle()
+    val textMeasureResult =
+        textMeasurer.measure(text = HeaderChars[index].toString(), style = typography)
 
-    Box(
-        modifier
-            .size(24.dp)
-            .border(
-                width = (1.5).dp,
-                color = color.value,
-                shape = CircleShape,
-            )
-            .drawWithCache {
-                val textMeasureResult = textMeasurer
-                    .measure(
-                        text = HeaderChars[index].toString(),
-                        style = typography,
-                    )
-                val textPlacementTopLeft =
-                    Offset(
-                        x = Alignment
-                            .CenterHorizontally
-                            .align(
-                                size = textMeasureResult.size.width,
-                                space = size.width.toInt(),
-                                layoutDirection = layoutDirection,
-                            )
-                            .toFloat(),
-                        y = Alignment
-                            .CenterVertically
-                            .align(
-                                size = textMeasureResult.size.height,
-                                space = size.height.toInt(),
-                            )
-                            .toFloat(),
-                    )
+    val circleStyle = Stroke(width = (1.5).dp.toPx(), cap = StrokeCap.Round)
+    val topLeftResult = topLeft(textMeasureResult)
 
-                onDrawWithContent {
-                    drawText(
-                        textLayoutResult = textMeasureResult,
-                        topLeft = textPlacementTopLeft,
-                    )
-                }
-            },
-    )
+    val drawingBlock: ContentDrawScope.() -> Unit = {
+        drawCircle(
+            color = color.value,
+            radius = 12.dp.toPx(),
+            center = center,
+            style = circleStyle,
+        )
+        drawText(
+            textLayoutResult = textMeasureResult,
+            topLeft = topLeftResult,
+        )
+    }
+
+    return onDrawWithContent {
+        onDrawBehind?.invoke(this)
+        if (drawTime == DrawTime.Behind) drawingBlock()
+        drawContent()
+        onDrawFront?.invoke(this)
+        if (drawTime == DrawTime.Front) drawingBlock()
+    }
 }
 
 private val QuizDetailContentShape = RoundedCornerShape(16.dp)
@@ -414,6 +390,8 @@ private fun QuizAnswerTitle(
     title: String,
     index: Int,
 ) {
+    val textMeasurer = rememberTextMeasurer(cacheSize = 1)
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -423,7 +401,37 @@ private fun QuizAnswerTitle(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        HeaderCharCircle(color = WeQuizColor.G2, index = index)
+        Box(
+            Modifier
+                .size(24.dp)
+                .drawWithCache {
+                    withDrawHeaderCharCircle(
+                        index = index,
+                        textMeasurer = textMeasurer,
+                        color = WeQuizColor.G2,
+                        center = size.center,
+                        topLeft = { textMeasureResult ->
+                            Offset(
+                                x = Alignment
+                                    .CenterHorizontally
+                                    .align(
+                                        size = textMeasureResult.size.width,
+                                        space = size.width.roundToInt(),
+                                        layoutDirection = layoutDirection,
+                                    )
+                                    .toFloat(),
+                                y = Alignment
+                                    .CenterVertically
+                                    .align(
+                                        size = textMeasureResult.size.height,
+                                        space = size.height.roundToInt(),
+                                    )
+                                    .toFloat(),
+                            )
+                        },
+                    )
+                }
+        )
         BasicText(
             text = title,
             style = WeQuizTypography.M16
@@ -433,8 +441,6 @@ private fun QuizAnswerTitle(
     }
 }
 
-private const val QuizAnswerResultHeaderLayoutId = "QuizAnswerResultHeaderLayout"
-private const val QuizAnswerResultPercentLayoutId = "QuizAnswerResultPercentLayout"
 private const val QuizAnswerResultBackgroundLayoutId = "QuizAnswerResultBackgroundLayout"
 
 private val QuizAnwserResultBackgroundOffsetTween =
@@ -443,12 +449,26 @@ private val QuizAnwserResultBackgroundOffsetTween =
         easing = LinearEasing,
     )
 
+@Stable
+private class LazyValue<T>(var value: T? = null)
+
 @Composable
 private fun QuizAnswerResult(
     modifier: Modifier = Modifier,
     answerData: AnswerDetailData,
 ) {
+    val density = LocalDensity.current
     val coroutineScope = rememberCoroutineScope()
+    val textMeasurer = rememberTextMeasurer()
+    val recomposeScope = currentRecomposeScope
+
+    val spacedBy = 16.dp
+    val spacedByPx = remember(density, spacedBy) {
+        with(density) { spacedBy.roundToPx() }
+    }
+    val lazyParentWidth = remember { LazyValue<Int>() }
+
+    val headCharCircleSize = 24.dp
     val backgroundWidthAnimatable = remember {
         Animatable(
             initialValue = 0,
@@ -456,47 +476,141 @@ private fun QuizAnswerResult(
         )
     }
 
+    val headerCharCircleCenterOffsetGetter =
+        remember<CacheDrawScope.() -> Offset>(spacedBy, headCharCircleSize) {
+            {
+                Offset(
+                    x = spacedBy.toPx() + (headCharCircleSize.toPx() / 2),
+                    y = size.height / 2,
+                )
+            }
+        }
+    val headerCharCircleTopLeftOffsetGetter =
+        remember<CacheDrawScope.(textMeasureResult: TextLayoutResult) -> Offset>(
+            spacedBy,
+            headCharCircleSize,
+        ) {
+            { textMeasureResult ->
+                Offset(
+                    x = Alignment
+                        .CenterHorizontally
+                        .align(
+                            size = textMeasureResult.size.width,
+                            space = headCharCircleSize.roundToPx(),
+                            layoutDirection = layoutDirection,
+                        )
+                        .plus(spacedBy.toPx()),
+                    y = Alignment
+                        .CenterVertically
+                        .align(
+                            size = textMeasureResult.size.height,
+                            space = size.height.roundToInt(),
+                        )
+                        .toFloat(),
+                )
+            }
+        }
+
+    val typography = WeQuizTypography.M16.asRememberComposeStyle()
+    val percentText = "${answerData.chosenPercent}%"
+
+    val percentInfinityMeasureResult = remember(textMeasurer, answerData) {
+        textMeasurer.measure(text = percentText, style = typography)
+    }
+
     Layout(
         modifier = modifier
             .fillMaxWidth()
             .clip(QuizDetailContentShape)
-            .background(color = WeQuizColor.G9.value),
+            .background(color = WeQuizColor.G9.value)
+            .drawWithCache {
+                val headerCharCircleCenterOffset = headerCharCircleCenterOffsetGetter()
+
+                withDrawHeaderCharCircle(
+                    index = answerData.index,
+                    textMeasurer = textMeasurer,
+                    color = WeQuizColor.G1,
+                    center = headerCharCircleCenterOffset,
+                    topLeft = { headerCharCircleTopLeftOffsetGetter(it) },
+                    drawTime = DrawTime.Behind,
+                    onDrawBehind = {
+                        drawText(
+                            textLayoutResult = percentInfinityMeasureResult,
+                            color = WeQuizColor.G1.value,
+                            topLeft = Offset(
+                                x = size.width - spacedByPx - percentInfinityMeasureResult.size.width,
+                                y = Alignment
+                                    .CenterVertically
+                                    .align(
+                                        size = percentInfinityMeasureResult.size.height,
+                                        space = size.height.roundToInt(),
+                                    )
+                                    .toFloat(),
+                            ),
+                        )
+                    },
+                )
+            },
         content = {
-            HeaderCharCircle(
-                modifier = Modifier.layoutId(QuizAnswerResultHeaderLayoutId),
-                color = answerData.overlayColorForBackgroundColorSafely(chosenPercentThreshold = 5),
-                index = answerData.index,
-            )
-            BasicText(
-                modifier = Modifier.layoutId(QuizAnswerResultPercentLayoutId),
-                text = "${answerData.chosenPercent}%",
-                style = WeQuizTypography.M16
-                    .change(
-                        color = answerData.overlayColorForBackgroundColorSafely(
-                            chosenPercentThreshold = 85,
-                        ),
-                    )
-                    .asRememberComposeStyle(),
-            )
             Box(
                 modifier = Modifier
                     .layoutId(QuizAnswerResultBackgroundLayoutId)
-                    .background(color = answerData.backgroundColor.value),
+                    .background(color = answerData.backgroundColor.value)
+                    .drawWithCache {
+                        val headerCharCircleCenterOffset = headerCharCircleCenterOffsetGetter()
+
+                        val precentClippedMeasureResult =
+                            lazyParentWidth.value?.let { parentWidth ->
+                                textMeasurer.measure(
+                                    text = percentText,
+                                    style = typography,
+                                    maxLines = 1,
+                                    softWrap = false,
+                                    constraints = Constraints(
+                                        maxWidth = 0
+                                            .plus(size.width)
+                                            .minus(parentWidth - spacedByPx - percentInfinityMeasureResult.size.width)
+                                            .coerceAtLeast(0f)
+                                            .roundToInt(),
+                                    ),
+                                )
+                            }
+
+                        withDrawHeaderCharCircle(
+                            index = answerData.index,
+                            textMeasurer = textMeasurer,
+                            color = answerData.overlayColorForBackgroundColor,
+                            center = headerCharCircleCenterOffset,
+                            topLeft = { headerCharCircleTopLeftOffsetGetter(it) },
+                            drawTime = DrawTime.Front,
+                            onDrawFront = {
+                                if (precentClippedMeasureResult != null) {
+                                    val parentWidth = lazyParentWidth.value!!
+                                    drawText(
+                                        textLayoutResult = precentClippedMeasureResult,
+                                        color = answerData.overlayColorForBackgroundColor.value,
+                                        topLeft = Offset(
+                                            x = parentWidth.toFloat() - spacedByPx - percentInfinityMeasureResult.size.width,
+                                            y = Alignment
+                                                .CenterVertically
+                                                .align(
+                                                    size = percentInfinityMeasureResult.size.height,
+                                                    space = size.height.roundToInt(),
+                                                )
+                                                .toFloat(),
+                                        ),
+                                    )
+                                }
+                            },
+                        )
+                    },
             )
         },
     ) { measurables, constraints ->
-        val headerMeasurable = measurables[QuizAnswerResultHeaderLayoutId]
-        val percentMeasurable = measurables[QuizAnswerResultPercentLayoutId]
         val backgroundMeasurable = measurables[QuizAnswerResultBackgroundLayoutId]
 
-        val spacedByPx = 16.dp.roundToPx()
-        val looseConstraints = constraints.asLoose(width = true, height = true)
-
-        val headerPlaceable = headerMeasurable.measure(looseConstraints)
-        val percentPlaceable = percentMeasurable.measure(looseConstraints)
-
         val width = constraints.maxWidth
-        val height = headerPlaceable.height + spacedByPx * 2
+        val height = headCharCircleSize.roundToPx() + spacedByPx * 2
 
         val backgroundConstraints =
             Constraints.fixed(
@@ -515,32 +629,13 @@ private fun QuizAnswerResult(
             }
         }
 
+        if (lazyParentWidth.value == null) {
+            lazyParentWidth.value = width
+            recomposeScope.invalidate()
+        }
+
         layout(width = width, height = height) {
-            headerPlaceable.place(
-                x = spacedByPx,
-                y = Alignment
-                    .CenterVertically
-                    .align(
-                        size = headerPlaceable.height,
-                        space = height,
-                    ),
-                zIndex = 1f,
-            )
-            percentPlaceable.place(
-                x = width - spacedByPx - percentPlaceable.width,
-                y = Alignment
-                    .CenterVertically
-                    .align(
-                        size = percentPlaceable.height,
-                        space = height,
-                    ),
-                zIndex = 1f,
-            )
-            backgroundPlaceable.place(
-                x = 0,
-                y = 0,
-                zIndex = 0f,
-            )
+            backgroundPlaceable.place(x = 0, y = 0)
         }
     }
 }
