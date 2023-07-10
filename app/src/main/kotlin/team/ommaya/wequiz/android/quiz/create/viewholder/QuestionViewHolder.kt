@@ -25,7 +25,7 @@ class QuestionViewHolder(
     private val viewModel: QuizCreateViewModel,
     private val lifecycle: Lifecycle,
     private val context: Context,
-    private val onQuestionItemClickListener: (Int) -> Unit,
+    private val onQuestionItemClickListener: (Int, Boolean) -> Unit,
 ) : ViewHolder(binding.root) {
 
     private lateinit var answerAdapter: AnswerAdapter
@@ -37,7 +37,7 @@ class QuestionViewHolder(
                 setOnFocusChangeListener { _, hasFocus ->
                     if (hasFocus) {
                         viewModel.setQuestionFocus(position)
-                        onQuestionItemClickListener(position)
+                        onQuestionItemClickListener(position, true)
                     }
                 }
                 doOnTextChanged { text, _, _, _ ->
@@ -46,6 +46,7 @@ class QuestionViewHolder(
             }
             root.setOnClickListener {
                 viewModel.setQuestionFocus(position)
+                onQuestionItemClickListener(position, false)
             }
             answerAdapter = AnswerAdapter(
                 viewModel,

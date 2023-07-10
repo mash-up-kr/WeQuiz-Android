@@ -7,8 +7,10 @@
 
 package team.ommaya.wequiz.android.quiz.create
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -32,8 +34,8 @@ class QuizCreateActivity :
             onQuestionAddItemClickListener = {
                 onQuestionAddItemClickListener()
             },
-            onQuestionItemClickListener = { position ->
-                onQuestionItemClickListener(position)
+            onQuestionItemClickListener = { position, isEditable ->
+                onQuestionItemClickListener(position, isEditable)
             }
         )
     }
@@ -78,7 +80,20 @@ class QuizCreateActivity :
         binding.root.clearFocus()
     }
 
-    private fun onQuestionItemClickListener(itemPosition: Int) {
+    private fun onQuestionItemClickListener(itemPosition: Int, isEditable: Boolean) {
+        if (!isEditable) {
+            binding.root.clearFocus()
+            hideKeyboard()
+        }
         binding.rvQuizList.scrollToPosition(itemPosition)
+    }
+
+    private fun hideKeyboard() {
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(
+            window.decorView.windowToken,
+            0
+        )
     }
 }
