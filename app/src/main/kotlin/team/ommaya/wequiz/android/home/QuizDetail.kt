@@ -17,7 +17,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -53,9 +52,9 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
+import androidx.compose.ui.util.fastForEachIndexed
 import androidx.compose.ui.util.fastMap
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
@@ -65,11 +64,7 @@ import team.ommaya.wequiz.android.utils.applyIf
 import team.ommaya.wequiz.android.utils.asLoose
 import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.get
-
-@Immutable
-enum class SwipeDirection {
-    None, Top, Down,
-}
+import team.ommaya.wequiz.android.utils.noRippleClickable
 
 @Immutable
 enum class QuizDetailViewMode {
@@ -125,24 +120,24 @@ private val QuizDetailFlipTween =
 
 @Immutable
 @JvmInline
-value class AnswerModeHeightStoreKey private constructor(private val key: Int) {
+value class AnswerModeHeightStoreKey private constructor(val key: Int) {
     companion object {
         fun of(index: Int, title: String) =
             AnswerModeHeightStoreKey(index.hashCode() + title.hashCode() * 31)
     }
 }
 
+private val answerModeHeightStore = mutableMapOf<AnswerModeHeightStoreKey, Int>()
+
 @Composable
 fun QuizDetail(
     modifier: Modifier = Modifier,
     title: String,
     answerDatas: ImmutableList<AnswerDetailData>,
-    answerModeHeightStore: PersistentMap<AnswerModeHeightStoreKey, Int>,
     quizIndex: Int,
     totalQuizIndex: Int,
     viewMode: QuizDetailViewMode,
     onViewModeToggleClick: () -> Unit,
-    updateAnswerModeHeightStore: (newAnswerModeHeightStore: PersistentMap<AnswerModeHeightStoreKey, Int>) -> Unit,
 ) {
     val answerContents = remember(answerDatas) {
         answerDatas.fastMap(AnswerDetailData::content).toImmutableList()
@@ -159,12 +154,10 @@ fun QuizDetail(
     }
 
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .graphicsLayer {
-                rotationY = rotation
-                cameraDistance = 12f * density
-            },
+        modifier = modifier.graphicsLayer {
+            rotationY = rotation
+            cameraDistance = 12f * density
+        },
     ) {
         if (rotation <= 90f) {
             QuizAnswer(
@@ -172,12 +165,8 @@ fun QuizDetail(
                     .then(Modifier)
                     .applyIf(answerModeHeightStore[answerModeHeightScoreKey] == null) {
                         onPlaced { coordinates ->
-                            val newAnswerModeHeightStore =
-                                answerModeHeightStore.put(
-                                    answerModeHeightScoreKey,
-                                    coordinates.size.height,
-                                )
-                            updateAnswerModeHeightStore(newAnswerModeHeightStore)
+                            answerModeHeightStore[answerModeHeightScoreKey] =
+                                coordinates.size.height
                         }
                     },
                 title = title,
@@ -249,7 +238,7 @@ private fun QuizAnswerViewModeToggle(
         )
         Row(
             modifier = Modifier
-                .clickable(onClick = onViewModeToggleClick)
+                .noRippleClickable(onClick = onViewModeToggleClick)
                 .padding(
                     start = 12.dp,
                     end = 4.dp,
@@ -304,10 +293,11 @@ private fun QuizAnswer(
         if (answerContents.isNotEmpty()) {
             Spacer(Modifier.height((28 - 12).dp))
         }
-        answerContents.fastForEach { answerContent ->
+        answerContents.fastForEachIndexed { answerIndex, answerContent ->
             QuizAnswerTitle(
                 modifier = Modifier.padding(top = 12.dp),
                 title = answerContent,
+                index = answerIndex,
             )
         }
         QuizAnswerViewModeToggle(
@@ -362,10 +352,13 @@ private fun QuizResult(
     }
 }
 
+private val HeaderChars = charArrayOf('A', 'B', 'C', 'D', 'E')
+
 @Composable
-private fun ACircle(
+private fun HeaderCharCircle(
     modifier: Modifier = Modifier,
     color: WeQuizColor,
+    index: Int,
 ) {
     val textMeasurer = rememberTextMeasurer()
     val typography = WeQuizTypography.M14.change(color = color).asRememberComposeStyle()
@@ -379,7 +372,11 @@ private fun ACircle(
                 shape = CircleShape,
             )
             .drawWithCache {
-                val textMeasureResult = textMeasurer.measure(text = "A", style = typography)
+                val textMeasureResult = textMeasurer
+                    .measure(
+                        text = HeaderChars[index].toString(),
+                        style = typography,
+                    )
                 val textPlacementTopLeft =
                     Offset(
                         x = Alignment
@@ -415,6 +412,7 @@ private val QuizDetailContentShape = RoundedCornerShape(16.dp)
 private fun QuizAnswerTitle(
     modifier: Modifier = Modifier,
     title: String,
+    index: Int,
 ) {
     Row(
         modifier = modifier
@@ -425,7 +423,7 @@ private fun QuizAnswerTitle(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        ACircle(color = WeQuizColor.G2)
+        HeaderCharCircle(color = WeQuizColor.G2, index = index)
         BasicText(
             text = title,
             style = WeQuizTypography.M16
@@ -464,9 +462,10 @@ private fun QuizAnswerResult(
             .clip(QuizDetailContentShape)
             .background(color = WeQuizColor.G9.value),
         content = {
-            ACircle(
+            HeaderCharCircle(
                 modifier = Modifier.layoutId(QuizAnswerResultHeaderLayoutId),
                 color = answerData.overlayColorForBackgroundColorSafely(chosenPercentThreshold = 5),
+                index = answerData.index,
             )
             BasicText(
                 modifier = Modifier.layoutId(QuizAnswerResultPercentLayoutId),
@@ -474,7 +473,7 @@ private fun QuizAnswerResult(
                 style = WeQuizTypography.M16
                     .change(
                         color = answerData.overlayColorForBackgroundColorSafely(
-                            chosenPercentThreshold = 80,
+                            chosenPercentThreshold = 85,
                         ),
                     )
                     .asRememberComposeStyle(),
