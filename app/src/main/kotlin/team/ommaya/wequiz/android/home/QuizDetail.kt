@@ -270,7 +270,7 @@ private fun QuizAnswerViewModeToggle(
           .fitPaint(
             drawableId = R.drawable.ic_round_chevron_right_24,
             colorFilter = WeQuizColor.G2.toRememberColorFilterOrNull(),
-          )
+          ),
       )
     }
   }
@@ -542,4 +542,3 @@ private fun QuizAnswerResult(
     }
   }
 }
-
