@@ -35,6 +35,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -82,6 +83,13 @@ enum class QuizDetailViewMode {
     Answer, Result;
 
     operator fun not() = if (this == Answer) Result else Answer
+
+    companion object {
+        val Saver = Saver<QuizDetailViewMode, Int>(
+            save = { viewMode -> viewMode.ordinal },
+            restore = { ordinal -> QuizDetailViewMode.values()[ordinal] },
+        )
+    }
 }
 
 @Immutable

@@ -28,11 +28,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -118,7 +117,9 @@ private fun DummyQuizDetail(
     title: String,
     answerDatas: ImmutableList<AnswerDetailData>,
 ) {
-    var viewMode by remember { mutableStateOf(QuizDetailViewMode.Answer) }
+    var viewMode by rememberSaveable(stateSaver = QuizDetailViewMode.Saver) {
+        mutableStateOf(QuizDetailViewMode.Answer)
+    }
 
     QuizDetail(
         modifier = modifier,
