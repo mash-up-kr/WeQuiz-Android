@@ -73,8 +73,7 @@ class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBi
                     etJoinInputNickname.text.toString(),
                     MIN_NICKNAME_LENGTH,
                     MAX_NICKNAME_LENGTH,
-                )
-                        && isValidInputLengthRange(
+                ) && isValidInputLengthRange(
                     etJoinInputIntroduction.text.toString(),
                     MIN_INTRODUCTION_LENGTH,
                     MAX_INTRODUCTION_LENGTH,
