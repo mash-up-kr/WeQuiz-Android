@@ -49,7 +49,7 @@ fun HomeMainScreen(
     profileMessage: String,
     profileImageSrc: Any,
     friendsRanking: ImmutableList<NicknameUuidScoreTriple>,
-    Quizs: ImmutableList<QuizNameAndIsWritingPair>,
+    quizs: ImmutableList<QuizNameAndIsWritingPair>,
     onQuizCreateClick: () -> Unit = {},
 ) {
     val roundedCornerShape16 = remember { RoundedCornerShape(16.dp) }
@@ -142,7 +142,7 @@ fun HomeMainScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             SectionTitle(title = "내가 낸 문제지")
-            if (Quizs.isEmpty()) {
+            if (quizs.isEmpty()) {
                 CreateQuizIsEmpty(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -150,8 +150,8 @@ fun HomeMainScreen(
                 )
             } else {
                 QuizList(
-                    quizs = remember(Quizs) {
-                        Quizs.take(4).toImmutableList()
+                    quizs = remember(quizs) {
+                        quizs.take(4).toImmutableList()
                     }.toPersistentList(),
                 )
             }

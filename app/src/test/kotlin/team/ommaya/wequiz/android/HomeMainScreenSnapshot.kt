@@ -46,7 +46,7 @@ class HomeMainScreenSnapshot {
                 profileMessage = "",
                 profileImageSrc = DummyProfileImage,
                 friendsRanking = persistentListOf(),
-                Quizs = persistentListOf(),
+                quizs = persistentListOf(),
             )
         }
     }
@@ -59,7 +59,7 @@ class HomeMainScreenSnapshot {
                 profileMessage = "프로필 메시지",
                 profileImageSrc = DummyProfileImage,
                 friendsRanking = persistentListOf(),
-                Quizs = DummyQuizs,
+                quizs = DummyQuizs,
             )
         }
     }
@@ -72,7 +72,7 @@ class HomeMainScreenSnapshot {
                 profileMessage = "프로필 메시지\n프로필 메시지",
                 profileImageSrc = DummyProfileImage,
                 friendsRanking = DummyFriendsRanking,
-                Quizs = DummyQuizs,
+                quizs = DummyQuizs,
             )
         }
     }
