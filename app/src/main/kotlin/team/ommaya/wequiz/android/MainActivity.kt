@@ -101,9 +101,10 @@ private val DummyAnswerDetailDatas =
             AnswerDetailData(
                 index = index,
                 content = "문제 답변\n - $index",
-                chosenCount = run {
-                    if (index == 1) 43
-                    else Random.nextInt(if (index == 2) 30 else 0, 51)
+                chosenCount = when (index) {
+                    0 -> 4
+                    1 -> 43
+                    else -> Random.nextInt(if (index == 2) 25 else 0, 51)
                 },
                 totalExamineeCount = 50,
             )
