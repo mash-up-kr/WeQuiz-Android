@@ -8,9 +8,4 @@ class IntroActivity : BaseViewBindingActivity<ActivityIntroBinding>(ActivityIntr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
-    companion object {
-        const val LOG_IN_MODE = 0
-        const val SIGN_UP_MODE = 1
-    }
 }

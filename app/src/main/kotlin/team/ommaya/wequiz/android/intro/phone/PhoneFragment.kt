@@ -17,8 +17,7 @@ import androidx.navigation.fragment.findNavController
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentPhoneBinding
-import team.ommaya.wequiz.android.intro.IntroActivity.Companion.LOG_IN_MODE
-import team.ommaya.wequiz.android.intro.IntroActivity.Companion.SIGN_UP_MODE
+import team.ommaya.wequiz.android.intro.IntroMode
 import team.ommaya.wequiz.android.intro.IntroViewModel
 import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
 import team.ommaya.wequiz.android.utils.isValidInputLength
@@ -47,9 +46,8 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
     private fun initView() {
         with(binding) {
             tvPhoneTitle.text = when (introViewModel.mode.value) {
-                LOG_IN_MODE -> getString(R.string.phone_log_in_mode_title)
-                SIGN_UP_MODE -> getString(R.string.phone_sign_up_mode_title)
-                else -> getString(R.string.phone_log_in_mode_title)
+                IntroMode.Login -> getString(R.string.phone_log_in_mode_title)
+                IntroMode.SignUp -> getString(R.string.phone_sign_up_mode_title)
             }
 
             with(etPhoneInput) {

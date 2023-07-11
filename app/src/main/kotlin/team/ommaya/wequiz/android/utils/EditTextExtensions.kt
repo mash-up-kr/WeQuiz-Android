@@ -8,4 +8,5 @@
 package team.ommaya.wequiz.android.utils
 
 fun isValidInputLength(text: String, length: Int) = text.length == length
+
 fun isValidInputLengthRange(text: String, min: Int, max: Int) = text.length in min..max

@@ -21,8 +21,7 @@ import androidx.navigation.fragment.findNavController
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentOnboardingBinding
-import team.ommaya.wequiz.android.intro.IntroActivity.Companion.LOG_IN_MODE
-import team.ommaya.wequiz.android.intro.IntroActivity.Companion.SIGN_UP_MODE
+import team.ommaya.wequiz.android.intro.IntroMode
 import team.ommaya.wequiz.android.intro.IntroViewModel
 
 class OnboardingFragment :
@@ -34,12 +33,12 @@ class OnboardingFragment :
 
         with(binding) {
             btnOnboardingSignUp.setOnClickListener {
-                introViewModel.setStartMode(SIGN_UP_MODE)
+                introViewModel.setStartMode(IntroMode.Login)
                 findNavController().navigate(R.id.action_onboardingFragment_to_phoneFragment)
             }
 
             btnOnboardingLogin.setOnClickListener {
-                introViewModel.setStartMode(LOG_IN_MODE)
+                introViewModel.setStartMode(IntroMode.SignUp)
                 findNavController().navigate(R.id.action_onboardingFragment_to_phoneFragment)
             }
         }
