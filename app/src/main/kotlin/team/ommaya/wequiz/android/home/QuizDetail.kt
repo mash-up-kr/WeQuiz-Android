@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-@file:OptIn(ExperimentalTextApi::class)
+@file:Suppress("ktlint")
 
 package team.ommaya.wequiz.android.home
 
@@ -365,13 +365,15 @@ private fun CacheDrawScope.withDrawHeaderCharCircle(
     drawTime: DrawTime = DrawTime.Front,
     onDrawBehind: (ContentDrawScope.() -> Unit)? = null,
     onDrawFront: (ContentDrawScope.() -> Unit)? = null,
-    @Suppress("NAME_SHADOWING") onContentDrawProvider: (ContentDrawScope.(
+    @Suppress("NAME_SHADOWING") onContentDrawProvider: (
+    ContentDrawScope.(
         textMeasureResult: TextLayoutResult,
         drawTime: DrawTime,
         onDrawBehind: (ContentDrawScope.() -> Unit)?,
         onDrawFront: (ContentDrawScope.() -> Unit)?,
         headerDrawingBlock: ContentDrawScope.() -> Unit,
-    ) -> Unit) = { _, drawTime, onDrawBehind, onDrawFront, drawingBlock ->
+    ) -> Unit
+    ) = { _, drawTime, onDrawBehind, onDrawFront, drawingBlock ->
         onDrawBehind?.invoke(this)
         if (drawTime == DrawTime.Behind) drawingBlock()
         drawContent()
@@ -467,7 +469,7 @@ private fun QuizAnswerTitle(
                         center = size.center,
                         topLeft = headeCharCircleTopLeft,
                     )
-                }
+                },
         )
         BasicText(
             text = title,
