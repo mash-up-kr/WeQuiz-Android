@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Designed and developed by "옴마야" Team 2023.
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
+  -->
+
+<resources>
+
+    <style name="Theme.WeQuiz" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- primary color -->
+        <item name="colorPrimary">@color/P1</item>
+        <item name="colorPrimaryVariant">@color/G9</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- statusBarColor -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    </style>
+
+</resources>

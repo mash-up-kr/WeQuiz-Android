@@ -17,6 +17,8 @@
         <item name="android:layout_marginTop">12dp</item>
         <item name="android:layout_marginBottom">20dp</item>
         <item name="android:textAppearance">@style/WeQuizTextAppearance.Base.SemiBold</item>
+        <item name="android:textColor">@color/selector_bottom_btn_text_color</item>
+        <item name="android:backgroundTint">@color/selector_bottom_btn_bg_tint</item>
     </style>
 
     <style name="WeQuizRoundButton.Disabled">
@@ -33,6 +35,8 @@
         <item name="android:layout_height">56dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textAppearance">@style/WeQuizTextAppearance.Base.SemiBold</item>
+        <item name="android:textColor">@color/selector_bottom_btn_text_color</item>
+        <item name="android:backgroundTint">@color/selector_bottom_btn_bg_tint</item>
     </style>
 
     <style name="WeQuizMaxButton.Disabled">
@@ -94,7 +98,7 @@
     <style name="WeQuizTextInputLayout.Certification">
         <!-- trailing icon -->
         <item name="endIconMode">custom</item>
-        <item name="endIconDrawable">@drawable/btn_resend_certification</item>
+        <item name="endIconDrawable">@drawable/ic_resend</item>
     </style>
 
     <style name="WeQuizBasicEditText" parent="Theme.MaterialComponents">
