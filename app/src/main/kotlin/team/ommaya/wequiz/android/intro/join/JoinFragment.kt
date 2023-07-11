@@ -10,12 +10,13 @@ package team.ommaya.wequiz.android.intro.join
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentJoinBinding
 import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
-import team.ommaya.wequiz.android.utils.setJoinNextButtonEnable
+import team.ommaya.wequiz.android.utils.isValidInputLengthRange
 
 class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBinding::inflate) {
     private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
@@ -28,8 +29,14 @@ class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBi
     }
 
     private fun initView() {
-        binding.apply {
-            setJoinNextButtonEnable(btnJoinNext, etJoinInputNickname, etJoinInputIntroduction)
+        with(binding) {
+            etJoinInputNickname.addTextChangedListener {
+                setNextButtonEnable()
+            }
+
+            etJoinInputIntroduction.addTextChangedListener {
+                setNextButtonEnable()
+            }
 
             etJoinInputNickname.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
@@ -59,9 +66,23 @@ class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBi
         }
     }
 
+    private fun setNextButtonEnable() {
+        with(binding) {
+            btnJoinNext.isEnabled =
+                isValidInputLengthRange(
+                    etJoinInputNickname.text.toString(),
+                    MIN_NICKNAME_LENGTH,
+                    MAX_NICKNAME_LENGTH,
+                )
+                        && isValidInputLengthRange(
+                    etJoinInputIntroduction.text.toString(),
+                    MIN_INTRODUCTION_LENGTH,
+                    MAX_INTRODUCTION_LENGTH,
+                )
+        }
+    }
+
     private fun initKeyboardVisibilityUtils() {
-        // 임시 코드..
-        // button의 style 바꾸는게 쉽지 않아서 일단 구현해놨는데 custom view로 변경 해야 할듯
         val params = binding.btnJoinNext.layoutParams as ViewGroup.MarginLayoutParams
 
         keyboardVisibilityUtils = KeyboardVisibilityUtils(
@@ -91,5 +112,12 @@ class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBi
     override fun onDestroyView() {
         super.onDestroyView()
         keyboardVisibilityUtils.detachKeyboardListeners()
+    }
+
+    companion object {
+        const val MIN_NICKNAME_LENGTH = 1
+        const val MAX_NICKNAME_LENGTH = 8
+        const val MIN_INTRODUCTION_LENGTH = 0
+        const val MAX_INTRODUCTION_LENGTH = 30
     }
 }

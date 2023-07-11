@@ -8,8 +8,10 @@
 package team.ommaya.wequiz.android.intro.phone
 
 import android.os.Bundle
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import team.ommaya.wequiz.android.R
@@ -19,8 +21,7 @@ import team.ommaya.wequiz.android.intro.IntroActivity.Companion.LOG_IN_MODE
 import team.ommaya.wequiz.android.intro.IntroActivity.Companion.SIGN_UP_MODE
 import team.ommaya.wequiz.android.intro.IntroViewModel
 import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
-import team.ommaya.wequiz.android.utils.formatTextAsPhoneNumber
-import team.ommaya.wequiz.android.utils.setRequestVerifyCodeButtonEnable
+import team.ommaya.wequiz.android.utils.isValidInputLength
 
 class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhoneBinding::inflate) {
     private val introViewModel: IntroViewModel by activityViewModels()
@@ -35,23 +36,29 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
     }
 
     private fun checkVerificationIsSucceed() {
-        if (introViewModel.isVerificationSucceed.value) {
-            introViewModel.setVerificationSucceed(false)
-            findNavController().navigate(R.id.action_phoneFragment_to_joinFragment)
+        with(introViewModel) {
+            if (isVerificationSucceed.value) {
+                setVerificationSucceed(false)
+                findNavController().navigate(R.id.action_phoneFragment_to_joinFragment)
+            }
         }
     }
 
     private fun initView() {
-        binding.apply {
+        with(binding) {
             tvPhoneTitle.text = when (introViewModel.mode.value) {
                 LOG_IN_MODE -> getString(R.string.phone_log_in_mode_title)
                 SIGN_UP_MODE -> getString(R.string.phone_sign_up_mode_title)
                 else -> getString(R.string.phone_log_in_mode_title)
             }
 
-            etPhoneInput.apply {
-                formatTextAsPhoneNumber()
-                setRequestVerifyCodeButtonEnable(binding.btnPhoneRequestVerifyCode)
+            with(etPhoneInput) {
+                addTextChangedListener(PhoneNumberFormattingTextWatcher(COUNTRY_CODE_KOREA))
+
+                addTextChangedListener {
+                    btnPhoneRequestVerifyCode.isEnabled =
+                        isValidInputLength(text.toString(), PHONE_NUMBER_LENGTH)
+                }
             }
 
             btnPhoneRequestVerifyCode.setOnClickListener {
@@ -65,8 +72,6 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
     }
 
     private fun initKeyboardVisibilityUtils() {
-        // 임시 코드..
-        // button의 style 바꾸는게 쉽지 않아서 일단 구현해놨는데 custom view로 변경 해야 할듯
         val params = binding.btnPhoneRequestVerifyCode.layoutParams as MarginLayoutParams
 
         keyboardVisibilityUtils = KeyboardVisibilityUtils(
@@ -93,5 +98,10 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
     override fun onDestroyView() {
         super.onDestroyView()
         keyboardVisibilityUtils.detachKeyboardListeners()
+    }
+
+    companion object {
+        const val PHONE_NUMBER_LENGTH = 13
+        const val COUNTRY_CODE_KOREA = "KR"
     }
 }

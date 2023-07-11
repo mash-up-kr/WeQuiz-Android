@@ -9,12 +9,13 @@ package team.ommaya.wequiz.android.intro.verifycode
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentVerifyCodeBinding
 import team.ommaya.wequiz.android.intro.IntroViewModel
-import team.ommaya.wequiz.android.utils.observeTextLengthForAction
+import team.ommaya.wequiz.android.utils.isValidInputLength
 
 class VerifyCodeFragment :
     BaseViewBindingFragment<FragmentVerifyCodeBinding>(FragmentVerifyCodeBinding::inflate) {
@@ -27,9 +28,15 @@ class VerifyCodeFragment :
     }
 
     private fun initView() {
-        binding.apply {
-            etVerifyCodeInput.observeTextLengthForAction {
-                if (etVerifyCodeInput.text.toString() == TEST_CODE) onVerificationSucceed()
+        with(binding.etVerifyCodeInput) {
+            addTextChangedListener {
+                if (isValidInputLength(text.toString(), VERIFY_CODE_LENGTH)) {
+                    if (text.toString() == TEST_VERIFY_CODE) {
+                        onVerificationSucceed()
+                    } else {
+                        // 인증번호가 올바르지 않아요 snack bar trigger
+                    }
+                }
             }
         }
     }
@@ -40,6 +47,7 @@ class VerifyCodeFragment :
     }
 
     companion object {
-        const val TEST_CODE = "123456"
+        const val VERIFY_CODE_LENGTH = 6
+        const val TEST_VERIFY_CODE = "123456"
     }
 }

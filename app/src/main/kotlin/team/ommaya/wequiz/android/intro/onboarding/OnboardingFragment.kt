@@ -32,14 +32,16 @@ class OnboardingFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnOnboardingSignUp.setOnClickListener {
-            introViewModel.setStartMode(SIGN_UP_MODE)
-            findNavController().navigate(R.id.action_onboardingFragment_to_phoneFragment)
-        }
+        with(binding) {
+            btnOnboardingSignUp.setOnClickListener {
+                introViewModel.setStartMode(SIGN_UP_MODE)
+                findNavController().navigate(R.id.action_onboardingFragment_to_phoneFragment)
+            }
 
-        binding.btnOnboardingLogin.setOnClickListener {
-            introViewModel.setStartMode(LOG_IN_MODE)
-            findNavController().navigate(R.id.action_onboardingFragment_to_phoneFragment)
+            btnOnboardingLogin.setOnClickListener {
+                introViewModel.setStartMode(LOG_IN_MODE)
+                findNavController().navigate(R.id.action_onboardingFragment_to_phoneFragment)
+            }
         }
     }
 }
