@@ -9,7 +9,7 @@ package team.ommaya.wequiz.android.dummy
 
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
-import team.ommaya.wequiz.android.home.ExamNameAndIsWritingPair
+import team.ommaya.wequiz.android.home.QuizNameAndIsWritingPair
 import team.ommaya.wequiz.android.home.NicknameUuidScoreTriple
 
 val DummyFriendsRanking =
@@ -23,13 +23,13 @@ val DummyFriendsRanking =
         )
     }.toImmutableList()
 
-val DummyExams =
+val DummyQuizs =
     List(30) { index ->
         @Suppress("NAME_SHADOWING")
         val index = index + 1
         val boolean = index % 2 == 0
-        ExamNameAndIsWritingPair(
-            /*examName = */ "${index}번${"_시험지".repeat(10)}".take(if (!boolean) 10 else 38),
+        QuizNameAndIsWritingPair(
+            /*QuizName = */ "${index}번${"_시험지".repeat(10)}".take(if (!boolean) 10 else 38),
             /*isWip = */ boolean,
         )
     }.toPersistentList()
