@@ -39,20 +39,16 @@ class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBi
             }
 
             etJoinInputNickname.setOnFocusChangeListener { _, hasFocus ->
+                textInputLayoutJoinInputNickname.isCounterEnabled = hasFocus
                 if (hasFocus) {
-                    textInputLayoutJoinInputNickname.isCounterEnabled = true
                     textInputLayoutJoinInputIntroduction.isCounterEnabled = false
-                } else {
-                    textInputLayoutJoinInputNickname.isCounterEnabled = false
                 }
             }
 
             etJoinInputIntroduction.setOnFocusChangeListener { _, hasFocus ->
+                textInputLayoutJoinInputIntroduction.isCounterEnabled = hasFocus
                 if (hasFocus) {
                     textInputLayoutJoinInputNickname.isCounterEnabled = false
-                    textInputLayoutJoinInputIntroduction.isCounterEnabled = true
-                } else {
-                    textInputLayoutJoinInputIntroduction.isCounterEnabled = false
                 }
             }
 
