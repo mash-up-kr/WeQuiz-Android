@@ -27,13 +27,16 @@ class SignUpDialog :
     private fun initView() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        binding.btnSignUpCancel.setOnClickListener {
-            dismiss()
-        }
+        with(binding) {
+            btnSignUpCancel.setOnClickListener {
+                // PhoneFragment로 전환
+                dismiss()
+            }
 
-        binding.btnSignUp.setOnClickListener {
-            // 회원가입으로 전환
-            dismiss()
+            btnSignUp.setOnClickListener {
+                // 회원가입 모드 JoinFragment로 전환
+                dismiss()
+            }
         }
     }
 
