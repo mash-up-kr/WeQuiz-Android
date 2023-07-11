@@ -26,7 +26,7 @@ abstract class BaseViewBindingDialogFragment<VB : ViewBinding>(
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = bindingInflater(inflater)
         return binding.root
