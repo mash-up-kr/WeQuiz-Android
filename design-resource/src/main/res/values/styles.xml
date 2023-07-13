@@ -115,4 +115,9 @@
         <item name="android:textColorHighlight">@color/P1</item> <!-- text 드래그 색 상-->
     </style>
 
+    <!-- Snackbar -->
+    <style name="Widget.SnackBar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="android:layout_margin">0dp</item>
+    </style>
+
 </resources>
