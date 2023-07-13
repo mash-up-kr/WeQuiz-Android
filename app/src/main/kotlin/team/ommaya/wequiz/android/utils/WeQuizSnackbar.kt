@@ -37,7 +37,7 @@ class WeQuizSnackbar(
     private fun initView() {
         with(snackbarLayout) {
             removeAllViews()
-            setPadding(dpToPx(20), 0, dpToPx(20), dpToPx(50))
+            setPadding(20.toPx(), 0.toPx(), 20.toPx(), 50.toPx())
             setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
             addView(binding.root, 0)
         }
@@ -52,18 +52,13 @@ class WeQuizSnackbar(
                 when (snackbarMode) {
                     SnackbarMode.Success -> team.ommaya.wequiz.android.design.resource.R.drawable.ic_circle_success
                     SnackbarMode.Error -> team.ommaya.wequiz.android.design.resource.R.drawable.ic_circle_error
-                }
+                },
             )
         }
     }
 
     fun show() {
         snackbar.show()
-    }
-
-    private fun dpToPx(dp: Int): Int {
-        val scale = context.resources.displayMetrics.density
-        return (dp * scale + 0.5f).toInt()
     }
 }
 
