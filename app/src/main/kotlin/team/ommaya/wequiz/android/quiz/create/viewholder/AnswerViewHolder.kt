@@ -13,9 +13,12 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import team.ommaya.wequiz.android.databinding.ItemQuizAnswerBinding
 import team.ommaya.wequiz.android.design.resource.R
+import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 
-class QuizAnswerViewHolder(
+class AnswerViewHolder(
     private val binding: ItemQuizAnswerBinding,
+    private val viewModel: QuizCreateViewModel,
+    private val questionPosition: Int,
     private val context: Context,
 ) : ViewHolder(binding.root) {
 
@@ -30,10 +33,12 @@ class QuizAnswerViewHolder(
         }
 
         binding.apply {
-            etQuizDefault.setOnFocusChangeListener { v, isFocus ->
+            etQuizDefault.setOnFocusChangeListener { _, isFocus ->
                 ivAnswerClose.isVisible = isFocus
             }
-
+            root.setOnClickListener {
+                viewModel.setQuestionFocus(questionPosition)
+            }
             ivAnswerIndex.setImageDrawable(context.getDrawable(indexIconRes))
         }
     }

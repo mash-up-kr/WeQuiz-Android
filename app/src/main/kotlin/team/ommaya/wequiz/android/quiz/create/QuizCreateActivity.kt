@@ -7,29 +7,46 @@
 
 package team.ommaya.wequiz.android.quiz.create
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.base.BaseViewBindingActivity
 import team.ommaya.wequiz.android.databinding.ActivityQuizCreateBinding
+import team.ommaya.wequiz.android.quiz.create.adapter.QuizCreateAdapter
 
 class QuizCreateActivity :
     BaseViewBindingActivity<ActivityQuizCreateBinding>(ActivityQuizCreateBinding::inflate) {
 
+    private val quizCreateViewModel: QuizCreateViewModel by viewModels()
+
     private val quizAdapter by lazy {
         QuizCreateAdapter(
             quizCreateViewModel,
-            onAnswerItemClickListener = { position ->
-                onQuizItemClickListener(position)
-            },
             this,
+            lifecycle,
+            onQuestionAddItemClickListener = {
+                onQuestionAddItemClickListener()
+            },
+            onQuestionItemClickListener = { position, isEditable ->
+                onQuestionItemClickListener(position, isEditable)
+            }
         )
     }
 
-    private val quizCreateViewModel: QuizCreateViewModel by viewModels()
+    private val adapterDataObserver = object : RecyclerView.AdapterDataObserver() {
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            super.onItemRangeInserted(positionStart, itemCount)
+            binding.rvQuizList.scrollToPosition(positionStart)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
@@ -40,19 +57,43 @@ class QuizCreateActivity :
         binding.apply {
             rvQuizList.adapter = quizAdapter
         }
+        quizAdapter.registerAdapterDataObserver(adapterDataObserver)
     }
 
     private fun collectFlows() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                quizCreateViewModel.quizList.collect { list ->
+                quizCreateViewModel.questionList.collect { list ->
                     quizAdapter.submitList(list)
+                    Log.d("리스트", "collectFlows: $list")
                 }
             }
         }
     }
 
-    private fun onQuizItemClickListener(position: Int) {
-        binding.rvQuizList.smoothScrollToPosition(position)
+    override fun onDestroy() {
+        super.onDestroy()
+        quizAdapter.unregisterAdapterDataObserver(adapterDataObserver)
+    }
+
+    private fun onQuestionAddItemClickListener() {
+        binding.root.clearFocus()
+    }
+
+    private fun onQuestionItemClickListener(itemPosition: Int, isEditable: Boolean) {
+        if (!isEditable) {
+            binding.root.clearFocus()
+            hideKeyboard()
+        }
+        binding.rvQuizList.scrollToPosition(itemPosition)
+    }
+
+    private fun hideKeyboard() {
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(
+            window.decorView.windowToken,
+            0
+        )
     }
 }
