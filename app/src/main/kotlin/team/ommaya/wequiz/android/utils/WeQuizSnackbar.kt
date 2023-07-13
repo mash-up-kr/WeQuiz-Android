@@ -37,7 +37,7 @@ class WeQuizSnackbar(
     private fun initView() {
         with(snackbarLayout) {
             removeAllViews()
-            setPadding(20.toPx(), 0.toPx(), 20.toPx(), 50.toPx())
+            setPadding(20.px, 0.px, 20.px, 50.px)
             setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
             addView(binding.root, 0)
         }

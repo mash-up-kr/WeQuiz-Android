@@ -9,4 +9,5 @@ package team.ommaya.wequiz.android.utils
 
 import android.content.res.Resources
 
-fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
+val Int.px: Int
+    get() = (this * Resources.getSystem().displayMetrics.density).toInt()

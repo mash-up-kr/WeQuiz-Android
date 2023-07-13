@@ -21,7 +21,7 @@ import team.ommaya.wequiz.android.intro.IntroMode
 import team.ommaya.wequiz.android.intro.IntroViewModel
 import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
 import team.ommaya.wequiz.android.utils.isValidInputLength
-import team.ommaya.wequiz.android.utils.toPx
+import team.ommaya.wequiz.android.utils.px
 
 class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhoneBinding::inflate) {
     private val introViewModel: IntroViewModel by activityViewModels()
@@ -82,7 +82,7 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
             },
             onHideKeyboard = {
                 binding.btnPhoneRequestVerifyCode.setBackgroundResource(team.ommaya.wequiz.android.design.resource.R.drawable.btn_radius_12)
-                params.setMargins(20.toPx(), 12.toPx(), 20.toPx(), 20.toPx())
+                params.setMargins(20.px, 12.px, 20.px, 20.px)
                 binding.btnPhoneRequestVerifyCode.layoutParams = params
                 binding.etPhoneInput.clearFocus()
             },
