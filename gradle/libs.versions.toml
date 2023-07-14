@@ -20,7 +20,7 @@ compose-animation = "1.6.0-alpha01"
 compose-material-ripple = "1.6.0-alpha01"
 compose-activity = "1.7.2"
 
-android-hilt = "2.46.1"
+android-hilt = "2.47"
 
 androidx-fragment = "1.6.0"
 androidx-constraintlayout = "2.1.4"
