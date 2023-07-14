@@ -10,6 +10,7 @@ package team.ommaya.wequiz.android.quiz.create.viewholder
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import team.ommaya.wequiz.android.databinding.ItemQuizCreateAddBinding
 import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
+import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel.Companion.UN_FOCUSED
 
 class QuestionAddViewHolder(
     private val binding: ItemQuizCreateAddBinding,
@@ -21,7 +22,7 @@ class QuestionAddViewHolder(
         binding.root.setOnClickListener {
             with(viewModel) {
                 addQuiz()
-                setQuestionFocus(-1)
+                setQuestionFocus(UN_FOCUSED)
             }
             onQuestionItemClickListener()
         }

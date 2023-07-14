@@ -72,4 +72,8 @@ class QuizCreateViewModel : ViewModel() {
     }
 
     fun getAnswerList(questionPosition: Int) = questionList.value[questionPosition].answerList
+
+    companion object {
+        const val UN_FOCUSED = -1
+    }
 }

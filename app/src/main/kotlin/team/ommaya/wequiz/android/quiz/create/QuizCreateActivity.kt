@@ -9,12 +9,12 @@ package team.ommaya.wequiz.android.quiz.create
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.base.BaseViewBindingActivity
@@ -32,11 +32,11 @@ class QuizCreateActivity :
             this,
             lifecycle,
             onQuestionAddItemClickListener = {
-                onQuestionAddItemClickListener()
+                onQuestionAddItemClick()
             },
             onQuestionItemClickListener = { position, isEditable ->
-                onQuestionItemClickListener(position, isEditable)
-            }
+                onQuestionItemClick(position, isEditable)
+            },
         )
     }
 
@@ -44,6 +44,14 @@ class QuizCreateActivity :
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             super.onItemRangeInserted(positionStart, itemCount)
             binding.rvQuizList.scrollToPosition(positionStart)
+        }
+    }
+
+    private val scroller: LinearSmoothScroller by lazy {
+        object : LinearSmoothScroller(this) {
+            override fun getVerticalSnapPreference(): Int {
+                return SNAP_TO_END
+            }
         }
     }
 
@@ -65,7 +73,6 @@ class QuizCreateActivity :
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 quizCreateViewModel.questionList.collect { list ->
                     quizAdapter.submitList(list)
-                    Log.d("리스트", "collectFlows: $list")
                 }
             }
         }
@@ -76,16 +83,17 @@ class QuizCreateActivity :
         quizAdapter.unregisterAdapterDataObserver(adapterDataObserver)
     }
 
-    private fun onQuestionAddItemClickListener() {
+    private fun onQuestionAddItemClick() {
         binding.root.clearFocus()
     }
 
-    private fun onQuestionItemClickListener(itemPosition: Int, isEditable: Boolean) {
+    private fun onQuestionItemClick(questionPosition: Int, isEditable: Boolean) {
         if (!isEditable) {
             binding.root.clearFocus()
             hideKeyboard()
         }
-        binding.rvQuizList.scrollToPosition(itemPosition)
+        scroller.targetPosition = questionPosition + 1
+        binding.rvQuizList.layoutManager?.startSmoothScroll(scroller)
     }
 
     private fun hideKeyboard() {
@@ -93,7 +101,7 @@ class QuizCreateActivity :
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(
             window.decorView.windowToken,
-            0
+            0,
         )
     }
 }

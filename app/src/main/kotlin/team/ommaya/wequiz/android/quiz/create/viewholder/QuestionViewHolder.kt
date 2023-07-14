@@ -50,7 +50,7 @@ class QuestionViewHolder(
             }
             answerAdapter = AnswerAdapter(
                 viewModel,
-                onAnswerAddItemClickListener = { onAnswerAddItemClickListener() },
+                onAnswerAddItemClickListener = { onAnswerAddItemClick() },
                 position,
                 context,
             ).apply {
@@ -68,13 +68,12 @@ class QuestionViewHolder(
                         ivMultipleChoice.isVisible = isFocused
                         tvMultipleChoice.isVisible = isFocused
                     }
-
                 }
             }
         }
     }
 
-    private fun onAnswerAddItemClickListener() {
+    private fun onAnswerAddItemClick() {
         answerAdapter.submitList(viewModel.getAnswerList(adapterPosition))
     }
 }

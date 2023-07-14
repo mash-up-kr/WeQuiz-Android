@@ -11,7 +11,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp"
-    android:animateLayoutChanges="true"
     android:background="@drawable/bg_g7_radius_16"
     android:backgroundTint="@color/G8"
     android:padding="20dp">
