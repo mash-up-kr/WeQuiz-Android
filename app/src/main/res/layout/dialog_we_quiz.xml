@@ -18,20 +18,19 @@
         android:backgroundTint="@color/G7">
 
         <TextView
-            android:id="@+id/tv_sign_up_dialog_content"
+            android:id="@+id/tv_we_quiz_dialog_title"
             style="@style/WeQuizTextAppearance.Base.Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:gravity="center"
-            android:text="가입되지 않은 휴대폰 번호에요\n회원가입을 도와드릴까요?"
             android:textColor="@color/G2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_sign_up_cancel"
+            android:id="@+id/btn_we_quiz_dialog_negative"
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_marginStart="12dp"
@@ -40,29 +39,27 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/btn_radius_12"
             android:backgroundTint="@color/G6"
-            android:text="아니요"
             android:textAppearance="@style/WeQuizTextAppearance.Base.SemiBold"
             android:textColor="@color/G2"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btn_sign_up"
+            app:layout_constraintEnd_toStartOf="@id/btn_we_quiz_dialog_positive"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_sign_up_dialog_content" />
+            app:layout_constraintTop_toBottomOf="@id/tv_we_quiz_dialog_title" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_sign_up"
+            android:id="@+id/btn_we_quiz_dialog_positive"
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_marginEnd="12dp"
             android:background="@drawable/btn_radius_12"
             android:backgroundTint="@color/P1"
-            android:text="회원가입"
             android:textAppearance="@style/WeQuizTextAppearance.Base.SemiBold"
             android:textColor="@color/G2"
-            app:layout_constraintBottom_toBottomOf="@id/btn_sign_up_cancel"
+            app:layout_constraintBottom_toBottomOf="@id/btn_we_quiz_dialog_negative"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btn_sign_up_cancel"
-            app:layout_constraintTop_toTopOf="@id/btn_sign_up_cancel" />
+            app:layout_constraintStart_toEndOf="@id/btn_we_quiz_dialog_negative"
+            app:layout_constraintTop_toTopOf="@id/btn_we_quiz_dialog_negative" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
