@@ -17,6 +17,7 @@ import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentJoinBinding
 import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
 import team.ommaya.wequiz.android.utils.isValidInputLengthRange
+import team.ommaya.wequiz.android.utils.px
 
 class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBinding::inflate) {
     private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
@@ -89,7 +90,7 @@ class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBi
             },
             onHideKeyboard = {
                 binding.btnJoinNext.setBackgroundResource(team.ommaya.wequiz.android.design.resource.R.drawable.btn_radius_12)
-                params.setMargins(dpToPx(20), dpToPx(12), dpToPx(20), dpToPx(20))
+                params.setMargins(20.px, 12.px, 20.px, 20.px)
                 binding.btnJoinNext.layoutParams = params
                 binding.etJoinInputNickname.clearFocus()
                 binding.etJoinInputIntroduction.clearFocus()
@@ -97,11 +98,6 @@ class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBi
                 binding.textInputLayoutJoinInputIntroduction.isCounterEnabled = false
             },
         )
-    }
-
-    private fun dpToPx(dp: Int): Int {
-        val scale = resources.displayMetrics.density
-        return (dp * scale + 0.5f).toInt()
     }
 
     override fun onDestroyView() {
