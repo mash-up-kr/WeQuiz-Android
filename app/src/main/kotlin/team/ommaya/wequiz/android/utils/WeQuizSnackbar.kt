@@ -54,7 +54,7 @@ class WeQuizSnackbar(
     }
 
     companion object {
-        fun make(view: View, message: String, snackbarMode: SnackbarMode) =
+        fun make(view: View, message: String, snackbarMode: SnackbarMode = SnackbarMode.Success) =
             WeQuizSnackbar(view, message, snackbarMode)
     }
 }
