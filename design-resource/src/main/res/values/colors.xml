@@ -35,7 +35,7 @@
     <color name="Alert">#FF5D47</color>
 
     <!-- Opacity-->
-    <color name="Dimed">#121212B2</color>
-    <color name="Black">#121212E5</color>
+    <color name="Dimed">#B2121212</color>
+    <color name="Black">#E5161616</color>
 
 </resources>

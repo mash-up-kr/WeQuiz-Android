@@ -17,12 +17,11 @@ plugins {
 
 android {
     namespace = "team.ommaya.wequiz.android"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
-        @Suppress("OldTargetApi")
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
     }

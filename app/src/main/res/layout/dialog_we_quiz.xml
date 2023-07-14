@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Designed and developed by "옴마야" Team 2023.
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/btn_radius_16"
+        android:backgroundTint="@color/G7">
+
+        <TextView
+            android:id="@+id/tv_we_quiz_dialog_title"
+            style="@style/WeQuizTextAppearance.Base.Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:textColor="@color/G2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_we_quiz_dialog_negative"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/btn_radius_12"
+            android:backgroundTint="@color/G6"
+            android:textAppearance="@style/WeQuizTextAppearance.Base.SemiBold"
+            android:textColor="@color/G2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_we_quiz_dialog_positive"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_we_quiz_dialog_title" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_we_quiz_dialog_positive"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/btn_radius_12"
+            android:backgroundTint="@color/P1"
+            android:textAppearance="@style/WeQuizTextAppearance.Base.SemiBold"
+            android:textColor="@color/G2"
+            app:layout_constraintBottom_toBottomOf="@id/btn_we_quiz_dialog_negative"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_we_quiz_dialog_negative"
+            app:layout_constraintTop_toTopOf="@id/btn_we_quiz_dialog_negative" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
