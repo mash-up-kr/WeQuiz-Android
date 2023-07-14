@@ -18,9 +18,10 @@ import androidx.fragment.app.DialogFragment
 import team.ommaya.wequiz.android.databinding.DialogWeQuizBinding
 
 class WeQuizDialog(
-    private val weQuizDialogContents: WeQuizDialogContents
+    private val weQuizDialogContents: WeQuizDialogContents,
 ) : DialogFragment() {
     private var _binding: DialogWeQuizBinding? = null
+
     private val binding: DialogWeQuizBinding
         get() = _binding ?: error("Binding is null")
 
