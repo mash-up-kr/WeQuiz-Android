@@ -43,7 +43,7 @@ class WeQuizSnackbar(
                 context,
                 when (snackbarMode) {
                     SnackbarMode.Success -> team.ommaya.wequiz.android.design.resource.R.drawable.ic_circle_success
-                    SnackbarMode.Error -> team.ommaya.wequiz.android.design.resource.R.drawable.ic_circle_error
+                    SnackbarMode.Failure -> team.ommaya.wequiz.android.design.resource.R.drawable.ic_circle_failure
                 },
             )
         }
@@ -60,5 +60,5 @@ class WeQuizSnackbar(
 }
 
 enum class SnackbarMode {
-    Success, Error
+    Success, Failure
 }
