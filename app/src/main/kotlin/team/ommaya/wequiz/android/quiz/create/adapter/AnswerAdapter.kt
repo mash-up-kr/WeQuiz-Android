@@ -25,7 +25,7 @@ class AnswerAdapter(
     private val viewModel: QuizCreateViewModel,
     private val onAnswerAddItemClickListener: () -> Unit,
     private val quizPosition: Int,
-    private val context: Context
+    private val context: Context,
 ) : ListAdapter<Answer, ViewHolder>(answerDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
