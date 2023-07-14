@@ -18,11 +18,6 @@ class WeQuizSnackbar(
     private val message: String,
     private val snackbarMode: SnackbarMode,
 ) {
-    companion object {
-        fun make(view: View, message: String, snackbarMode: SnackbarMode) =
-            WeQuizSnackbar(view, message, snackbarMode)
-    }
-
     private val context = view.context
     private val snackbar = Snackbar.make(view, "", 3000)
     private val snackbarLayout = snackbar.view as Snackbar.SnackbarLayout
@@ -31,7 +26,6 @@ class WeQuizSnackbar(
 
     init {
         initView()
-        initData()
     }
 
     private fun initView() {
@@ -41,9 +35,7 @@ class WeQuizSnackbar(
             setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
             addView(binding.root, 0)
         }
-    }
 
-    private fun initData() {
         with(binding) {
             tvSnackbarMessage.text = message
 
@@ -59,6 +51,11 @@ class WeQuizSnackbar(
 
     fun show() {
         snackbar.show()
+    }
+
+    companion object {
+        fun make(view: View, message: String, snackbarMode: SnackbarMode) =
+            WeQuizSnackbar(view, message, snackbarMode)
     }
 }
 
