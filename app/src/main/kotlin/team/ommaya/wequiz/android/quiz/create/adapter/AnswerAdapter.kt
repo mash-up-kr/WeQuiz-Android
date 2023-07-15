@@ -5,14 +5,7 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-/*
- * Designed and developed by "옴마야" Team 2023.
- *
- * Licensed under the MIT.
- * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
- */
-
-package team.ommaya.wequiz.android.quiz.create
+package team.ommaya.wequiz.android.quiz.create.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -22,42 +15,51 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import team.ommaya.wequiz.android.databinding.ItemQuizAnswerAddBinding
 import team.ommaya.wequiz.android.databinding.ItemQuizAnswerBinding
-import team.ommaya.wequiz.android.quiz.create.viewholder.QuizAnswerAddViewHolder
-import team.ommaya.wequiz.android.quiz.create.viewholder.QuizAnswerViewHolder
+import team.ommaya.wequiz.android.quiz.create.Answer
+import team.ommaya.wequiz.android.quiz.create.Question
+import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
+import team.ommaya.wequiz.android.quiz.create.viewholder.AnswerAddViewHolder
+import team.ommaya.wequiz.android.quiz.create.viewholder.AnswerViewHolder
 
-class QuizAnswerAdapter(
+class AnswerAdapter(
+    private val viewModel: QuizCreateViewModel,
     private val onAnswerAddItemClickListener: () -> Unit,
+    private val quizPosition: Int,
     private val context: Context,
 ) : ListAdapter<Answer, ViewHolder>(answerDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return if (viewType == Quiz.QuizType.Create.typeNum) {
-            QuizAnswerViewHolder(
+        return if (viewType == Question.QuestionType.Default.typeNum) {
+            AnswerViewHolder(
                 ItemQuizAnswerBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false,
                 ),
+                viewModel,
+                quizPosition,
                 context,
             )
         } else {
-            QuizAnswerAddViewHolder(
+            AnswerAddViewHolder(
                 ItemQuizAnswerAddBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false,
                 ),
+                viewModel,
                 onAnswerAddItemClickListener,
+                quizPosition,
                 context,
             )
         }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (holder is QuizAnswerViewHolder) {
+        if (holder is AnswerViewHolder) {
             holder.bind(position)
         }
-        if (holder is QuizAnswerAddViewHolder) {
+        if (holder is AnswerAddViewHolder) {
             holder.bind(position)
         }
     }
@@ -73,25 +75,6 @@ class QuizAnswerAdapter(
 
             override fun areContentsTheSame(oldItem: Answer, newItem: Answer): Boolean =
                 oldItem == newItem
-        }
-    }
-}
-
-data class Answer(
-    val index: Int = 0,
-    val answer: String = "",
-    val isAnswer: Boolean = false,
-    val type: AnswerType = AnswerType.Default,
-) {
-    sealed interface AnswerType {
-        val typeNum: Int
-
-        object Default : AnswerType {
-            override val typeNum: Int = 0
-        }
-
-        object Add : AnswerType {
-            override val typeNum: Int = 1
         }
     }
 }

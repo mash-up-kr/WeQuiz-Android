@@ -12,10 +12,13 @@ import android.content.Context
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import team.ommaya.wequiz.android.databinding.ItemQuizAnswerAddBinding
 import team.ommaya.wequiz.android.design.resource.R
+import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 
-class QuizAnswerAddViewHolder(
+class AnswerAddViewHolder(
     private val binding: ItemQuizAnswerAddBinding,
+    private val viewModel: QuizCreateViewModel,
     private val onAnswerAddItemClickListener: () -> Unit,
+    private val questionPosition: Int,
     private val context: Context,
 ) : ViewHolder(binding.root) {
 
@@ -24,6 +27,8 @@ class QuizAnswerAddViewHolder(
         binding.apply {
             root.setOnClickListener {
                 onAnswerAddItemClickListener()
+                viewModel.addAnswer(questionPosition)
+                viewModel.setQuestionFocus(questionPosition)
             }
             val indexIconRes: Int = when (position) {
                 2 -> R.drawable.ic_index_c_empty

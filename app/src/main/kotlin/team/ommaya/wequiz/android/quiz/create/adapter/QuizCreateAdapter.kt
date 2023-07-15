@@ -5,51 +5,60 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-package team.ommaya.wequiz.android.quiz.create
+package team.ommaya.wequiz.android.quiz.create.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import team.ommaya.wequiz.android.databinding.ItemQuizCreateAddBinding
 import team.ommaya.wequiz.android.databinding.ItemQuizCreateQuizBinding
-import team.ommaya.wequiz.android.quiz.create.viewholder.QuizAddViewHolder
-import team.ommaya.wequiz.android.quiz.create.viewholder.QuizCreateViewHolder
+import team.ommaya.wequiz.android.quiz.create.Question
+import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
+import team.ommaya.wequiz.android.quiz.create.viewholder.QuestionAddViewHolder
+import team.ommaya.wequiz.android.quiz.create.viewholder.QuestionViewHolder
 
 class QuizCreateAdapter(
     private val quizViewModel: QuizCreateViewModel,
-    private val onAnswerItemClickListener: (Int) -> Unit,
     private val context: Context,
-) : ListAdapter<Quiz, ViewHolder>(quizDiffCallback) {
+    private val lifecycle: Lifecycle,
+    private val onQuestionAddItemClickListener: () -> Unit,
+    private val onQuestionItemClickListener: (Int, Boolean) -> Unit,
+) : ListAdapter<Question, ViewHolder>(questionDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return if (viewType == Quiz.QuizType.Create.typeNum) {
-            QuizCreateViewHolder(
+        return if (viewType == Question.QuestionType.Default.typeNum) {
+            QuestionViewHolder(
                 ItemQuizCreateQuizBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false,
                 ),
+                quizViewModel,
+                lifecycle,
                 context,
+                onQuestionItemClickListener,
             )
         } else {
-            QuizAddViewHolder(
+            QuestionAddViewHolder(
                 ItemQuizCreateAddBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false,
                 ),
                 quizViewModel,
+                onQuestionAddItemClickListener,
             )
         }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (holder is QuizCreateViewHolder) {
-            holder.bind(getItem(position))
+        if (holder is QuestionViewHolder) {
+            holder.bind(getItem(position), position)
         }
-        if (holder is QuizAddViewHolder) {
+        if (holder is QuestionAddViewHolder) {
             holder.bind()
         }
     }
@@ -59,32 +68,12 @@ class QuizCreateAdapter(
     }
 
     companion object {
-        val quizDiffCallback = object : DiffUtil.ItemCallback<Quiz>() {
-            override fun areItemsTheSame(oldItem: Quiz, newItem: Quiz): Boolean =
+        val questionDiffCallback = object : DiffUtil.ItemCallback<Question>() {
+            override fun areItemsTheSame(oldItem: Question, newItem: Question): Boolean =
                 oldItem.index == newItem.index
 
-            override fun areContentsTheSame(oldItem: Quiz, newItem: Quiz): Boolean =
+            override fun areContentsTheSame(oldItem: Question, newItem: Question): Boolean =
                 oldItem == newItem
-        }
-    }
-}
-
-data class Quiz(
-    val index: Int = 0,
-    val title: String = "문제입력",
-    val answerList: List<Answer> = emptyList(),
-    val isFocusable: Boolean = false,
-    val type: QuizType = QuizType.Create,
-) {
-    sealed interface QuizType {
-        val typeNum: Int
-
-        object Create : QuizType {
-            override val typeNum = 0
-        }
-
-        object Add : QuizType {
-            override val typeNum = 1
         }
     }
 }
