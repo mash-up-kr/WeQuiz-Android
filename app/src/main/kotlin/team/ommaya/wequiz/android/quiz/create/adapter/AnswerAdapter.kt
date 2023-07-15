@@ -75,6 +75,9 @@ class AnswerAdapter(
 
             override fun areContentsTheSame(oldItem: Answer, newItem: Answer): Boolean =
                 oldItem == newItem
+
+            override fun getChangePayload(oldItem: Answer, newItem: Answer): Boolean =
+                oldItem.index == newItem.index
         }
     }
 }

@@ -7,6 +7,7 @@
 
 package team.ommaya.wequiz.android.quiz.create.viewholder
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -16,6 +17,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.databinding.ItemQuizCreateQuizBinding
+import team.ommaya.wequiz.android.design.resource.R
 import team.ommaya.wequiz.android.quiz.create.Question
 import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 import team.ommaya.wequiz.android.quiz.create.adapter.AnswerAdapter
@@ -30,24 +32,10 @@ class QuestionViewHolder(
 
     private lateinit var answerAdapter: AnswerAdapter
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     fun bind(item: Question, position: Int) {
         binding.apply {
-            with(etQuizTitle) {
-                hint = item.title
-                setOnFocusChangeListener { _, hasFocus ->
-                    if (hasFocus) {
-                        viewModel.setQuestionFocus(position)
-                        onQuestionItemClickListener(position, true)
-                    }
-                }
-                doOnTextChanged { text, _, _, _ ->
-                    // TODO 타이틀 설정
-                }
-            }
-            root.setOnClickListener {
-                viewModel.setQuestionFocus(position)
-                onQuestionItemClickListener(position, false)
-            }
+            initListener(item, position)
             answerAdapter = AnswerAdapter(
                 viewModel,
                 onAnswerAddItemClickListener = { onAnswerAddItemClick() },
@@ -61,14 +49,47 @@ class QuestionViewHolder(
 
         lifecycle.coroutineScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.focusedPosition.collect { position ->
-                    val isFocused = position == adapterPosition
+                viewModel.questionList.collect { list ->
+                    val currentItem = list[position]
                     with(binding) {
-                        rvAnswerList.isVisible = isFocused
-                        ivMultipleChoice.isVisible = isFocused
-                        tvMultipleChoice.isVisible = isFocused
+                        rvAnswerList.isVisible = currentItem.isFocus
+                        ivMultipleChoice.isVisible = currentItem.isFocus
+                        tvMultipleChoice.isVisible = currentItem.isFocus
+
+                        val multipleChoiceIconRes = if (currentItem.isMultipleChoice) {
+                            R.drawable.ic_circle_success
+                        } else {
+                            R.drawable.ic_checkmark
+                        }
+                        ivMultipleChoice.setImageDrawable(context.getDrawable(multipleChoiceIconRes))
                     }
                 }
+            }
+        }
+    }
+
+    private fun initListener(item: Question, position: Int) {
+        with(binding) {
+            with(etQuizTitle) {
+                hint = item.title
+                setOnFocusChangeListener { _, hasFocus ->
+                    if (hasFocus) {
+                        viewModel.setQuestionFocus(position)
+                        onQuestionItemClickListener(position, true)
+                    }
+                }
+                doOnTextChanged { text, _, _, _ ->
+                    // TODO 타이틀 설정
+                }
+            }
+            ivTitleCancel.setOnClickListener {
+            }
+            root.setOnClickListener {
+                viewModel.setQuestionFocus(position, true)
+                onQuestionItemClickListener(position, false)
+            }
+            vMultipleChoice.setOnClickListener {
+                viewModel.setMultipleChoice(position)
             }
         }
     }

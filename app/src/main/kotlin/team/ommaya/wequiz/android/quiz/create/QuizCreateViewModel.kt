@@ -67,11 +67,44 @@ class QuizCreateViewModel : ViewModel() {
         _questionList.update { questionList }
     }
 
-    fun setQuestionFocus(questionPosition: Int) {
-        _focusedPosition.value = questionPosition
+    fun setQuestionFocus(questionPosition: Int, isQuestionItemClick: Boolean = false) {
+        if (questionPosition == UN_FOCUSED) {
+            return
+        }
+        val list = mutableListOf<Question>().apply {
+            addAll(questionList.value)
+        }
+
+        list.forEachIndexed { index, question ->
+            if (index == questionPosition) {
+                list[questionPosition] = list[questionPosition].copy(
+                    isFocus = if (isQuestionItemClick) {
+                        !list[questionPosition].isFocus
+                    } else {
+                        true
+                    }
+                )
+            } else {
+                list[index] = question.copy(isFocus = false)
+            }
+        }
+
+
+        _questionList.update { list }
     }
 
     fun getAnswerList(questionPosition: Int) = questionList.value[questionPosition].answerList
+
+    fun setMultipleChoice(questionPosition: Int) {
+        val list = mutableListOf<Question>().apply {
+            addAll(questionList.value)
+        }
+
+        list[questionPosition] =
+            list[questionPosition].copy(isMultipleChoice = !list[questionPosition].isMultipleChoice)
+
+        _questionList.update { list }
+    }
 
     companion object {
         const val UN_FOCUSED = -1
