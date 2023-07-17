@@ -23,6 +23,11 @@
     <string name="verify_code_title">휴대폰 인증번호를\n입력해 주세요</string>
     <string name="verify_code">인증번호</string>
     <string name="verify_code_hint">6자리 숫자</string>
+    <string name="verify_code_time_out">인증번호 시간이 만료됐어요\n재전송을 눌러 다시 시도해 주세요</string>
+    <string name="verify_code_incorrect">인증번호가 올바르지 않아요</string>
+    <string name="verify_code_resend">인증번호를 재전송했어요</string>
+    <string name="verify_code_resend_time_out">인증번호가 만료됐어요. 다시 시도해 주세요</string>
+    <string name="sign_up_dialog">가입되지 않은 휴대폰 번호에요\n회원가입을 도와드릴까요?</string>
     <string name="join_title">{서비스명}에서 사용 할\n닉네임을 입력해 주세요</string>
     <string name="introduction">자기소개 (선택)</string>
     <string name="introduction_hint">자기소개 입력</string>
@@ -41,5 +46,5 @@
     <string name="add_question">질문 추가</string>
     <string name="enter_question">문제 입력</string>
     <string name="allow_duplication">중복 선택여부</string>
-  
+
 </resources>
