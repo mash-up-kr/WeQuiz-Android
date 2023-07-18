@@ -34,12 +34,15 @@ class AnswerViewHolder(
 
         binding.apply {
             etQuizDefault.setOnFocusChangeListener { _, isFocus ->
-                ivAnswerClose.isVisible = isFocus
+                ivAnswerTitleDelete.isVisible = isFocus
             }
             root.setOnClickListener {
                 viewModel.setQuestionFocus(questionPosition)
             }
             ivAnswerIndex.setImageDrawable(context.getDrawable(indexIconRes))
+            ivAnswerTitleDelete.setOnClickListener {
+                etQuizDefault.text.clear()
+            }
         }
     }
 }

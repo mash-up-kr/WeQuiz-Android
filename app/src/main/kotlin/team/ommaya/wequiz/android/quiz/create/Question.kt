@@ -7,17 +7,15 @@
 
 package team.ommaya.wequiz.android.quiz.create
 
+import java.security.SecureRandom
+
 data class Question(
-    val index: Int = 0,
+    val key: Long = 0,
     val title: String = "문제입력",
     val isFocus: Boolean = false,
     val isMultipleChoice: Boolean = false,
     val type: QuestionType = QuestionType.Default,
-    val answerList: List<Answer> = listOf(
-        Answer(index = 0),
-        Answer(index = 1),
-        Answer(index = -1, type = Answer.AnswerType.Add),
-    ),
+    val answerList: List<Answer> = Answer.getInitialAnswerList()
 ) {
     sealed interface QuestionType {
         val typeNum: Int
@@ -30,10 +28,22 @@ data class Question(
             override val typeNum = 1
         }
     }
+
+    companion object {
+        fun makeQuestion(type: QuestionType = QuestionType.Default) =
+            Question(
+                key = SecureRandom().nextLong(),
+                type = type,
+            )
+
+        fun getInitialQuestionList() = listOf<Question>(
+            makeQuestion(), makeQuestion(), makeQuestion(QuestionType.Add),
+        )
+    }
 }
 
 data class Answer(
-    val index: Int = 0,
+    val key: Long = 0,
     val content: String = "",
     val isCorrect: Boolean = false,
     val type: AnswerType = AnswerType.Default,
@@ -48,5 +58,17 @@ data class Answer(
         object Add : AnswerType {
             override val typeNum: Int = 1
         }
+    }
+
+    companion object {
+        fun makeAnswer(type: AnswerType = AnswerType.Default) =
+            Answer(
+                key = SecureRandom().nextLong(),
+                type = type,
+            )
+
+        fun getInitialAnswerList() = listOf<Answer>(
+            makeAnswer(), makeAnswer(), makeAnswer(AnswerType.Add),
+        )
     }
 }

@@ -26,32 +26,31 @@
         android:textAppearance="@style/WeQuizTextAppearance.Subtitle2.Medium"
         android:textColor="@color/G2"
         android:textColorHint="@color/G4"
-        app:layout_constraintEnd_toStartOf="@id/iv_title_cancel"
+        app:layout_constraintEnd_toStartOf="@id/iv_question_title_delete"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_goneMarginEnd="20dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_delete_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/delete_question"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
+        android:contentDescription="@string/delete_question"
         android:src="@drawable/ic_close_white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_title_cancel"
+        android:id="@+id/iv_question_title_delete"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginEnd="20dp"
         android:contentDescription="@string/cancel"
         android:src="@drawable/ic_close_white"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/et_quiz_title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_answer_list"

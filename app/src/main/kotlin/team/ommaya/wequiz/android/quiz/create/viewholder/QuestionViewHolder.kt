@@ -92,12 +92,13 @@ class QuestionViewHolder(
                         viewModel.setQuestionFocus(position)
                         onQuestionItemClickListener(position, true)
                     }
+                    ivQuestionTitleDelete.visibility = if (hasFocus) VISIBLE else GONE
                 }
                 doOnTextChanged { text, _, _, _ ->
-                    // TODO 타이틀 설정
                 }
             }
-            ivTitleCancel.setOnClickListener {
+            ivQuestionTitleDelete.setOnClickListener {
+                etQuizTitle.text.clear()
             }
             root.setOnClickListener {
                 viewModel.setQuestionFocus(position, true)

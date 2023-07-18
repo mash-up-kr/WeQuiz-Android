@@ -71,13 +71,13 @@ class AnswerAdapter(
     companion object {
         val answerDiffCallback = object : DiffUtil.ItemCallback<Answer>() {
             override fun areItemsTheSame(oldItem: Answer, newItem: Answer): Boolean =
-                oldItem.index == newItem.index
+                oldItem.key == newItem.key
 
             override fun areContentsTheSame(oldItem: Answer, newItem: Answer): Boolean =
                 oldItem == newItem
 
             override fun getChangePayload(oldItem: Answer, newItem: Answer): Boolean =
-                oldItem.index == newItem.index
+                oldItem.key == newItem.key
         }
     }
 }

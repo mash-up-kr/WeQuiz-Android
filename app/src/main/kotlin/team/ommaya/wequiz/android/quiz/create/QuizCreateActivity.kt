@@ -9,6 +9,8 @@ package team.ommaya.wequiz.android.quiz.create
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
@@ -43,7 +45,7 @@ class QuizCreateActivity :
     private val adapterDataObserver = object : RecyclerView.AdapterDataObserver() {
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             super.onItemRangeInserted(positionStart, itemCount)
-            binding.rvQuizList.scrollToPosition(positionStart)
+            binding.rvQuizList.scrollToPosition(quizAdapter.itemCount - 1)
         }
     }
 
@@ -69,6 +71,12 @@ class QuizCreateActivity :
             }
             tvQuizEidt.setOnClickListener {
                 ivQuizEdit.performClick()
+            }
+            etQuizTitle.setOnFocusChangeListener { _, isFocus ->
+                ivTitleDelete.visibility = if (isFocus) VISIBLE else GONE
+            }
+            ivTitleDelete.setOnClickListener {
+                etQuizTitle.text.clear()
             }
         }
         quizAdapter.registerAdapterDataObserver(adapterDataObserver)

@@ -11,64 +11,59 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import team.ommaya.wequiz.android.quiz.create.Answer.Companion.makeAnswer
+import team.ommaya.wequiz.android.quiz.create.Question.Companion.makeQuestion
 
 class QuizCreateViewModel : ViewModel() {
 
-    private val initialQuestionList = listOf(
-        Question(0),
-        Question(1),
-        Question(-1, type = Question.QuestionType.Add),
-    )
-
     private val _questionList: MutableStateFlow<List<Question>> =
-        MutableStateFlow(initialQuestionList)
+        MutableStateFlow(Question.getInitialQuestionList())
     val questionList = _questionList.asStateFlow()
 
     private val _isEditMode: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isEditMode = _isEditMode.asStateFlow()
 
-    fun addQuiz() {
+    fun addQuestion() {
         val currentSize = questionList.value.size
-        val list = mutableListOf<Question>().apply {
+        val currentQuestionList = mutableListOf<Question>().apply {
             addAll(questionList.value)
         }
-        if (currentSize == 10) {
-            list[currentSize - 1] =
-                list.last().copy(index = currentSize - 1, type = Question.QuestionType.Default)
-        } else {
-            list[list.lastIndex] =
-                list.last().copy(index = list.lastIndex, type = Question.QuestionType.Default)
-            list.add(Question(index = currentSize, type = Question.QuestionType.Add))
+
+        currentQuestionList.removeLast()
+        currentQuestionList.add(makeQuestion())
+        if (currentSize != MAX_QUESTION_COUNT) {
+            currentQuestionList.add(makeQuestion(type = Question.QuestionType.Add))
         }
-        _questionList.value = list.toList()
+
+        _questionList.value = currentQuestionList.toList()
     }
 
     fun addAnswer(questionPosition: Int) {
         val currentSize = questionList.value[questionPosition].answerList.size
-        val list = mutableListOf<Answer>().apply {
+        val currentAnswerList = mutableListOf<Answer>().apply {
             addAll(questionList.value[questionPosition].answerList)
         }
-        if (currentSize == 5) {
-            list[currentSize - 1] =
-                list.last().copy(index = currentSize - 1, type = Answer.AnswerType.Default)
-        } else {
-            list[list.lastIndex] =
-                list.last().copy(index = list.lastIndex, type = Answer.AnswerType.Default)
-            list.add(Answer(index = currentSize, type = Answer.AnswerType.Add))
+
+        currentAnswerList.removeLast()
+        currentAnswerList.add(makeAnswer())
+        if (currentSize != MAX_ANSWER_COUNT) {
+            currentAnswerList.add(makeAnswer(type = Answer.AnswerType.Add))
         }
+
         val questionList = mutableListOf<Question>().apply {
             addAll(questionList.value)
         }
+
         questionList.forEachIndexed { index, question ->
             if (index == questionPosition) {
-                questionList[index] = question.copy(answerList = list)
+                questionList[index] = question.copy(answerList = currentAnswerList)
             }
         }
         _questionList.update { questionList }
     }
 
     fun setQuestionFocus(questionPosition: Int, isQuestionItemClick: Boolean = false) {
-        if (questionPosition == UN_FOCUSED) {
+        if (questionPosition == QUESTION_ADD_POSITION) {
             return
         }
         val list = mutableListOf<Question>().apply {
@@ -119,6 +114,8 @@ class QuizCreateViewModel : ViewModel() {
     }
 
     companion object {
-        const val UN_FOCUSED = -1
+        const val QUESTION_ADD_POSITION = -1
+        const val MAX_QUESTION_COUNT = 10
+        const val MAX_ANSWER_COUNT = 5
     }
 }

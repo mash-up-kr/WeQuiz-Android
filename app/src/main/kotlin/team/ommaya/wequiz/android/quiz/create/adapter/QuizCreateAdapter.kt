@@ -70,13 +70,13 @@ class QuizCreateAdapter(
     companion object {
         val questionDiffCallback = object : DiffUtil.ItemCallback<Question>() {
             override fun areItemsTheSame(oldItem: Question, newItem: Question): Boolean =
-                oldItem.index == newItem.index
+                oldItem.key == newItem.key
 
             override fun areContentsTheSame(oldItem: Question, newItem: Question): Boolean =
                 oldItem == newItem
 
             override fun getChangePayload(oldItem: Question, newItem: Question): Boolean =
-                oldItem.index == newItem.index
+                oldItem.key == newItem.key
         }
     }
 }
