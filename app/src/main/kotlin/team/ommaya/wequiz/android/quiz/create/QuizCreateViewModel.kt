@@ -103,6 +103,17 @@ class QuizCreateViewModel : ViewModel() {
 
     fun setEditMode() {
         _isEditMode.value = !isEditMode.value
+        if (isEditMode.value) {
+            val list = mutableListOf<Question>().apply {
+                addAll(questionList.value)
+            }
+
+            list.forEachIndexed { index, question ->
+                list[index] = question.copy(isFocus = false)
+            }
+
+            _questionList.update { list }
+        }
     }
 
     fun deleteQuestion(questionPosition: Int) {

@@ -76,8 +76,14 @@ class QuestionViewHolder(
                         }
                     }
                 }
-                viewModel.isEditMode.collect {
-                    binding.ivDeleteQuestion.visibility = if (it) VISIBLE else GONE
+                launch {
+                    viewModel.isEditMode.collect { isEditMode ->
+                        with(binding) {
+                            root.isClickable = !isEditMode
+                            etQuizTitle.isEnabled = !isEditMode
+                            ivDeleteQuestion.visibility = if (isEditMode) VISIBLE else GONE
+                        }
+                    }
                 }
             }
         }
