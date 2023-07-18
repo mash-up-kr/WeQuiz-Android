@@ -18,9 +18,11 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentVerifyCodeBinding
 import team.ommaya.wequiz.android.intro.IntroViewModel
+import team.ommaya.wequiz.android.intro.VerifyCodeUiEvent
 import team.ommaya.wequiz.android.utils.SnackbarMode
 import team.ommaya.wequiz.android.utils.WeQuizSnackbar
 import team.ommaya.wequiz.android.utils.isValidInputLength
@@ -31,8 +33,7 @@ import java.util.Locale
 class VerifyCodeFragment :
     BaseViewBindingFragment<FragmentVerifyCodeBinding>(FragmentVerifyCodeBinding::inflate) {
     private val introViewModel: IntroViewModel by activityViewModels()
-
-    private val timer: Job = Job()
+    private var timer: Job = Job()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,18 +50,18 @@ class VerifyCodeFragment :
 
     private fun startTime() {
         if (timer.isActive) timer.cancel()
+        introViewModel.setIsVerifyTimeOut(false)
 
-        lifecycleScope.launch {
-            var currentTimer = START_TIME
+        timer = lifecycleScope.launch {
+            var remainTime = START_TIME
 
-            while (currentTimer != END_TIME) {
+            while (remainTime != END_TIME) {
                 delay(TIMER_INTERVAL)
-                currentTimer -= TIMER_INTERVAL
-                introViewModel.setVerifyTime(formatMilliseconds(currentTimer))
-                introViewModel.isVerifyTimeOut
+                remainTime -= TIMER_INTERVAL
+                introViewModel.setVerifyTime(formatMilliseconds(remainTime))
             }
 
-            WeQuizSnackbar.make(binding.root, "인증번호를 재전송했어요", SnackbarMode.Failure).show()
+            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.Resend)
             timer.cancel()
         }
     }
@@ -72,13 +73,22 @@ class VerifyCodeFragment :
                     val text = text.toString()
 
                     if (isValidInputLength(text, VERIFY_CODE_LENGTH)) {
-                        if (text == TEST_VERIFY_CODE) {
-                            onVerificationSucceed()
+                        if (!introViewModel.isVerifyTimeOut.value) {
+                            if (text == TEST_VERIFY_CODE) {
+                                introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.Success)
+                            } else {
+                                introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.Failure)
+                            }
                         } else {
-                            // 인증번호가 올바르지 않아요 snack bar trigger
+                            showFailureWeQuizSnackbar(R.string.verify_code_resend_time_out)
                         }
                     }
                 }
+            }
+
+            textInputLayoutVerifyCodeInput.setEndIconOnClickListener {
+                startTime()
+                introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.Resend)
             }
         }
     }
@@ -86,8 +96,31 @@ class VerifyCodeFragment :
     private fun collectFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                introViewModel.verifyTime.collect { time ->
-                    binding.tvVerifyCodeTimer.text = time
+                introViewModel.verifyTime.collect { remainTime ->
+                    binding.tvVerifyCodeTimer.text = remainTime
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                introViewModel.verifyCodeEventFlow.collect { event ->
+                    when (event) {
+                        VerifyCodeUiEvent.Resend -> {
+                            showSuccessWeQuizSnackbar(R.string.verify_code_resend)
+                        }
+                        VerifyCodeUiEvent.TimeOut -> {
+                            showFailureWeQuizSnackbar(R.string.verify_code_time_out)
+                            introViewModel.setIsVerifyTimeOut(true)
+                        }
+                        VerifyCodeUiEvent.Success -> {
+                            introViewModel.setVerificationSucceed(true)
+                            findNavController().popBackStack()
+                        }
+                        VerifyCodeUiEvent.Failure -> {
+                            showFailureWeQuizSnackbar(R.string.verify_code_incorrect)
+                        }
+                    }
                 }
             }
         }
@@ -98,15 +131,25 @@ class VerifyCodeFragment :
         return format.format(Date(milliseconds))
     }
 
-    private fun onVerificationSucceed() {
-        introViewModel.setVerificationSucceed(true)
-        findNavController().popBackStack()
+    private fun showSuccessWeQuizSnackbar(messageId: Int) {
+        WeQuizSnackbar.make(
+            binding.root,
+            getString(messageId),
+        ).show()
+    }
+
+    private fun showFailureWeQuizSnackbar(messageId: Int) {
+        WeQuizSnackbar.make(
+            binding.root,
+            getString(messageId),
+            SnackbarMode.Failure,
+        ).show()
     }
 
     companion object {
         const val VERIFY_CODE_LENGTH = 6
         const val TIMER_INTERVAL = 100L
-        const val START_TIME = 18_000L
+        const val START_TIME = 180_000L
         const val END_TIME = 0L
         const val TEST_VERIFY_CODE = "123456"
     }
