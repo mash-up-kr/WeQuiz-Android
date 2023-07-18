@@ -64,6 +64,12 @@ class QuizCreateActivity :
     private fun initView() {
         binding.apply {
             rvQuizList.adapter = quizAdapter
+            ivQuizEdit.setOnClickListener {
+                quizCreateViewModel.setEditMode()
+            }
+            tvQuizEidt.setOnClickListener {
+                ivQuizEdit.performClick()
+            }
         }
         quizAdapter.registerAdapterDataObserver(adapterDataObserver)
     }

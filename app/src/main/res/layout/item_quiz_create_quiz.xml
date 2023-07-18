@@ -13,13 +13,14 @@
     android:layout_marginTop="16dp"
     android:background="@drawable/bg_g7_radius_16"
     android:backgroundTint="@color/G8"
-    android:padding="20dp">
+    android:paddingBottom="20dp">
 
     <EditText
         android:id="@+id/et_quiz_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
         android:background="@null"
         android:hint="@string/enter_question"
         android:textAppearance="@style/WeQuizTextAppearance.Subtitle2.Medium"
@@ -27,7 +28,19 @@
         android:textColorHint="@color/G4"
         app:layout_constraintEnd_toStartOf="@id/iv_title_cancel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginEnd="20dp" />
+
+    <ImageView
+        android:id="@+id/iv_delete_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/delete_question"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:src="@drawable/ic_close_white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/iv_title_cancel"
@@ -44,6 +57,7 @@
         android:id="@+id/rv_answer_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="16dp"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -55,6 +69,7 @@
         android:id="@+id/tv_multiple_choice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
         android:text="@string/allow_duplication"
         android:textAppearance="@style/WeQuizTextAppearance.Base.SemiBold"
         android:textColor="@color/G2"

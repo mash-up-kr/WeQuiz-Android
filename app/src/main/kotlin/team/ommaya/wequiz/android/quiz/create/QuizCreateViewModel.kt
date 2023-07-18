@@ -24,8 +24,8 @@ class QuizCreateViewModel : ViewModel() {
         MutableStateFlow(initialQuestionList)
     val questionList = _questionList.asStateFlow()
 
-    private val _focusedPosition: MutableStateFlow<Int> = MutableStateFlow(-1)
-    val focusedPosition = _focusedPosition.asStateFlow()
+    private val _isEditMode: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isEditMode = _isEditMode.asStateFlow()
 
     fun addQuiz() {
         val currentSize = questionList.value.size
@@ -104,6 +104,18 @@ class QuizCreateViewModel : ViewModel() {
             list[questionPosition].copy(isMultipleChoice = !list[questionPosition].isMultipleChoice)
 
         _questionList.update { list }
+    }
+
+    fun setEditMode() {
+        _isEditMode.value = !isEditMode.value
+    }
+
+    fun deleteQuestion(questionPosition: Int) {
+        val list = mutableListOf<Question>().apply {
+            addAll(questionList.value)
+            removeAt(questionPosition)
+        }
+        _questionList.value = list
     }
 
     companion object {
