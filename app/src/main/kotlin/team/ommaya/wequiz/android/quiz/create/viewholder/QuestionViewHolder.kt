@@ -14,6 +14,8 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView.VISIBLE
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -39,7 +41,6 @@ class QuestionViewHolder(
             initListener(item, position)
             answerAdapter = AnswerAdapter(
                 viewModel,
-                onAnswerAddItemClickListener = { onAnswerAddItemClick() },
                 position,
                 context,
             ).apply {
@@ -74,6 +75,7 @@ class QuestionViewHolder(
                                 )
                             )
                         }
+                        answerAdapter.submitList(viewModel.getAnswerList(position))
                     }
                 }
                 launch {
@@ -117,9 +119,5 @@ class QuestionViewHolder(
                 viewModel.deleteQuestion(adapterPosition)
             }
         }
-    }
-
-    private fun onAnswerAddItemClick() {
-        answerAdapter.submitList(viewModel.getAnswerList(adapterPosition))
     }
 }

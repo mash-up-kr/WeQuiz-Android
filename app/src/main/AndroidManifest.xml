@@ -15,9 +15,10 @@
         tools:ignore="MissingApplicationIcon">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".quiz.create.QuizCreateActivity"
             android:exported="true"
-            android:theme="@android:style/Theme.Material.NoActionBar">
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

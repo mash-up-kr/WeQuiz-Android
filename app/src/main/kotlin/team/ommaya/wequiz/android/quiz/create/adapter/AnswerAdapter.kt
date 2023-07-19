@@ -23,7 +23,6 @@ import team.ommaya.wequiz.android.quiz.create.viewholder.AnswerViewHolder
 
 class AnswerAdapter(
     private val viewModel: QuizCreateViewModel,
-    private val onAnswerAddItemClickListener: () -> Unit,
     private val quizPosition: Int,
     private val context: Context,
 ) : ListAdapter<Answer, ViewHolder>(answerDiffCallback) {
@@ -48,7 +47,6 @@ class AnswerAdapter(
                     false,
                 ),
                 viewModel,
-                onAnswerAddItemClickListener,
                 quizPosition,
                 context,
             )

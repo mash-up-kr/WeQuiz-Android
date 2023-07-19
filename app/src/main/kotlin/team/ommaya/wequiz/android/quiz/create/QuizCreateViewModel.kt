@@ -25,9 +25,7 @@ class QuizCreateViewModel : ViewModel() {
 
     fun addQuestion() {
         val currentSize = questionList.value.size
-        val currentQuestionList = mutableListOf<Question>().apply {
-            addAll(questionList.value)
-        }
+        val currentQuestionList = getCurrentQuestionList()
 
         currentQuestionList.removeLast()
         currentQuestionList.add(makeQuestion())
@@ -40,9 +38,7 @@ class QuizCreateViewModel : ViewModel() {
 
     fun addAnswer(questionPosition: Int) {
         val currentSize = questionList.value[questionPosition].answerList.size
-        val currentAnswerList = mutableListOf<Answer>().apply {
-            addAll(questionList.value[questionPosition].answerList)
-        }
+        val currentAnswerList = getCurrentAnswerList(questionPosition)
 
         currentAnswerList.removeLast()
         currentAnswerList.add(makeAnswer())
@@ -50,42 +46,41 @@ class QuizCreateViewModel : ViewModel() {
             currentAnswerList.add(makeAnswer(type = Answer.AnswerType.Add))
         }
 
-        val questionList = mutableListOf<Question>().apply {
-            addAll(questionList.value)
-        }
+        val currentQuestionList = getCurrentQuestionList()
 
-        questionList.forEachIndexed { index, question ->
-            if (index == questionPosition) {
-                questionList[index] = question.copy(answerList = currentAnswerList)
+        _questionList.update {
+            currentQuestionList.forEachIndexed { index, question ->
+                if (index == questionPosition) {
+                    currentQuestionList[index] = question.copy(answerList = currentAnswerList)
+                }
             }
+            currentQuestionList
         }
-        _questionList.update { questionList }
     }
 
     fun setQuestionFocus(questionPosition: Int, isQuestionItemClick: Boolean = false) {
         if (questionPosition == QUESTION_ADD_POSITION) {
             return
         }
-        val list = mutableListOf<Question>().apply {
-            addAll(questionList.value)
-        }
+        val currentQuestionList = getCurrentQuestionList()
 
-        list.forEachIndexed { index, question ->
-            if (index == questionPosition) {
-                list[questionPosition] = list[questionPosition].copy(
-                    isFocus = if (isQuestionItemClick) {
-                        !list[questionPosition].isFocus
-                    } else {
-                        true
-                    }
-                )
-            } else {
-                list[index] = question.copy(isFocus = false)
+        _questionList.update {
+            currentQuestionList.forEachIndexed { index, question ->
+                if (index == questionPosition) {
+                    currentQuestionList[questionPosition] =
+                        currentQuestionList[questionPosition].copy(
+                            isFocus = if (isQuestionItemClick) {
+                                !currentQuestionList[questionPosition].isFocus
+                            } else {
+                                true
+                            }
+                        )
+                } else {
+                    currentQuestionList[index] = question.copy(isFocus = false)
+                }
             }
+            currentQuestionList
         }
-
-
-        _questionList.update { list }
     }
 
     fun getAnswerList(questionPosition: Int) = questionList.value[questionPosition].answerList
@@ -95,11 +90,33 @@ class QuizCreateViewModel : ViewModel() {
             addAll(questionList.value)
         }
 
-        list[questionPosition] =
-            list[questionPosition].copy(isMultipleChoice = !list[questionPosition].isMultipleChoice)
-
-        _questionList.update { list }
+        _questionList.update {
+            list[questionPosition] =
+                list[questionPosition].copy(isMultipleChoice = !list[questionPosition].isMultipleChoice)
+            list
+        }
     }
+
+    fun setAnswerTitle(questionPosition: Int, answerPosition: Int, content: String) {
+        _questionList.update { currentQuestionList ->
+            currentQuestionList.mapIndexed { questionIndex, question ->
+                if (questionIndex == questionPosition) {
+                    question.copy(
+                        answerList = question.answerList.mapIndexed { answerIndex, answer ->
+                            if (answerIndex == answerPosition) {
+                                answer.copy(content = content)
+                            } else {
+                                answer
+                            }
+                        }
+                    )
+                } else {
+                    question
+                }
+            }
+        }
+    }
+
 
     fun setEditMode() {
         _isEditMode.value = !isEditMode.value
@@ -122,6 +139,14 @@ class QuizCreateViewModel : ViewModel() {
             removeAt(questionPosition)
         }
         _questionList.value = list
+    }
+
+    private fun getCurrentQuestionList() = mutableListOf<Question>().apply {
+        addAll(questionList.value)
+    }
+
+    private fun getCurrentAnswerList(questionPosition: Int) = mutableListOf<Answer>().apply {
+        addAll(questionList.value[questionPosition].answerList)
     }
 
     companion object {

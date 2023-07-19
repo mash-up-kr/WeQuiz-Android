@@ -22,6 +22,8 @@ class AnswerViewHolder(
     private val context: Context,
 ) : ViewHolder(binding.root) {
 
+    var title = ""
+
     @SuppressLint("UseCompatLoadingForDrawables")
     fun bind(position: Int) {
         val indexIconRes: Int = when (position) {
@@ -33,8 +35,19 @@ class AnswerViewHolder(
         }
 
         binding.apply {
-            etQuizDefault.setOnFocusChangeListener { _, isFocus ->
-                ivAnswerTitleDelete.isVisible = isFocus
+            with(etQuizDefault) {
+                /*if (title.isNotBlank()) {
+                    setText(title)
+                }*/
+                setOnFocusChangeListener { _, isFocus ->
+                    ivAnswerTitleDelete.isVisible = isFocus
+                    if (isFocus.not()) {
+                        viewModel.setAnswerTitle(questionPosition, position, text.toString())
+                    }
+                }
+                /*doOnTextChanged { text, _, _, _ ->
+                    viewModel.setAnswerTitle(questionPosition,position,text.toString())
+                }*/
             }
             root.setOnClickListener {
                 viewModel.setQuestionFocus(questionPosition)
