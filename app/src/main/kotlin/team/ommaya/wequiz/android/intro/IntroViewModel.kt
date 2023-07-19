@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class IntroViewModel : ViewModel() {
-    private val _mode: MutableStateFlow<IntroMode> = MutableStateFlow(IntroMode.Login)
+    private val _mode: MutableStateFlow<IntroMode> = MutableStateFlow(IntroMode.LOGIN)
     val mode = _mode.asStateFlow()
 
     private val _isVerifyTimeOut: MutableStateFlow<Boolean> = MutableStateFlow(true)
@@ -52,9 +52,9 @@ class IntroViewModel : ViewModel() {
 }
 
 enum class IntroMode {
-    Login, SignUp
+    LOGIN, SIGNUP
 }
 
 enum class VerifyCodeUiEvent {
-    Resend, TimeOut, Success, Failure
+    RESEND, TIMEOUT, SUCCESS, FAILURE
 }

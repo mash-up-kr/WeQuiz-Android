@@ -37,8 +37,8 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
     private fun initView() {
         with(binding) {
             tvPhoneTitle.text = when (introViewModel.mode.value) {
-                IntroMode.Login -> getString(R.string.phone_log_in_mode_title)
-                IntroMode.SignUp -> getString(R.string.phone_sign_up_mode_title)
+                IntroMode.LOGIN -> getString(R.string.phone_log_in_mode_title)
+                IntroMode.SIGNUP -> getString(R.string.phone_sign_up_mode_title)
             }
 
             with(etPhoneInput) {

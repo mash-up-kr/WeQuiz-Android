@@ -33,12 +33,12 @@ class OnboardingFragment :
 
         with(binding) {
             btnOnboardingSignUp.setOnClickListener {
-                introViewModel.setStartMode(IntroMode.Login)
+                introViewModel.setStartMode(IntroMode.LOGIN)
                 findNavController().navigate(R.id.action_onboardingFragment_to_phoneFragment)
             }
 
             btnOnboardingLogin.setOnClickListener {
-                introViewModel.setStartMode(IntroMode.SignUp)
+                introViewModel.setStartMode(IntroMode.SIGNUP)
                 findNavController().navigate(R.id.action_onboardingFragment_to_phoneFragment)
             }
         }

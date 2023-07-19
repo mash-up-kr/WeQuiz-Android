@@ -61,7 +61,7 @@ class VerifyCodeFragment :
                 introViewModel.setVerifyTime(formatMilliseconds(remainTime))
             }
 
-            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.Resend)
+            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.RESEND)
             timer.cancel()
         }
     }
@@ -74,9 +74,9 @@ class VerifyCodeFragment :
                 if (isValidInputLength(text, VERIFY_CODE_LENGTH)) {
                     if (!introViewModel.isVerifyTimeOut.value) {
                         if (text == TEST_VERIFY_CODE) {
-                            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.Success)
+                            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.SUCCESS)
                         } else {
-                            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.Failure)
+                            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.FAILURE)
                         }
                     } else {
                         showFailureWeQuizSnackbar(R.string.verify_code_resend_time_out)
@@ -86,7 +86,7 @@ class VerifyCodeFragment :
 
             textInputLayoutVerifyCodeInput.setEndIconOnClickListener {
                 startTime()
-                introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.Resend)
+                introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.RESEND)
             }
 
             btnVerifyCodeBack.setOnClickListener {
@@ -107,17 +107,17 @@ class VerifyCodeFragment :
                 launch {
                     introViewModel.verifyCodeEventFlow.collect { event ->
                         when (event) {
-                            VerifyCodeUiEvent.Resend -> {
+                            VerifyCodeUiEvent.RESEND -> {
                                 showSuccessWeQuizSnackbar(R.string.verify_code_resend)
                             }
-                            VerifyCodeUiEvent.TimeOut -> {
+                            VerifyCodeUiEvent.TIMEOUT -> {
                                 showFailureWeQuizSnackbar(R.string.verify_code_time_out)
                                 introViewModel.setIsVerifyTimeOut(true)
                             }
-                            VerifyCodeUiEvent.Success -> {
+                            VerifyCodeUiEvent.SUCCESS -> {
                                 findNavController().navigate(R.id.action_verifyCodeFragment_to_joinFragment)
                             }
-                            VerifyCodeUiEvent.Failure -> {
+                            VerifyCodeUiEvent.FAILURE -> {
                                 showFailureWeQuizSnackbar(R.string.verify_code_incorrect)
                             }
                         }
