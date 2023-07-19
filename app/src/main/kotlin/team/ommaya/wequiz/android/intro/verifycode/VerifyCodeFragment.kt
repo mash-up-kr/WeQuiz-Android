@@ -143,7 +143,7 @@ class VerifyCodeFragment :
         WeQuizSnackbar.make(
             binding.root,
             getString(messageId),
-            SnackbarMode.Failure,
+            SnackbarMode.FAILURE,
         ).show()
     }
 
