@@ -68,20 +68,18 @@ class VerifyCodeFragment :
 
     private fun initView() {
         with(binding) {
-            with(etVerifyCodeInput) {
-                addTextChangedListener {
-                    val text = text.toString()
+            etVerifyCodeInput.addTextChangedListener {
+                val text = etVerifyCodeInput.text.toString()
 
-                    if (isValidInputLength(text, VERIFY_CODE_LENGTH)) {
-                        if (!introViewModel.isVerifyTimeOut.value) {
-                            if (text == TEST_VERIFY_CODE) {
-                                introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.Success)
-                            } else {
-                                introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.Failure)
-                            }
+                if (isValidInputLength(text, VERIFY_CODE_LENGTH)) {
+                    if (!introViewModel.isVerifyTimeOut.value) {
+                        if (text == TEST_VERIFY_CODE) {
+                            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.Success)
                         } else {
-                            showFailureWeQuizSnackbar(R.string.verify_code_resend_time_out)
+                            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.Failure)
                         }
+                    } else {
+                        showFailureWeQuizSnackbar(R.string.verify_code_resend_time_out)
                     }
                 }
             }
