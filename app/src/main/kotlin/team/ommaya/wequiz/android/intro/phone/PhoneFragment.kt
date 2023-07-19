@@ -51,7 +51,7 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
             }
 
             btnPhoneRequestVerifyCode.setOnClickListener {
-                etPhoneInput.text?.clear()
+                etPhoneInput.text.clear()
                 findNavController().navigate(R.id.action_phoneFragment_to_verifyCodeFragment)
             }
 
