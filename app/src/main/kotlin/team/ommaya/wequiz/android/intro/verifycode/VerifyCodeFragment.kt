@@ -90,6 +90,10 @@ class VerifyCodeFragment :
                 startTime()
                 introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.Resend)
             }
+
+            btnVerifyCodeBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 
