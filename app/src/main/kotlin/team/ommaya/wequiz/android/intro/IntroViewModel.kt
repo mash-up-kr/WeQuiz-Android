@@ -19,9 +19,6 @@ class IntroViewModel : ViewModel() {
     private val _mode: MutableStateFlow<IntroMode> = MutableStateFlow(IntroMode.Login)
     val mode = _mode.asStateFlow()
 
-    private val _isVerificationSucceed: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isVerificationSucceed = _isVerificationSucceed.asStateFlow()
-
     private val _isVerifyTimeOut: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val isVerifyTimeOut = _isVerifyTimeOut.asStateFlow()
 
@@ -33,10 +30,6 @@ class IntroViewModel : ViewModel() {
 
     fun setStartMode(mode: IntroMode) {
         _mode.value = mode
-    }
-
-    fun setVerificationSucceed(isSucceed: Boolean) {
-        _isVerificationSucceed.value = isSucceed
     }
 
     fun setIsVerifyTimeOut(isTimeOut: Boolean) {

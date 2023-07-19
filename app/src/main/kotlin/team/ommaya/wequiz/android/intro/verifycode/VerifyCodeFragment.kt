@@ -113,8 +113,7 @@ class VerifyCodeFragment :
                                 introViewModel.setIsVerifyTimeOut(true)
                             }
                             VerifyCodeUiEvent.Success -> {
-                                introViewModel.setVerificationSucceed(true)
-                                findNavController().popBackStack()
+                                findNavController().navigate(R.id.action_verifyCodeFragment_to_joinFragment)
                             }
                             VerifyCodeUiEvent.Failure -> {
                                 showFailureWeQuizSnackbar(R.string.verify_code_incorrect)
