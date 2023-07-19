@@ -96,29 +96,29 @@ class VerifyCodeFragment :
     private fun collectFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                introViewModel.verifyTime.collect { remainTime ->
-                    binding.tvVerifyCodeTimer.text = remainTime
+                launch {
+                    introViewModel.verifyTime.collect { remainTime ->
+                        binding.tvVerifyCodeTimer.text = remainTime
+                    }
                 }
-            }
-        }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                introViewModel.verifyCodeEventFlow.collect { event ->
-                    when (event) {
-                        VerifyCodeUiEvent.Resend -> {
-                            showSuccessWeQuizSnackbar(R.string.verify_code_resend)
-                        }
-                        VerifyCodeUiEvent.TimeOut -> {
-                            showFailureWeQuizSnackbar(R.string.verify_code_time_out)
-                            introViewModel.setIsVerifyTimeOut(true)
-                        }
-                        VerifyCodeUiEvent.Success -> {
-                            introViewModel.setVerificationSucceed(true)
-                            findNavController().popBackStack()
-                        }
-                        VerifyCodeUiEvent.Failure -> {
-                            showFailureWeQuizSnackbar(R.string.verify_code_incorrect)
+                launch {
+                    introViewModel.verifyCodeEventFlow.collect { event ->
+                        when (event) {
+                            VerifyCodeUiEvent.Resend -> {
+                                showSuccessWeQuizSnackbar(R.string.verify_code_resend)
+                            }
+                            VerifyCodeUiEvent.TimeOut -> {
+                                showFailureWeQuizSnackbar(R.string.verify_code_time_out)
+                                introViewModel.setIsVerifyTimeOut(true)
+                            }
+                            VerifyCodeUiEvent.Success -> {
+                                introViewModel.setVerificationSucceed(true)
+                                findNavController().popBackStack()
+                            }
+                            VerifyCodeUiEvent.Failure -> {
+                                showFailureWeQuizSnackbar(R.string.verify_code_incorrect)
+                            }
                         }
                     }
                 }
