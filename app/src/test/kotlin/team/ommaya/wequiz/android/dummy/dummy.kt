@@ -9,8 +9,8 @@ package team.ommaya.wequiz.android.dummy
 
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
-import team.ommaya.wequiz.android.home.QuizNameAndIsWritingPair
-import team.ommaya.wequiz.android.home.NicknameUuidScoreTriple
+import team.ommaya.wequiz.android.home.quizlist.QuizNameAndIsWritingPair
+import team.ommaya.wequiz.android.home.friends.NicknameUuidScoreTriple
 
 val DummyFriendsRanking =
     List(30) { index ->

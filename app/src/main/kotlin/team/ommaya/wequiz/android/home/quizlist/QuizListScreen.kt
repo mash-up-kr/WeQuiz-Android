@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-package team.ommaya.wequiz.android.home
+package team.ommaya.wequiz.android.home.quizlist
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState

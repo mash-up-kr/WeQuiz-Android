@@ -22,7 +22,7 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import team.ommaya.wequiz.android.dummy.DummyQuizs
 import team.ommaya.wequiz.android.dummy.DummyFriendsRanking
-import team.ommaya.wequiz.android.home.HomeMainScreen
+import team.ommaya.wequiz.android.home.main.HomeMainScreen
 import team.ommaya.wequiz.android.rule.SnapshotPathGeneratorRule
 
 @Config(qualifiers = RobolectricDeviceQualifiers.Pixel7Pro)

@@ -7,7 +7,7 @@
 
 @file:Suppress("ktlint")
 
-package team.ommaya.wequiz.android.home
+package team.ommaya.wequiz.android.home.quizdetail
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -55,7 +55,6 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
@@ -85,9 +84,16 @@ enum class QuizDetailViewMode {
     operator fun not() = if (this == Answer) Result else Answer
 
     companion object {
+        private val entries = listOf(Answer, Result)
+
         val Saver = Saver<QuizDetailViewMode, Int>(
-            save = { viewMode -> viewMode.ordinal },
-            restore = { ordinal -> QuizDetailViewMode.values()[ordinal] },
+            save = { viewMode ->
+                when (viewMode) {
+                    Answer -> 0
+                    Result -> 1
+                }
+            },
+            restore = { ordinal -> this.entries[ordinal] },
         )
     }
 }
