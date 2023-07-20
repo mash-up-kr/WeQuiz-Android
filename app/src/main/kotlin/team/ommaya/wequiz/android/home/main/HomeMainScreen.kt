@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-package team.ommaya.wequiz.android.home
+package team.ommaya.wequiz.android.home.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -38,6 +38,10 @@ import kotlinx.collections.immutable.toPersistentList
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizTypography
+import team.ommaya.wequiz.android.home.friends.FriendsRankScreen
+import team.ommaya.wequiz.android.home.friends.NicknameUuidScoreTriple
+import team.ommaya.wequiz.android.home.quizlist.QuizList
+import team.ommaya.wequiz.android.home.quizlist.QuizNameAndIsWritingPair
 import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.noRippleClickable
 
@@ -128,7 +132,7 @@ fun HomeMainScreen(
                 verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
                 SectionTitle(title = "친구 랭킹")
-                FriendsRanking(
+                FriendsRankScreen(
                     friendsRanking = remember(friendsRanking) {
                         friendsRanking.take(3).toImmutableList()
                     },

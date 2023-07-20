@@ -23,7 +23,7 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.dummy.DummyQuizs
-import team.ommaya.wequiz.android.home.QuizList
+import team.ommaya.wequiz.android.home.quizlist.QuizList
 import team.ommaya.wequiz.android.rule.SnapshotPathGeneratorRule
 
 @Config(qualifiers = RobolectricDeviceQualifiers.Pixel7Pro)

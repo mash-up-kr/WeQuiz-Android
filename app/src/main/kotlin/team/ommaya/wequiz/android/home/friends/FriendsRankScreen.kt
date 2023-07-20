@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-package team.ommaya.wequiz.android.home
+package team.ommaya.wequiz.android.home.friends
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -44,7 +44,7 @@ private const val FriendUuidLayoutId = "FriendUuidLayout"
 private const val FriendScoreLayoutId = "FriendScoreLayout"
 
 @Composable
-fun FriendsRanking(
+fun FriendsRankScreen(
     modifier: Modifier = Modifier,
     friendsRanking: ImmutableList<NicknameUuidScoreTriple>,
     onFriendClick: () -> Unit = {},
