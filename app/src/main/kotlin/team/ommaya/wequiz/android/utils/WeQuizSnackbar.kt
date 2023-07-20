@@ -42,8 +42,8 @@ class WeQuizSnackbar(
             ivSnackbarIcon.background = ContextCompat.getDrawable(
                 context,
                 when (snackbarMode) {
-                    SnackbarMode.Success -> team.ommaya.wequiz.android.design.resource.R.drawable.ic_circle_success
-                    SnackbarMode.Failure -> team.ommaya.wequiz.android.design.resource.R.drawable.ic_circle_failure
+                    SnackbarMode.SUCCESS -> team.ommaya.wequiz.android.design.resource.R.drawable.ic_circle_success
+                    SnackbarMode.FAILURE -> team.ommaya.wequiz.android.design.resource.R.drawable.ic_circle_failure
                 },
             )
         }
@@ -54,11 +54,11 @@ class WeQuizSnackbar(
     }
 
     companion object {
-        fun make(view: View, message: String, snackbarMode: SnackbarMode = SnackbarMode.Success) =
+        fun make(view: View, message: String, snackbarMode: SnackbarMode = SnackbarMode.SUCCESS) =
             WeQuizSnackbar(view, message, snackbarMode)
     }
 }
 
 enum class SnackbarMode {
-    Success, Failure
+    SUCCESS, FAILURE
 }

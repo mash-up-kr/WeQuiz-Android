@@ -29,9 +29,6 @@
         <action
             android:id="@+id/action_phoneFragment_to_verifyCodeFragment"
             app:destination="@+id/verifyCodeFragment" />
-        <action
-            android:id="@+id/action_phoneFragment_to_joinFragment"
-            app:destination="@id/joinFragment" />
     </fragment>
 
     <fragment
@@ -39,7 +36,10 @@
         android:name="team.ommaya.wequiz.android.intro.verifycode.VerifyCodeFragment"
         android:label="VerifyCodeFragment"
         tools:layout="@layout/fragment_verify_code">
-
+        <action
+            android:id="@+id/action_verifyCodeFragment_to_joinFragment"
+            app:destination="@id/joinFragment"
+            app:popUpTo="@id/phoneFragment" />
     </fragment>
 
     <fragment

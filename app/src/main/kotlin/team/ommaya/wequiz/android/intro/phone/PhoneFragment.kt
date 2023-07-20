@@ -30,25 +30,15 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        checkVerificationIsSucceed()
         initView()
         initKeyboardVisibilityUtils()
-    }
-
-    private fun checkVerificationIsSucceed() {
-        with(introViewModel) {
-            if (isVerificationSucceed.value) {
-                setVerificationSucceed(false)
-                findNavController().navigate(R.id.action_phoneFragment_to_joinFragment)
-            }
-        }
     }
 
     private fun initView() {
         with(binding) {
             tvPhoneTitle.text = when (introViewModel.mode.value) {
-                IntroMode.Login -> getString(R.string.phone_log_in_mode_title)
-                IntroMode.SignUp -> getString(R.string.phone_sign_up_mode_title)
+                IntroMode.LOGIN -> getString(R.string.phone_log_in_mode_title)
+                IntroMode.SIGNUP -> getString(R.string.phone_sign_up_mode_title)
             }
 
             with(etPhoneInput) {
@@ -61,6 +51,7 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
             }
 
             btnPhoneRequestVerifyCode.setOnClickListener {
+                etPhoneInput.text?.clear()
                 findNavController().navigate(R.id.action_phoneFragment_to_verifyCodeFragment)
             }
 
