@@ -26,11 +26,14 @@ class RankRepositoryImpl @Inject constructor(
         size: Int,
         quizAnswerCursorId: Int?,
     ): Rank {
-        val response = client.get("ranking/my-quiz") {
-            parameter("size", size)
-            parameter("quizAnswerCursorId", quizAnswerCursorId)
-            header("x-wequiz-token", token)
-        }.body<RankResponse>()
+        val response =
+            client
+                .get("ranking/my-quiz") {
+                    header("x-wequiz-token", token)
+                    parameter("size", size)
+                    parameter("quizAnswerCursorId", quizAnswerCursorId)
+                }
+                .body<RankResponse>()
         return response.toDomain()
     }
 }

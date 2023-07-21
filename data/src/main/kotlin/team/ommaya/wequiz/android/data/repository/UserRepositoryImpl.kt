@@ -25,10 +25,14 @@ class UserRepositoryImpl @Inject constructor(
     private val client: HttpClient,
 ) : UserRepository {
     override suspend fun getUser() = userDataStore.data.first().toUserModel()
+
     override suspend fun getInformation(token: String): UserInformation {
-        val response = client.get("user") {
-            header("x-wequiz-token", token)
-        }.body<UserInformationResponse>()
+        val response =
+            client
+                .get("user") {
+                    header("x-wequiz-token", token)
+                }
+                .body<UserInformationResponse>()
         return response.toDomain()
     }
 }
