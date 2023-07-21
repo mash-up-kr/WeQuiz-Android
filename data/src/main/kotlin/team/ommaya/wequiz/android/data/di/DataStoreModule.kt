@@ -26,7 +26,8 @@ object DataStoreModule {
     @Provides
     @Singleton
     fun provideUserPreferencesDataStore(@ApplicationContext context: Context): DataStore<UserPreference> =
-        DataStoreFactory.create(serializer = UserPreferenceSerializer()) {
-            File("${context.cacheDir.path}/${UserPreference.localPath}")
-        }
+        DataStoreFactory.create(
+            serializer = UserPreferenceSerializer(),
+            produceFile = { File("${context.cacheDir.path}/${UserPreference.localPath}") },
+        )
 }
