@@ -17,5 +17,5 @@ data class RankResponse(
     val cursorQuizAnswerId: Int? = null,
 
     @field:JsonProperty("hasNext")
-    val hasNext: Boolean? = null
+    val hasNext: Boolean? = null,
 )

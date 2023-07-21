@@ -14,5 +14,5 @@ data class UserSimpleInformationResponse(
     val name: String? = null,
 
     @field:JsonProperty("id")
-    val id: Int? = null
+    val id: Int? = null,
 )

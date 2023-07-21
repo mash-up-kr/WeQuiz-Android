@@ -17,5 +17,5 @@ data class RankingsItemResponse(
     val score: Int? = null,
 
     @field:JsonProperty("quizAnswerId")
-    val quizAnswerId: Int? = null
+    val quizAnswerId: Int? = null,
 )
