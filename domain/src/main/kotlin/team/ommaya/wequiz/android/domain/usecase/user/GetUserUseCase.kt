@@ -5,13 +5,15 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-package team.ommaya.wequiz.android.domain.usecase
+package team.ommaya.wequiz.android.domain.usecase.user
 
 import team.ommaya.wequiz.android.domain.repository.UserRepository
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class GetUserUseCase @Inject constructor(
     private val userRepository: UserRepository,
 ) {
-    operator fun invoke() = userRepository.getUser()
+    suspend operator fun invoke() = userRepository.getUser()
 }

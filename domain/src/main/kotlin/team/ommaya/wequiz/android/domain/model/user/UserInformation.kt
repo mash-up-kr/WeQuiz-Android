@@ -5,10 +5,10 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-package team.ommaya.wequiz.android.domain.model
+package team.ommaya.wequiz.android.domain.model.user
 
-data class User(
-    val isLogin: Boolean,
-    val isFirstAccess: Boolean,
-    val isSaveTemporarily: Boolean,
+data class UserInformation(
+    val id: Int,
+    val nickname: String,
+    val description: String,
 )
