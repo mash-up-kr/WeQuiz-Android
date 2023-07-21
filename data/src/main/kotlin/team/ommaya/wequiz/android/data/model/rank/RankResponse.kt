@@ -9,7 +9,7 @@ package team.ommaya.wequiz.android.data.model.rank
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class RankResponse(
+internal data class RankResponse(
     @field:JsonProperty("rankings")
     val rankings: List<RankingsItemResponse?>? = null,
 

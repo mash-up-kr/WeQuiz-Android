@@ -9,7 +9,7 @@ package team.ommaya.wequiz.android.data.model.rank
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class RankingsItemResponse(
+internal data class RankingsItemResponse(
     @field:JsonProperty("userInfoDto")
     val userInfo: UserSimpleInformationResponse? = null,
 
