@@ -55,7 +55,7 @@ class AnswerViewHolder(
                                     viewModel.setAnswerTitle(
                                         getSyncedQuestionPosition(item),
                                         position,
-                                        text.toString()
+                                        text.toString(),
                                     )
                                 }
                             }
@@ -72,12 +72,12 @@ class AnswerViewHolder(
                                     context.getDrawable(R.drawable.ic_answer_correct)
                                 } else {
                                     context.getDrawable(indexIconRes)
-                                }
+                                },
                             )
                             ivAnswerIndex.setOnClickListener {
                                 viewModel.setAnswerCorrect(
                                     viewModel.getSyncedQuestion(item),
-                                    position
+                                    position,
                                 )
                             }
                             ivAnswerTitleDelete.setOnClickListener {

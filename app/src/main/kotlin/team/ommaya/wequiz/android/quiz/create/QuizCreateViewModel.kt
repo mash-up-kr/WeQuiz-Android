@@ -43,13 +43,13 @@ class QuizCreateViewModel : ViewModel() {
         combine(
             isAnswerCountRequired,
             isAnswerCorrectCountRequired,
-            isQuestionCountRequired
+            isQuestionCountRequired,
         ) { isAnswerCountRequired, isAnswerCorrectCountRequired, isQuestionCountRequired ->
             isAnswerCountRequired && isAnswerCorrectCountRequired && isQuestionCountRequired
         }.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5_000L),
-            false
+            false,
         )
 
     private var questionCount = 0
@@ -104,7 +104,7 @@ class QuizCreateViewModel : ViewModel() {
                                 !currentQuestionList[questionPosition].isFocus
                             } else {
                                 true
-                            }
+                            },
                         )
                 } else {
                     currentQuestionList[index] = question.copy(isFocus = false)
@@ -131,7 +131,7 @@ class QuizCreateViewModel : ViewModel() {
                 currentQuestionList[questionPosition] =
                     currentQuestionList[questionPosition].copy(
                         isMultipleChoice = !currentQuestionList[questionPosition].isMultipleChoice,
-                        answerList = currentAnswerList
+                        answerList = currentAnswerList,
                     )
             }
             currentQuestionList
@@ -162,7 +162,7 @@ class QuizCreateViewModel : ViewModel() {
                             } else {
                                 answer
                             }
-                        }
+                        },
                     )
                 } else {
                     question
@@ -273,7 +273,6 @@ class QuizCreateViewModel : ViewModel() {
                 isAnswerCorrectCountRequired.value = filteredList.any { it.isCorrect }
                 currentQuestion[index] = question.copy(answerList = filteredList)
             }
-
         }
         val filteredQuiz =
             currentQuestion.filter { it.title != "문제입력" }.filter { it.title.isNotBlank() }

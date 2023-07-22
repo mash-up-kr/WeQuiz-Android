@@ -15,7 +15,7 @@ data class Question(
     val isFocus: Boolean = false,
     val isMultipleChoice: Boolean = false,
     val type: QuestionType = QuestionType.Default,
-    val answerList: List<Answer> = Answer.getInitialAnswerList()
+    val answerList: List<Answer> = Answer.getInitialAnswerList(),
 ) {
     sealed interface QuestionType {
         val typeNum: Int
@@ -37,7 +37,9 @@ data class Question(
             )
 
         fun getInitialQuestionList() = listOf<Question>(
-            makeQuestion(), makeQuestion(), makeQuestion(QuestionType.Add),
+            makeQuestion(),
+            makeQuestion(),
+            makeQuestion(QuestionType.Add),
         )
     }
 }
@@ -68,7 +70,9 @@ data class Answer(
             )
 
         fun getInitialAnswerList() = listOf<Answer>(
-            makeAnswer(), makeAnswer(), makeAnswer(AnswerType.Add),
+            makeAnswer(),
+            makeAnswer(),
+            makeAnswer(AnswerType.Add),
         )
     }
 }

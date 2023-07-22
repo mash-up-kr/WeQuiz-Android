@@ -94,7 +94,7 @@ class QuizCreateActivity :
             btnQuizComplete.setOnClickListener {
                 WeQuizSnackbar.make(
                     binding.root,
-                    "만들기 성공 (임시)"
+                    "만들기 성공 (임시)",
                 ).show()
             }
         }
@@ -126,12 +126,13 @@ class QuizCreateActivity :
                                     deleteQuestion(question)
                                     questionDeleteSnackbar.show()
                                     questionDeleteDialog.dismiss()
-                                })
+                                },
+                            )
                             questionDeleteDialog = WeQuizDialog(dialogContent)
                             if (questionList.value.size > QuizCreateViewModel.MIN_QUESTION_COUNT) {
                                 questionDeleteDialog.show(
                                     supportFragmentManager,
-                                    "questionDeleteDialog"
+                                    "questionDeleteDialog",
                                 )
                             }
                         }

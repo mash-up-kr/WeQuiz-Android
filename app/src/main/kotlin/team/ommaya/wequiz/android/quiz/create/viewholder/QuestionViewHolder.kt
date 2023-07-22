@@ -68,10 +68,9 @@ class QuestionViewHolder(
                             } else {
                                 R.drawable.ic_checkmark
                             }
+
                             ivMultipleChoice.setImageDrawable(
-                                context.getDrawable(
-                                    multipleChoiceIconRes
-                                )
+                                context.getDrawable(multipleChoiceIconRes),
                             )
                         }
                         answerAdapter.submitList(viewModel.getAnswerList(position))
@@ -100,7 +99,8 @@ class QuestionViewHolder(
                         if (hasFocus) {
                             setQuestionFocus(getSyncedQuestionPosition(item))
                             onQuestionItemClickListener(
-                                getSyncedQuestionPosition(item), true
+                                getSyncedQuestionPosition(item),
+                                true,
                             )
                         }
                         ivQuestionTitleDelete.visibility = if (hasFocus) VISIBLE else GONE
@@ -116,7 +116,7 @@ class QuestionViewHolder(
                     setQuestionFocus(getSyncedQuestionPosition(item), true)
                     onQuestionItemClickListener(
                         getSyncedQuestionPosition(item),
-                        false
+                        false,
                     )
                 }
                 vMultipleChoice.setOnClickListener {
