@@ -136,16 +136,21 @@ class QuizCreateViewModel : ViewModel() {
     }
 
     fun deleteQuestion(question: Question) {
-        val list = mutableListOf<Question>().apply {
-            addAll(questionList.value)
-            remove(getSyncedQuestion(question))
+        val currentQuestionList = getCurrentQuestionList()
+        if (currentQuestionList.size >= MIN_QUESTION_COUNT + 1) {
+            currentQuestionList.remove(getSyncedQuestion(question))
+            if (currentQuestionList.size == MAX_QUESTION_COUNT - 1) {
+                if (currentQuestionList.last().type == Question.QuestionType.Default) {
+                    currentQuestionList.add(makeQuestion(Question.QuestionType.Add))
+                }
+            }
         }
-        _questionList.value = list
+        _questionList.update { currentQuestionList }
     }
 
     fun isQuestionListModified(): Boolean {
         val isModified = if (questionCount == questionList.value.size) {
-            isQuestionFull()
+            questionCount == MAX_QUESTION_COUNT
         } else {
             true
         }
@@ -176,11 +181,10 @@ class QuizCreateViewModel : ViewModel() {
         addAll(questionList.value[questionPosition].answerList)
     }
 
-    private fun isQuestionFull() = questionList.value.last().type != Question.QuestionType.Add
-
     companion object {
         const val QUESTION_ADD_POSITION = -1
         const val MAX_QUESTION_COUNT = 10
         const val MAX_ANSWER_COUNT = 5
+        const val MIN_QUESTION_COUNT = 3
     }
 }

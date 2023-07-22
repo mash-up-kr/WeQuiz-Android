@@ -68,13 +68,6 @@ class QuizCreateAdapter(
         return getItem(position).type.typeNum
     }
 
-    override fun onViewDetachedFromWindow(holder: ViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-        if (holder is QuestionViewHolder) {
-            holder.cancelQuestionCollectJob()
-        }
-    }
-
     companion object {
         val questionDiffCallback = object : DiffUtil.ItemCallback<Question>() {
             override fun areItemsTheSame(oldItem: Question, newItem: Question): Boolean =

@@ -12,12 +12,12 @@ import android.content.Context
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.databinding.ItemQuizAnswerAddBinding
 import team.ommaya.wequiz.android.design.resource.R
 import team.ommaya.wequiz.android.quiz.create.Question
 import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
-import team.ommaya.wequiz.android.quiz.create.adapter.AnswerTypeViewHolder
 
 class AnswerAddViewHolder(
     private val binding: ItemQuizAnswerAddBinding,
@@ -25,15 +25,11 @@ class AnswerAddViewHolder(
     private val viewModel: QuizCreateViewModel,
     private val lifecycle: Lifecycle,
     private val context: Context,
-) : AnswerTypeViewHolder(binding.root) {
-
-    override fun cancelAnswerJob() {
-        answerCollectJob.cancel()
-    }
+) : ViewHolder(binding.root) {
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    override fun collectAnswerFlows(position: Int) {
-        answerCollectJob = lifecycle.coroutineScope.launch {
+    fun collectAnswerFlows(position: Int) {
+        lifecycle.coroutineScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 with(viewModel) {
                     questionList.collect {

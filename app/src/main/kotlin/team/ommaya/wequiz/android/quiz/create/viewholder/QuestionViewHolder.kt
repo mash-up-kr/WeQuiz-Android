@@ -9,6 +9,7 @@ package team.ommaya.wequiz.android.quiz.create.viewholder
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.View.GONE
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -17,7 +18,6 @@ import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView.VISIBLE
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.databinding.ItemQuizCreateQuizBinding
 import team.ommaya.wequiz.android.design.resource.R
@@ -34,7 +34,6 @@ class QuestionViewHolder(
 ) : ViewHolder(binding.root) {
 
     private lateinit var answerAdapter: AnswerAdapter
-    private var questionCollectJob: Job = Job()
 
     fun bind(item: Question, position: Int) {
         binding.apply {
@@ -52,13 +51,9 @@ class QuestionViewHolder(
         collectFlows(item)
     }
 
-    fun cancelQuestionCollectJob() {
-        questionCollectJob.cancel()
-    }
-
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun collectFlows(item: Question) {
-        questionCollectJob = lifecycle.coroutineScope.launch {
+        lifecycle.coroutineScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.questionList.collect {
@@ -81,7 +76,7 @@ class QuestionViewHolder(
                             )
                         }
                         answerAdapter.submitList(viewModel.getAnswerList(position))
-                        initListener(item, position)
+                        initListener(item)
                     }
                 }
                 launch {
@@ -97,15 +92,25 @@ class QuestionViewHolder(
         }
     }
 
-    private fun initListener(item: Question, position: Int) {
+    private fun initListener(item: Question) {
         with(viewModel) {
             with(binding) {
                 with(etQuizTitle) {
                     hint = item.title
                     setOnFocusChangeListener { _, hasFocus ->
                         if (hasFocus) {
+                            Log.d(
+                                "클릭",
+                                "question ${getQuestionItemPosition(getSyncedQuestion(item))} 클릭 "
+                            )
                             setQuestionFocus(getQuestionItemPosition(getSyncedQuestion(item)))
-                            onQuestionItemClickListener(getQuestionItemPosition(getSyncedQuestion(item)), true)
+                            onQuestionItemClickListener(
+                                getQuestionItemPosition(
+                                    getSyncedQuestion(
+                                        item
+                                    )
+                                ), true
+                            )
                         }
                         ivQuestionTitleDelete.visibility = if (hasFocus) VISIBLE else GONE
                     }
@@ -116,8 +121,12 @@ class QuestionViewHolder(
                     etQuizTitle.text.clear()
                 }
                 root.setOnClickListener {
+                    Log.d("클릭", "question ${getQuestionItemPosition(getSyncedQuestion(item))} 클릭 ")
                     setQuestionFocus(getQuestionItemPosition(getSyncedQuestion(item)), true)
-                    onQuestionItemClickListener(getQuestionItemPosition(getSyncedQuestion(item)), false)
+                    onQuestionItemClickListener(
+                        getQuestionItemPosition(getSyncedQuestion(item)),
+                        false
+                    )
                 }
                 vMultipleChoice.setOnClickListener {
                     setMultipleChoice(getQuestionItemPosition(getSyncedQuestion(item)))

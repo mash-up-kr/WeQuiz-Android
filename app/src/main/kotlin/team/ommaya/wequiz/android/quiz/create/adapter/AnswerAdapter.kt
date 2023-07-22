@@ -29,9 +29,9 @@ class AnswerAdapter(
     private val lifecycle: Lifecycle,
     private val question: Question,
     private val context: Context,
-) : ListAdapter<Answer, AnswerTypeViewHolder>(answerDiffCallback) {
+) : ListAdapter<Answer, ViewHolder>(answerDiffCallback) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnswerTypeViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return if (viewType == Question.QuestionType.Default.typeNum) {
             AnswerViewHolder(
                 ItemQuizAnswerBinding.inflate(
@@ -59,7 +59,7 @@ class AnswerAdapter(
         }
     }
 
-    override fun onBindViewHolder(holder: AnswerTypeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (holder is AnswerViewHolder) {
             holder.bind(position)
         }
@@ -70,11 +70,6 @@ class AnswerAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return getItem(position).type.typeNum
-    }
-
-    override fun onViewDetachedFromWindow(holder: AnswerTypeViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-        holder.cancelAnswerJob()
     }
 
     companion object {
@@ -89,11 +84,4 @@ class AnswerAdapter(
                 oldItem.key == newItem.key
         }
     }
-}
-
-abstract class AnswerTypeViewHolder(itemView: View) : ViewHolder(itemView) {
-    var answerCollectJob: Job = Job()
-    abstract fun cancelAnswerJob()
-
-    abstract fun collectAnswerFlows(position: Int)
 }
