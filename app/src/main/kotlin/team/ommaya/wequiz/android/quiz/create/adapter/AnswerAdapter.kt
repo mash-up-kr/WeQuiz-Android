@@ -9,10 +9,13 @@ package team.ommaya.wequiz.android.quiz.create.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import kotlinx.coroutines.Job
 import team.ommaya.wequiz.android.databinding.ItemQuizAnswerAddBinding
 import team.ommaya.wequiz.android.databinding.ItemQuizAnswerBinding
 import team.ommaya.wequiz.android.quiz.create.Answer
@@ -23,11 +26,12 @@ import team.ommaya.wequiz.android.quiz.create.viewholder.AnswerViewHolder
 
 class AnswerAdapter(
     private val viewModel: QuizCreateViewModel,
-    private val quizPosition: Int,
+    private val lifecycle: Lifecycle,
+    private val question: Question,
     private val context: Context,
-) : ListAdapter<Answer, ViewHolder>(answerDiffCallback) {
+) : ListAdapter<Answer, AnswerTypeViewHolder>(answerDiffCallback) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnswerTypeViewHolder {
         return if (viewType == Question.QuestionType.Default.typeNum) {
             AnswerViewHolder(
                 ItemQuizAnswerBinding.inflate(
@@ -35,8 +39,9 @@ class AnswerAdapter(
                     parent,
                     false,
                 ),
+                question,
                 viewModel,
-                quizPosition,
+                lifecycle,
                 context,
             )
         } else {
@@ -46,14 +51,15 @@ class AnswerAdapter(
                     parent,
                     false,
                 ),
+                question,
                 viewModel,
-                quizPosition,
+                lifecycle,
                 context,
             )
         }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AnswerTypeViewHolder, position: Int) {
         if (holder is AnswerViewHolder) {
             holder.bind(position)
         }
@@ -64,6 +70,11 @@ class AnswerAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return getItem(position).type.typeNum
+    }
+
+    override fun onViewDetachedFromWindow(holder: AnswerTypeViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.cancelAnswerJob()
     }
 
     companion object {
@@ -78,4 +89,11 @@ class AnswerAdapter(
                 oldItem.key == newItem.key
         }
     }
+}
+
+abstract class AnswerTypeViewHolder(itemView: View) : ViewHolder(itemView) {
+    var answerCollectJob: Job = Job()
+    abstract fun cancelAnswerJob()
+
+    abstract fun collectAnswerFlows(position: Int)
 }

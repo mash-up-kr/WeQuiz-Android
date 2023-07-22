@@ -38,10 +38,10 @@ class QuestionViewHolder(
 
     fun bind(item: Question, position: Int) {
         binding.apply {
-            initListener(item, position)
             answerAdapter = AnswerAdapter(
                 viewModel,
-                position,
+                lifecycle,
+                item,
                 context,
             ).apply {
                 submitList(viewModel.getAnswerList(position))
@@ -49,7 +49,7 @@ class QuestionViewHolder(
             rvAnswerList.adapter = answerAdapter
         }
 
-        collectFlows(position)
+        collectFlows(item)
     }
 
     fun cancelQuestionCollectJob() {
@@ -57,12 +57,13 @@ class QuestionViewHolder(
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    private fun collectFlows(position: Int) {
+    private fun collectFlows(item: Question) {
         questionCollectJob = lifecycle.coroutineScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.questionList.collect { list ->
-                        val currentItem = list[position]
+                    viewModel.questionList.collect {
+                        val currentItem = viewModel.getSyncedQuestion(item)
+                        val position = viewModel.getQuestionItemPosition(item)
                         with(binding) {
                             rvAnswerList.isVisible = currentItem.isFocus
                             ivMultipleChoice.isVisible = currentItem.isFocus
@@ -80,6 +81,7 @@ class QuestionViewHolder(
                             )
                         }
                         answerAdapter.submitList(viewModel.getAnswerList(position))
+                        initListener(item, position)
                     }
                 }
                 launch {
@@ -96,31 +98,33 @@ class QuestionViewHolder(
     }
 
     private fun initListener(item: Question, position: Int) {
-        with(binding) {
-            with(etQuizTitle) {
-                hint = item.title
-                setOnFocusChangeListener { _, hasFocus ->
-                    if (hasFocus) {
-                        viewModel.setQuestionFocus(position)
-                        onQuestionItemClickListener(position, true)
+        with(viewModel) {
+            with(binding) {
+                with(etQuizTitle) {
+                    hint = item.title
+                    setOnFocusChangeListener { _, hasFocus ->
+                        if (hasFocus) {
+                            setQuestionFocus(getQuestionItemPosition(getSyncedQuestion(item)))
+                            onQuestionItemClickListener(getQuestionItemPosition(getSyncedQuestion(item)), true)
+                        }
+                        ivQuestionTitleDelete.visibility = if (hasFocus) VISIBLE else GONE
                     }
-                    ivQuestionTitleDelete.visibility = if (hasFocus) VISIBLE else GONE
+                    doOnTextChanged { text, _, _, _ ->
+                    }
                 }
-                doOnTextChanged { text, _, _, _ ->
+                ivQuestionTitleDelete.setOnClickListener {
+                    etQuizTitle.text.clear()
                 }
-            }
-            ivQuestionTitleDelete.setOnClickListener {
-                etQuizTitle.text.clear()
-            }
-            root.setOnClickListener {
-                viewModel.setQuestionFocus(position, true)
-                onQuestionItemClickListener(position, false)
-            }
-            vMultipleChoice.setOnClickListener {
-                viewModel.setMultipleChoice(position)
-            }
-            ivDeleteQuestion.setOnClickListener {
-                viewModel.deleteQuestion(item)
+                root.setOnClickListener {
+                    setQuestionFocus(getQuestionItemPosition(getSyncedQuestion(item)), true)
+                    onQuestionItemClickListener(getQuestionItemPosition(getSyncedQuestion(item)), false)
+                }
+                vMultipleChoice.setOnClickListener {
+                    setMultipleChoice(getQuestionItemPosition(getSyncedQuestion(item)))
+                }
+                ivDeleteQuestion.setOnClickListener {
+                    deleteQuestion(item)
+                }
             }
         }
     }

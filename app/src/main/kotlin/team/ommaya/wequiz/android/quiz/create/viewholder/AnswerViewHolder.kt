@@ -9,45 +9,64 @@ package team.ommaya.wequiz.android.quiz.create.viewholder
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.databinding.ItemQuizAnswerBinding
 import team.ommaya.wequiz.android.design.resource.R
+import team.ommaya.wequiz.android.quiz.create.Question
 import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
+import team.ommaya.wequiz.android.quiz.create.adapter.AnswerTypeViewHolder
 
 class AnswerViewHolder(
     private val binding: ItemQuizAnswerBinding,
+    private val item: Question,
     private val viewModel: QuizCreateViewModel,
-    private val questionPosition: Int,
+    private val lifecycle: Lifecycle,
     private val context: Context,
-) : ViewHolder(binding.root) {
+) : AnswerTypeViewHolder(binding.root) {
 
-    var title = ""
+    override fun cancelAnswerJob() {
+        answerCollectJob.cancel()
+    }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    fun bind(position: Int) {
-        val indexIconRes: Int = when (position) {
-            0 -> R.drawable.ic_index_a
-            1 -> R.drawable.ic_index_b
-            2 -> R.drawable.ic_index_c
-            3 -> R.drawable.ic_index_d
-            else -> R.drawable.ic_index_e
-        }
+    override fun collectAnswerFlows(position: Int) {
+        answerCollectJob = lifecycle.coroutineScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                with(viewModel) {
+                    questionList.collect {
+                        val indexIconRes: Int = when (position) {
+                            0 -> R.drawable.ic_index_a
+                            1 -> R.drawable.ic_index_b
+                            2 -> R.drawable.ic_index_c
+                            3 -> R.drawable.ic_index_d
+                            else -> R.drawable.ic_index_e
+                        }
 
-        binding.apply {
-            with(etQuizDefault) {
-                setOnFocusChangeListener { _, isFocus ->
-                    ivAnswerTitleDelete.isVisible = isFocus
+                        binding.apply {
+                            with(etQuizDefault) {
+                                setOnFocusChangeListener { _, isFocus ->
+                                    ivAnswerTitleDelete.isVisible = isFocus
+                                }
+                            }
+                            root.setOnClickListener {
+                                viewModel.setQuestionFocus(getQuestionItemPosition(item))
+                            }
+                            ivAnswerIndex.setImageDrawable(context.getDrawable(indexIconRes))
+                            ivAnswerTitleDelete.setOnClickListener {
+                                etQuizDefault.text.clear()
+                            }
+                        }
+                    }
                 }
             }
-            root.setOnClickListener {
-                viewModel.setQuestionFocus(questionPosition)
-            }
-            ivAnswerIndex.setImageDrawable(context.getDrawable(indexIconRes))
-            ivAnswerTitleDelete.setOnClickListener {
-                etQuizDefault.text.clear()
-            }
         }
+    }
+
+    fun bind(position: Int) {
+        collectAnswerFlows(position)
     }
 }

@@ -138,7 +138,7 @@ class QuizCreateViewModel : ViewModel() {
     fun deleteQuestion(question: Question) {
         val list = mutableListOf<Question>().apply {
             addAll(questionList.value)
-            remove(question)
+            remove(getSyncedQuestion(question))
         }
         _questionList.value = list
     }
@@ -151,6 +151,21 @@ class QuizCreateViewModel : ViewModel() {
         }
         questionCount = questionList.value.size
         return isModified
+    }
+
+    fun getQuestionItemPosition(item: Question): Int {
+        var position = 0
+        questionList.value.forEachIndexed { index, question ->
+            if (question.key == item.key) {
+                position = index
+            }
+        }
+        return position
+    }
+
+    fun getSyncedQuestion(item: Question): Question {
+        val position = getQuestionItemPosition(item)
+        return questionList.value[position]
     }
 
     private fun getCurrentQuestionList() = mutableListOf<Question>().apply {
