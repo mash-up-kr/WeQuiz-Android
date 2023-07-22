@@ -171,7 +171,6 @@ class QuizCreateViewModel : ViewModel() {
         }
     }
 
-
     fun setEditMode() {
         _isEditMode.value = !isEditMode.value
         if (isEditMode.value)
@@ -230,23 +229,6 @@ class QuizCreateViewModel : ViewModel() {
     }
 
     fun getSyncedQuestionPosition(item: Question) = getQuestionItemPosition(getSyncedQuestion(item))
-
-    fun getAnswerItemPosition(questionPosition: Int, answer: Answer): Int {
-        var position = 0
-        val currentAnswerList = getCurrentAnswerList(questionPosition)
-
-        currentAnswerList.forEachIndexed { index, currentAnswer ->
-            if (currentAnswer.key == answer.key) {
-                position = index
-            }
-        }
-        return position
-    }
-
-    fun getSyncedAnswer(questionPosition: Int, answer: Answer): Answer {
-        val position = getAnswerItemPosition(questionPosition, answer)
-        return getCurrentAnswerList(questionPosition)[position]
-    }
 
     fun setAnswerCorrect(syncedQuestion: Question, answerPosition: Int) {
         val currentQuestionList = getCurrentQuestionList()

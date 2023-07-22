@@ -15,11 +15,8 @@
         tools:ignore="MissingApplicationIcon">
 
         <activity
-            android:name=".quiz.create.QuizCreateActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-            android:windowSoftInputMode="adjustPan">
+            android:name=".MainActivity"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +24,13 @@
             </intent-filter>
 
         </activity>
+
+        <activity
+            android:name=".quiz.create.QuizCreateActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".intro.IntroActivity"
