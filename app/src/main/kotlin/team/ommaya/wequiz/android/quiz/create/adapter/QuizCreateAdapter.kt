@@ -28,6 +28,7 @@ class QuizCreateAdapter(
     private val onQuestionAddItemClickListener: () -> Unit,
     private val onQuestionItemClickListener: (Int, Boolean) -> Unit,
 ) : ListAdapter<Question, ViewHolder>(questionDiffCallback) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return if (viewType == Question.QuestionType.Default.typeNum) {
             QuestionViewHolder(
@@ -65,6 +66,13 @@ class QuizCreateAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return getItem(position).type.typeNum
+    }
+
+    override fun onViewDetachedFromWindow(holder: ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        if (holder is QuestionViewHolder) {
+            holder.cancelQuestionCollectJob()
+        }
     }
 
     companion object {

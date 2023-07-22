@@ -135,10 +135,10 @@ class QuizCreateViewModel : ViewModel() {
         }
     }
 
-    fun deleteQuestion(questionPosition: Int) {
+    fun deleteQuestion(question: Question) {
         val list = mutableListOf<Question>().apply {
             addAll(questionList.value)
-            removeAt(questionPosition)
+            remove(question)
         }
         _questionList.value = list
     }

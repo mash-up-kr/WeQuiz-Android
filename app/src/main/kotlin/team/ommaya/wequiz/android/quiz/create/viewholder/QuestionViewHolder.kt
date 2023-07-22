@@ -9,17 +9,15 @@ package team.ommaya.wequiz.android.quiz.create.viewholder
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.View.GONE
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
-import androidx.lifecycle.findViewTreeLifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView.VISIBLE
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.databinding.ItemQuizCreateQuizBinding
 import team.ommaya.wequiz.android.design.resource.R
@@ -36,6 +34,7 @@ class QuestionViewHolder(
 ) : ViewHolder(binding.root) {
 
     private lateinit var answerAdapter: AnswerAdapter
+    private var questionCollectJob: Job = Job()
 
     fun bind(item: Question, position: Int) {
         binding.apply {
@@ -53,9 +52,13 @@ class QuestionViewHolder(
         collectFlows(position)
     }
 
+    fun cancelQuestionCollectJob() {
+        questionCollectJob.cancel()
+    }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun collectFlows(position: Int) {
-        lifecycle.coroutineScope.launch {
+        questionCollectJob = lifecycle.coroutineScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.questionList.collect { list ->
@@ -117,7 +120,7 @@ class QuestionViewHolder(
                 viewModel.setMultipleChoice(position)
             }
             ivDeleteQuestion.setOnClickListener {
-                viewModel.deleteQuestion(adapterPosition)
+                viewModel.deleteQuestion(item)
             }
         }
     }
