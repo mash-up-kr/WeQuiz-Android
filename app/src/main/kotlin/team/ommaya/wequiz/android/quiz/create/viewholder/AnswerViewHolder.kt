@@ -9,6 +9,7 @@ package team.ommaya.wequiz.android.quiz.create.viewholder
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import team.ommaya.wequiz.android.databinding.ItemQuizAnswerBinding
@@ -36,18 +37,9 @@ class AnswerViewHolder(
 
         binding.apply {
             with(etQuizDefault) {
-                /*if (title.isNotBlank()) {
-                    setText(title)
-                }*/
                 setOnFocusChangeListener { _, isFocus ->
                     ivAnswerTitleDelete.isVisible = isFocus
-                    if (isFocus.not()) {
-                        viewModel.setAnswerTitle(questionPosition, position, text.toString())
-                    }
                 }
-                /*doOnTextChanged { text, _, _, _ ->
-                    viewModel.setAnswerTitle(questionPosition,position,text.toString())
-                }*/
             }
             root.setOnClickListener {
                 viewModel.setQuestionFocus(questionPosition)

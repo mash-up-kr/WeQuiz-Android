@@ -23,6 +23,8 @@ class QuizCreateViewModel : ViewModel() {
     private val _isEditMode: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isEditMode = _isEditMode.asStateFlow()
 
+    private var questionCount = 0
+
     fun addQuestion() {
         val currentSize = questionList.value.size
         val currentQuestionList = getCurrentQuestionList()
@@ -141,6 +143,16 @@ class QuizCreateViewModel : ViewModel() {
         _questionList.value = list
     }
 
+    fun isQuestionListModified(): Boolean {
+        val isModified = if (questionCount == questionList.value.size) {
+            isQuestionFull()
+        } else {
+            true
+        }
+        questionCount = questionList.value.size
+        return isModified
+    }
+
     private fun getCurrentQuestionList() = mutableListOf<Question>().apply {
         addAll(questionList.value)
     }
@@ -148,6 +160,8 @@ class QuizCreateViewModel : ViewModel() {
     private fun getCurrentAnswerList(questionPosition: Int) = mutableListOf<Answer>().apply {
         addAll(questionList.value[questionPosition].answerList)
     }
+
+    private fun isQuestionFull() = questionList.value.last().type != Question.QuestionType.Add
 
     companion object {
         const val QUESTION_ADD_POSITION = -1

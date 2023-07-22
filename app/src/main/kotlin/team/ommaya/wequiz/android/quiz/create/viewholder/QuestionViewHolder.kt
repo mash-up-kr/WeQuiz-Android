@@ -9,6 +9,7 @@ package team.ommaya.wequiz.android.quiz.create.viewholder
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.View.GONE
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged

@@ -42,6 +42,8 @@ class QuizCreateActivity :
         )
     }
 
+    private var questionCount = 3
+
     private val adapterDataObserver = object : RecyclerView.AdapterDataObserver() {
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             super.onItemRangeInserted(positionStart, itemCount)
@@ -85,8 +87,12 @@ class QuizCreateActivity :
     private fun collectFlows() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                quizCreateViewModel.questionList.collect { list ->
-                    quizAdapter.submitList(list)
+                with(quizCreateViewModel) {
+                    questionList.collect { list ->
+                        if (isQuestionListModified()) {
+                            quizAdapter.submitList(list)
+                        }
+                    }
                 }
             }
         }
