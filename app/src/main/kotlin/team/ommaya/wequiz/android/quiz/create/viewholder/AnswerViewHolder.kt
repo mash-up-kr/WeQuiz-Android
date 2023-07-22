@@ -34,6 +34,9 @@ class AnswerViewHolder(
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 with(viewModel) {
                     questionList.collect {
+                        val currentAnswerList = viewModel.getSyncedQuestion(item).answerList
+                        val currentItem = currentAnswerList[position]
+
                         val indexIconRes: Int = when (position) {
                             0 -> R.drawable.ic_index_a
                             1 -> R.drawable.ic_index_b
@@ -51,7 +54,24 @@ class AnswerViewHolder(
                             root.setOnClickListener {
                                 viewModel.setQuestionFocus(getQuestionItemPosition(item))
                             }
-                            ivAnswerIndex.setImageDrawable(context.getDrawable(indexIconRes))
+                            root.background = if (currentItem.isCorrect) {
+                                context.getDrawable(R.drawable.bg_p1_radius_16)
+                            } else {
+                                context.getDrawable(R.drawable.bg_g7_radius_16)
+                            }
+                            ivAnswerIndex.setImageDrawable(
+                                if (currentItem.isCorrect) {
+                                    context.getDrawable(R.drawable.ic_answer_correct)
+                                } else {
+                                    context.getDrawable(indexIconRes)
+                                }
+                            )
+                            ivAnswerIndex.setOnClickListener {
+                                viewModel.setAnswerCorrect(
+                                    viewModel.getSyncedQuestion(item),
+                                    position
+                                )
+                            }
                             ivAnswerTitleDelete.setOnClickListener {
                                 etQuizDefault.text.clear()
                             }

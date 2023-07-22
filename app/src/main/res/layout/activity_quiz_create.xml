@@ -65,8 +65,8 @@
         android:layout_marginEnd="20dp"
         android:background="@null"
         android:hint="@string/untitled_quiz"
-        android:maxLength="38"
         android:inputType="textMultiLine"
+        android:maxLength="38"
         android:textAppearance="@style/WeQuizTextAppearance.Title.Medium"
         android:textColor="@color/white"
         android:textColorHint="@color/G4"
@@ -87,7 +87,8 @@
 
     <Button
         android:id="@+id/btn_quiz_complete"
-        style="@style/WeQuizRoundButton.Disabled"
+        style="@style/WeQuizRoundButton"
+        android:enabled="false"
         android:text="@string/complete_quiz"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

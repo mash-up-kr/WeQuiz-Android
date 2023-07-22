@@ -78,7 +78,7 @@ class AnswerAdapter(
                 oldItem.key == newItem.key
 
             override fun areContentsTheSame(oldItem: Answer, newItem: Answer): Boolean =
-                oldItem == newItem
+                oldItem.key == newItem.key
 
             override fun getChangePayload(oldItem: Answer, newItem: Answer): Boolean =
                 oldItem.key == newItem.key

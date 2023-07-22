@@ -17,6 +17,7 @@
         <activity
             android:name=".quiz.create.QuizCreateActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:windowSoftInputMode="adjustPan">
 

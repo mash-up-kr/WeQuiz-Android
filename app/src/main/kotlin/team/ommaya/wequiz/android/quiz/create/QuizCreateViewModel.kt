@@ -88,14 +88,22 @@ class QuizCreateViewModel : ViewModel() {
     fun getAnswerList(questionPosition: Int) = questionList.value[questionPosition].answerList
 
     fun setMultipleChoice(questionPosition: Int) {
-        val list = mutableListOf<Question>().apply {
-            addAll(questionList.value)
+        val currentQuestionList = getCurrentQuestionList()
+        val currentAnswerList = getCurrentAnswerList(questionPosition)
+
+        if (currentQuestionList[questionPosition].isMultipleChoice) {
+            currentAnswerList.forEachIndexed { index, answer ->
+                currentAnswerList[index] = answer.copy(isCorrect = false)
+            }
         }
 
         _questionList.update {
-            list[questionPosition] =
-                list[questionPosition].copy(isMultipleChoice = !list[questionPosition].isMultipleChoice)
-            list
+            currentQuestionList[questionPosition] =
+                currentQuestionList[questionPosition].copy(
+                    isMultipleChoice = !currentQuestionList[questionPosition].isMultipleChoice,
+                    answerList = currentAnswerList
+                )
+            currentQuestionList
         }
     }
 
@@ -173,6 +181,57 @@ class QuizCreateViewModel : ViewModel() {
         return questionList.value[position]
     }
 
+    fun getAnswerItemPosition(questionPosition: Int, answer: Answer): Int {
+        var position = 0
+        val currentAnswerList = getCurrentAnswerList(questionPosition)
+
+        currentAnswerList.forEachIndexed { index, currentAnswer ->
+            if (currentAnswer.key == answer.key) {
+                position = index
+            }
+        }
+        return position
+    }
+
+    fun getSyncedAnswer(questionPosition: Int, answer: Answer): Answer {
+        val position = getAnswerItemPosition(questionPosition, answer)
+        return getCurrentAnswerList(questionPosition)[position]
+    }
+
+    fun setAnswerCorrect(syncedQuestion: Question, answerPosition: Int) {
+        val currentQuestionList = getCurrentQuestionList()
+        val currentAnswerList = getCurrentAnswerList(getQuestionItemPosition(syncedQuestion))
+
+        if (syncedQuestion.isMultipleChoice.not()) {
+            currentAnswerList.forEachIndexed { index, currentAnswer ->
+                currentAnswerList[index] =
+                    currentAnswer.copy(isCorrect = currentAnswer.key == currentAnswerList[answerPosition].key)
+            }
+        } else {
+            currentAnswerList.forEachIndexed { index, currentAnswer ->
+                if (currentAnswer.key == currentAnswerList[answerPosition].key) {
+                    if (currentAnswer.isCorrect) {
+                        currentAnswerList[index] =
+                            currentAnswer.copy(isCorrect = false)
+                    } else if (currentAnswerList.filter { it.isCorrect }.size < MAX_ANSWER_CORRECT_COUNT) {
+                        currentAnswerList[index] =
+                            currentAnswer.copy(isCorrect = true)
+                    }
+                }
+            }
+        }
+
+        _questionList.update {
+            currentQuestionList.forEachIndexed { index, currentQuestion ->
+                if (index == getQuestionItemPosition(syncedQuestion)) {
+                    currentQuestionList[index] =
+                        currentQuestion.copy(answerList = currentAnswerList)
+                }
+            }
+            currentQuestionList
+        }
+    }
+
     private fun getCurrentQuestionList() = mutableListOf<Question>().apply {
         addAll(questionList.value)
     }
@@ -186,5 +245,6 @@ class QuizCreateViewModel : ViewModel() {
         const val MAX_QUESTION_COUNT = 10
         const val MAX_ANSWER_COUNT = 5
         const val MIN_QUESTION_COUNT = 3
+        const val MAX_ANSWER_CORRECT_COUNT = 2
     }
 }
