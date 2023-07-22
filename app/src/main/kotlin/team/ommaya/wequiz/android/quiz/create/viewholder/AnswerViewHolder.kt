@@ -10,6 +10,7 @@ package team.ommaya.wequiz.android.quiz.create.viewholder
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -49,6 +50,13 @@ class AnswerViewHolder(
                             with(etQuizDefault) {
                                 setOnFocusChangeListener { _, isFocus ->
                                     ivAnswerTitleDelete.isVisible = isFocus
+                                }
+                                doOnTextChanged { text, _, _, _ ->
+                                    viewModel.setAnswerTitle(
+                                        getSyncedQuestionPosition(item),
+                                        position,
+                                        text.toString()
+                                    )
                                 }
                             }
                             root.setOnClickListener {

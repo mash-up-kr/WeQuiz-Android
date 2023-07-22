@@ -9,7 +9,6 @@ package team.ommaya.wequiz.android.quiz.create.viewholder
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.View.GONE
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -99,37 +98,29 @@ class QuestionViewHolder(
                     hint = item.title
                     setOnFocusChangeListener { _, hasFocus ->
                         if (hasFocus) {
-                            Log.d(
-                                "클릭",
-                                "question ${getQuestionItemPosition(getSyncedQuestion(item))} 클릭 "
-                            )
-                            setQuestionFocus(getQuestionItemPosition(getSyncedQuestion(item)))
+                            setQuestionFocus(getSyncedQuestionPosition(item))
                             onQuestionItemClickListener(
-                                getQuestionItemPosition(
-                                    getSyncedQuestion(
-                                        item
-                                    )
-                                ), true
+                                getSyncedQuestionPosition(item), true
                             )
                         }
                         ivQuestionTitleDelete.visibility = if (hasFocus) VISIBLE else GONE
                     }
                     doOnTextChanged { text, _, _, _ ->
+                        setQuestionTitle(getSyncedQuestionPosition(item), text.toString())
                     }
                 }
                 ivQuestionTitleDelete.setOnClickListener {
                     etQuizTitle.text.clear()
                 }
                 root.setOnClickListener {
-                    Log.d("클릭", "question ${getQuestionItemPosition(getSyncedQuestion(item))} 클릭 ")
-                    setQuestionFocus(getQuestionItemPosition(getSyncedQuestion(item)), true)
+                    setQuestionFocus(getSyncedQuestionPosition(item), true)
                     onQuestionItemClickListener(
-                        getQuestionItemPosition(getSyncedQuestion(item)),
+                        getSyncedQuestionPosition(item),
                         false
                     )
                 }
                 vMultipleChoice.setOnClickListener {
-                    setMultipleChoice(getQuestionItemPosition(getSyncedQuestion(item)))
+                    setMultipleChoice(getSyncedQuestionPosition(item))
                 }
                 ivDeleteQuestion.setOnClickListener {
                     setDeleteQuestionElement(item)

@@ -50,5 +50,6 @@
     <string name="allow_duplication">중복 선택여부</string>
     <string name="delete_question">문제삭제</string>
     <string name="delete_question_text">문제를 삭제할까요?</string>
+    <string name="delete_question_noftify">문제를 삭제했어요</string>
 
 </resources>

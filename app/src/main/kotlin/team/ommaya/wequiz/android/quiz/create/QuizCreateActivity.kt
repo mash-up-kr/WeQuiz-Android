@@ -25,6 +25,7 @@ import team.ommaya.wequiz.android.databinding.ActivityQuizCreateBinding
 import team.ommaya.wequiz.android.quiz.create.adapter.QuizCreateAdapter
 import team.ommaya.wequiz.android.utils.WeQuizDialog
 import team.ommaya.wequiz.android.utils.WeQuizDialogContents
+import team.ommaya.wequiz.android.utils.WeQuizSnackbar
 
 class QuizCreateActivity :
     BaseViewBindingActivity<ActivityQuizCreateBinding>(ActivityQuizCreateBinding::inflate) {
@@ -32,6 +33,13 @@ class QuizCreateActivity :
     private val quizCreateViewModel: QuizCreateViewModel by viewModels()
 
     private lateinit var questionDeleteDialog: WeQuizDialog
+
+    private val questionDeleteSnackbar: WeQuizSnackbar by lazy {
+        WeQuizSnackbar.make(
+            binding.root,
+            getString(R.string.delete_question_noftify),
+        )
+    }
 
     private val quizAdapter by lazy {
         QuizCreateAdapter(
@@ -83,6 +91,12 @@ class QuizCreateActivity :
             ivTitleDelete.setOnClickListener {
                 etQuizTitle.text.clear()
             }
+            btnQuizComplete.setOnClickListener {
+                WeQuizSnackbar.make(
+                    binding.root,
+                    "만들기 성공 (임시)"
+                ).show()
+            }
         }
         quizAdapter.registerAdapterDataObserver(adapterDataObserver)
     }
@@ -96,6 +110,7 @@ class QuizCreateActivity :
                             if (isQuestionListModified()) {
                                 quizAdapter.submitList(list)
                             }
+                            quizCreateViewModel.checkQuizRequirements()
                         }
                     }
                     launch {
@@ -109,6 +124,7 @@ class QuizCreateActivity :
                                 },
                                 positiveBtnAction = {
                                     deleteQuestion(question)
+                                    questionDeleteSnackbar.show()
                                     questionDeleteDialog.dismiss()
                                 })
                             questionDeleteDialog = WeQuizDialog(dialogContent)
@@ -118,6 +134,11 @@ class QuizCreateActivity :
                                     "questionDeleteDialog"
                                 )
                             }
+                        }
+                    }
+                    launch {
+                        isQuizMeetRequireMeet.collect { isRequired ->
+                            binding.btnQuizComplete.isEnabled = isRequired
                         }
                     }
                 }
