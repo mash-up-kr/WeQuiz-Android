@@ -8,9 +8,13 @@
 package team.ommaya.wequiz.android.quiz.create
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.quiz.create.Answer.Companion.makeAnswer
 import team.ommaya.wequiz.android.quiz.create.Question.Companion.makeQuestion
 
@@ -22,6 +26,9 @@ class QuizCreateViewModel : ViewModel() {
 
     private val _isEditMode: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isEditMode = _isEditMode.asStateFlow()
+
+    private val _deleteQuestionAction: MutableSharedFlow<Question> = MutableSharedFlow()
+    val deleteQuestionAction = _deleteQuestionAction.asSharedFlow()
 
     private var questionCount = 0
 
@@ -143,14 +150,18 @@ class QuizCreateViewModel : ViewModel() {
         }
     }
 
+    fun setDeleteQuestionElement(question: Question) {
+        viewModelScope.launch {
+            _deleteQuestionAction.emit(question)
+        }
+    }
+
     fun deleteQuestion(question: Question) {
         val currentQuestionList = getCurrentQuestionList()
-        if (currentQuestionList.size >= MIN_QUESTION_COUNT + 1) {
-            currentQuestionList.remove(getSyncedQuestion(question))
-            if (currentQuestionList.size == MAX_QUESTION_COUNT - 1) {
-                if (currentQuestionList.last().type == Question.QuestionType.Default) {
-                    currentQuestionList.add(makeQuestion(Question.QuestionType.Add))
-                }
+        currentQuestionList.remove(getSyncedQuestion(question))
+        if (currentQuestionList.size == MAX_QUESTION_COUNT - 1) {
+            if (currentQuestionList.last().type == Question.QuestionType.Default) {
+                currentQuestionList.add(makeQuestion(Question.QuestionType.Add))
             }
         }
         _questionList.update { currentQuestionList }

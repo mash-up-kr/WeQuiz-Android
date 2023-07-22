@@ -132,7 +132,7 @@ class QuestionViewHolder(
                     setMultipleChoice(getQuestionItemPosition(getSyncedQuestion(item)))
                 }
                 ivDeleteQuestion.setOnClickListener {
-                    deleteQuestion(item)
+                    setDeleteQuestionElement(item)
                 }
             }
         }

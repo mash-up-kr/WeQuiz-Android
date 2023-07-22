@@ -10,6 +10,8 @@
     <string name="string_go_back">뒤로 가기</string>
     <string name="cancel">취소</string>
     <string name="next">다음</string>
+    <string name="delete">삭제</string>
+    <string name="negative">아니요</string>
 
     <!-- 인트로 -->
     <string name="start_service">{서비스명} 시작하기</string>
@@ -47,5 +49,6 @@
     <string name="enter_question">문제 입력</string>
     <string name="allow_duplication">중복 선택여부</string>
     <string name="delete_question">문제삭제</string>
+    <string name="delete_question_text">문제를 삭제할까요?</string>
 
 </resources>

@@ -19,14 +19,19 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
+import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingActivity
 import team.ommaya.wequiz.android.databinding.ActivityQuizCreateBinding
 import team.ommaya.wequiz.android.quiz.create.adapter.QuizCreateAdapter
+import team.ommaya.wequiz.android.utils.WeQuizDialog
+import team.ommaya.wequiz.android.utils.WeQuizDialogContents
 
 class QuizCreateActivity :
     BaseViewBindingActivity<ActivityQuizCreateBinding>(ActivityQuizCreateBinding::inflate) {
 
     private val quizCreateViewModel: QuizCreateViewModel by viewModels()
+
+    private lateinit var questionDeleteDialog: WeQuizDialog
 
     private val quizAdapter by lazy {
         QuizCreateAdapter(
@@ -41,8 +46,6 @@ class QuizCreateActivity :
             },
         )
     }
-
-    private var questionCount = 3
 
     private val adapterDataObserver = object : RecyclerView.AdapterDataObserver() {
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
@@ -88,9 +91,33 @@ class QuizCreateActivity :
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 with(quizCreateViewModel) {
-                    questionList.collect { list ->
-                        if (isQuestionListModified()) {
-                            quizAdapter.submitList(list)
+                    launch {
+                        questionList.collect { list ->
+                            if (isQuestionListModified()) {
+                                quizAdapter.submitList(list)
+                            }
+                        }
+                    }
+                    launch {
+                        deleteQuestionAction.collect { question ->
+                            val dialogContent = WeQuizDialogContents(
+                                title = getString(R.string.delete_question_text),
+                                negativeBtnText = getString(R.string.negative),
+                                positiveBtnText = getString(R.string.delete),
+                                negativeBtnAction = {
+                                    questionDeleteDialog.dismiss()
+                                },
+                                positiveBtnAction = {
+                                    deleteQuestion(question)
+                                    questionDeleteDialog.dismiss()
+                                })
+                            questionDeleteDialog = WeQuizDialog(dialogContent)
+                            if (questionList.value.size > QuizCreateViewModel.MIN_QUESTION_COUNT) {
+                                questionDeleteDialog.show(
+                                    supportFragmentManager,
+                                    "questionDeleteDialog"
+                                )
+                            }
                         }
                     }
                 }
