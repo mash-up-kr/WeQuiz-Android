@@ -51,5 +51,7 @@
     <string name="delete_question">문제삭제</string>
     <string name="delete_question_text">문제를 삭제할까요?</string>
     <string name="delete_question_noftify">문제를 삭제했어요</string>
+    <string name="share_quiz">친구들에게 시험지 공유하기</string>
+    <string name="finish_create_quiz">{서비스명} 시험지를\n 완성했어요!</string>
 
 </resources>
