@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Designed and developed by "옴마야" Team 2023.
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/quiz_create_graph"
+    app:startDestination="@id/quizCreateFragment">
+
+    <fragment
+        android:id="@+id/quizCreateFragment"
+        android:name="team.ommaya.wequiz.android.quiz.create.QuizCreateFragment"
+        android:label="QuizCreateFragment"
+        tools:layout="@layout/fragment_quiz_create" />
+    <fragment
+        android:id="@+id/quizCreateFinishFragment"
+        android:name="team.ommaya.wequiz.android.quiz.create.QuizCreateFinishFragment"
+        android:label="QuizCreateFinishFragment"
+        tools:layout="@layout/fragment_quiz_create_finish" />
+</navigation>

@@ -7,9 +7,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:animateLayoutChanges="true"
     android:layout_height="match_parent"
     android:background="@color/G9">
 
@@ -57,38 +55,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/et_quiz_title"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/quiz_create_nav_host"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="40dp"
-        android:background="@null"
-        android:hint="@string/untitled_quiz"
-        android:maxLength="38"
-        android:textAppearance="@style/WeQuizTextAppearance.Title.Medium"
-        android:textColor="@color/white"
-        android:textColorHint="@color/G4"
-        app:layout_constraintTop_toBottomOf="@id/tv_quiz_create" />
+        android:layout_height="0dp"
+        android:layout_marginTop="56dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@id/btn_quiz_next"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/quiz_create_graph" />
 
     <Button
-        android:id="@+id/btn_quiz_complete"
-        style="@style/WeQuizRoundButton.Disabled"
+        android:id="@+id/btn_quiz_next"
+        style="@style/WeQuizRoundButton"
+        android:enabled="false"
         android:text="@string/complete_quiz"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_quiz_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginBottom="20dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/btn_quiz_complete"
-        app:layout_constraintTop_toBottomOf="@id/et_quiz_title"
-        tools:listitem="@layout/item_quiz_create_quiz" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,72 +8,284 @@
 package team.ommaya.wequiz.android.quiz.create
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import team.ommaya.wequiz.android.quiz.create.Answer.Companion.makeAnswer
+import team.ommaya.wequiz.android.quiz.create.Question.Companion.makeQuestion
 
 class QuizCreateViewModel : ViewModel() {
 
-    private val initialQuestionList = listOf(
-        Question(0),
-        Question(1),
-        Question(-1, type = Question.QuestionType.Add),
-    )
-
     private val _questionList: MutableStateFlow<List<Question>> =
-        MutableStateFlow(initialQuestionList)
+        MutableStateFlow(Question.getInitialQuestionList())
     val questionList = _questionList.asStateFlow()
 
-    private val _focusedPosition: MutableStateFlow<Int> = MutableStateFlow(-1)
-    val focusedPosition = _focusedPosition.asStateFlow()
+    private val _deleteQuestionAction: MutableSharedFlow<Question> = MutableSharedFlow()
+    val deleteQuestionAction = _deleteQuestionAction.asSharedFlow()
 
-    fun addQuiz() {
+    private val isAnswerCountRequired: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
+    private val isAnswerCorrectCountRequired: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
+    private val isQuestionCountRequired: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
+    private val quizTitle: MutableStateFlow<String> = MutableStateFlow("")
+
+    val isQuizMeetRequireMeet =
+        combine(
+            isAnswerCountRequired,
+            isAnswerCorrectCountRequired,
+            isQuestionCountRequired,
+            quizTitle,
+        ) { isAnswerCountRequired, isAnswerCorrectCountRequired, isQuestionCountRequired, quizTitle ->
+            isAnswerCountRequired && isAnswerCorrectCountRequired && isQuestionCountRequired && quizTitle.isNotBlank()
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5_000L),
+            false,
+        )
+
+    private var questionCount = 0
+
+    fun setQuizTitle(title: String) {
+        quizTitle.value = title
+    }
+
+    fun addQuestion() {
         val currentSize = questionList.value.size
-        val list = mutableListOf<Question>().apply {
-            addAll(questionList.value)
+        val currentQuestionList = getCurrentQuestionList()
+
+        currentQuestionList.removeLast()
+        currentQuestionList.add(makeQuestion())
+        if (currentSize != MAX_QUESTION_COUNT) {
+            currentQuestionList.add(makeQuestion(type = Question.QuestionType.Add))
         }
-        if (currentSize == 10) {
-            list[currentSize - 1] =
-                list.last().copy(index = currentSize - 1, type = Question.QuestionType.Default)
-        } else {
-            list[list.lastIndex] =
-                list.last().copy(index = list.lastIndex, type = Question.QuestionType.Default)
-            list.add(Question(index = currentSize, type = Question.QuestionType.Add))
-        }
-        _questionList.value = list.toList()
+
+        _questionList.value = currentQuestionList.toList()
     }
 
     fun addAnswer(questionPosition: Int) {
         val currentSize = questionList.value[questionPosition].answerList.size
-        val list = mutableListOf<Answer>().apply {
-            addAll(questionList.value[questionPosition].answerList)
-        }
-        if (currentSize == 5) {
-            list[currentSize - 1] =
-                list.last().copy(index = currentSize - 1, type = Answer.AnswerType.Default)
-        } else {
-            list[list.lastIndex] =
-                list.last().copy(index = list.lastIndex, type = Answer.AnswerType.Default)
-            list.add(Answer(index = currentSize, type = Answer.AnswerType.Add))
-        }
-        val questionList = mutableListOf<Question>().apply {
-            addAll(questionList.value)
-        }
-        questionList.forEachIndexed { index, question ->
-            if (index == questionPosition) {
-                questionList[index] = question.copy(answerList = list)
+        val currentAnswerList = getCurrentAnswerList(questionPosition)
+
+        _questionList.update {
+            currentAnswerList.removeLast()
+            currentAnswerList.add(makeAnswer())
+            if (currentSize != MAX_ANSWER_COUNT) {
+                currentAnswerList.add(makeAnswer(type = Answer.AnswerType.Add))
             }
+
+            val currentQuestionList = getCurrentQuestionList()
+
+            currentQuestionList.forEachIndexed { index, question ->
+                if (index == questionPosition) {
+                    currentQuestionList[index] = question.copy(answerList = currentAnswerList)
+                }
+            }
+            currentQuestionList
         }
-        _questionList.update { questionList }
     }
 
-    fun setQuestionFocus(questionPosition: Int) {
-        _focusedPosition.value = questionPosition
+    fun setQuestionFocus(questionPosition: Int, isQuestionItemClick: Boolean = false) {
+        if (questionPosition == QUESTION_ADD_POSITION) {
+            return
+        }
+        val currentQuestionList = getCurrentQuestionList()
+
+        _questionList.update {
+            currentQuestionList.forEachIndexed { index, question ->
+                if (index == questionPosition) {
+                    currentQuestionList[questionPosition] =
+                        currentQuestionList[questionPosition].copy(
+                            isFocus = if (isQuestionItemClick) {
+                                !currentQuestionList[questionPosition].isFocus
+                            } else {
+                                true
+                            },
+                        )
+                } else {
+                    currentQuestionList[index] = question.copy(isFocus = false)
+                }
+            }
+            currentQuestionList
+        }
     }
 
     fun getAnswerList(questionPosition: Int) = questionList.value[questionPosition].answerList
 
+    fun setMultipleChoice(questionPosition: Int) {
+        val currentQuestionList = getCurrentQuestionList()
+        val currentAnswerList = getCurrentAnswerList(questionPosition)
+
+        _questionList.update {
+            if (currentQuestionList[questionPosition].isMultipleChoice) {
+                currentAnswerList.forEachIndexed { index, answer ->
+                    currentAnswerList[index] = answer.copy(isCorrect = false)
+                }
+            }
+
+            if (currentAnswerList.size > MIN_ANSWER_COUNT + 1) {
+                currentQuestionList[questionPosition] =
+                    currentQuestionList[questionPosition].copy(
+                        isMultipleChoice = !currentQuestionList[questionPosition].isMultipleChoice,
+                        answerList = currentAnswerList,
+                    )
+            }
+            currentQuestionList
+        }
+    }
+
+    fun setQuestionTitle(syncedQuestionPosition: Int, title: String) {
+        val currentQuestionList = getCurrentQuestionList()
+
+        _questionList.update {
+            currentQuestionList.forEachIndexed { index, question ->
+                if (syncedQuestionPosition == index) {
+                    currentQuestionList[index] = question.copy(title = title)
+                }
+            }
+            currentQuestionList
+        }
+    }
+
+    fun setAnswerTitle(questionPosition: Int, answerPosition: Int, content: String) {
+        _questionList.update { currentQuestionList ->
+            currentQuestionList.mapIndexed { questionIndex, question ->
+                if (questionIndex == questionPosition) {
+                    question.copy(
+                        answerList = question.answerList.mapIndexed { answerIndex, answer ->
+                            if (answerIndex == answerPosition) {
+                                answer.copy(content = content)
+                            } else {
+                                answer
+                            }
+                        },
+                    )
+                } else {
+                    question
+                }
+            }
+        }
+    }
+
+    fun setDeleteQuestionElement(question: Question) {
+        viewModelScope.launch {
+            _deleteQuestionAction.emit(question)
+        }
+    }
+
+    fun deleteQuestion(question: Question) {
+        _questionList.update {
+            val currentQuestionList = getCurrentQuestionList()
+            currentQuestionList.remove(getSyncedQuestion(question))
+            if (currentQuestionList.size == MAX_QUESTION_COUNT - 1) {
+                if (currentQuestionList.last().type == Question.QuestionType.Default) {
+                    currentQuestionList.add(makeQuestion(Question.QuestionType.Add))
+                }
+            }
+            currentQuestionList
+        }
+    }
+
+    fun isQuestionListModified(): Boolean {
+        val isModified = if (questionCount == questionList.value.size) {
+            questionCount == MAX_QUESTION_COUNT
+        } else {
+            true
+        }
+        questionCount = questionList.value.size
+        return isModified
+    }
+
+    fun getQuestionItemPosition(item: Question): Int {
+        var position = 0
+        questionList.value.forEachIndexed { index, question ->
+            if (question.key == item.key) {
+                position = index
+            }
+        }
+        return position
+    }
+
+    fun getSyncedQuestion(item: Question): Question {
+        val position = getQuestionItemPosition(item)
+        return questionList.value[position]
+    }
+
+    fun getSyncedQuestionPosition(item: Question) = getQuestionItemPosition(getSyncedQuestion(item))
+
+    fun setAnswerCorrect(syncedQuestion: Question, answerPosition: Int) {
+        val currentQuestionList = getCurrentQuestionList()
+        val currentAnswerList = getCurrentAnswerList(getQuestionItemPosition(syncedQuestion))
+
+        _questionList.update {
+            if (syncedQuestion.isMultipleChoice.not()) {
+                currentAnswerList.forEachIndexed { index, currentAnswer ->
+                    currentAnswerList[index] =
+                        currentAnswer.copy(isCorrect = currentAnswer.key == currentAnswerList[answerPosition].key)
+                }
+            } else {
+                currentAnswerList.forEachIndexed { index, currentAnswer ->
+                    if (currentAnswer.key == currentAnswerList[answerPosition].key) {
+                        if (currentAnswer.isCorrect) {
+                            currentAnswerList[index] =
+                                currentAnswer.copy(isCorrect = false)
+                        } else if (currentAnswerList.filter { it.isCorrect }.size < MAX_ANSWER_CORRECT_COUNT) {
+                            currentAnswerList[index] =
+                                currentAnswer.copy(isCorrect = true)
+                        }
+                    }
+                }
+            }
+            currentQuestionList.forEachIndexed { index, currentQuestion ->
+                if (index == getQuestionItemPosition(syncedQuestion)) {
+                    currentQuestionList[index] =
+                        currentQuestion.copy(answerList = currentAnswerList)
+                }
+            }
+            currentQuestionList
+        }
+    }
+
+    fun checkQuizRequirements(): List<Question> {
+        val currentQuestion = getCurrentQuestionList()
+
+        currentQuestion.forEachIndexed { index, question ->
+            if (index != currentQuestion.size - 1) {
+                val filteredList = getCurrentAnswerList(index).filter { it.content.isNotBlank() }
+                isAnswerCountRequired.value = filteredList.size >= MIN_ANSWER_COUNT
+                isAnswerCorrectCountRequired.value = filteredList.any { it.isCorrect }
+                currentQuestion[index] = question.copy(answerList = filteredList)
+            }
+        }
+        val filteredQuiz =
+            currentQuestion.filter { it.title != "문제입력" }.filter { it.title.isNotBlank() }
+        isQuestionCountRequired.value = filteredQuiz.size >= MIN_QUESTION_COUNT
+
+        return filteredQuiz
+    }
+
+    private fun getCurrentQuestionList() = mutableListOf<Question>().apply {
+        addAll(questionList.value)
+    }
+
+    private fun getCurrentAnswerList(questionPosition: Int) = mutableListOf<Answer>().apply {
+        addAll(questionList.value[questionPosition].answerList)
+    }
+
     companion object {
-        const val UN_FOCUSED = -1
+        const val QUESTION_ADD_POSITION = -1
+        const val MAX_QUESTION_COUNT = 10
+        const val MAX_ANSWER_COUNT = 5
+        const val MIN_QUESTION_COUNT = 3
+        const val MAX_ANSWER_CORRECT_COUNT = 2
+        const val MIN_ANSWER_COUNT = 2
     }
 }
