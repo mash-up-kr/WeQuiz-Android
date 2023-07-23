@@ -7,10 +7,10 @@
 
 package team.ommaya.wequiz.android.domain.repository
 
-import kotlinx.coroutines.flow.Flow
-import team.ommaya.wequiz.android.domain.model.User
+import team.ommaya.wequiz.android.domain.model.user.User
+import team.ommaya.wequiz.android.domain.model.user.UserInformation
 
 interface UserRepository {
-
-    fun getUser(): Flow<User>
+    suspend fun getUser(): User
+    suspend fun getInformation(token: String): UserInformation
 }

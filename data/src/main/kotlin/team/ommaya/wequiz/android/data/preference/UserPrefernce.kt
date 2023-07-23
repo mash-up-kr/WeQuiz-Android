@@ -5,10 +5,10 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-package team.ommaya.wequiz.android.preference
+package team.ommaya.wequiz.android.data.preference
 
 import kotlinx.serialization.Serializable
-import team.ommaya.wequiz.android.domain.model.User
+import team.ommaya.wequiz.android.domain.model.user.User
 
 @Serializable
 data class UserPreference(
