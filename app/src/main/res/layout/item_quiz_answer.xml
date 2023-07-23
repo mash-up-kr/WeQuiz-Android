@@ -28,19 +28,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="6dp"
+        android:layout_marginEnd="20dp"
         android:background="@null"
         android:hint="@string/enter_answer"
+        android:inputType="text"
         android:paddingVertical="16dp"
         android:textAppearance="@style/WeQuizTextAppearance.Base.Medium"
         android:textColor="@color/white"
         android:textColorHint="@color/G4"
-        app:layout_constraintEnd_toStartOf="@id/iv_answer_close"
+        app:layout_constraintEnd_toStartOf="@id/iv_answer_title_delete"
         app:layout_constraintStart_toEndOf="@id/iv_answer_index"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_answer_close"
+        android:id="@+id/iv_answer_title_delete"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginEnd="16dp"

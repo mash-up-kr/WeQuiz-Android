@@ -10,6 +10,7 @@ package team.ommaya.wequiz.android.quiz.create.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -23,8 +24,8 @@ import team.ommaya.wequiz.android.quiz.create.viewholder.AnswerViewHolder
 
 class AnswerAdapter(
     private val viewModel: QuizCreateViewModel,
-    private val onAnswerAddItemClickListener: () -> Unit,
-    private val quizPosition: Int,
+    private val lifecycleOwner: LifecycleOwner,
+    private val question: Question,
     private val context: Context,
 ) : ListAdapter<Answer, ViewHolder>(answerDiffCallback) {
 
@@ -36,8 +37,9 @@ class AnswerAdapter(
                     parent,
                     false,
                 ),
+                question,
                 viewModel,
-                quizPosition,
+                lifecycleOwner,
                 context,
             )
         } else {
@@ -47,9 +49,9 @@ class AnswerAdapter(
                     parent,
                     false,
                 ),
+                question,
                 viewModel,
-                onAnswerAddItemClickListener,
-                quizPosition,
+                lifecycleOwner,
                 context,
             )
         }
@@ -71,10 +73,13 @@ class AnswerAdapter(
     companion object {
         val answerDiffCallback = object : DiffUtil.ItemCallback<Answer>() {
             override fun areItemsTheSame(oldItem: Answer, newItem: Answer): Boolean =
-                oldItem.index == newItem.index
+                oldItem.key == newItem.key
 
             override fun areContentsTheSame(oldItem: Answer, newItem: Answer): Boolean =
-                oldItem == newItem
+                oldItem.key == newItem.key
+
+            override fun getChangePayload(oldItem: Answer, newItem: Answer): Boolean =
+                oldItem.key == newItem.key
         }
     }
 }
