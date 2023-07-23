@@ -34,14 +34,6 @@
         android:text="@string/finish_create_quiz"
         android:textAppearance="@style/WeQuizTextAppearance.Title.Bold"
         android:textColor="@color/G1"
-        app:layout_constraintBottom_toTopOf="@id/btn_quiz_share"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btn_quiz_share"
-        style="@style/WeQuizRoundButton"
-        android:text="@string/share_quiz"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

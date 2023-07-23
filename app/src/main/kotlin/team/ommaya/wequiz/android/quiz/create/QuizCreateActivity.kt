@@ -7,139 +7,51 @@
 
 package team.ommaya.wequiz.android.quiz.create
 
-import android.content.Context
 import android.os.Bundle
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingActivity
 import team.ommaya.wequiz.android.databinding.ActivityQuizCreateBinding
-import team.ommaya.wequiz.android.quiz.create.adapter.QuizCreateAdapter
-import team.ommaya.wequiz.android.utils.WeQuizDialog
-import team.ommaya.wequiz.android.utils.WeQuizDialogContents
-import team.ommaya.wequiz.android.utils.WeQuizSnackbar
 
 class QuizCreateActivity :
     BaseViewBindingActivity<ActivityQuizCreateBinding>(ActivityQuizCreateBinding::inflate) {
 
-    private val quizCreateViewModel: QuizCreateViewModel by viewModels()
+    private val quizSharedViewModel: QuizCreateSharedViewModel by viewModels()
 
-    private lateinit var questionDeleteDialog: WeQuizDialog
-
-    private val questionDeleteSnackbar: WeQuizSnackbar by lazy {
-        WeQuizSnackbar.make(
-            binding.root,
-            getString(R.string.delete_question_noftify),
-        )
-    }
-
-    private val quizAdapter by lazy {
-        QuizCreateAdapter(
-            quizCreateViewModel,
-            this,
-            lifecycle,
-            onQuestionAddItemClickListener = {
-                onQuestionAddItemClick()
-            },
-            onQuestionItemClickListener = { position, isEditable ->
-                onQuestionItemClick(position, isEditable)
-            },
-        )
-    }
-
-    private val adapterDataObserver = object : RecyclerView.AdapterDataObserver() {
-        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-            super.onItemRangeInserted(positionStart, itemCount)
-            binding.rvQuizList.scrollToPosition(quizAdapter.itemCount - 1)
-        }
-    }
-
-    private val scroller: LinearSmoothScroller by lazy {
-        object : LinearSmoothScroller(this) {
-            override fun getVerticalSnapPreference(): Int {
-                return SNAP_TO_END
-            }
-        }
-    }
+    private lateinit var navHostFragment: NavHostFragment
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initView()
+        initNavigation()
         collectFlows()
     }
 
-    private fun initView() {
-        binding.apply {
-            rvQuizList.adapter = quizAdapter
-            ivQuizEdit.setOnClickListener {
-                quizCreateViewModel.setEditMode()
-            }
-            tvQuizEidt.setOnClickListener {
-                ivQuizEdit.performClick()
-            }
-            etQuizTitle.setOnFocusChangeListener { _, isFocus ->
-                ivTitleDelete.visibility = if (isFocus) VISIBLE else GONE
-            }
-            ivTitleDelete.setOnClickListener {
-                etQuizTitle.text.clear()
-            }
-            btnQuizComplete.setOnClickListener {
-                WeQuizSnackbar.make(
-                    binding.root,
-                    "만들기 성공 (임시)",
-                ).show()
-            }
-        }
-        quizAdapter.registerAdapterDataObserver(adapterDataObserver)
+    private fun initNavigation() {
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.quiz_create_nav_host) as NavHostFragment
+        navController = navHostFragment.navController
     }
 
     private fun collectFlows() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                with(quizCreateViewModel) {
+                with(quizSharedViewModel) {
                     launch {
-                        questionList.collect { list ->
-                            if (isQuestionListModified()) {
-                                quizAdapter.submitList(list)
-                            }
-                            quizCreateViewModel.checkQuizRequirements()
-                        }
-                    }
-                    launch {
-                        deleteQuestionAction.collect { question ->
-                            val dialogContent = WeQuizDialogContents(
-                                title = getString(R.string.delete_question_text),
-                                negativeBtnText = getString(R.string.negative),
-                                positiveBtnText = getString(R.string.delete),
-                                negativeBtnAction = {
-                                    questionDeleteDialog.dismiss()
-                                },
-                                positiveBtnAction = {
-                                    deleteQuestion(question)
-                                    questionDeleteSnackbar.show()
-                                    questionDeleteDialog.dismiss()
-                                },
-                            )
-                            questionDeleteDialog = WeQuizDialog(dialogContent)
-                            if (questionList.value.size > QuizCreateViewModel.MIN_QUESTION_COUNT) {
-                                questionDeleteDialog.show(
-                                    supportFragmentManager,
-                                    "questionDeleteDialog",
-                                )
-                            }
+                        quizCreateState.collect { state ->
+                            setViewByQuizState(state)
                         }
                     }
                     launch {
                         isQuizMeetRequireMeet.collect { isRequired ->
-                            binding.btnQuizComplete.isEnabled = isRequired
+                            binding.btnQuizNext.isEnabled = isRequired
                         }
                     }
                 }
@@ -147,30 +59,44 @@ class QuizCreateActivity :
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        quizAdapter.unregisterAdapterDataObserver(adapterDataObserver)
-    }
-
-    private fun onQuestionAddItemClick() {
-        binding.root.clearFocus()
-    }
-
-    private fun onQuestionItemClick(questionPosition: Int, isEditable: Boolean) {
-        if (!isEditable) {
-            binding.root.clearFocus()
-            hideKeyboard()
+    private fun setViewByQuizState(state: QuizCreateSharedViewModel.QuizCreateState) {
+        with(binding) {
+            when (state) {
+                QuizCreateSharedViewModel.QuizCreateState.CREATE -> {
+                    ivQuizEdit.setOnClickListener {
+                        quizSharedViewModel.setEditMode()
+                    }
+                    tvQuizEidt.setOnClickListener {
+                        ivQuizEdit.performClick()
+                    }
+                    tvQuizCreate.setTextColor(getColor(team.ommaya.wequiz.android.design.resource.R.color.G2))
+                    ivQuizCreateBack.setOnClickListener {
+                        finish()
+                    }
+                    with(btnQuizNext) {
+                        setText(R.string.complete_quiz)
+                        setOnClickListener {
+                            quizSharedViewModel.setButtonEventState(QuizCreateSharedViewModel.QuizCreateState.CREATE)
+                        }
+                    }
+                }
+                QuizCreateSharedViewModel.QuizCreateState.DONE -> {
+                    ivQuizEdit.isVisible = false
+                    tvQuizEidt.isVisible = false
+                    tvQuizCreate.setTextColor(getColor(team.ommaya.wequiz.android.design.resource.R.color.G6))
+                    with(btnQuizNext) {
+                        isEnabled = true
+                        setText(R.string.share_quiz)
+                        setOnClickListener {
+                            // TODO 메세지 보내기
+                        }
+                    }
+                    ivQuizCreateBack.setOnClickListener {
+                        // TODO 전체 flow pop일지 뒤로갈지 의논 필요
+                        navController.popBackStack()
+                    }
+                }
+            }
         }
-        scroller.targetPosition = questionPosition + 1
-        binding.rvQuizList.layoutManager?.startSmoothScroll(scroller)
-    }
-
-    private fun hideKeyboard() {
-        val inputMethodManager =
-            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(
-            window.decorView.windowToken,
-            0,
-        )
     }
 }

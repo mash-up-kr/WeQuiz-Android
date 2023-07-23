@@ -10,7 +10,7 @@ package team.ommaya.wequiz.android.quiz.create.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -24,7 +24,7 @@ import team.ommaya.wequiz.android.quiz.create.viewholder.AnswerViewHolder
 
 class AnswerAdapter(
     private val viewModel: QuizCreateViewModel,
-    private val lifecycle: Lifecycle,
+    private val lifecycleOwner: LifecycleOwner,
     private val question: Question,
     private val context: Context,
 ) : ListAdapter<Answer, ViewHolder>(answerDiffCallback) {
@@ -39,7 +39,7 @@ class AnswerAdapter(
                 ),
                 question,
                 viewModel,
-                lifecycle,
+                lifecycleOwner,
                 context,
             )
         } else {
@@ -51,7 +51,7 @@ class AnswerAdapter(
                 ),
                 question,
                 viewModel,
-                lifecycle,
+                lifecycleOwner,
                 context,
             )
         }

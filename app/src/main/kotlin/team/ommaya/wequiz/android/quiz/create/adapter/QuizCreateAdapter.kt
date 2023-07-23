@@ -10,21 +10,23 @@ package team.ommaya.wequiz.android.quiz.create.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import team.ommaya.wequiz.android.databinding.ItemQuizCreateAddBinding
 import team.ommaya.wequiz.android.databinding.ItemQuizCreateQuizBinding
 import team.ommaya.wequiz.android.quiz.create.Question
+import team.ommaya.wequiz.android.quiz.create.QuizCreateSharedViewModel
 import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 import team.ommaya.wequiz.android.quiz.create.viewholder.QuestionAddViewHolder
 import team.ommaya.wequiz.android.quiz.create.viewholder.QuestionViewHolder
 
 class QuizCreateAdapter(
+    private val quizSharedViewModel: QuizCreateSharedViewModel,
     private val quizViewModel: QuizCreateViewModel,
     private val context: Context,
-    private val lifecycle: Lifecycle,
+    private val lifecycleOwner: LifecycleOwner,
     private val onQuestionAddItemClickListener: () -> Unit,
     private val onQuestionItemClickListener: (Int, Boolean) -> Unit,
 ) : ListAdapter<Question, ViewHolder>(questionDiffCallback) {
@@ -37,8 +39,9 @@ class QuizCreateAdapter(
                     parent,
                     false,
                 ),
+                quizSharedViewModel,
                 quizViewModel,
-                lifecycle,
+                lifecycleOwner,
                 context,
                 onQuestionItemClickListener,
             )

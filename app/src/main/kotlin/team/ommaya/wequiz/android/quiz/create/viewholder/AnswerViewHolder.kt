@@ -12,7 +12,8 @@ import android.content.Context
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import kotlinx.coroutines.launch
@@ -25,14 +26,14 @@ class AnswerViewHolder(
     private val binding: ItemQuizAnswerBinding,
     private val item: Question,
     private val viewModel: QuizCreateViewModel,
-    private val lifecycle: Lifecycle,
+    private val lifecycleOwner: LifecycleOwner,
     private val context: Context,
 ) : ViewHolder(binding.root) {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     fun collectAnswerFlows(position: Int) {
-        lifecycle.coroutineScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+        lifecycleOwner.lifecycleScope.launch {
+            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 with(viewModel) {
                     questionList.collect {
                         val currentAnswerList = viewModel.getSyncedQuestion(item).answerList

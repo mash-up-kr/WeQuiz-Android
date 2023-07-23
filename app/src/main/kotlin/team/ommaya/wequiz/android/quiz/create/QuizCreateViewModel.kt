@@ -27,9 +27,6 @@ class QuizCreateViewModel : ViewModel() {
         MutableStateFlow(Question.getInitialQuestionList())
     val questionList = _questionList.asStateFlow()
 
-    private val _isEditMode: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isEditMode = _isEditMode.asStateFlow()
-
     private val _deleteQuestionAction: MutableSharedFlow<Question> = MutableSharedFlow()
     val deleteQuestionAction = _deleteQuestionAction.asSharedFlow()
 
@@ -39,13 +36,16 @@ class QuizCreateViewModel : ViewModel() {
 
     private val isQuestionCountRequired: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
+    private val quizTitle: MutableStateFlow<String> = MutableStateFlow("")
+
     val isQuizMeetRequireMeet =
         combine(
             isAnswerCountRequired,
             isAnswerCorrectCountRequired,
             isQuestionCountRequired,
-        ) { isAnswerCountRequired, isAnswerCorrectCountRequired, isQuestionCountRequired ->
-            isAnswerCountRequired && isAnswerCorrectCountRequired && isQuestionCountRequired
+            quizTitle,
+        ) { isAnswerCountRequired, isAnswerCorrectCountRequired, isQuestionCountRequired, quizTitle ->
+            isAnswerCountRequired && isAnswerCorrectCountRequired && isQuestionCountRequired && quizTitle.isNotBlank()
         }.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5_000L),
@@ -53,6 +53,10 @@ class QuizCreateViewModel : ViewModel() {
         )
 
     private var questionCount = 0
+
+    fun setQuizTitle(title: String) {
+        quizTitle.value = title
+    }
 
     fun addQuestion() {
         val currentSize = questionList.value.size
@@ -169,19 +173,6 @@ class QuizCreateViewModel : ViewModel() {
                 }
             }
         }
-    }
-
-    fun setEditMode() {
-        _isEditMode.value = !isEditMode.value
-        if (isEditMode.value)
-            _questionList.update {
-                val currentQuestionList = getCurrentQuestionList()
-
-                currentQuestionList.forEachIndexed { index, question ->
-                    currentQuestionList[index] = question.copy(isFocus = false)
-                }
-                currentQuestionList
-            }
     }
 
     fun setDeleteQuestionElement(question: Question) {

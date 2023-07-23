@@ -13,7 +13,8 @@ import android.view.View.GONE
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView.VISIBLE
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -21,13 +22,15 @@ import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.databinding.ItemQuizCreateQuizBinding
 import team.ommaya.wequiz.android.design.resource.R
 import team.ommaya.wequiz.android.quiz.create.Question
+import team.ommaya.wequiz.android.quiz.create.QuizCreateSharedViewModel
 import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 import team.ommaya.wequiz.android.quiz.create.adapter.AnswerAdapter
 
 class QuestionViewHolder(
     private val binding: ItemQuizCreateQuizBinding,
+    private val quizSharedViewModel: QuizCreateSharedViewModel,
     private val viewModel: QuizCreateViewModel,
-    private val lifecycle: Lifecycle,
+    private val lifecycleOwner: LifecycleOwner,
     private val context: Context,
     private val onQuestionItemClickListener: (Int, Boolean) -> Unit,
 ) : ViewHolder(binding.root) {
@@ -38,7 +41,7 @@ class QuestionViewHolder(
         binding.apply {
             answerAdapter = AnswerAdapter(
                 viewModel,
-                lifecycle,
+                lifecycleOwner,
                 item,
                 context,
             ).apply {
@@ -52,8 +55,8 @@ class QuestionViewHolder(
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun collectFlows(item: Question) {
-        lifecycle.coroutineScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+        lifecycleOwner.lifecycleScope.launch {
+            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.questionList.collect {
                         val currentItem = viewModel.getSyncedQuestion(item)
@@ -78,7 +81,7 @@ class QuestionViewHolder(
                     }
                 }
                 launch {
-                    viewModel.isEditMode.collect { isEditMode ->
+                    quizSharedViewModel.isEditMode.collect { isEditMode ->
                         with(binding) {
                             root.isClickable = !isEditMode
                             etQuizTitle.isEnabled = !isEditMode
