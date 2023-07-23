@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-package team.ommaya.wequiz.android.di
+package team.ommaya.wequiz.android.data.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -15,24 +15,19 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import team.ommaya.wequiz.android.preference.UserPreference
-import team.ommaya.wequiz.android.preference.UserPreferenceSerializer
+import team.ommaya.wequiz.android.data.preference.UserPreference
+import team.ommaya.wequiz.android.data.preference.UserPreferenceSerializer
 import java.io.File
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
-
     @Provides
     @Singleton
-    fun provideUserPreferencesDataStore(
-        @ApplicationContext context: Context,
-    ): DataStore<UserPreference> {
-        return DataStoreFactory.create(
+    fun provideUserPreferencesDataStore(@ApplicationContext context: Context): DataStore<UserPreference> =
+        DataStoreFactory.create(
             serializer = UserPreferenceSerializer(),
-        ) {
-            File("${context.cacheDir.path}/${UserPreference.localPath}")
-        }
-    }
+            produceFile = { File("${context.cacheDir.path}/${UserPreference.localPath}") },
+        )
 }

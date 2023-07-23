@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-package team.ommaya.wequiz.android.data
+package team.ommaya.wequiz.android.data.client
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import dagger.Module
@@ -23,6 +23,7 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.jackson.jackson
+import team.ommaya.wequiz.android.data.BuildConfig
 import java.util.Locale
 import java.util.TimeZone
 
@@ -38,7 +39,7 @@ private val KtorClient =
             }
         }
         defaultRequest {
-            // TODO: default url 설정
+            url("http://wequiz-server-env.eba-c2jfzm3b.eu-north-1.elasticbeanstalk.com/api/v1/")
             contentType(ContentType.Application.Json)
         }
         install(ContentNegotiation) {
@@ -66,5 +67,5 @@ private val KtorClient =
 @InstallIn(SingletonComponent::class)
 object HttpClientProvider {
     @Provides
-    fun provideKtorClient() = KtorClient
+    fun provideKtorClient(): HttpClient = KtorClient
 }

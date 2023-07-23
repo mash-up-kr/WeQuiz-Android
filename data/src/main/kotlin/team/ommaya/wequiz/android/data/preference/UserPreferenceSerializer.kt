@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-package team.ommaya.wequiz.android.preference
+package team.ommaya.wequiz.android.data.preference
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
@@ -20,7 +20,6 @@ import javax.inject.Singleton
 
 @Singleton
 class UserPreferenceSerializer @Inject constructor() : Serializer<UserPreference> {
-
     override val defaultValue = UserPreference(
         isLogin = false,
         isFirstAccess = false,
