@@ -171,7 +171,7 @@ class QuizCreateFragment :
                             with(quizCreateViewModel) {
                                 createQuiz(
                                     binding.etQuizTitle.text.toString(),
-                                    checkQuizRequirements()
+                                    checkQuizRequirements(),
                                 )
                             }
                         }

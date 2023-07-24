@@ -12,7 +12,7 @@ import team.ommaya.wequiz.android.domain.repository.QuizRepository
 import javax.inject.Inject
 
 class CreateQuizUseCase @Inject constructor(
-    private val quizRepository: QuizRepository
+    private val quizRepository: QuizRepository,
 ) {
     suspend operator fun invoke(title: String, questions: List<Question>) =
         runCatching {
