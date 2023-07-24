@@ -28,7 +28,7 @@ fun List<Question>.toQuestionDtoList(): List<QuestionDto> {
             title = it.title,
             priority = it.priority,
             duplicatedOption = it.duplicatedOption,
-            options = it.options.toOptionDtoList()
+            options = it.options.toOptionDtoList(),
         )
     }
 }

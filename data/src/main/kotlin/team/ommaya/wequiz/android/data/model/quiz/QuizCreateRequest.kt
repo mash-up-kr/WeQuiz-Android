@@ -19,7 +19,7 @@ data class QuizCreateRequest(
 data class QuestionDto(
     val title: String = "",
     val priority: Int = 0,
-    val duplicatedOption: Int = 0,
+    val duplicatedOption: Boolean = false,
     val options: List<OptionDto> = emptyList(),
 )
 

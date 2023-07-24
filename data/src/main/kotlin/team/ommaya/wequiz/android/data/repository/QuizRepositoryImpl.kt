@@ -27,12 +27,12 @@ class QuizRepositoryImpl @Inject constructor(
         val response =
             client
                 .post("quiz") {
-                    header("x-wequiz-token: ", TmpToken)
+                    header("x-wequiz-token", TmpToken)
                     setBody(
                         QuizCreateRequest(
                             title = title,
                             questions = questions.toQuestionDtoList(),
-                        )
+                        ),
                     )
                 }.body<QuizCreateResponse>()
         return response.quizId

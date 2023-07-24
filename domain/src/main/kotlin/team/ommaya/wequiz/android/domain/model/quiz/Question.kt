@@ -10,6 +10,6 @@ package team.ommaya.wequiz.android.domain.model.quiz
 data class Question(
     val title: String = "",
     val priority: Int = 0,
-    val duplicatedOption: Int = 0,
+    val duplicatedOption: Boolean = false,
     val options: List<Option> = emptyList(),
 )

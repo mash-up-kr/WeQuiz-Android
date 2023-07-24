@@ -19,4 +19,3 @@ class CreateQuizUseCase @Inject constructor(
             quizRepository.postQuiz(title, questions)
         }
 }
-
