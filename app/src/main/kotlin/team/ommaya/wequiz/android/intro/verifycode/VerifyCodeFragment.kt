@@ -15,6 +15,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -23,6 +24,7 @@ import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentVerifyCodeBinding
 import team.ommaya.wequiz.android.intro.IntroViewModel
 import team.ommaya.wequiz.android.intro.VerifyCodeUiEvent
+import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
 import team.ommaya.wequiz.android.utils.SnackbarMode
 import team.ommaya.wequiz.android.utils.WeQuizSnackbar
 import team.ommaya.wequiz.android.utils.isValidInputLength
@@ -30,10 +32,12 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@AndroidEntryPoint
 class VerifyCodeFragment :
     BaseViewBindingFragment<FragmentVerifyCodeBinding>(FragmentVerifyCodeBinding::inflate) {
     private val introViewModel: IntroViewModel by activityViewModels()
     private var timer: Job = Job()
+    private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +49,7 @@ class VerifyCodeFragment :
         super.onViewCreated(view, savedInstanceState)
 
         initView()
+        initKeyboardVisibilityUtils()
         collectFlow()
     }
 
@@ -60,8 +65,7 @@ class VerifyCodeFragment :
                 remainTime -= TIMER_INTERVAL
                 introViewModel.setVerifyTime(formatMilliseconds(remainTime))
             }
-
-            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.RESEND)
+            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.TIMEOUT)
             timer.cancel()
         }
     }
@@ -73,11 +77,7 @@ class VerifyCodeFragment :
 
                 if (isValidInputLength(text, VERIFY_CODE_LENGTH)) {
                     if (!introViewModel.isVerifyTimeOut.value) {
-                        if (text == TEST_VERIFY_CODE) {
-                            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.SUCCESS)
-                        } else {
-                            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.FAILURE)
-                        }
+                        introViewModel.verifyCode(text)
                     } else {
                         showFailureWeQuizSnackbar(R.string.verify_code_resend_time_out)
                     }
@@ -109,6 +109,7 @@ class VerifyCodeFragment :
                         when (event) {
                             VerifyCodeUiEvent.RESEND -> {
                                 showSuccessWeQuizSnackbar(R.string.verify_code_resend)
+                                introViewModel.resendVerifyCode(requireActivity())
                             }
                             VerifyCodeUiEvent.TIMEOUT -> {
                                 showFailureWeQuizSnackbar(R.string.verify_code_time_out)
@@ -147,11 +148,24 @@ class VerifyCodeFragment :
         ).show()
     }
 
+    private fun initKeyboardVisibilityUtils() {
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(
+            window = requireActivity().window,
+            onHideKeyboard = {
+                binding.etVerifyCodeInput.clearFocus()
+            },
+        )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        keyboardVisibilityUtils.detachKeyboardListeners()
+    }
+
     companion object {
         const val VERIFY_CODE_LENGTH = 6
         const val TIMER_INTERVAL = 100L
-        const val START_TIME = 180_000L
+        const val START_TIME = 120_000L
         const val END_TIME = 0L
-        const val TEST_VERIFY_CODE = "123456"
     }
 }

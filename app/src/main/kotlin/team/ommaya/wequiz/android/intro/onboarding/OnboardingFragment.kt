@@ -18,12 +18,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentOnboardingBinding
 import team.ommaya.wequiz.android.intro.IntroMode
 import team.ommaya.wequiz.android.intro.IntroViewModel
 
+@AndroidEntryPoint
 class OnboardingFragment :
     BaseViewBindingFragment<FragmentOnboardingBinding>(FragmentOnboardingBinding::inflate) {
     private val introViewModel: IntroViewModel by activityViewModels()
