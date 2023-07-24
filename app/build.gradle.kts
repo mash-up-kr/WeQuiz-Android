@@ -110,19 +110,18 @@ dependencies {
         libs.androidx.lifecycle.runtime,
         libs.androidx.lifecycle.viewmodel,
         libs.kotlinx.collections.immutable,
-        libs.android.hilt.runtime,
         libs.compose.runtime,
         libs.compose.ui,
         libs.compose.uiutil,
         libs.compose.foundation,
         libs.compose.activity,
         libs.bundles.firebase,
+        libs.android.hilt.runtime,
         projects.data,
         projects.domain,
         projects.designResource,
         projects.designResourceCompose,
     )
-    kapt(libs.android.hilt.compile)
     testImplementations(
         libs.compose.activity, // needed for roborazzi that used ActivityScenario internally
         libs.compose.foundation,
@@ -131,5 +130,6 @@ dependencies {
         libs.test.robolectric,
         libs.bundles.test.roborazzi,
     )
+    kapt(libs.android.hilt.compile)
     testRuntimeOnly(libs.test.junit.engine)
 }
