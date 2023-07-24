@@ -13,6 +13,7 @@ plugins {
     android("application")
     kotlin("android")
     alias(libs.plugins.test.roborazzi)
+    alias(libs.plugins.android.hilt)
 }
 
 android {
@@ -112,6 +113,8 @@ dependencies {
         libs.compose.uiutil,
         libs.compose.foundation,
         libs.compose.activity,
+        libs.android.hilt.runtime,
+        libs.android.hilt.compile,
         projects.data,
         projects.domain,
         projects.designResource,
