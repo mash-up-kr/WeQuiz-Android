@@ -11,7 +11,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import team.ommaya.wequiz.android.domain.repository.FirebaseAuthRepository
 import team.ommaya.wequiz.android.domain.repository.UserRepository
+import team.ommaya.wequiz.android.repository.FirebaseAuthRepositoryImpl
 import team.ommaya.wequiz.android.repository.UserRepositoryImpl
 import javax.inject.Singleton
 
@@ -24,4 +26,10 @@ abstract class RepositoryModule {
     abstract fun bindUserRepository(
         userRepositoryImpl: UserRepositoryImpl,
     ): UserRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFirebaseAuthRepository(
+        firebaseAuthRepositoryImpl: FirebaseAuthRepositoryImpl,
+    ): FirebaseAuthRepository
 }

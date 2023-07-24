@@ -61,7 +61,6 @@ class VerifyCodeFragment :
                 introViewModel.setVerifyTime(formatMilliseconds(remainTime))
             }
 
-            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.RESEND)
             timer.cancel()
         }
     }
@@ -73,11 +72,7 @@ class VerifyCodeFragment :
 
                 if (isValidInputLength(text, VERIFY_CODE_LENGTH)) {
                     if (!introViewModel.isVerifyTimeOut.value) {
-                        if (text == TEST_VERIFY_CODE) {
-                            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.SUCCESS)
-                        } else {
-                            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.FAILURE)
-                        }
+                        introViewModel.verifyCode(text)
                     } else {
                         showFailureWeQuizSnackbar(R.string.verify_code_resend_time_out)
                     }
@@ -109,6 +104,7 @@ class VerifyCodeFragment :
                         when (event) {
                             VerifyCodeUiEvent.RESEND -> {
                                 showSuccessWeQuizSnackbar(R.string.verify_code_resend)
+                                introViewModel.resendVerifyCode(requireActivity())
                             }
                             VerifyCodeUiEvent.TIMEOUT -> {
                                 showFailureWeQuizSnackbar(R.string.verify_code_time_out)
@@ -150,8 +146,7 @@ class VerifyCodeFragment :
     companion object {
         const val VERIFY_CODE_LENGTH = 6
         const val TIMER_INTERVAL = 100L
-        const val START_TIME = 180_000L
+        const val START_TIME = 120_000L
         const val END_TIME = 0L
-        const val TEST_VERIFY_CODE = "123456"
     }
 }

@@ -7,15 +7,32 @@
 
 package team.ommaya.wequiz.android.intro
 
+import android.app.Activity
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.PhoneAuthProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import team.ommaya.wequiz.android.domain.AuthCallbacksListener
+import team.ommaya.wequiz.android.domain.usecase.ResendPhoneVerificationUseCase
+import team.ommaya.wequiz.android.domain.usecase.SetAuthCallbacksUseCase
+import team.ommaya.wequiz.android.domain.usecase.StartPhoneVerificationUseCase
+import team.ommaya.wequiz.android.domain.usecase.VerifyCodeUseCase
+import javax.inject.Inject
 
-class IntroViewModel : ViewModel() {
+@HiltViewModel
+class IntroViewModel @Inject constructor(
+    private val setAuthCallbacksUseCase: SetAuthCallbacksUseCase,
+    private val startPhoneVerificationUseCase: StartPhoneVerificationUseCase,
+    private val resendPhoneVerificationUseCase: ResendPhoneVerificationUseCase,
+    private val verifyCodeUseCase: VerifyCodeUseCase,
+) : ViewModel(), AuthCallbacksListener {
     private val _mode: MutableStateFlow<IntroMode> = MutableStateFlow(IntroMode.LOGIN)
     val mode = _mode.asStateFlow()
 
@@ -27,6 +44,10 @@ class IntroViewModel : ViewModel() {
 
     private val _verifyCodeEventFlow: MutableSharedFlow<VerifyCodeUiEvent> = MutableSharedFlow()
     val verifyCodeEventFlow = _verifyCodeEventFlow.asSharedFlow()
+
+    init {
+        setAuthCallbacksUseCase(this)
+    }
 
     fun setStartMode(mode: IntroMode) {
         _mode.value = mode
@@ -46,8 +67,48 @@ class IntroViewModel : ViewModel() {
         }
     }
 
+    fun sendVerifyCode(phoneNumber: String, activity: Activity) {
+        viewModelScope.launch {
+            startPhoneVerificationUseCase(phoneNumber, activity)
+        }
+    }
+
+    fun resendVerifyCode(activity: Activity) {
+        viewModelScope.launch {
+            resendPhoneVerificationUseCase(activity)
+            sendVerifyCodeEvent(VerifyCodeUiEvent.RESEND)
+        }
+    }
+
+    fun verifyCode(verifyCode: String) {
+        verifyCodeUseCase(verifyCode)
+    }
+
+    override fun onVerificationSuccess(uid: String) {
+        sendVerifyCodeEvent(VerifyCodeUiEvent.SUCCESS)
+    }
+
+    override fun onVerificationFailed(message: String) {
+        Log.e(TAG, message)
+    }
+
+    override fun onVerifyCodeInvalid() {
+        sendVerifyCodeEvent(VerifyCodeUiEvent.FAILURE)
+    }
+
+    override fun onVerificationCompleted(verifyCode: String) {
+//
+    }
+
+    override fun onCodeSent(
+        verificationId: String?,
+        token: PhoneAuthProvider.ForceResendingToken?
+    ) {
+
+    }
+
     companion object {
-        const val INITIAL_VERIFY_TIME = "3:00"
+        const val INITIAL_VERIFY_TIME = "2:00"
     }
 }
 

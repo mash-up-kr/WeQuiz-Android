@@ -12,7 +12,10 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 plugins {
     android("application")
     kotlin("android")
+    kotlin("kapt")
     alias(libs.plugins.test.roborazzi)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.android.hilt)
 }
 
 android {
@@ -107,16 +110,19 @@ dependencies {
         libs.androidx.lifecycle.runtime,
         libs.androidx.lifecycle.viewmodel,
         libs.kotlinx.collections.immutable,
+        libs.android.hilt.runtime,
         libs.compose.runtime,
         libs.compose.ui,
         libs.compose.uiutil,
         libs.compose.foundation,
         libs.compose.activity,
+        libs.bundles.firebase,
         projects.data,
         projects.domain,
         projects.designResource,
         projects.designResourceCompose,
     )
+    kapt(libs.android.hilt.compile)
     testImplementations(
         libs.compose.activity, // needed for roborazzi that used ActivityScenario internally
         libs.compose.foundation,

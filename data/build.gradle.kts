@@ -50,5 +50,6 @@ dependencies {
         libs.bundles.ktor.client,
         libs.androidx.datastore,
         libs.kotlinx.serialization,
+        libs.bundles.firebase,
     )
 }
