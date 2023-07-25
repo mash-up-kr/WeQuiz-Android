@@ -9,6 +9,7 @@ package team.ommaya.wequiz.android.quiz.create
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,10 +19,15 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import team.ommaya.wequiz.android.domain.usecase.quiz.CreateQuizUseCase
 import team.ommaya.wequiz.android.quiz.create.Answer.Companion.makeAnswer
 import team.ommaya.wequiz.android.quiz.create.Question.Companion.makeQuestion
+import javax.inject.Inject
 
-class QuizCreateViewModel : ViewModel() {
+@HiltViewModel
+class QuizCreateViewModel @Inject constructor(
+    private val createQuizUseCase: CreateQuizUseCase,
+) : ViewModel() {
 
     private val _questionList: MutableStateFlow<List<Question>> =
         MutableStateFlow(Question.getInitialQuestionList())
@@ -29,6 +35,9 @@ class QuizCreateViewModel : ViewModel() {
 
     private val _deleteQuestionAction: MutableSharedFlow<Question> = MutableSharedFlow()
     val deleteQuestionAction = _deleteQuestionAction.asSharedFlow()
+
+    private val _createState: MutableSharedFlow<CreateState> = MutableSharedFlow()
+    val createState = _createState.asSharedFlow()
 
     private val isAnswerCountRequired: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
@@ -53,6 +62,18 @@ class QuizCreateViewModel : ViewModel() {
         )
 
     private var questionCount = 0
+
+    fun createQuiz(title: String, questions: List<Question>) {
+        viewModelScope.launch {
+            _createState.emit(CreateState.LOADING)
+            createQuizUseCase(title, questions.toQuestionDomainList())
+                .onSuccess {
+                    _createState.emit(CreateState.SUCCESS)
+                }.onFailure {
+                    _createState.emit(CreateState.FAILED)
+                }
+        }
+    }
 
     fun setQuizTitle(title: String) {
         quizTitle.value = title
@@ -278,6 +299,10 @@ class QuizCreateViewModel : ViewModel() {
 
     private fun getCurrentAnswerList(questionPosition: Int) = mutableListOf<Answer>().apply {
         addAll(questionList.value[questionPosition].answerList)
+    }
+
+    enum class CreateState {
+        SUCCESS, FAILED, LOADING,
     }
 
     companion object {

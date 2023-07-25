@@ -20,15 +20,18 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentQuizCreateBinding
 import team.ommaya.wequiz.android.quiz.create.adapter.QuizCreateAdapter
+import team.ommaya.wequiz.android.utils.SnackbarMode
 import team.ommaya.wequiz.android.utils.WeQuizDialog
 import team.ommaya.wequiz.android.utils.WeQuizDialogContents
 import team.ommaya.wequiz.android.utils.WeQuizSnackbar
 
+@AndroidEntryPoint
 class QuizCreateFragment :
     BaseViewBindingFragment<FragmentQuizCreateBinding>(FragmentQuizCreateBinding::inflate) {
 
@@ -140,13 +143,37 @@ class QuizCreateFragment :
                             quizSharedViewModel.setRequiredState(isRequired)
                         }
                     }
+                    launch {
+                        createState.collect { state ->
+                            when (state) {
+                                QuizCreateViewModel.CreateState.SUCCESS -> {
+                                    findNavController().navigate(R.id.quizCreateFinishFragment)
+                                }
+                                QuizCreateViewModel.CreateState.FAILED -> {
+                                    WeQuizSnackbar.make(
+                                        requireView(),
+                                        "문제 만들기 실패",
+                                        SnackbarMode.FAILURE,
+                                    ).show()
+                                }
+                                QuizCreateViewModel.CreateState.LOADING -> {
+                                    // TODO
+                                }
+                            }
+                        }
+                    }
                 }
 
                 // 문제만들기 완료 이벤트
                 with(quizSharedViewModel) {
                     buttonEventState.collect { state ->
                         if (state == QuizCreateSharedViewModel.QuizCreateState.CREATE) {
-                            findNavController().navigate(R.id.quizCreateFinishFragment)
+                            with(quizCreateViewModel) {
+                                createQuiz(
+                                    binding.etQuizTitle.text.toString(),
+                                    checkQuizRequirements(),
+                                )
+                            }
                         }
                     }
                 }
