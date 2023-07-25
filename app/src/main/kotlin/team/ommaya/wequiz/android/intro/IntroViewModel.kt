@@ -76,7 +76,6 @@ class IntroViewModel @Inject constructor(
     fun resendVerifyCode(activity: Activity) {
         viewModelScope.launch {
             resendPhoneVerificationUseCase(activity)
-            sendVerifyCodeEvent(VerifyCodeUiEvent.RESEND)
         }
     }
 
