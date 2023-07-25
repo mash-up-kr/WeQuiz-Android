@@ -7,7 +7,9 @@
 
 package team.ommaya.wequiz.android.quiz.create
 
+import team.ommaya.wequiz.android.domain.model.quiz.Option
 import java.security.SecureRandom
+import team.ommaya.wequiz.android.domain.model.quiz.Question as QuestionDomainModel
 
 data class Question(
     val key: Long = 0,
@@ -75,4 +77,33 @@ data class Answer(
             makeAnswer(AnswerType.Add),
         )
     }
+}
+
+fun List<Answer>.toOptionList(): List<Option> {
+    val list = mutableListOf<Option>()
+    this.forEachIndexed { index, answer ->
+        list.add(
+            Option(
+                content = answer.content,
+                priority = index,
+                isCorrect = answer.isCorrect,
+            ),
+        )
+    }
+    return list.toList()
+}
+
+fun List<Question>.toQuestionDomainList(): List<QuestionDomainModel> {
+    val list = mutableListOf<QuestionDomainModel>()
+    this.forEachIndexed { index, question ->
+        list.add(
+            QuestionDomainModel(
+                title = question.title,
+                priority = index,
+                duplicatedOption = question.isMultipleChoice,
+                options = question.answerList.toOptionList(),
+            ),
+        )
+    }
+    return list.toList()
 }

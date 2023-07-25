@@ -12,7 +12,9 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 plugins {
     android("application")
     kotlin("android")
+    kotlin("kapt")
     alias(libs.plugins.test.roborazzi)
+    alias(libs.plugins.android.hilt)
 }
 
 android {
@@ -112,6 +114,7 @@ dependencies {
         libs.compose.uiutil,
         libs.compose.foundation,
         libs.compose.activity,
+        libs.android.hilt.runtime,
         projects.data,
         projects.domain,
         projects.designResource,
@@ -125,5 +128,6 @@ dependencies {
         libs.test.robolectric,
         libs.bundles.test.roborazzi,
     )
+    kapt(libs.android.hilt.compile)
     testRuntimeOnly(libs.test.junit.engine)
 }
