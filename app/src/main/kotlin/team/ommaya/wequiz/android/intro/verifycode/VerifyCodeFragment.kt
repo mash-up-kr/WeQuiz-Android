@@ -24,6 +24,7 @@ import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentVerifyCodeBinding
 import team.ommaya.wequiz.android.intro.IntroViewModel
 import team.ommaya.wequiz.android.intro.VerifyCodeUiEvent
+import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
 import team.ommaya.wequiz.android.utils.SnackbarMode
 import team.ommaya.wequiz.android.utils.WeQuizSnackbar
 import team.ommaya.wequiz.android.utils.isValidInputLength
@@ -36,6 +37,7 @@ class VerifyCodeFragment :
     BaseViewBindingFragment<FragmentVerifyCodeBinding>(FragmentVerifyCodeBinding::inflate) {
     private val introViewModel: IntroViewModel by activityViewModels()
     private var timer: Job = Job()
+    private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +49,7 @@ class VerifyCodeFragment :
         super.onViewCreated(view, savedInstanceState)
 
         initView()
+        initKeyboardVisibilityUtils()
         collectFlow()
     }
 
@@ -62,7 +65,7 @@ class VerifyCodeFragment :
                 remainTime -= TIMER_INTERVAL
                 introViewModel.setVerifyTime(formatMilliseconds(remainTime))
             }
-
+            introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.TIMEOUT)
             timer.cancel()
         }
     }
@@ -143,6 +146,15 @@ class VerifyCodeFragment :
             getString(messageId),
             SnackbarMode.FAILURE,
         ).show()
+    }
+
+    private fun initKeyboardVisibilityUtils() {
+        keyboardVisibilityUtils = KeyboardVisibilityUtils(
+            window = requireActivity().window,
+            onHideKeyboard = {
+                binding.etVerifyCodeInput.clearFocus()
+            },
+        )
     }
 
     companion object {
