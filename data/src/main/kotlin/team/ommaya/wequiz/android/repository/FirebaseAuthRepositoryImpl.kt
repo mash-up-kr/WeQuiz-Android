@@ -31,13 +31,14 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
     private lateinit var optionsBuilder: PhoneAuthOptions.Builder
     private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-            val verifyCode = credential.smsCode
-
-            if (!verifyCode.isNullOrEmpty()) {
-                authCallbacksListener.onVerificationCompleted(verifyCode)
-            }
-
-            signInWithPhoneAuthCredential(credential)
+            // 문자가 오면 자동으로 인증하는 코드
+//            val verifyCode = credential.smsCode
+//
+//            if (!verifyCode.isNullOrEmpty()) {
+//                authCallbacksListener.onVerificationCompleted(verifyCode)
+//            }
+//
+//            signInWithPhoneAuthCredential(credential)
         }
 
         override fun onVerificationFailed(firebaseException: FirebaseException) {
