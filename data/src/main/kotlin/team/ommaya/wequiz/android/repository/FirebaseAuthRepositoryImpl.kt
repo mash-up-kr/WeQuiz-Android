@@ -17,12 +17,10 @@ import com.google.firebase.auth.FirebaseAuthMissingActivityForRecaptchaException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import team.ommaya.wequiz.android.domain.AuthCallbacksListener
 import team.ommaya.wequiz.android.domain.repository.FirebaseAuthRepository
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class FirebaseAuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth
@@ -60,8 +58,6 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         ) {
             super.onCodeSent(verificationId, token)
             // 전화번호로 인증 코드가 SMS를 통해 전송된 후에 호출
-            // 인증 코드를 입력하라는 UI를 표시
-            // 백그라운드에서 자동 인증 가능
             // 사용자가 인증 코드를 입력하면 인증 코드와 이 메서드에 전달된 인증 ID를 사용하여 PhoneAuthCredential 객체를 만들고 로그인 처리
             verificationID = verificationId
             resendToken = token
@@ -76,7 +72,7 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
 
     override suspend fun startPhoneNumberVerification(phoneNumber: String, activity: Activity) {
         optionsBuilder = PhoneAuthOptions.newBuilder(auth)
-            .setPhoneNumber(phoneNumber)
+            .setPhoneNumber("+82${phoneNumber.replace("-", "")}")
             .setTimeout(120_000L, TimeUnit.MILLISECONDS)
             .setActivity(activity)
             .setCallbacks(callbacks)

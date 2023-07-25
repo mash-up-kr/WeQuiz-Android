@@ -8,6 +8,7 @@
 <resources>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
 
     <!-- Extended Gray -->
     <color name="G1">#F1F3F5</color>
