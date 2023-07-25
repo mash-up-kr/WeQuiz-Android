@@ -17,12 +17,10 @@ import com.google.firebase.auth.FirebaseAuthMissingActivityForRecaptchaException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import team.ommaya.wequiz.android.domain.AuthCallbacksListener
 import team.ommaya.wequiz.android.domain.repository.FirebaseAuthRepository
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class FirebaseAuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth
