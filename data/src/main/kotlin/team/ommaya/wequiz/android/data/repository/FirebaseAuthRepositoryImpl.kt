@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class FirebaseAuthRepositoryImpl @Inject constructor(
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
 ) : FirebaseAuthRepository {
     private lateinit var verificationID: String
     private lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
