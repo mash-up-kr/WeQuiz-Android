@@ -96,14 +96,14 @@ class IntroViewModel @Inject constructor(
     }
 
     override fun onVerificationCompleted(verifyCode: String) {
-//
+        //
     }
 
     override fun onCodeSent(
         verificationId: String?,
-        token: PhoneAuthProvider.ForceResendingToken?
+        token: PhoneAuthProvider.ForceResendingToken?,
     ) {
-
+        //
     }
 
     companion object {
