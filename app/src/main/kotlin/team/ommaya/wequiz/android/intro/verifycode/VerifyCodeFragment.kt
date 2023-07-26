@@ -145,6 +145,8 @@ class VerifyCodeFragment :
                                         }
                                     }
                                 }
+
+                                setTimerAndResendBtnVisibility(true)
                             }
                             VerifyCodeUiEvent.FAILURE -> {
                                 setTimerAndResendBtnVisibility(true)
