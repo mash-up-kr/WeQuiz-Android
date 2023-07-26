@@ -79,6 +79,6 @@ data class WeQuizDialogContents(
     val title: String,
     val negativeBtnText: String,
     val positiveBtnText: String,
-    val negativeBtnAction: () -> Unit = {},
+    val negativeBtnAction: () -> Unit,
     val positiveBtnAction: () -> Unit,
 )

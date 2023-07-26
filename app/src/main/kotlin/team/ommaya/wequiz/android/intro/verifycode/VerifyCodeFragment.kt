@@ -25,6 +25,7 @@ import team.ommaya.wequiz.android.databinding.FragmentVerifyCodeBinding
 import team.ommaya.wequiz.android.intro.IntroMode
 import team.ommaya.wequiz.android.intro.IntroViewModel
 import team.ommaya.wequiz.android.intro.VerifyCodeUiEvent
+import team.ommaya.wequiz.android.utils.KeyboardUtil
 import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
 import team.ommaya.wequiz.android.utils.SnackbarMode
 import team.ommaya.wequiz.android.utils.WeQuizDialog
@@ -81,6 +82,10 @@ class VerifyCodeFragment :
                 if (isValidInputLength(text, VERIFY_CODE_LENGTH)) {
                     if (!introViewModel.isVerifyTimeOut.value) {
                         introViewModel.verifyCode(text)
+
+                        setTimerAndResendBtnVisibility(false)
+                        KeyboardUtil.hide(requireActivity())
+                        etVerifyCodeInput.clearFocus()
                     } else {
                         showFailureWeQuizSnackbar(R.string.verify_code_resend_time_out)
                     }
@@ -126,9 +131,10 @@ class VerifyCodeFragment :
                                         if (introViewModel.isUserRegistered.value) {
                                             findNavController().navigate(R.id.action_verifyCodeFragment_to_welcomeFragment)
                                         } else {
-                                            showWeQuizDialog {
-                                                findNavController().navigate(R.id.action_verifyCodeFragment_to_joinFragment)
-                                            }
+                                            showWeQuizDialog(
+                                                { findNavController().popBackStack() },
+                                                { findNavController().navigate(R.id.action_verifyCodeFragment_to_joinFragment) },
+                                            )
                                         }
                                     }
                                     IntroMode.SIGNUP -> {
@@ -141,6 +147,7 @@ class VerifyCodeFragment :
                                 }
                             }
                             VerifyCodeUiEvent.FAILURE -> {
+                                setTimerAndResendBtnVisibility(true)
                                 showFailureWeQuizSnackbar(R.string.verify_code_incorrect)
                             }
                         }
@@ -170,15 +177,30 @@ class VerifyCodeFragment :
         ).show()
     }
 
-    private fun showWeQuizDialog(action: () -> Unit) {
+    private fun showWeQuizDialog(negativeAction: () -> Unit, positiveAction: () -> Unit) {
         val weQuizDialogContents = WeQuizDialogContents(
             title = getString(R.string.sign_up_dialog),
             negativeBtnText = getString(R.string.negative),
             positiveBtnText = getString(R.string.sign_up),
-            positiveBtnAction = { action() },
+            negativeBtnAction = { negativeAction() },
+            positiveBtnAction = { positiveAction() },
         )
 
         WeQuizDialog(weQuizDialogContents).show(childFragmentManager, "tag")
+    }
+
+    private fun setTimerAndResendBtnVisibility(isVisible: Boolean) {
+        if (isVisible) {
+            with(binding) {
+                tvVerifyCodeTimer.visibility = View.VISIBLE
+                textInputLayoutVerifyCodeInput.isEndIconVisible = true
+            }
+        } else {
+            with(binding) {
+                tvVerifyCodeTimer.visibility = View.INVISIBLE
+                textInputLayoutVerifyCodeInput.isEndIconVisible = false
+            }
+        }
     }
 
     private fun initKeyboardVisibilityUtils() {
