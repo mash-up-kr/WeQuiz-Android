@@ -94,8 +94,8 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         auth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) { // 인증 성공
-                val user = task.result?.user
-                if (user != null) {
+                val firebaseUser = task.result?.user
+                firebaseUser?.let { user ->
                     // uid 저장 및 회원가입/로그인 서버 api 호출
                     authCallbacksListener.onVerificationSuccess(user.uid)
                 }
