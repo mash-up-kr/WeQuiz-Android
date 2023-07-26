@@ -22,10 +22,13 @@ import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentVerifyCodeBinding
+import team.ommaya.wequiz.android.intro.IntroMode
 import team.ommaya.wequiz.android.intro.IntroViewModel
 import team.ommaya.wequiz.android.intro.VerifyCodeUiEvent
 import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
 import team.ommaya.wequiz.android.utils.SnackbarMode
+import team.ommaya.wequiz.android.utils.WeQuizDialog
+import team.ommaya.wequiz.android.utils.WeQuizDialogContents
 import team.ommaya.wequiz.android.utils.WeQuizSnackbar
 import team.ommaya.wequiz.android.utils.isValidInputLength
 import java.text.SimpleDateFormat
@@ -116,7 +119,26 @@ class VerifyCodeFragment :
                                 introViewModel.setIsVerifyTimeOut(true)
                             }
                             VerifyCodeUiEvent.SUCCESS -> {
-                                findNavController().navigate(R.id.action_verifyCodeFragment_to_joinFragment)
+                                // 서버에 user 존재 여부 찌르고 result를 isUserRegistered에 저장
+
+                                when (introViewModel.mode.value) {
+                                    IntroMode.LOGIN -> {
+                                        if (introViewModel.isUserRegistered.value) {
+                                            findNavController().navigate(R.id.action_verifyCodeFragment_to_welcomeFragment)
+                                        } else {
+                                            showWeQuizDialog {
+                                                findNavController().navigate(R.id.action_verifyCodeFragment_to_joinFragment)
+                                            }
+                                        }
+                                    }
+                                    IntroMode.SIGNUP -> {
+                                        if (introViewModel.isUserRegistered.value) {
+                                            findNavController().navigate(R.id.action_verifyCodeFragment_to_welcomeFragment)
+                                        } else {
+                                            findNavController().navigate(R.id.action_verifyCodeFragment_to_joinFragment)
+                                        }
+                                    }
+                                }
                             }
                             VerifyCodeUiEvent.FAILURE -> {
                                 showFailureWeQuizSnackbar(R.string.verify_code_incorrect)
@@ -146,6 +168,17 @@ class VerifyCodeFragment :
             getString(messageId),
             SnackbarMode.FAILURE,
         ).show()
+    }
+
+    private fun showWeQuizDialog(action: () -> Unit) {
+        val weQuizDialogContents = WeQuizDialogContents(
+            title = getString(R.string.sign_up_dialog),
+            negativeBtnText = getString(R.string.negative),
+            positiveBtnText = getString(R.string.sign_up),
+            positiveBtnAction = { action() },
+        )
+
+        WeQuizDialog(weQuizDialogContents).show(childFragmentManager, "tag")
     }
 
     private fun initKeyboardVisibilityUtils() {

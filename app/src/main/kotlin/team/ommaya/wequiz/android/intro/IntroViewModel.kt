@@ -48,6 +48,9 @@ class IntroViewModel @Inject constructor(
     private val _nickname: MutableStateFlow<String> = MutableStateFlow("")
     val nickname = _nickname.asStateFlow()
 
+    private val _isUserRegistered: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isUserRegistered = _isUserRegistered.asStateFlow()
+
     init {
         setAuthCallbacksUseCase(this)
     }
@@ -68,6 +71,10 @@ class IntroViewModel @Inject constructor(
         viewModelScope.launch {
             _verifyCodeEventFlow.emit(verifyCodeUiEvent)
         }
+    }
+
+    fun setIsUserRegistered(isUserRegistered: Boolean) {
+        _isUserRegistered.value = isUserRegistered
     }
 
     fun setNickname(nickname: String) {

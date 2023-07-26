@@ -16,6 +16,7 @@
     <!-- 인트로 -->
     <string name="start_we_quiz">WeQuiz 시작하기</string>
     <string name="already_have_account">이미 계정이 있나요?</string>
+    <string name="sign_up">회원가입</string>
     <string name="login">로그인</string>
     <string name="phone_sign_up_mode_title">회원가입을 위해\n휴대폰 번호를 입력해 주세요</string>
     <string name="phone_log_in_mode_title">반가워요!\n휴대폰 번호로 로그인 해주세요</string>
