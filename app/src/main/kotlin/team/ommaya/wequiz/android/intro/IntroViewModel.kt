@@ -51,6 +51,9 @@ class IntroViewModel @Inject constructor(
     private val _isUserRegistered: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isUserRegistered = _isUserRegistered.asStateFlow()
 
+    private val _onCodeSentFlow: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    val onCodeSentFlow = _onCodeSentFlow.asSharedFlow()
+
     init {
         setAuthCallbacksUseCase(this)
     }
@@ -117,7 +120,9 @@ class IntroViewModel @Inject constructor(
         verificationId: String?,
         token: PhoneAuthProvider.ForceResendingToken?,
     ) {
-        //
+        viewModelScope.launch {
+            _onCodeSentFlow.emit(true)
+        }
     }
 
     companion object {
