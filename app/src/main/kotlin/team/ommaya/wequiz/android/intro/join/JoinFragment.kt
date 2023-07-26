@@ -33,8 +33,11 @@ class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBi
 
     private fun initView() {
         with(binding) {
-            etJoinInputNickname.addTextChangedListener {
-                setNextButtonEnable()
+            with(etJoinInputNickname) {
+                requestFocus()
+                addTextChangedListener {
+                    setNextButtonEnable()
+                }
             }
 
             etJoinInputIntroduction.addTextChangedListener {
