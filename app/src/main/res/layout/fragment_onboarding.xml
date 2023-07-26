@@ -8,8 +8,27 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/G9">
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_onboarding_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_onboarding"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/iv_onboarding_logo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/img_we_quiz_onboarding"
+        app:layout_constraintBottom_toTopOf="@id/btn_onboarding_sign_up"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.576" />
 
     <TextView
         android:id="@+id/tv_onboarding_login_header"
@@ -40,7 +59,7 @@
     <Button
         android:id="@+id/btn_onboarding_sign_up"
         style="@style/WeQuizRoundButton.Default"
-        android:text="@string/start_service"
+        android:text="@string/start_we_quiz"
         app:layout_constraintBottom_toTopOf="@id/tv_onboarding_login_header"
         app:layout_constraintStart_toStartOf="parent" />
 

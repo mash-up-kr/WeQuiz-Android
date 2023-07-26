@@ -45,6 +45,9 @@ class IntroViewModel @Inject constructor(
     private val _verifyCodeEventFlow: MutableSharedFlow<VerifyCodeUiEvent> = MutableSharedFlow()
     val verifyCodeEventFlow = _verifyCodeEventFlow.asSharedFlow()
 
+    private val _nickname: MutableStateFlow<String> = MutableStateFlow("")
+    val nickname = _nickname.asStateFlow()
+
     init {
         setAuthCallbacksUseCase(this)
     }
@@ -65,6 +68,10 @@ class IntroViewModel @Inject constructor(
         viewModelScope.launch {
             _verifyCodeEventFlow.emit(verifyCodeUiEvent)
         }
+    }
+
+    fun setNickname(nickname: String) {
+        _nickname.value = nickname
     }
 
     fun sendVerifyCode(phoneNumber: String, activity: Activity) {

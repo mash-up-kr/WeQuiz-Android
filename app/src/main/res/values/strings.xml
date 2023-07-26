@@ -14,7 +14,7 @@
     <string name="negative">아니요</string>
 
     <!-- 인트로 -->
-    <string name="start_service">{서비스명} 시작하기</string>
+    <string name="start_we_quiz">WeQuiz 시작하기</string>
     <string name="already_have_account">이미 계정이 있나요?</string>
     <string name="login">로그인</string>
     <string name="phone_sign_up_mode_title">회원가입을 위해\n휴대폰 번호를 입력해 주세요</string>
@@ -30,12 +30,12 @@
     <string name="verify_code_resend">인증번호를 재전송했어요</string>
     <string name="verify_code_resend_time_out">인증번호가 만료됐어요. 다시 시도해 주세요</string>
     <string name="sign_up_dialog">가입되지 않은 휴대폰 번호에요\n회원가입을 도와드릴까요?</string>
-    <string name="join_title">{서비스명}에서 사용 할\n닉네임을 입력해 주세요</string>
+    <string name="join_title">WeQuiz에서 사용 할\n닉네임을 입력해 주세요</string>
     <string name="introduction">자기소개 (선택)</string>
     <string name="introduction_hint">자기소개 입력</string>
     <string name="nickname">닉네임 (필수)</string>
     <string name="nickname_hint">닉네임 입력</string>
-    <string name="welcome_comment">반가워요\n{NAME}</string>
+    <string name="welcome_comment">반가워요\n%1$s</string>
 
     <!-- 문제 만들기 -->
     <string name="create_quiz">문제 만들기</string>
