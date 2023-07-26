@@ -35,15 +35,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_phone_back" />
 
+    <TextView
+        android:id="@+id/tv_phone_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="37dp"
+        android:text="@string/phone_number"
+        android:textAppearance="@style/WeQuizTextAppearance.Caption2.Medium"
+        android:textColor="@color/G2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_phone_title" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_layout_phone_input"
         style="@style/WeQuizTextInputLayout.Clear"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="36dp"
-        android:hint="@string/phone_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="2dp"
+        android:theme="@style/WeQuizTextInputLayout"
         app:counterEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_phone_title">
+        app:layout_constraintTop_toBottomOf="@id/tv_phone_number">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_phone_input"

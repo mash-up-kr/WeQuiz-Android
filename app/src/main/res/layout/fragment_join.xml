@@ -35,15 +35,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_join_back" />
 
+    <TextView
+        android:id="@+id/tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="37dp"
+        android:text="@string/nickname"
+        android:textAppearance="@style/WeQuizTextAppearance.Caption2.Medium"
+        android:textColor="@color/G2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_join_title" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_layout_join_input_nickname"
         style="@style/WeQuizTextInputLayout"
-        android:layout_marginTop="20dp"
-        android:hint="@string/nickname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="2dp"
+        android:theme="@style/WeQuizTextInputLayout"
         app:counterEnabled="false"
         app:counterMaxLength="8"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_join_title">
+        app:layout_constraintTop_toBottomOf="@id/tv_nickname">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_join_input_nickname"
@@ -53,15 +69,31 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/tv_introduction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="130dp"
+        android:text="@string/introduction"
+        android:textAppearance="@style/WeQuizTextAppearance.Caption2.Medium"
+        android:textColor="@color/G2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_join_title" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_layout_join_input_introduction"
         style="@style/WeQuizTextInputLayout"
-        android:layout_marginTop="30dp"
-        android:hint="@string/introduction"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="2dp"
+        android:theme="@style/WeQuizTextInputLayout"
         app:counterEnabled="false"
         app:counterMaxLength="30"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_input_layout_join_input_nickname">
+        app:layout_constraintTop_toBottomOf="@id/tv_introduction">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_join_input_introduction"

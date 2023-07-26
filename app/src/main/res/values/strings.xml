@@ -31,9 +31,9 @@
     <string name="verify_code_resend_time_out">인증번호가 만료됐어요. 다시 시도해 주세요</string>
     <string name="sign_up_dialog">가입되지 않은 휴대폰 번호에요\n회원가입을 도와드릴까요?</string>
     <string name="join_title">WeQuiz에서 사용 할\n닉네임을 입력해 주세요</string>
-    <string name="introduction">자기소개 (선택)</string>
+    <string name="introduction"><font color="#E9ECEF">자기소개</font> <font color="#ADB5BD">(선택)</font></string>
     <string name="introduction_hint">자기소개 입력</string>
-    <string name="nickname">닉네임 (필수)</string>
+    <string name="nickname"><font color="#E9ECEF">닉네임</font> <font color="#FF5D47">(필수)</font></string>
     <string name="nickname_hint">닉네임 입력</string>
     <string name="welcome_comment">반가워요\n%1$s</string>
 
