@@ -14,6 +14,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     alias(libs.plugins.test.roborazzi)
+    alias(libs.plugins.google.services)
     alias(libs.plugins.android.hilt)
 }
 
@@ -109,6 +110,7 @@ dependencies {
         libs.androidx.lifecycle.runtime,
         libs.androidx.lifecycle.viewmodel,
         libs.kotlinx.collections.immutable,
+        libs.bundles.firebase,
         libs.compose.runtime,
         libs.compose.ui,
         libs.compose.uiutil,

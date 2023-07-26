@@ -13,13 +13,17 @@
     <application
         android:name=".WeQuizApp"
         android:label="WeQuiz"
+        android:theme="@style/Theme.WeQuiz"
         tools:ignore="MissingApplicationIcon">
 
         <activity
             android:name=".MainActivity"
             android:exported="true">
 
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
 
@@ -30,17 +34,11 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
         </activity>
 
         <activity
             android:name=".intro.IntroActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustResize">
 
         </activity>

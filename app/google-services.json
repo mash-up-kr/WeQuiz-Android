@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "79100849862",
+    "project_id": "wequiz-3910f",
+    "storage_bucket": "wequiz-3910f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:79100849862:android:d72f3d7aff92a368d071c7",
+        "android_client_info": {
+          "package_name": "team.ommaya.wequiz.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "79100849862-ao1i0vsepvovl79hjv7bvjtcde95ir1e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBazJ9Q5DW_RrEkpksXXhHQh4MjvFYnigM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "79100849862-ao1i0vsepvovl79hjv7bvjtcde95ir1e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

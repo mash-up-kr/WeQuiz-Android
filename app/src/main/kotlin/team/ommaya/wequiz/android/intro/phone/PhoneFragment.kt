@@ -14,6 +14,7 @@ import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentPhoneBinding
@@ -23,6 +24,7 @@ import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
 import team.ommaya.wequiz.android.utils.isValidInputLength
 import team.ommaya.wequiz.android.utils.px
 
+@AndroidEntryPoint
 class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhoneBinding::inflate) {
     private val introViewModel: IntroViewModel by activityViewModels()
     private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
@@ -51,6 +53,7 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
             }
 
             btnPhoneRequestVerifyCode.setOnClickListener {
+                introViewModel.sendVerifyCode(etPhoneInput.text.toString(), requireActivity())
                 etPhoneInput.text?.clear()
                 findNavController().navigate(R.id.action_phoneFragment_to_verifyCodeFragment)
             }
