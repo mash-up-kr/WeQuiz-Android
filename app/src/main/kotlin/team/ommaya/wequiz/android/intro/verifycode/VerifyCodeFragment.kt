@@ -9,6 +9,8 @@ package team.ommaya.wequiz.android.intro.verifycode
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -25,7 +27,6 @@ import team.ommaya.wequiz.android.databinding.FragmentVerifyCodeBinding
 import team.ommaya.wequiz.android.intro.IntroMode
 import team.ommaya.wequiz.android.intro.IntroViewModel
 import team.ommaya.wequiz.android.intro.VerifyCodeUiEvent
-import team.ommaya.wequiz.android.utils.KeyboardUtil
 import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
 import team.ommaya.wequiz.android.utils.SnackbarMode
 import team.ommaya.wequiz.android.utils.WeQuizDialog
@@ -84,8 +85,12 @@ class VerifyCodeFragment :
                         introViewModel.verifyCode(text)
 
                         setTimerAndResendBtnVisibility(false)
-                        KeyboardUtil.hide(requireActivity())
                         etVerifyCodeInput.clearFocus()
+
+                        WindowInsetsControllerCompat(
+                            requireActivity().window,
+                            etVerifyCodeInput,
+                        ).show(WindowInsetsCompat.Type.ime())
                     } else {
                         showFailureWeQuizSnackbar(R.string.verify_code_resend_time_out)
                     }

@@ -10,6 +10,8 @@ package team.ommaya.wequiz.android.intro.join
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -42,6 +44,11 @@ class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBi
                     setNextButtonEnable()
                 }
             }
+
+            WindowInsetsControllerCompat(
+                requireActivity().window,
+                etJoinInputNickname,
+            ).show(WindowInsetsCompat.Type.ime())
 
             etJoinInputIntroduction.addTextChangedListener {
                 setNextButtonEnable()
