@@ -8,8 +8,6 @@
 package team.ommaya.wequiz.android.domain.repository
 
 import android.app.Activity
-import com.google.firebase.auth.PhoneAuthCredential
-import com.google.firebase.auth.PhoneAuthProvider
 import team.ommaya.wequiz.android.domain.AuthCallbacksListener
 
 interface FirebaseAuthRepository {
