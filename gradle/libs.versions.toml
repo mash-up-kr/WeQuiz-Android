@@ -17,7 +17,7 @@ compose-uiutil = "1.6.0-alpha01"
 compose-foundation = "1.6.0-alpha02"
 compose-ui = "1.6.0-alpha01"
 compose-animation = "1.6.0-alpha02"
-compose-material-ripple = "1.6.0-alpha01"
+compose-material-ripple = "1.6.0-alpha02"
 compose-activity = "1.7.2"
 
 android-hilt = "2.47"
