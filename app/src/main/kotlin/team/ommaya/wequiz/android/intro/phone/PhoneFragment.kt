@@ -13,8 +13,12 @@ import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentPhoneBinding
@@ -34,6 +38,7 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
 
         initView()
         initKeyboardVisibilityUtils()
+        collectFlow()
     }
 
     private fun initView() {
@@ -54,8 +59,6 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
 
             btnPhoneRequestVerifyCode.setOnClickListener {
                 introViewModel.sendVerifyCode(etPhoneInput.text.toString(), requireActivity())
-                etPhoneInput.text?.clear()
-                findNavController().navigate(R.id.action_phoneFragment_to_verifyCodeFragment)
             }
 
             btnPhoneBack.setOnClickListener {
@@ -81,6 +84,21 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
                 binding.etPhoneInput.clearFocus()
             },
         )
+    }
+
+    private fun collectFlow() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    introViewModel.onCodeSentFlow.collect { isCodeSent ->
+                        if (isCodeSent) {
+                            binding.etPhoneInput.text?.clear()
+                            findNavController().navigate(R.id.action_phoneFragment_to_verifyCodeFragment)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {

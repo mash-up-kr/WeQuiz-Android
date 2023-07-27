@@ -10,18 +10,23 @@ package team.ommaya.wequiz.android.intro.join
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentJoinBinding
+import team.ommaya.wequiz.android.intro.IntroViewModel
 import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
 import team.ommaya.wequiz.android.utils.isValidInputLengthRange
 import team.ommaya.wequiz.android.utils.px
 
 @AndroidEntryPoint
 class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBinding::inflate) {
+    private val introViewModel: IntroViewModel by activityViewModels()
     private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,9 +38,17 @@ class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBi
 
     private fun initView() {
         with(binding) {
-            etJoinInputNickname.addTextChangedListener {
-                setNextButtonEnable()
+            with(etJoinInputNickname) {
+                requestFocus()
+                addTextChangedListener {
+                    setNextButtonEnable()
+                }
             }
+
+            WindowInsetsControllerCompat(
+                requireActivity().window,
+                etJoinInputNickname,
+            ).show(WindowInsetsCompat.Type.ime())
 
             etJoinInputIntroduction.addTextChangedListener {
                 setNextButtonEnable()
@@ -56,6 +69,7 @@ class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBi
             }
 
             btnJoinNext.setOnClickListener {
+                introViewModel.setNickname(etJoinInputNickname.text.toString())
                 findNavController().navigate(R.id.action_joinFragment_to_welcomeFragment)
             }
 

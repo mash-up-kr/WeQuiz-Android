@@ -76,22 +76,5 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_layout_tmp_certification"
-        style="@style/WeQuizTextInputLayout.Certification"
-        android:layout_marginTop="20dp"
-        android:hint="인증번호"
-        app:counterMaxLength="6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_input_layout_tmp_nickname">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_tmp_certification"
-            style="@style/WeQuizBasicEditText"
-            android:hint="6자리 숫자"
-            android:inputType="number"
-            android:maxLength="6" />
-
-    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

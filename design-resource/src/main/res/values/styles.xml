@@ -60,23 +60,12 @@
     </style>
 
     <!-- EditText -->
-    <style name="WeQuizTextInputLayout" parent="Theme.MaterialComponents">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_marginStart">20dp</item>
-        <item name="android:layout_marginEnd">20dp</item>
+    <style name="WeQuizTextInputLayout" parent="Widget.Design.TextInputLayout">
+        <item name="hintEnabled">false</item>
 
-        <!-- background -->
-        <item name="boxBackgroundColor">@color/G9</item>
-
-        <!-- label -->
-        <item name="android:textColorHint">@color/G2</item> <!-- 클릭 전 -->
-        <item name="hintTextColor">@color/G2</item> <!-- 클릭 후 -->
-        <item name="hintTextAppearance">@style/WeQuizTextAppearance.Caption2.Medium</item>
-        <item name="hintAnimationEnabled">false</item>
-        <item name="expandedHintEnabled">false</item>
-
-        <!-- indicator -->
+        <!-- activation indicator -->
+        <item name="colorControlNormal">@color/G2</item>
+        <item name="colorControlActivated">@color/P1</item>
         <item name="boxStrokeColor">@color/selector_text_input_layer_indicator</item>
         <item name="boxStrokeErrorColor">@color/Alert</item>
         <item name="boxStrokeWidth">1dp</item>
@@ -93,12 +82,6 @@
         <!-- trailing icon -->
         <item name="endIconMode">clear_text</item>
         <item name="endIconTint">@color/G2</item>
-    </style>
-
-    <style name="WeQuizTextInputLayout.Certification">
-        <!-- trailing icon -->
-        <item name="endIconMode">custom</item>
-        <item name="endIconDrawable">@drawable/ic_resend</item>
     </style>
 
     <style name="WeQuizBasicEditText" parent="Theme.MaterialComponents">

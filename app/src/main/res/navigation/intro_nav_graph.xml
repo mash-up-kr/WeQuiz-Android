@@ -40,6 +40,9 @@
             android:id="@+id/action_verifyCodeFragment_to_joinFragment"
             app:destination="@id/joinFragment"
             app:popUpTo="@id/phoneFragment" />
+        <action
+            android:id="@+id/action_verifyCodeFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment" />
     </fragment>
 
     <fragment
