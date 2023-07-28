@@ -20,19 +20,48 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.collections.immutable.toImmutableList
 import team.ommaya.wequiz.android.R
+import team.ommaya.wequiz.android.data.client.TmpToken
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizTypography
+import team.ommaya.wequiz.android.domain.model.rank.Rank
+import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizRankUseCase
 import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.noRippleClickable
+import team.ommaya.wequiz.android.utils.toast
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FriendsRankActivity : ComponentActivity() {
+    @Inject
+    lateinit var getQuizRankUseCase: GetQuizRankUseCase
+
+    private val token by lazy { intent?.getStringExtra("token") ?: TmpToken }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            var quizRank by remember { mutableStateOf<Rank?>(null) }
+
+            LaunchedEffect(token) {
+                quizRank =
+                    getQuizRankUseCase(token, size = 30)
+                        .getOrElse { exception ->
+                            toast(exception.toString())
+                            quizRank
+                        }
+            }
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -61,14 +90,26 @@ class FriendsRankActivity : ComponentActivity() {
                             .asRememberComposeStyle(),
                     )
                 }
-                // TODO
-                /*FriendsRankScreen(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(20.dp),
-                friendsRanking = ,
-                onFriendClick = {},
-                )*/
+
+                @Suppress("NAME_SHADOWING")
+                val quizRank = quizRank
+
+                if (quizRank != null) {
+                    FriendsRank(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(20.dp),
+                        friendsRanking = remember(quizRank) {
+                            quizRank
+                                .rankings
+                                .map { item ->
+                                    Triple(item.userInfo.name, item.userInfo.id, item.score)
+                                }
+                                .toImmutableList()
+                        },
+                        onFriendClick = {},
+                    )
+                }
             }
         }
     }
