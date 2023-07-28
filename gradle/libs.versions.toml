@@ -11,7 +11,7 @@ kotlinx-serialization = "1.4.1"
 kotlinx-coroutines = "1.7.1"
 kotlinx-collections-immutable = "0.3.5"
 
-compose-compiler = "1.4.7"
+compose-compiler = "1.5.1"
 compose-runtime = "1.6.0-alpha02"
 compose-uiutil = "1.6.0-alpha01"
 compose-foundation = "1.6.0-alpha02"
