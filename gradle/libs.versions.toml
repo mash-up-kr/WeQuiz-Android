@@ -31,7 +31,7 @@ androidx-datastore = "1.0.0"
 glide = "4.15.1"
 coil-compose = "2.4.0"
 
-ktor-client-core = "2.3.0"
+ktor-client-core = "2.3.2"
 jackson-core = "2.14.2"
 
 test-junit-core = "4.13.2"
