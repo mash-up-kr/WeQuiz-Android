@@ -38,16 +38,15 @@ import kotlinx.collections.immutable.toPersistentList
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizTypography
-import team.ommaya.wequiz.android.home.friends.FriendsRankScreen
+import team.ommaya.wequiz.android.home.friends.FriendsRank
 import team.ommaya.wequiz.android.home.friends.NicknameUuidScoreTriple
 import team.ommaya.wequiz.android.home.quizlist.QuizList
 import team.ommaya.wequiz.android.home.quizlist.QuizNameAndIsWritingPair
 import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.noRippleClickable
 
-@Suppress("unused")
 @Composable
-fun HomeMainScreen(
+fun HomeMain(
     modifier: Modifier = Modifier,
     nickname: String,
     profileMessage: String,
@@ -132,7 +131,7 @@ fun HomeMainScreen(
                 verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
                 SectionTitle(title = "친구 랭킹")
-                FriendsRankScreen(
+                FriendsRank(
                     friendsRanking = remember(friendsRanking) {
                         friendsRanking.take(3).toImmutableList()
                     },

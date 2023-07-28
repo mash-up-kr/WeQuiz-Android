@@ -5,7 +5,7 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-@file:Suppress("ktlint")
+@file:Suppress("ktlint", "PrivatePropertyName", "ConstPropertyName", "AnimateAsStateLabel")
 
 package team.ommaya.wequiz.android.home.quizdetail
 
