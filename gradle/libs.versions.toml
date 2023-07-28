@@ -2,13 +2,13 @@
 gradle-android = "8.1.0"
 gradle-dependency-handler-extensions = "1.1.0"
 
-kotlin-core = "1.8.21"
+kotlin-core = "1.9.0"
 kotlin-ktlint-gradle = "11.5.0"
 kotlin-ktlint-source = "0.50.0"
-kotlin-plugin-serialization = "1.7.20"
+kotlin-plugin-serialization = "1.9.0"
 
-kotlinx-serialization = "1.4.1"
-kotlinx-coroutines = "1.7.1"
+kotlinx-serialization = "1.5.1"
+kotlinx-coroutines = "1.7.3"
 kotlinx-collections-immutable = "0.3.5"
 
 compose-compiler = "1.4.7"
