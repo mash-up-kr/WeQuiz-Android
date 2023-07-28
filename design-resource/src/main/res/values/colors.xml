@@ -39,4 +39,9 @@
     <color name="Dimed">#B2121212</color>
     <color name="Black">#E5161616</color>
 
+    <!-- Gradient -->
+    <color name="S1_G_start">#CDF9FF</color>
+    <color name="S1_G_center">#6EEAF2</color>
+    <color name="S1_G_end">#6AF2BB</color>
+
 </resources>
