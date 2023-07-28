@@ -9,8 +9,15 @@ package team.ommaya.wequiz.android.data.mapper
 
 import team.ommaya.wequiz.android.data.model.quiz.OptionDto
 import team.ommaya.wequiz.android.data.model.quiz.QuestionDto
+import team.ommaya.wequiz.android.data.model.quiz.QuizDetailResponse
+import team.ommaya.wequiz.android.data.model.quiz.QuizListResponse
 import team.ommaya.wequiz.android.domain.model.quiz.Option
 import team.ommaya.wequiz.android.domain.model.quiz.Question
+import team.ommaya.wequiz.android.domain.model.quiz.Quiz
+import team.ommaya.wequiz.android.domain.model.quiz.QuizDetail
+import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailOption
+import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailQuestion
+import team.ommaya.wequiz.android.domain.model.quiz.QuizList
 
 fun List<Option>.toOptionDtoList(): List<OptionDto> {
     return this.map {
@@ -32,3 +39,41 @@ fun List<Question>.toQuestionDtoList(): List<QuestionDto> {
         )
     }
 }
+
+internal fun QuizListResponse.toDomain() =
+    QuizList(
+        quiz = requireNotNull(quiz)
+            .map { quizItem ->
+                requireNotNull(quizItem)
+                Quiz(
+                    id = requireNotNull(quizItem.id),
+                    title = requireNotNull(quizItem.title),
+                )
+            },
+        nextCursor = requireNotNull(nextCursor),
+    )
+
+internal fun QuizDetailResponse.toDomain() =
+    QuizDetail(
+        questions = requireNotNull(questions)
+            .map { question ->
+                requireNotNull(question)
+                QuizDetailQuestion(
+                    score = requireNotNull(question.score),
+                    answerCounts = requireNotNull(question.answerCounts),
+                    options = requireNotNull(question.options)
+                        .map { option ->
+                            requireNotNull(option)
+                            QuizDetailOption(
+                                id = requireNotNull(option.id),
+                                content = requireNotNull(option.content),
+                                isCorrect = requireNotNull(option.isCorrect),
+                            )
+                        },
+                    id = requireNotNull(question.id),
+                    title = requireNotNull(question.title),
+                )
+            },
+        id = requireNotNull(id),
+        title = requireNotNull(title),
+    )

@@ -21,7 +21,7 @@ import javax.inject.Inject
 class RankRepositoryImpl @Inject constructor(
     private val client: HttpClient,
 ) : RankRepository {
-    override suspend fun getMyQuizRank(
+    override suspend fun getQuizRank(
         token: String,
         size: Int,
         quizAnswerCursorId: Int?,
