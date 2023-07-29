@@ -47,6 +47,9 @@ class QuizCreateViewModel @Inject constructor(
 
     private val quizTitle: MutableStateFlow<String> = MutableStateFlow("")
 
+    private val _quizId: MutableStateFlow<Int> = MutableStateFlow(0)
+    val quizId = _quizId.asStateFlow()
+
     val isQuizMeetRequireMeet =
         combine(
             isAnswerCountRequired,
@@ -68,6 +71,7 @@ class QuizCreateViewModel @Inject constructor(
             _createState.emit(CreateState.LOADING)
             createQuizUseCase(title, questions.toQuestionDomainList())
                 .onSuccess {
+                    _quizId.value = it
                     _createState.emit(CreateState.SUCCESS)
                 }.onFailure {
                     _createState.emit(CreateState.FAILED)

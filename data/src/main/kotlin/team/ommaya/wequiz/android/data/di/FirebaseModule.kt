@@ -8,6 +8,7 @@
 package team.ommaya.wequiz.android.data.di
 
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
@@ -25,4 +26,8 @@ class FirebaseModule {
     @Provides
     @Singleton
     fun provideFirebaseAuth(firebase: Firebase) = firebase.auth
+
+    @Provides
+    @Singleton
+    fun provideFirebaseDynamicLink(firebase: Firebase) = firebase.dynamicLinks
 }

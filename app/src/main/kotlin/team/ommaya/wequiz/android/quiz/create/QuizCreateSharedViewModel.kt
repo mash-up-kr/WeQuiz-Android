@@ -7,15 +7,22 @@
 
 package team.ommaya.wequiz.android.quiz.create
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import team.ommaya.wequiz.android.domain.usecase.quiz.MakeInvitationLinkUseCase
+import javax.inject.Inject
 
-class QuizCreateSharedViewModel : ViewModel() {
+@HiltViewModel
+class QuizCreateSharedViewModel @Inject constructor(
+    private val makeInvitationLinkUseCase: MakeInvitationLinkUseCase,
+) : ViewModel() {
 
     private val _quizCreateState: MutableStateFlow<QuizCreateState> =
         MutableStateFlow(QuizCreateState.CREATE)
@@ -26,6 +33,12 @@ class QuizCreateSharedViewModel : ViewModel() {
 
     private val _buttonEventState: MutableSharedFlow<QuizCreateState> = MutableSharedFlow()
     val buttonEventState = _buttonEventState.asSharedFlow()
+
+    private val _quizId: MutableStateFlow<Int> = MutableStateFlow(0)
+    val quizId = _quizId.asStateFlow()
+
+    private val _quizLink: MutableSharedFlow<Uri> = MutableSharedFlow()
+    val quizLink = _quizLink.asSharedFlow()
 
     fun setQuizCreateState(state: QuizCreateState) {
         _quizCreateState.value = state
@@ -38,6 +51,18 @@ class QuizCreateSharedViewModel : ViewModel() {
     fun setButtonEventState(state: QuizCreateState) {
         viewModelScope.launch {
             _buttonEventState.emit(state)
+        }
+    }
+
+    fun setQuizId(quizId: Int) {
+        _quizId.value = quizId
+    }
+
+    fun makeQuizLink() {
+        viewModelScope.launch {
+            makeInvitationLinkUseCase(quizId.value).collect {
+                _quizLink.emit(it)
+            }
         }
     }
 

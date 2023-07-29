@@ -8,6 +8,8 @@
 package team.ommaya.wequiz.android.domain.repository
 
 import android.app.Activity
+import android.net.Uri
+import kotlinx.coroutines.flow.Flow
 import team.ommaya.wequiz.android.domain.AuthCallbacksListener
 
 interface FirebaseRepository {
@@ -18,4 +20,6 @@ interface FirebaseRepository {
     suspend fun resendVerifyCode(activity: Activity)
 
     fun verifyPhoneNumberWithCode(verifyCode: String)
+
+    fun makeInvitationLink(quizId: Int): Flow<Uri>
 }

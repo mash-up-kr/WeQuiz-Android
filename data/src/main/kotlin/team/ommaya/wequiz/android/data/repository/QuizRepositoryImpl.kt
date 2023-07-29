@@ -60,10 +60,10 @@ class QuizRepositoryImpl @Inject constructor(
                     )
                 }
                 .body<QuizCreateResponse>()
-        if (response.code != "200") {
-            throw Exception("code: ${response.code} messgae: ${response.message}")
-        } else {
+        if (response.code == "SUCCESS") {
             return response.data.quizId
+        } else {
+            throw Exception("code: ${response.code} messgae: ${response.message}")
         }
     }
 

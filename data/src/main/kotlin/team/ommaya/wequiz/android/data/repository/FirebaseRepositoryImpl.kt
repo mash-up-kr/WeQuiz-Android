@@ -8,6 +8,7 @@
 package team.ommaya.wequiz.android.data.repository
 
 import android.app.Activity
+import android.net.Uri
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -17,6 +18,13 @@ import com.google.firebase.auth.FirebaseAuthMissingActivityForRecaptchaException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.google.firebase.dynamiclinks.ShortDynamicLink
+import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
 import team.ommaya.wequiz.android.domain.AuthCallbacksListener
 import team.ommaya.wequiz.android.domain.repository.FirebaseRepository
 import java.util.concurrent.TimeUnit
@@ -24,6 +32,7 @@ import javax.inject.Inject
 
 class FirebaseRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
+    private val dynamicLinks: FirebaseDynamicLinks,
 ) : FirebaseRepository {
     private lateinit var verificationID: String
     private lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
@@ -90,6 +99,21 @@ class FirebaseRepositoryImpl @Inject constructor(
     override fun verifyPhoneNumberWithCode(verifyCode: String) {
         signInWithPhoneAuthCredential(PhoneAuthProvider.getCredential(verificationID, verifyCode))
     }
+
+    override fun makeInvitationLink(quizId: Int) = callbackFlow {
+        val invitationLink =
+            "https://wequiz.page.link/?link=https://wequiz.page.link?quizId=$quizId&apn=team.ommaya.wequiz.android&isi=6453208230&ibi=wequiz.ios.Main"
+        dynamicLinks.shortLinkAsync(ShortDynamicLink.Suffix.UNGUESSABLE) {
+            link = Uri.parse(invitationLink)
+            domainUriPrefix = "https://wequiz.page.link"
+        }.addOnSuccessListener { shortDynamicLink ->
+            val shortLinkUri = shortDynamicLink.shortLink
+            trySend(shortLinkUri ?: Uri.EMPTY)
+        }.addOnFailureListener {
+            trySend(Uri.EMPTY)
+        }
+        awaitClose()
+    }.flowOn(Dispatchers.IO)
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         auth.signInWithCredential(credential).addOnCompleteListener { task ->

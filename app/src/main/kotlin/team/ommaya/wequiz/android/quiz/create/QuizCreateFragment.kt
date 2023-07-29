@@ -145,6 +145,7 @@ class QuizCreateFragment :
                         createState.collect { state ->
                             when (state) {
                                 QuizCreateViewModel.CreateState.SUCCESS -> {
+                                    quizSharedViewModel.setQuizId(quizCreateViewModel.quizId.value)
                                     findNavController().navigate(R.id.quizCreateFinishFragment)
                                 }
                                 QuizCreateViewModel.CreateState.FAILED -> {
