@@ -7,13 +7,8 @@
 
 package team.ommaya.wequiz.android.domain.repository
 
-import team.ommaya.wequiz.android.domain.model.rank.Rank
+import team.ommaya.wequiz.android.domain.model.statistic.QuizStatistic
 
-interface RankRepository {
-    suspend fun getQuizRank(
-        token: String,
-        size: Int,
-        cursorScore: Int?,
-        cursorUserld: Int?,
-    ): Rank
+interface StatisticRepository {
+    suspend fun getQuizStatistic(token: String, quizId: Int): QuizStatistic
 }

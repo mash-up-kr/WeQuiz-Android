@@ -55,6 +55,7 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
@@ -102,8 +103,7 @@ enum class QuizDetailViewMode {
 data class AnswerDetailData(
     val index: Int,
     val content: String,
-    val chosenCount: Int,
-    val totalExamineeCount: Int,
+    val selectivity: Float,
 ) {
     init {
         require(index in 0..4) { "답변의 index($index)는 0..4 여야 합니다." }
@@ -121,7 +121,7 @@ data class AnswerDetailData(
         }
 
     @Stable
-    val chosenPercent = 100 * chosenCount / totalExamineeCount
+    val chosenPercent = 100 * selectivity
 
     @Stable
     val overlayColorForBackgroundColor =
@@ -653,7 +653,7 @@ private fun QuizAnswerResult(
             coroutineScope.launch {
                 backgroundWidthAnimatable
                     .animateTo(
-                        targetValue = width * answerData.chosenCount / answerData.totalExamineeCount,
+                        targetValue = width * answerData.selectivity.roundToInt(),
                         animationSpec = QuizAnwserResultBackgroundOffsetTween,
                     )
             }

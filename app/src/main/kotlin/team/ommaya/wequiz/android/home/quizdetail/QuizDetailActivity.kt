@@ -22,32 +22,50 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.SnapFlingBehavior
 import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastFirstOrNull
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.data.client.TmpToken
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
-import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizDetailUseCase
+import team.ommaya.wequiz.android.domain.model.statistic.QuizStatistic
+import team.ommaya.wequiz.android.domain.usecase.statistic.GetQuizStatisticUseCase
+import team.ommaya.wequiz.android.utils.applyIf
 import team.ommaya.wequiz.android.utils.asLoose
 import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.get
 import team.ommaya.wequiz.android.utils.noRippleClickable
 import team.ommaya.wequiz.android.utils.toast
 import javax.inject.Inject
+import kotlin.math.abs
 
 private const val LeadingBackIconLayoutId = "LeadingBackIconLayout"
 private const val TrailingShareIconLayoutId = "TrailingShareIconLayout"
@@ -56,10 +74,15 @@ private const val TrailingDeleteIconLayoutId = "TrailingDeleteIconLayout"
 @AndroidEntryPoint
 class QuizDetailActivity : ComponentActivity() {
     @Inject
-    lateinit var getQuizDetailUseCase: GetQuizDetailUseCase
+    lateinit var getQuizStatisticUseCase: GetQuizStatisticUseCase
 
     private val token by lazy { intent?.getStringExtra("token") ?: TmpToken }
-    private val quizId by lazy { intent?.getIntExtra("quizId", 0) }
+    private val quizId by lazy {
+        (intent?.getIntExtra("quizId", Int.MIN_VALUE) ?: Int.MIN_VALUE)
+            .also { value ->
+                if (value == Int.MIN_VALUE) error("No quizId!")
+            }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +109,17 @@ class QuizDetailActivity : ComponentActivity() {
                     snapAnimationSpec = flingAnimationSpec,
                     shortSnapVelocityThreshold = 400.dp,
                 )
+
+            var quizStatistic by remember { mutableStateOf<QuizStatistic?>(null) }
+
+            LaunchedEffect(token, quizId) {
+                quizStatistic =
+                    getQuizStatisticUseCase(token = token, quizId = quizId)
+                        .getOrElse { exception ->
+                            toast(exception.toString())
+                            quizStatistic
+                        }
+            }
 
             Column(
                 modifier = Modifier
@@ -161,54 +195,74 @@ class QuizDetailActivity : ComponentActivity() {
                         )
                     }
                 }
-                /*LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    state = lazyState,
-                    contentPadding = PaddingValues(20.dp),
-                    verticalArrangement = Arrangement.spacedBy(30.dp),
-                    flingBehavior = flingBehavior,
-                ) {
-                    itemsIndexed(
-                        items = DummyAnswerDetailDatas,
-                        key = { _, item -> item.hashCode() },
-                    ) { index, answer ->
-                        var itemOffset by remember { mutableFloatStateOf(0f) }
 
-                        LaunchedEffect(lazyState) {
-                            with(lazyState) {
-                                snapshotFlow { firstVisibleItemScrollOffset }.collect { firstVisibleItemScrollOffset ->
-                                    if (firstVisibleItemIndex == index) {
-                                        val firstVisibleSize = 0
-                                            .plus(layoutInfo.visibleItemsInfo.fastFirstOrNull { it.index == index }!!.size)
-                                            .plus(layoutInfo.beforeContentPadding)
-                                        val scrollOffset =
-                                            abs(firstVisibleItemScrollOffset).toFloat()
-                                        val scrollPercent =
-                                            (scrollOffset / firstVisibleSize).coerceIn(0f, 1f)
+                @Suppress("NAME_SHADOWING")
+                val quizStatistic = quizStatistic
 
-                                        itemOffset = scrollPercent
+                if (quizStatistic != null) {
+                    val questionSize = remember(quizStatistic) { quizStatistic.questions.size }
+
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        state = lazyState,
+                        contentPadding = PaddingValues(20.dp),
+                        verticalArrangement = Arrangement.spacedBy(30.dp),
+                        flingBehavior = flingBehavior,
+                    ) {
+                        itemsIndexed(
+                            items = quizStatistic.questions,
+                            key = { _, item -> item.hashCode() },
+                        ) { index, question ->
+                            var itemOffset by remember { mutableFloatStateOf(0f) }
+
+                            LaunchedEffect(lazyState) {
+                                with(lazyState) {
+                                    snapshotFlow { firstVisibleItemScrollOffset }.collect { firstVisibleItemScrollOffset ->
+                                        if (firstVisibleItemIndex == index) {
+                                            val firstVisibleSize = 0
+                                                .plus(layoutInfo.visibleItemsInfo.fastFirstOrNull { it.index == index }!!.size)
+                                                .plus(layoutInfo.beforeContentPadding)
+                                            val scrollOffset =
+                                                abs(firstVisibleItemScrollOffset).toFloat()
+                                            val scrollPercent =
+                                                (scrollOffset / firstVisibleSize).coerceIn(0f, 1f)
+
+                                            itemOffset = scrollPercent
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        DummyQuizDetail(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .applyIf(index != DummyAnswerDetailDataSize - 1) {
-                                    graphicsLayer {
-                                        val polishItemOffset = itemOffset * 0.2f
-                                        translationY = itemOffset * size.height
-                                        scaleX = 1 - polishItemOffset
-                                        scaleY = 1 - polishItemOffset
-                                    }
+                            QuizDetail(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .applyIf(index != questionSize - 1) {
+                                        graphicsLayer {
+                                            val polishItemOffset = itemOffset * 0.2f
+                                            translationY = itemOffset * size.height
+                                            scaleX = 1 - polishItemOffset
+                                            scaleY = 1 - polishItemOffset
+                                        }
+                                    },
+                                index = index,
+                                totalQuizIndex = questionSize,
+                                title = question.questionTitle,
+                                answerDatas = remember(question.options) {
+                                    question
+                                        .options
+                                        .mapIndexed { index, option ->
+                                            AnswerDetailData(
+                                                index = index,
+                                                content = option.content,
+                                                selectivity = option.selectivity,
+                                            )
+                                        }
+                                        .toImmutableList()
                                 },
-                            index = index,
-                            title = "${index}번 시험지!",
-                            answerDatas = answer,
-                        )
+                            )
+                        }
                     }
-                }*/
+                }
             }
         }
     }
@@ -242,10 +296,11 @@ private fun rememberFullyCustomizedSnapFlingBehavior(
     }
 }
 
-/*@Composable
-private fun DummyQuizDetail(
+@Composable
+private fun QuizDetail(
     modifier: Modifier = Modifier,
     index: Int,
+    totalQuizIndex: Int,
     title: String,
     answerDatas: ImmutableList<AnswerDetailData>,
 ) {
@@ -258,8 +313,8 @@ private fun DummyQuizDetail(
         title = title,
         answerDatas = answerDatas,
         quizIndex = index,
-        totalQuizIndex = DummyAnswerDetailDataSize,
+        totalQuizIndex = totalQuizIndex,
         viewMode = viewMode,
         onViewModeToggleClick = { viewMode = !viewMode },
     )
-}*/
+}

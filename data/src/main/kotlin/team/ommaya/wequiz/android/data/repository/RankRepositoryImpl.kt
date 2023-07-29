@@ -24,14 +24,16 @@ class RankRepositoryImpl @Inject constructor(
     override suspend fun getQuizRank(
         token: String,
         size: Int,
-        quizAnswerCursorId: Int?,
+        cursorScore: Int?,
+        cursorUserld: Int?,
     ): Rank {
         val response =
             client
                 .get("ranking/my-quiz") {
                     header("x-wequiz-token", token)
                     parameter("size", size)
-                    parameter("quizAnswerCursorId", quizAnswerCursorId)
+                    parameter("cursorScore", cursorScore)
+                    parameter("cursorUserld", cursorUserld)
                 }
                 .body<RankResponse>()
         return response.toDomain()
