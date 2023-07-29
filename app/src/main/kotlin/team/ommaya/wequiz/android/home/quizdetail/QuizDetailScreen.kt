@@ -6,6 +6,7 @@
  */
 
 @file:Suppress("ktlint", "PrivatePropertyName", "ConstPropertyName", "AnimateAsStateLabel")
+@file:OptIn(ExperimentalTextApi::class)
 
 package team.ommaya.wequiz.android.home.quizdetail
 
@@ -55,6 +56,7 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
