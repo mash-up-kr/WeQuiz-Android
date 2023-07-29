@@ -7,20 +7,20 @@
 
 package team.ommaya.wequiz.android.domain.usecase.quiz
 
-import team.ommaya.wequiz.android.domain.repository.RankRepository
+import team.ommaya.wequiz.android.domain.repository.QuizRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetMyQuizRankUseCase @Inject constructor(
-    private val repository: RankRepository,
+class GetQuizListUseCase @Inject constructor(
+    private val repository: QuizRepository,
 ) {
     suspend operator fun invoke(
         token: String,
-        size: Int,
-        quizAnswerCursorId: Int? = null,
+        size: Int = 15,
+        cursor: Int? = null,
     ) =
         runCatching {
-            repository.getMyQuizRank(token, size, quizAnswerCursorId)
+            repository.getQuizList(token, size, cursor)
         }
 }

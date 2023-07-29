@@ -5,6 +5,8 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
+@file:Suppress("AnimateAsStateLabel", "ConstPropertyName", "PrivatePropertyName")
+
 package team.ommaya.wequiz.android.home.quizlist
 
 import androidx.compose.animation.animateContentSize
@@ -15,6 +17,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -62,7 +65,7 @@ fun QuizList(
     quizs: PersistentList<QuizNameAndIsWritingPair>,
     deleteModeEnable: Boolean = false,
     onDeleteIconClick: (index: Int) -> Unit = {},
-    onQuizClick: () -> Unit = {},
+    onQuizClick: (index: Int) -> Unit = {},
 ) {
     val density = LocalDensity.current
     val roundedCornerShape4 = remember { RoundedCornerShape(4.dp) }
@@ -86,7 +89,7 @@ fun QuizList(
 
     LazyColumn(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .then(modifier),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
@@ -127,7 +130,7 @@ fun QuizList(
                                 color = WeQuizColor.G8.value,
                                 shape = roundedCornerShape16,
                             )
-                            .clickable(onClick = onQuizClick),
+                            .clickable { onQuizClick(index) },
                     )
                     BasicText(
                         modifier = Modifier.layoutId(QuizListNameLayoutId),

@@ -10,7 +10,7 @@ package team.ommaya.wequiz.android.domain.repository
 import team.ommaya.wequiz.android.domain.model.rank.Rank
 
 interface RankRepository {
-    suspend fun getMyQuizRank(
+    suspend fun getQuizRank(
         token: String,
         size: Int,
         quizAnswerCursorId: Int?,

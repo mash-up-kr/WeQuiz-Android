@@ -6,6 +6,7 @@
  */
 
 @file:OptIn(ExperimentalFoundationApi::class)
+@file:Suppress("ConstPropertyName")
 
 package team.ommaya.wequiz.android.home.quizdetail
 
@@ -21,51 +22,45 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.SnapFlingBehavior
 import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastFirstOrNull
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
+import dagger.hilt.android.AndroidEntryPoint
 import team.ommaya.wequiz.android.R
+import team.ommaya.wequiz.android.data.client.TmpToken
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
-import team.ommaya.wequiz.android.utils.applyIf
+import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizDetailUseCase
 import team.ommaya.wequiz.android.utils.asLoose
 import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.get
 import team.ommaya.wequiz.android.utils.noRippleClickable
-import kotlin.math.abs
-import kotlin.random.Random
+import team.ommaya.wequiz.android.utils.toast
+import javax.inject.Inject
 
 private const val LeadingBackIconLayoutId = "LeadingBackIconLayout"
 private const val TrailingShareIconLayoutId = "TrailingShareIconLayout"
 private const val TrailingDeleteIconLayoutId = "TrailingDeleteIconLayout"
 
+@AndroidEntryPoint
 class QuizDetailActivity : ComponentActivity() {
+    @Inject
+    lateinit var getQuizDetailUseCase: GetQuizDetailUseCase
+
+    private val token by lazy { intent?.getStringExtra("token") ?: TmpToken }
+    private val quizId by lazy { intent?.getIntExtra("quizId", 0) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -118,7 +113,7 @@ class QuizDetailActivity : ComponentActivity() {
                                     drawableId = R.drawable.ic_round_share_24,
                                     colorFilter = WeQuizColor.G2.toRememberColorFilterOrNull(),
                                 )
-                                .noRippleClickable { /* TODO */ },
+                                .noRippleClickable { toast("준비중...") },
                         )
                         Box(
                             Modifier
@@ -166,7 +161,7 @@ class QuizDetailActivity : ComponentActivity() {
                         )
                     }
                 }
-                LazyColumn(
+                /*LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     state = lazyState,
                     contentPadding = PaddingValues(20.dp),
@@ -213,7 +208,7 @@ class QuizDetailActivity : ComponentActivity() {
                             answerDatas = answer,
                         )
                     }
-                }
+                }*/
             }
         }
     }
@@ -247,24 +242,7 @@ private fun rememberFullyCustomizedSnapFlingBehavior(
     }
 }
 
-private const val DummyAnswerDetailDataSize = 10
-private val DummyAnswerDetailDatas =
-    List(DummyAnswerDetailDataSize) {
-        List(5) { index ->
-            AnswerDetailData(
-                index = index,
-                content = "문제 답변\n - $index",
-                chosenCount = when (index) {
-                    0 -> 5
-                    1 -> 48
-                    else -> Random.nextInt(if (index == 2) 25 else 0, 55)
-                },
-                totalExamineeCount = 54,
-            )
-        }.toImmutableList()
-    }
-
-@Composable
+/*@Composable
 private fun DummyQuizDetail(
     modifier: Modifier = Modifier,
     index: Int,
@@ -284,4 +262,4 @@ private fun DummyQuizDetail(
         viewMode = viewMode,
         onViewModeToggleClick = { viewMode = !viewMode },
     )
-}
+}*/

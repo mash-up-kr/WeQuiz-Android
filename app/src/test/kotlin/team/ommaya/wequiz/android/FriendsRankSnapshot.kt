@@ -23,7 +23,7 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.dummy.DummyFriendsRanking
-import team.ommaya.wequiz.android.home.friends.FriendsRankScreen
+import team.ommaya.wequiz.android.home.friends.FriendsRank
 import team.ommaya.wequiz.android.rule.SnapshotPathGeneratorRule
 
 @Config(qualifiers = RobolectricDeviceQualifiers.Pixel7Pro)
@@ -35,7 +35,7 @@ class FriendsRankSnapshot {
     @Test
     fun Full() {
         captureRoboImage(snapshotPath()) {
-            FriendsRankScreen(
+            FriendsRank(
                 modifier = Modifier
                     .background(color = WeQuizColor.G9.value)
                     .padding(20.dp)

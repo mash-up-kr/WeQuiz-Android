@@ -22,7 +22,7 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import team.ommaya.wequiz.android.dummy.DummyQuizs
 import team.ommaya.wequiz.android.dummy.DummyFriendsRanking
-import team.ommaya.wequiz.android.home.main.HomeMainScreen
+import team.ommaya.wequiz.android.home.main.HomeMain
 import team.ommaya.wequiz.android.rule.SnapshotPathGeneratorRule
 
 @Config(qualifiers = RobolectricDeviceQualifiers.Pixel7Pro)
@@ -41,7 +41,7 @@ class HomeMainScreenSnapshot {
     @Test
     fun Empty() {
         captureRoboImage(snapshotPath()) {
-            HomeMainScreen(
+            HomeMain(
                 nickname = "닉네임",
                 profileMessage = "",
                 profileImageSrc = DummyProfileImage,
@@ -54,7 +54,7 @@ class HomeMainScreenSnapshot {
     @Test
     fun OnlyQuiz() {
         captureRoboImage(snapshotPath()) {
-            HomeMainScreen(
+            HomeMain(
                 nickname = "닉네임",
                 profileMessage = "프로필 메시지",
                 profileImageSrc = DummyProfileImage,
@@ -67,7 +67,7 @@ class HomeMainScreenSnapshot {
     @Test
     fun FriendsRankingAndQuiz() {
         captureRoboImage(snapshotPath()) {
-            HomeMainScreen(
+            HomeMain(
                 nickname = "닉네임",
                 profileMessage = "프로필 메시지\n프로필 메시지",
                 profileImageSrc = DummyProfileImage,
