@@ -50,7 +50,7 @@ internal fun QuizListResponse.toDomain() =
                     title = requireNotNull(quizItem.title),
                 )
             },
-        nextCursor = requireNotNull(nextCursor),
+        nextCursor = nextCursor,
     )
 
 internal fun QuizDetailResponse.toDomain() =

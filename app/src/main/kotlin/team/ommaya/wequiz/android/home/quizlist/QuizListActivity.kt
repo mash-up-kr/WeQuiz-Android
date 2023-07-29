@@ -46,8 +46,6 @@ import team.ommaya.wequiz.android.domain.model.quiz.Quiz
 import team.ommaya.wequiz.android.domain.usecase.quiz.DeleteQuizUseCase
 import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizListUseCase
 import team.ommaya.wequiz.android.home.common.QuizDeleteConfirmDialog
-import team.ommaya.wequiz.android.home.common.QuizDeleteExtraKey
-import team.ommaya.wequiz.android.home.common.QuizDeleteResultCode
 import team.ommaya.wequiz.android.home.quizdetail.QuizDetailActivity
 import team.ommaya.wequiz.android.utils.asLoose
 import team.ommaya.wequiz.android.utils.fitPaint
@@ -71,8 +69,6 @@ class QuizListActivity : ComponentActivity() {
     lateinit var deleteQuizUseCase: DeleteQuizUseCase
 
     private val token by lazy { intent?.getStringExtra("token") ?: TmpToken }
-
-    private val deleteQuizIds = arrayListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,7 +115,6 @@ class QuizListActivity : ComponentActivity() {
                                 quizId = quizId,
                             )
                         if (result.isSuccess) {
-                            deleteQuizIds += quizId
                             quizList = quizList?.removeAt(index)
                             toast("문제를 삭제했어요.")
                         } else {
@@ -255,13 +250,5 @@ class QuizListActivity : ComponentActivity() {
                 }
             }
         }
-    }
-
-    override fun finish() {
-        setResult(
-            QuizDeleteResultCode,
-            Intent().putIntegerArrayListExtra(QuizDeleteExtraKey, deleteQuizIds),
-        )
-        super.finish()
     }
 }

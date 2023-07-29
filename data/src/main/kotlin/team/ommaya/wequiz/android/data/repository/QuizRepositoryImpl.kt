@@ -20,8 +20,8 @@ import team.ommaya.wequiz.android.data.mapper.toDomain
 import team.ommaya.wequiz.android.data.mapper.toQuestionDtoList
 import team.ommaya.wequiz.android.data.model.quiz.QuizCreateRequest
 import team.ommaya.wequiz.android.data.model.quiz.QuizCreateResponse
-import team.ommaya.wequiz.android.data.model.quiz.QuizDetailResponse
-import team.ommaya.wequiz.android.data.model.quiz.QuizListResponse
+import team.ommaya.wequiz.android.data.model.quiz.QuizDetailFormattedResponse
+import team.ommaya.wequiz.android.data.model.quiz.QuizListFormattedResponse
 import team.ommaya.wequiz.android.domain.model.quiz.Question
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetail
 import team.ommaya.wequiz.android.domain.model.quiz.QuizList
@@ -43,8 +43,8 @@ class QuizRepositoryImpl @Inject constructor(
                     parameter("size", size)
                     parameter("cursor", cursor)
                 }
-                .body<QuizListResponse>()
-        return response.toDomain()
+                .body<QuizListFormattedResponse>()
+        return requireNotNull(response.data).toDomain()
     }
 
     override suspend fun postQuiz(title: String, questions: List<Question>): Int {
@@ -69,8 +69,8 @@ class QuizRepositoryImpl @Inject constructor(
                 .get("quiz/$quizId") {
                     header("x-wequiz-token", TmpToken)
                 }
-                .body<QuizDetailResponse>()
-        return response.toDomain()
+                .body<QuizDetailFormattedResponse>()
+        return requireNotNull(response.data).toDomain()
     }
 
     override suspend fun deleteQuiz(token: String, quizId: Int) {

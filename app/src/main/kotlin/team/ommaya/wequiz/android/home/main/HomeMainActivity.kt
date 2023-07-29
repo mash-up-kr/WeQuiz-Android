@@ -23,8 +23,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
@@ -34,8 +36,6 @@ import team.ommaya.wequiz.android.domain.model.user.UserInformation
 import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizListUseCase
 import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizRankUseCase
 import team.ommaya.wequiz.android.domain.usecase.user.GetUserInformationUseCase
-import team.ommaya.wequiz.android.home.common.QuizDeleteExtraKey
-import team.ommaya.wequiz.android.home.common.QuizDeleteResultCode
 import team.ommaya.wequiz.android.home.friends.FriendsRankActivity
 import team.ommaya.wequiz.android.home.quizdetail.QuizDetailActivity
 import team.ommaya.wequiz.android.home.quizlist.QuizListActivity
@@ -56,45 +56,24 @@ class HomeMainActivity : ComponentActivity() {
     lateinit var getQuizListUseCase: GetQuizListUseCase
 
     private var quizList by mutableStateOf<QuizList?>(null)
+    private var user by mutableStateOf<UserInformation?>(null)
+    private var quizRank by mutableStateOf<Rank?>(null)
 
     private val token =
         "AIE-54W-amwtn2V03BQXn5ibwu3my68KXVAL4b7wQMa7gIDLV_QGwcQji_5lQ30sV20L5igMhn4Daig6w4JhTPOF_rQ_c-CF5rojgpVw8EVKnNgJF2ePgAt4bRJ86Mvml51yWvWl2wcTX30StvIeSomDhlhUx2jcMw"
 
+    override fun onRestart() {
+        super.onRestart()
+        lifecycleScope.launch {
+            loadResources()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var user by remember { mutableStateOf<UserInformation?>(null) }
-            var quizRank by remember { mutableStateOf<Rank?>(null) }
-
             LaunchedEffect(token) {
-                launch {
-                    user = getUserInformationUseCase(token)
-                        .getOrElse { exception ->
-                            toast(exception.toString())
-                            exception.printStackTrace()
-                            user
-                        }
-                }
-
-                launch {
-                    quizRank =
-                        getQuizRankUseCase(token, size = 3)
-                            .getOrElse { exception ->
-                                toast(exception.toString())
-                                exception.printStackTrace()
-                                quizRank
-                            }
-                }
-
-                launch {
-                    quizList =
-                        getQuizListUseCase(token, size = 4)
-                            .getOrElse { exception ->
-                                toast(exception.toString())
-                                exception.printStackTrace()
-                                quizList
-                            }
-                }
+                loadResources()
             }
 
             Column(
@@ -108,13 +87,8 @@ class HomeMainActivity : ComponentActivity() {
                         .fitPaint(drawableId = R.drawable.ic_color_logo_banner),
                 )
 
-                @Suppress("NAME_SHADOWING")
                 val user = user
-
-                @Suppress("NAME_SHADOWING")
                 val quizRank = quizRank
-
-                @Suppress("NAME_SHADOWING")
                 val quizList = quizList
 
                 if (user != null) {
@@ -178,24 +152,34 @@ class HomeMainActivity : ComponentActivity() {
         }
     }
 
-    @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == QuizDeleteResultCode) {
-            val deleteQuizIds = data!!.getIntegerArrayListExtra(QuizDeleteExtraKey)!!
-            quizList =
-                quizList
-                    ?.copy(
-                        quiz = quizList
-                            ?.quiz
-                            ?.toMutableList()
-                            ?.apply {
-                                removeIf { quiz ->
-                                    deleteQuizIds.contains(quiz.id)
-                                }
-                            }
-                            .orEmpty(),
-                    )
+    private fun CoroutineScope.loadResources() {
+        launch {
+            user = getUserInformationUseCase(token)
+                .getOrElse { exception ->
+                    toast(exception.toString())
+                    exception.printStackTrace()
+                    user
+                }
         }
-        super.onActivityResult(requestCode, resultCode, data)
+
+        launch {
+            quizRank =
+                getQuizRankUseCase(token, size = 3)
+                    .getOrElse { exception ->
+                        toast(exception.toString())
+                        exception.printStackTrace()
+                        quizRank
+                    }
+        }
+
+        launch {
+            quizList =
+                getQuizListUseCase(token, size = 4)
+                    .getOrElse { exception ->
+                        toast(exception.toString())
+                        exception.printStackTrace()
+                        quizList
+                    }
+        }
     }
 }
