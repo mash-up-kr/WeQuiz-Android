@@ -46,7 +46,6 @@ material = "1.9.0"
 
 google-services = "4.3.15"
 firebase-bom = "32.2.0"
-firebase-auth-ktx = "22.1.0"
 
 [plugins]
 gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.extensions", version.ref = "gradle-dependency-handler-extensions" }
@@ -57,7 +56,7 @@ gradle-android-library = { id = "com.android.library", version.ref = "gradle-and
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-core" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-core" }
 kotlin-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "kotlin-ktlint-gradle" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-plugin-serialization"}
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-plugin-serialization" }
 
 android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "android-hilt" }
 
@@ -120,13 +119,14 @@ test-roborazzi-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-
 test-roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose", version.ref = "test-roborazzi" }
 test-robolectric = { module = "org.robolectric:robolectric", version.ref = "test-robolectric" }
 
-javax-inject = { module = "javax.inject:javax.inject", version.ref = "javax-inject"}
+javax-inject = { module = "javax.inject:javax.inject", version.ref = "javax-inject" }
 
 material = { module = "com.google.android.material:material", version.ref = "material" }
 
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-analytics-ktx = { module = "com.google.firebase:firebase-bom" }
-firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebase-auth-ktx" }
+firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
+firebase-dynamic-links = { module = "com.google.firebase:firebase-dynamic-links-ktx" }
 
 [bundles]
 jackson = ["jackson-databind", "jackson-annotation"]
