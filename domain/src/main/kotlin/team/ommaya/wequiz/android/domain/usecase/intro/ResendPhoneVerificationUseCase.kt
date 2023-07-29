@@ -14,5 +14,8 @@ import javax.inject.Inject
 class ResendPhoneVerificationUseCase @Inject constructor(
     private val firebaseAuthRepository: FirebaseAuthRepository,
 ) {
-    suspend operator fun invoke(activity: Activity) = firebaseAuthRepository.resendVerifyCode(activity)
+    suspend operator fun invoke(activity: Activity) =
+        runCatching {
+            firebaseAuthRepository.resendVerifyCode(activity)
+        }
 }

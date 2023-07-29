@@ -14,5 +14,7 @@ class VerifyCodeUseCase @Inject constructor(
     private val firebaseAuthRepository: FirebaseAuthRepository,
 ) {
     operator fun invoke(verifyCode: String) =
-        firebaseAuthRepository.verifyPhoneNumberWithCode(verifyCode)
+        runCatching {
+            firebaseAuthRepository.verifyPhoneNumberWithCode(verifyCode)
+        }
 }

@@ -28,7 +28,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class IntroViewModel @Inject constructor(
-    private val setAuthCallbacksUseCase: SetAuthCallbacksUseCase,
+    setAuthCallbacksUseCase: SetAuthCallbacksUseCase,
     private val startPhoneVerificationUseCase: StartPhoneVerificationUseCase,
     private val resendPhoneVerificationUseCase: ResendPhoneVerificationUseCase,
     private val verifyCodeUseCase: VerifyCodeUseCase,
@@ -56,6 +56,11 @@ class IntroViewModel @Inject constructor(
 
     init {
         setAuthCallbacksUseCase(this)
+            .onSuccess {
+
+            }.onFailure {
+
+            }
     }
 
     fun setStartMode(mode: IntroMode) {
@@ -84,15 +89,29 @@ class IntroViewModel @Inject constructor(
         _nickname.value = nickname
     }
 
+    fun setPhoneNumber(phoneNumber: String) {
+        _phoneNumber.value = phoneNumber
+    }
+
     fun sendVerifyCode(phoneNumber: String, activity: Activity) {
         viewModelScope.launch {
             startPhoneVerificationUseCase(phoneNumber, activity)
+                .onSuccess {
+                    setPhoneNumber(phoneNumber)
+                }.onFailure {
+
+                }
         }
     }
 
     fun resendVerifyCode(activity: Activity) {
         viewModelScope.launch {
             resendPhoneVerificationUseCase(activity)
+                .onSuccess {
+
+                }.onFailure {
+
+                }
         }
     }
 
