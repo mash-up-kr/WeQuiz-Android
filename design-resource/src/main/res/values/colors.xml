@@ -34,9 +34,15 @@
     <!-- Color -->
     <color name="Disabled">#542F89</color>
     <color name="Alert">#FF5D47</color>
+    <color name="Divider">#242424</color>
 
     <!-- Opacity-->
     <color name="Dimed">#B2121212</color>
     <color name="Black">#E5161616</color>
+
+    <!-- Gradient -->
+    <color name="S1_G_start">#CDF9FF</color>
+    <color name="S1_G_center">#6EEAF2</color>
+    <color name="S1_G_end">#6AF2BB</color>
 
 </resources>

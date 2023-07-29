@@ -55,4 +55,15 @@
     <string name="share_quiz">친구들에게 시험지 공유하기</string>
     <string name="finish_create_quiz">{서비스명} 시험지를\n 완성했어요!</string>
 
+    <!-- 문제 풀기 -->
+    <string name="score_unit">점</string>
+    <string name="result_subtitle">%1$s와 %2$s는</string>
+    <string name="result_title1">옆집보다도 못한 사이</string>
+    <string name="result_title2">그냥 얼굴만 아는 사이</string>
+    <string name="result_title3">거리가 머네요</string>
+    <string name="result_title4">아직 거리가 있는 친구</string>
+    <string name="result_title5">영혼을 공유한 사이</string>
+    <string name="result_sign_up">1분만에 가입해서 친구한테 문제내기 🗯</string>
+    <string name="retry_quiz">다시 풀기</string>
+    <string name="share_result">결과 공유하기</string>
 </resources>
