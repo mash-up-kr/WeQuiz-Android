@@ -130,12 +130,10 @@ class QuizCreateFragment :
                                 },
                             )
                             questionDeleteDialog = WeQuizDialog(dialogContent)
-                            if (questionList.value.size > QuizCreateViewModel.MIN_QUESTION_COUNT) {
-                                questionDeleteDialog.show(
-                                    requireActivity().supportFragmentManager,
-                                    "questionDeleteDialog",
-                                )
-                            }
+                            questionDeleteDialog.show(
+                                requireActivity().supportFragmentManager,
+                                "questionDeleteDialog",
+                            )
                         }
                     }
                     launch {

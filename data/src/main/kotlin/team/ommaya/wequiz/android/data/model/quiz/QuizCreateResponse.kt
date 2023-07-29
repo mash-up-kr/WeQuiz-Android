@@ -8,5 +8,11 @@
 package team.ommaya.wequiz.android.data.model.quiz
 
 data class QuizCreateResponse(
+    val code: String = "",
+    val data: QuizInfo = QuizInfo(),
+    val message: String = "",
+)
+
+data class QuizInfo(
     val quizId: Int = 0,
 )

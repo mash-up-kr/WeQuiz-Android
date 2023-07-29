@@ -21,9 +21,6 @@ class QuizCreateSharedViewModel : ViewModel() {
         MutableStateFlow(QuizCreateState.CREATE)
     val quizCreateState = _quizCreateState.asStateFlow()
 
-    private val _isEditMode: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isEditMode = _isEditMode.asStateFlow()
-
     private val _isQuizMeetRequireMeet: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isQuizMeetRequireMeet = _isQuizMeetRequireMeet.asStateFlow()
 
@@ -32,9 +29,6 @@ class QuizCreateSharedViewModel : ViewModel() {
 
     fun setQuizCreateState(state: QuizCreateState) {
         _quizCreateState.value = state
-    }
-    fun setEditMode() {
-        _isEditMode.value = !isEditMode.value
     }
 
     fun setRequiredState(state: Boolean) {

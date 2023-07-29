@@ -65,6 +65,7 @@ class QuestionViewHolder(
                             rvAnswerList.isVisible = currentItem.isFocus
                             ivMultipleChoice.isVisible = currentItem.isFocus
                             tvMultipleChoice.isVisible = currentItem.isFocus
+                            ivDeleteQuestion.isVisible = currentItem.answerList.size > 3
 
                             val multipleChoiceIconRes = if (currentItem.isMultipleChoice) {
                                 R.drawable.ic_circle_success
@@ -78,15 +79,6 @@ class QuestionViewHolder(
                         }
                         answerAdapter.submitList(viewModel.getAnswerList(position))
                         initListener(item)
-                    }
-                }
-                launch {
-                    quizSharedViewModel.isEditMode.collect { isEditMode ->
-                        with(binding) {
-                            root.isClickable = !isEditMode
-                            etQuizTitle.isEnabled = !isEditMode
-                            ivDeleteQuestion.visibility = if (isEditMode) VISIBLE else GONE
-                        }
                     }
                 }
             }

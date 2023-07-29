@@ -33,28 +33,6 @@
         app:layout_constraintStart_toEndOf="@id/iv_quiz_create_back"
         app:layout_constraintTop_toTopOf="@id/iv_quiz_create_back" />
 
-    <ImageView
-        android:id="@+id/iv_quiz_edit"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="2dp"
-        android:contentDescription="@string/edit_order"
-        android:src="@drawable/ic_edit"
-        app:layout_constraintEnd_toStartOf="@id/tv_quiz_eidt"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_quiz_eidt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:text="@string/edit_order"
-        android:textAppearance="@style/WeQuizTextAppearance.Subtitle2.Bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/quiz_create_nav_host"
         android:name="androidx.navigation.fragment.NavHostFragment"
