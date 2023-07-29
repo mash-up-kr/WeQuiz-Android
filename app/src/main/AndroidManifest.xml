@@ -18,7 +18,7 @@
         tools:ignore="MissingApplicationIcon">
 
         <activity
-            android:name=".home.main.HomeMainActivity"
+            android:name=".MainActivity"
             android:exported="true">
 
             <intent-filter>
@@ -40,6 +40,10 @@
             android:name=".intro.IntroActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".home.main.HomeMainActivity"
+            android:exported="true" />
 
         <activity
             android:name=".home.friends.FriendsRankActivity"
