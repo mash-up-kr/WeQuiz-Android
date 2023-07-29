@@ -10,92 +10,102 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:background="@drawable/bg_g7_radius_16"
-    android:backgroundTint="@color/G8"
-    android:paddingBottom="20dp">
+    android:clipChildren="false">
 
-    <EditText
-        android:id="@+id/et_quiz_title"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cv_quiz_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@null"
-        android:inputType="text"
-        android:hint="@string/enter_question"
-        android:textAppearance="@style/WeQuizTextAppearance.Subtitle2.Medium"
-        android:textColor="@color/G2"
-        android:textColorHint="@color/G4"
-        app:layout_constraintEnd_toStartOf="@id/iv_question_title_delete"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_g7_radius_16"
+        android:backgroundTint="@color/G8"
+        android:paddingBottom="20dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/et_quiz_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="16dp"
+            android:background="@null"
+            android:hint="@string/enter_question"
+            android:inputType="text"
+            android:textAppearance="@style/WeQuizTextAppearance.Subtitle2.Medium"
+            android:textColor="@color/G2"
+            android:textColorHint="@color/G4"
+            app:layout_constraintEnd_toStartOf="@id/iv_question_title_delete"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_question_title_delete"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="@string/cancel"
+            android:src="@drawable/ic_close_white"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_quiz_title" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_answer_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_quiz_title"
+            tools:listitem="@layout/item_quiz_answer" />
+
+        <TextView
+            android:id="@+id/tv_multiple_choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="@string/allow_duplication"
+            android:textAppearance="@style/WeQuizTextAppearance.Base.SemiBold"
+            android:textColor="@color/G2"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_answer_list" />
+
+        <ImageView
+            android:id="@+id/iv_multiple_choice"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="@string/allow_duplication"
+            android:src="@drawable/ic_checkmark"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/tv_multiple_choice"
+            app:layout_constraintEnd_toStartOf="@id/tv_multiple_choice"
+            app:layout_constraintTop_toTopOf="@id/tv_multiple_choice" />
+
+        <View
+            android:id="@+id/v_multiple_choice"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_multiple_choice"
+            app:layout_constraintEnd_toEndOf="@id/tv_multiple_choice"
+            app:layout_constraintStart_toStartOf="@id/iv_multiple_choice"
+            app:layout_constraintTop_toTopOf="@id/tv_multiple_choice" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/iv_delete_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="-4dp"
+        android:layout_marginEnd="-2dp"
         android:contentDescription="@string/delete_question"
         android:src="@drawable/ic_close_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/iv_question_title_delete"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginEnd="20dp"
-        android:contentDescription="@string/cancel"
-        android:src="@drawable/ic_close_white"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/et_quiz_title" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_answer_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_quiz_title"
-        tools:listitem="@layout/item_quiz_answer" />
-
-    <TextView
-        android:id="@+id/tv_multiple_choice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:text="@string/allow_duplication"
-        android:textAppearance="@style/WeQuizTextAppearance.Base.SemiBold"
-        android:textColor="@color/G2"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rv_answer_list" />
-
-    <ImageView
-        android:id="@+id/iv_multiple_choice"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginEnd="6dp"
-        android:contentDescription="@string/allow_duplication"
-        android:src="@drawable/ic_checkmark"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/tv_multiple_choice"
-        app:layout_constraintEnd_toStartOf="@id/tv_multiple_choice"
-        app:layout_constraintTop_toTopOf="@id/tv_multiple_choice" />
-
-    <View
-        android:id="@+id/v_multiple_choice"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/tv_multiple_choice"
-        app:layout_constraintEnd_toEndOf="@id/tv_multiple_choice"
-        app:layout_constraintStart_toStartOf="@id/iv_multiple_choice"
-        app:layout_constraintTop_toTopOf="@id/tv_multiple_choice" />
+        app:layout_constraintEnd_toEndOf="@id/cv_quiz_container"
+        app:layout_constraintTop_toTopOf="@id/cv_quiz_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

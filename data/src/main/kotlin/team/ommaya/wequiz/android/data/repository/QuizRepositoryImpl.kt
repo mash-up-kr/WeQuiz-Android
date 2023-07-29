@@ -60,7 +60,11 @@ class QuizRepositoryImpl @Inject constructor(
                     )
                 }
                 .body<QuizCreateResponse>()
-        return response.quizId
+        if (response.code != "200") {
+            throw Exception("code: ${response.code} messgae: ${response.message}")
+        } else {
+            return response.data.quizId
+        }
     }
 
     override suspend fun getQuizDetail(token: String, quizId: Int): QuizDetail {

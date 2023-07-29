@@ -255,13 +255,8 @@ class QuizCreateViewModel @Inject constructor(
             } else {
                 currentAnswerList.forEachIndexed { index, currentAnswer ->
                     if (currentAnswer.key == currentAnswerList[answerPosition].key) {
-                        if (currentAnswer.isCorrect) {
-                            currentAnswerList[index] =
-                                currentAnswer.copy(isCorrect = false)
-                        } else if (currentAnswerList.filter { it.isCorrect }.size < MAX_ANSWER_CORRECT_COUNT) {
-                            currentAnswerList[index] =
-                                currentAnswer.copy(isCorrect = true)
-                        }
+                        currentAnswerList[index] =
+                            currentAnswer.copy(isCorrect = !currentAnswer.isCorrect)
                     }
                 }
             }
@@ -310,7 +305,6 @@ class QuizCreateViewModel @Inject constructor(
         const val MAX_QUESTION_COUNT = 10
         const val MAX_ANSWER_COUNT = 5
         const val MIN_QUESTION_COUNT = 3
-        const val MAX_ANSWER_CORRECT_COUNT = 2
         const val MIN_ANSWER_COUNT = 2
     }
 }

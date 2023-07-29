@@ -7,6 +7,8 @@
 
 package team.ommaya.wequiz.android.quiz.create
 
+import android.content.Intent
+import android.content.Intent.createChooser
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
@@ -65,12 +67,6 @@ class QuizCreateActivity :
         with(binding) {
             when (state) {
                 QuizCreateSharedViewModel.QuizCreateState.CREATE -> {
-                    ivQuizEdit.setOnClickListener {
-                        quizSharedViewModel.setEditMode()
-                    }
-                    tvQuizEidt.setOnClickListener {
-                        ivQuizEdit.performClick()
-                    }
                     tvQuizCreate.setTextColor(getColor(team.ommaya.wequiz.android.design.resource.R.color.G2))
                     ivQuizCreateBack.setOnClickListener {
                         finish()
@@ -83,18 +79,25 @@ class QuizCreateActivity :
                     }
                 }
                 QuizCreateSharedViewModel.QuizCreateState.DONE -> {
-                    ivQuizEdit.isVisible = false
-                    tvQuizEidt.isVisible = false
-                    tvQuizCreate.setTextColor(getColor(team.ommaya.wequiz.android.design.resource.R.color.G6))
+                    tvQuizCreate.isVisible = false
                     with(btnQuizNext) {
                         isEnabled = true
                         setText(R.string.share_quiz)
                         setOnClickListener {
-                            // TODO 메세지 보내기
+                            startActivity(
+                                Intent(Intent.ACTION_SEND).apply {
+                                    setType("text/html")
+                                    putExtra(
+                                        Intent.EXTRA_TEXT,
+                                        "친구가 만든 찐친고사에 도전해보세요!\n\n크크루삥뽕",
+                                    )
+                                    createChooser(intent, "친구가 만든 찐친고사에 도전해보세요!")
+                                },
+                            )
                         }
                     }
                     ivQuizCreateBack.setOnClickListener {
-                        // TODO 전체 flow pop일지 뒤로갈지 의논 필요
+                        finish()
                         navController.popBackStack()
                     }
                 }
