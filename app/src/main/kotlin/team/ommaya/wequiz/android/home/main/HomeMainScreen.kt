@@ -54,6 +54,9 @@ fun HomeMain(
     friendsRanking: ImmutableList<NicknameUuidScoreTriple>,
     quizs: ImmutableList<QuizNameAndIsWritingPair>,
     onQuizCreateClick: () -> Unit = {},
+    onFriendRankingSectionClick: () -> Unit = {},
+    onMyQuizSectionClick: () -> Unit = {},
+    onQuizClick: (index: Int) -> Unit = {},
 ) {
     val roundedCornerShape16 = remember { RoundedCornerShape(16.dp) }
 
@@ -130,7 +133,7 @@ fun HomeMain(
                     .padding(top = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
-                SectionTitle(title = "친구 랭킹")
+                SectionTitle(title = "친구 랭킹", onRightArrowClick = onFriendRankingSectionClick)
                 FriendsRank(
                     friendsRanking = remember(friendsRanking) {
                         friendsRanking.take(3).toImmutableList()
@@ -144,7 +147,7 @@ fun HomeMain(
                 .padding(top = if (friendsRanking.isEmpty()) 20.dp else 26.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
-            SectionTitle(title = "내가 낸 문제지")
+            SectionTitle(title = "내가 낸 문제지", onRightArrowClick = onMyQuizSectionClick)
             if (quizs.isEmpty()) {
                 CreateQuizIsEmpty(
                     modifier = Modifier
@@ -153,9 +156,8 @@ fun HomeMain(
                 )
             } else {
                 QuizList(
-                    quizs = remember(quizs) {
-                        quizs.take(4).toImmutableList()
-                    }.toPersistentList(),
+                    quizs = remember(quizs) { quizs.take(4).toPersistentList() },
+                    onQuizClick = onQuizClick,
                 )
             }
         }

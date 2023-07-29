@@ -10,6 +10,7 @@
 
 package team.ommaya.wequiz.android.home.quizdetail
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -62,6 +63,8 @@ import team.ommaya.wequiz.android.domain.model.statistic.QuizStatistic
 import team.ommaya.wequiz.android.domain.usecase.quiz.DeleteQuizUseCase
 import team.ommaya.wequiz.android.domain.usecase.statistic.GetQuizStatisticUseCase
 import team.ommaya.wequiz.android.home.common.QuizDeleteConfirmDialog
+import team.ommaya.wequiz.android.home.common.QuizDeleteExtraKey
+import team.ommaya.wequiz.android.home.common.QuizDeleteResultCode
 import team.ommaya.wequiz.android.utils.applyIf
 import team.ommaya.wequiz.android.utils.asLoose
 import team.ommaya.wequiz.android.utils.fitPaint
@@ -145,6 +148,14 @@ class QuizDetailActivity : ComponentActivity() {
                                 quizId = quizId,
                             )
                         if (result.isSuccess) {
+                            setResult(
+                                QuizDeleteResultCode,
+                                Intent()
+                                    .putIntegerArrayListExtra(
+                                        QuizDeleteExtraKey,
+                                        arrayListOf(quizId)
+                                    ),
+                            )
                             finish()
                             toast("문제를 삭제했어요.")
                         } else {
@@ -222,7 +233,7 @@ class QuizDetailActivity : ComponentActivity() {
                             ),
                         )
                         share.place(
-                            x = deletePlacementX - 28.dp.roundToPx(),
+                            x = deletePlacementX - 28.dp.roundToPx() - share.width,
                             y = Alignment.CenterVertically.align(
                                 size = share.height,
                                 space = height,

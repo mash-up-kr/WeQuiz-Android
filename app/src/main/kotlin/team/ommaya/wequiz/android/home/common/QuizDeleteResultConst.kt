@@ -5,9 +5,7 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-package team.ommaya.wequiz.android.domain.model.rank
+package team.ommaya.wequiz.android.home.common
 
-data class RankingsItem(
-    val userInfo: UserSimpleInformation,
-    val score: Int,
-)
+const val QuizDeleteResultCode = 8143
+const val QuizDeleteExtraKey = "quiz-delete-extras"

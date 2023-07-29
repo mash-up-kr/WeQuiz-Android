@@ -55,7 +55,6 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
@@ -121,7 +120,7 @@ data class AnswerDetailData(
         }
 
     @Stable
-    val chosenPercent = 100 * selectivity
+    val chosenPercent = selectivity * 100
 
     @Stable
     val overlayColorForBackgroundColor =
@@ -517,7 +516,7 @@ private fun QuizAnswerResult(
     }
 
     val typography = WeQuizTypography.M16.asRememberComposeStyle()
-    val percentText = "${answerData.chosenPercent}%"
+    val percentText = "${answerData.chosenPercent.roundToInt()}%"
 
     val percentMeasureResult =
         remember(textMeasurer, answerData) {
@@ -653,7 +652,7 @@ private fun QuizAnswerResult(
             coroutineScope.launch {
                 backgroundWidthAnimatable
                     .animateTo(
-                        targetValue = width * answerData.selectivity.roundToInt(),
+                        targetValue = (width * (answerData.selectivity * 100).roundToInt()) / 100,
                         animationSpec = QuizAnwserResultBackgroundOffsetTween,
                     )
             }

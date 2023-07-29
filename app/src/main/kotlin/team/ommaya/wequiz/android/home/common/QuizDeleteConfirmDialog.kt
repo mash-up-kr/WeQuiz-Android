@@ -23,10 +23,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizTypography
+import team.ommaya.wequiz.android.utils.asLoose
 
 @Composable
 fun QuizDeleteConfirmDialog(
@@ -44,17 +46,37 @@ fun QuizDeleteConfirmDialog(
                     .background(color = WeQuizColor.G7.value, shape = shape)
                     .padding(horizontal = 12.dp),
             ) {
-                Box(
-                    modifier = Modifier.padding(vertical = 4.dp),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    BasicText(
-                        text = "해당 문제를 삭제할까요?",
-                        style = WeQuizTypography.R16
-                            .change(color = WeQuizColor.G2)
-                            .asRememberComposeStyle(),
-                    )
-                }
+                BasicText(
+                    modifier = Modifier.layout { measurable, constraints ->
+                        val looseConstraints = constraints.asLoose(width = true, height = true)
+                        val placeable = measurable.measure(looseConstraints)
+
+                        val width = constraints.maxWidth
+                        val height = placeable.height + 40.dp.roundToPx() * 2
+
+                        layout(width = width, height = height) {
+                            placeable.place(
+                                x = Alignment
+                                    .CenterHorizontally
+                                    .align(
+                                        size = placeable.width,
+                                        space = width,
+                                        layoutDirection = layoutDirection,
+                                    ),
+                                y = Alignment
+                                    .CenterVertically
+                                    .align(
+                                        size = placeable.height,
+                                        space = height,
+                                    ),
+                            )
+                        }
+                    },
+                    text = "해당 문제를 삭제할까요?",
+                    style = WeQuizTypography.R16
+                        .change(color = WeQuizColor.G2)
+                        .asRememberComposeStyle(),
+                )
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -65,6 +87,7 @@ fun QuizDeleteConfirmDialog(
                         modifier = Modifier
                             .clip(shape)
                             .background(color = WeQuizColor.G6.value, shape = shape)
+                            .clickable(onClick = onDismissRequest)
                             .weight(1f)
                             .padding(vertical = 14.dp),
                         contentAlignment = Alignment.Center,

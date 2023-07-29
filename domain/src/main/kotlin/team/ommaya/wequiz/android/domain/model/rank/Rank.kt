@@ -8,7 +8,8 @@
 package team.ommaya.wequiz.android.domain.model.rank
 
 data class Rank(
-    val cursorQuizAnswerId: Int,
+    val cursorUserId: Int?,
+    val cursorScore: Int?,
     val rankings: List<RankingsItem>,
     val hasNext: Boolean,
 )

@@ -15,7 +15,4 @@ internal data class RankingsItemResponse(
 
     @field:JsonProperty("score")
     val score: Int? = null,
-
-    @field:JsonProperty("quizAnswerId")
-    val quizAnswerId: Int? = null,
 )

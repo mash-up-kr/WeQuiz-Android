@@ -17,7 +17,7 @@
         tools:ignore="MissingApplicationIcon">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".home.main.HomeMainActivity"
             android:exported="true">
 
             <intent-filter>
@@ -32,16 +32,25 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="LockedOrientationActivity" />
 
         <activity
             android:name=".intro.IntroActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize" />
 
-        </activity>
+        <activity
+            android:name=".home.friends.FriendsRankActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".home.quizdetail.QuizDetailActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".home.quizlist.QuizListActivity"
+            android:exported="true" />
 
     </application>
 
