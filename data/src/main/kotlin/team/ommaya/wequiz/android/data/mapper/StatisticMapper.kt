@@ -30,7 +30,7 @@ internal fun QuizStatisticResponse.toDomain() =
                                 content = requireNotNull(option.content),
                                 isCorrect = requireNotNull(option.isCorrect),
                             )
-                        }
+                        },
                 )
             },
         quizTitle = requireNotNull(quizTitle),
