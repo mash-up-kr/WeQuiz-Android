@@ -12,6 +12,7 @@
 
     <application
         android:name=".WeQuizApp"
+        android:icon="@mipmap/ic_launcher"
         android:label="WeQuiz"
         android:theme="@style/Theme.WeQuiz"
         tools:ignore="MissingApplicationIcon">
