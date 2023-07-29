@@ -8,11 +8,11 @@
 package team.ommaya.wequiz.android.domain.usecase.intro
 
 import android.app.Activity
-import team.ommaya.wequiz.android.domain.repository.FirebaseAuthRepository
+import team.ommaya.wequiz.android.domain.repository.FirebaseRepository
 import javax.inject.Inject
 
 class ResendPhoneVerificationUseCase @Inject constructor(
-    private val firebaseAuthRepository: FirebaseAuthRepository,
+    private val firebaseRepository: FirebaseRepository,
 ) {
-    suspend operator fun invoke(activity: Activity) = firebaseAuthRepository.resendVerifyCode(activity)
+    suspend operator fun invoke(activity: Activity) = firebaseRepository.resendVerifyCode(activity)
 }

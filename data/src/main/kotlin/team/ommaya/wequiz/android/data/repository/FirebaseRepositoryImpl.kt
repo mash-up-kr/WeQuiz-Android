@@ -18,13 +18,13 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import team.ommaya.wequiz.android.domain.AuthCallbacksListener
-import team.ommaya.wequiz.android.domain.repository.FirebaseAuthRepository
+import team.ommaya.wequiz.android.domain.repository.FirebaseRepository
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class FirebaseAuthRepositoryImpl @Inject constructor(
+class FirebaseRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
-) : FirebaseAuthRepository {
+) : FirebaseRepository {
     private lateinit var verificationID: String
     private lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
     private lateinit var authCallbacksListener: AuthCallbacksListener

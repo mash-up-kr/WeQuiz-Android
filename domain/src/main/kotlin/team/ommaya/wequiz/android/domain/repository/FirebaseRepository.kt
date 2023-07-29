@@ -10,7 +10,7 @@ package team.ommaya.wequiz.android.domain.repository
 import android.app.Activity
 import team.ommaya.wequiz.android.domain.AuthCallbacksListener
 
-interface FirebaseAuthRepository {
+interface FirebaseRepository {
     fun setFirebaseAuthCallbacksListener(listener: AuthCallbacksListener)
 
     suspend fun startPhoneNumberVerification(phoneNumber: String, activity: Activity)
