@@ -14,10 +14,12 @@ import dagger.hilt.components.SingletonComponent
 import team.ommaya.wequiz.android.data.repository.FirebaseAuthRepositoryImpl
 import team.ommaya.wequiz.android.data.repository.QuizRepositoryImpl
 import team.ommaya.wequiz.android.data.repository.RankRepositoryImpl
+import team.ommaya.wequiz.android.data.repository.StatisticRepositoryImpl
 import team.ommaya.wequiz.android.data.repository.UserRepositoryImpl
 import team.ommaya.wequiz.android.domain.repository.FirebaseAuthRepository
 import team.ommaya.wequiz.android.domain.repository.QuizRepository
 import team.ommaya.wequiz.android.domain.repository.RankRepository
+import team.ommaya.wequiz.android.domain.repository.StatisticRepository
 import team.ommaya.wequiz.android.domain.repository.UserRepository
 import javax.inject.Singleton
 
@@ -35,6 +37,10 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindQuizRepository(impl: QuizRepositoryImpl): QuizRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindStatisticRepository(impl: StatisticRepositoryImpl): StatisticRepository
 
     @Binds
     @Singleton
