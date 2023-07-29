@@ -13,6 +13,7 @@ interface RankRepository {
     suspend fun getQuizRank(
         token: String,
         size: Int,
-        quizAnswerCursorId: Int?,
+        cursorScore: Int?,
+        cursorUserld: Int?,
     ): Rank
 }

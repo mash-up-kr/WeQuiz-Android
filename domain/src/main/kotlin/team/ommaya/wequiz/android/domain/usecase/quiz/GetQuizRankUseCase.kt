@@ -18,9 +18,16 @@ class GetQuizRankUseCase @Inject constructor(
     suspend operator fun invoke(
         token: String,
         size: Int,
-        quizAnswerCursorId: Int? = null,
+        cursorScore: Int? = null,
+        cursorUserld: Int? = null,
     ) =
         runCatching {
-            repository.getQuizRank(token, size, quizAnswerCursorId)
+            repository
+                .getQuizRank(
+                    token = token,
+                    size = size,
+                    cursorScore = cursorScore,
+                    cursorUserld = cursorUserld,
+                )
         }
 }
