@@ -24,7 +24,7 @@ class ResultRankingAdapter :
                 LayoutInflater.from(parent.context),
                 parent,
                 false,
-            )
+            ),
         )
     }
 
