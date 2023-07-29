@@ -1,0 +1,34 @@
+<!--
+  ~ Designed and developed by "옴마야" Team 2023.
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="374dp"
+    android:height="142dp"
+    android:viewportWidth="374"
+    android:viewportHeight="142">
+    <path android:pathData="M0,0h374v142h-374z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:endX="187"
+                android:endY="142"
+                android:startX="187"
+                android:startY="0"
+                android:type="linear">
+                <item
+                    android:color="#00121212"
+                    android:offset="0" />
+                <item
+                    android:color="#CC121212"
+                    android:offset="0.34" />
+                <item
+                    android:color="#FF121212"
+                    android:offset="0.49" />
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>

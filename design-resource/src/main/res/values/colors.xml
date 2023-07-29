@@ -34,6 +34,7 @@
     <!-- Color -->
     <color name="Disabled">#542F89</color>
     <color name="Alert">#FF5D47</color>
+    <color name="Divider">#242424</color>
 
     <!-- Opacity-->
     <color name="Dimed">#B2121212</color>
