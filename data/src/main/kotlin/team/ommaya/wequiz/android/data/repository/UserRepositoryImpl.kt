@@ -14,7 +14,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.header
 import kotlinx.coroutines.flow.first
 import team.ommaya.wequiz.android.data.mapper.toDomain
-import team.ommaya.wequiz.android.data.model.user.UserInformationResponse
+import team.ommaya.wequiz.android.data.model.user.UserInformationFormattedResponse
 import team.ommaya.wequiz.android.data.preference.UserPreference
 import team.ommaya.wequiz.android.domain.model.user.UserInformation
 import team.ommaya.wequiz.android.domain.repository.UserRepository
@@ -32,7 +32,7 @@ class UserRepositoryImpl @Inject constructor(
                 .get("user") {
                     header("x-wequiz-token", token)
                 }
-                .body<UserInformationResponse>()
-        return response.toDomain()
+                .body<UserInformationFormattedResponse>()
+        return requireNotNull(response.data).toDomain()
     }
 }

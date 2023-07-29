@@ -8,7 +8,6 @@
 package team.ommaya.wequiz.android.domain.model.rank
 
 data class RankingsItem(
-    val quizAnswerId: Int,
     val userInfo: UserSimpleInformation,
     val score: Int,
 )

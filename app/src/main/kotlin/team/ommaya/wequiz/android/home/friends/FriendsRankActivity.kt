@@ -108,7 +108,6 @@ class FriendsRankActivity : ComponentActivity() {
                                 }
                                 .toImmutableList()
                         },
-                        onFriendClick = {},
                     )
                 }
             }

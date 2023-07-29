@@ -9,10 +9,13 @@ package team.ommaya.wequiz.android.data.model.rank
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-internal data class RankingsItemResponse(
-    @field:JsonProperty("userInfoDto")
-    val userInfo: UserSimpleInformationResponse? = null,
+internal data class RankFormattedResponse(
+    @field:JsonProperty("code")
+    val code: String? = null,
 
-    @field:JsonProperty("score")
-    val score: Int? = null,
+    @field:JsonProperty("data")
+    val data: RankResponse? = null,
+
+    @field:JsonProperty("message")
+    val message: String? = null,
 )

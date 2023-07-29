@@ -51,6 +51,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastFirstOrNull
+import androidx.compose.ui.zIndex
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -130,6 +131,15 @@ class QuizDetailActivity : ComponentActivity() {
                             toast(exception.toString())
                             quizStatistic
                         }
+            }
+
+            if (deleteIndexState != null) {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .background(color = WeQuizColor.Dimmed.value)
+                        .zIndex(999f),
+                )
             }
 
             QuizDeleteConfirmDialog(
@@ -222,7 +232,7 @@ class QuizDetailActivity : ComponentActivity() {
                             ),
                         )
                         share.place(
-                            x = deletePlacementX - 28.dp.roundToPx(),
+                            x = deletePlacementX - 28.dp.roundToPx() - share.width,
                             y = Alignment.CenterVertically.align(
                                 size = share.height,
                                 space = height,

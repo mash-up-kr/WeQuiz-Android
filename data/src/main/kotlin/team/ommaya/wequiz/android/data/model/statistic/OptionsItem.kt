@@ -9,7 +9,7 @@ package team.ommaya.wequiz.android.data.model.statistic
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class OptionsItem(
+internal data class OptionsItem(
     @field:JsonProperty("selectivity")
     val selectivity: Float? = null,
 

@@ -7,7 +7,7 @@
 
 <resources>
 
-    <style name="Theme.WeQuiz" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.WeQuiz" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- primary color -->
         <item name="colorPrimary">@color/P1</item>
         <item name="colorPrimaryVariant">@color/G9</item>
@@ -16,7 +16,6 @@
         <!-- statusBarColor -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="snackbarStyle">@style/Widget.SnackBar</item>
-
     </style>
 
 </resources>

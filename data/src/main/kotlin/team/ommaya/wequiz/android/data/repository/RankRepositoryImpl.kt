@@ -13,7 +13,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import team.ommaya.wequiz.android.data.mapper.toDomain
-import team.ommaya.wequiz.android.data.model.rank.RankResponse
+import team.ommaya.wequiz.android.data.model.rank.RankFormattedResponse
 import team.ommaya.wequiz.android.domain.model.rank.Rank
 import team.ommaya.wequiz.android.domain.repository.RankRepository
 import javax.inject.Inject
@@ -35,7 +35,7 @@ class RankRepositoryImpl @Inject constructor(
                     parameter("cursorScore", cursorScore)
                     parameter("cursorUserld", cursorUserld)
                 }
-                .body<RankResponse>()
-        return response.toDomain()
+                .body<RankFormattedResponse>()
+        return requireNotNull(response.data).toDomain()
     }
 }

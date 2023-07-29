@@ -12,7 +12,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import team.ommaya.wequiz.android.data.mapper.toDomain
-import team.ommaya.wequiz.android.data.model.statistic.QuizStatisticResponse
+import team.ommaya.wequiz.android.data.model.statistic.QuizStatisticFormattedResponse
 import team.ommaya.wequiz.android.domain.model.statistic.QuizStatistic
 import team.ommaya.wequiz.android.domain.repository.StatisticRepository
 import javax.inject.Inject
@@ -26,7 +26,7 @@ class StatisticRepositoryImpl @Inject constructor(
                 .get("statistic/quiz/$quizId") {
                     header("x-wequiz-token", token)
                 }
-                .body<QuizStatisticResponse>()
-        return response.toDomain()
+                .body<QuizStatisticFormattedResponse>()
+        return requireNotNull(response.data).toDomain()
     }
 }
