@@ -122,7 +122,7 @@ class HomeMainActivity : ComponentActivity() {
                                     FriendsRankActivity::class.java,
                                 ).apply {
                                     putExtra("token", token)
-                                }
+                                },
                             )
                         },
                         onMyQuizSectionClick = {
@@ -132,7 +132,7 @@ class HomeMainActivity : ComponentActivity() {
                                     QuizListActivity::class.java,
                                 ).apply {
                                     putExtra("token", token)
-                                }
+                                },
                             )
                         },
                         onQuizClick = { index ->
