@@ -50,7 +50,6 @@ import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.layoutId
@@ -123,9 +122,7 @@ data class AnswerDetailData(
     val chosenPercent = selectivity * 100
 
     @Stable
-    val overlayColorForBackgroundColor =
-        if (backgroundColor.value.luminance() <= 0.5) WeQuizColor.G1
-        else WeQuizColor.G9
+    val overlayColorForBackgroundColor = WeQuizColor.G9
 }
 
 private val QuizDetailContainerShape = RoundedCornerShape(16.dp)

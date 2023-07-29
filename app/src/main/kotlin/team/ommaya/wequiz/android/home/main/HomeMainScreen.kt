@@ -147,7 +147,7 @@ fun HomeMain(
                 .padding(top = if (friendsRanking.isEmpty()) 20.dp else 26.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
-            SectionTitle(title = "내가 낸 문제지", onRightArrowClick = onMyQuizSectionClick)
+            SectionTitle(title = "내가 낸 시험지", onRightArrowClick = onMyQuizSectionClick)
             if (quizs.isEmpty()) {
                 CreateQuizIsEmpty(
                     modifier = Modifier

@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
@@ -99,6 +100,15 @@ class QuizListActivity : ComponentActivity() {
                             Pair(item.title, false)
                         }
                         ?.toPersistentList()
+            }
+
+            if (deleteIndexState != null) {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .background(color = WeQuizColor.Dimmed.value)
+                        .zIndex(999f),
+                )
             }
 
             QuizDeleteConfirmDialog(

@@ -72,7 +72,7 @@ fun QuizDeleteConfirmDialog(
                             )
                         }
                     },
-                    text = "해당 문제를 삭제할까요?",
+                    text = "해당 시험지를 삭제할까요?",
                     style = WeQuizTypography.R16
                         .change(color = WeQuizColor.G2)
                         .asRememberComposeStyle(),

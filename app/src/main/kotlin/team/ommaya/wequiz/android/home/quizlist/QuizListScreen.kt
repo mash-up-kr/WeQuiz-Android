@@ -96,7 +96,7 @@ fun QuizList(
         itemsIndexed(quizs) { index, (name, wip) ->
             @Suppress("RememberReturnType")
             remember(name) {
-                check(name.length in 1..38) { "문제지명 길이가 1..38 이여야 합니다. ($name)" }
+                check(name.length in 1..38) { "시험지명 길이가 1..38 이여야 합니다. ($name)" }
             }
 
             Layout(
