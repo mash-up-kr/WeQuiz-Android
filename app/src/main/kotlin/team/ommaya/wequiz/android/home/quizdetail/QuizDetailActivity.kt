@@ -38,6 +38,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -53,11 +54,14 @@ import androidx.compose.ui.util.fastFirstOrNull
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.data.client.TmpToken
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.domain.model.statistic.QuizStatistic
+import team.ommaya.wequiz.android.domain.usecase.quiz.DeleteQuizUseCase
 import team.ommaya.wequiz.android.domain.usecase.statistic.GetQuizStatisticUseCase
+import team.ommaya.wequiz.android.home.common.QuizDeleteConfirmDialog
 import team.ommaya.wequiz.android.utils.applyIf
 import team.ommaya.wequiz.android.utils.asLoose
 import team.ommaya.wequiz.android.utils.fitPaint
@@ -73,8 +77,12 @@ private const val TrailingDeleteIconLayoutId = "TrailingDeleteIconLayout"
 
 @AndroidEntryPoint
 class QuizDetailActivity : ComponentActivity() {
+
     @Inject
     lateinit var getQuizStatisticUseCase: GetQuizStatisticUseCase
+
+    @Inject
+    lateinit var deleteQuizUseCase: DeleteQuizUseCase
 
     private val token by lazy { intent?.getStringExtra("token") ?: TmpToken }
     private val quizId by lazy {
@@ -89,6 +97,7 @@ class QuizDetailActivity : ComponentActivity() {
         setContent {
             val lazyState = rememberLazyListState()
             val highVelocityApproachSpec = rememberSplineBasedDecay<Float>()
+            val coroutineScope = rememberCoroutineScope()
 
             val snappingLayout =
                 remember(lazyState) {
@@ -112,6 +121,8 @@ class QuizDetailActivity : ComponentActivity() {
 
             var quizStatistic by remember { mutableStateOf<QuizStatistic?>(null) }
 
+            var deleteIndexState by remember { mutableStateOf<Int?>(null) }
+
             LaunchedEffect(token, quizId) {
                 quizStatistic =
                     getQuizStatisticUseCase(token = token, quizId = quizId)
@@ -120,6 +131,28 @@ class QuizDetailActivity : ComponentActivity() {
                             quizStatistic
                         }
             }
+
+            QuizDeleteConfirmDialog(
+                onDismissRequest = { deleteIndexState = null },
+                deleteIndex = deleteIndexState,
+                deleteAction = { _ ->
+                    deleteIndexState = null
+
+                    coroutineScope.launch {
+                        val result =
+                            deleteQuizUseCase(
+                                token = token,
+                                quizId = quizId,
+                            )
+                        if (result.isSuccess) {
+                            finish()
+                            toast("문제를 삭제했어요.")
+                        } else {
+                            toast(result.exceptionOrNull()!!.toString())
+                        }
+                    }
+                },
+            )
 
             Column(
                 modifier = Modifier
@@ -157,7 +190,9 @@ class QuizDetailActivity : ComponentActivity() {
                                     drawableId = R.drawable.ic_round_trash_24,
                                     colorFilter = WeQuizColor.G2.toRememberColorFilterOrNull(),
                                 )
-                                .noRippleClickable { /* TODO */ },
+                                .noRippleClickable {
+                                    deleteIndexState = 1
+                                },
                         )
                     },
                 ) { measurables, constraints ->
