@@ -43,6 +43,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class FriendsRankActivity : ComponentActivity() {
+
     @Inject
     lateinit var getQuizRankUseCase: GetQuizRankUseCase
 
