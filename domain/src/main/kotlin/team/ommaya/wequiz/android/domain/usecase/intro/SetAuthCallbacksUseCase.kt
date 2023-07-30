@@ -8,12 +8,12 @@
 package team.ommaya.wequiz.android.domain.usecase.intro
 
 import team.ommaya.wequiz.android.domain.AuthCallbacksListener
-import team.ommaya.wequiz.android.domain.repository.FirebaseAuthRepository
+import team.ommaya.wequiz.android.domain.repository.FirebaseRepository
 import javax.inject.Inject
 
 class SetAuthCallbacksUseCase @Inject constructor(
-    private val firebaseAuthRepository: FirebaseAuthRepository,
+    private val firebaseRepository: FirebaseRepository,
 ) {
     operator fun invoke(listener: AuthCallbacksListener) =
-        firebaseAuthRepository.setFirebaseAuthCallbacksListener(listener)
+        firebaseRepository.setFirebaseAuthCallbacksListener(listener)
 }

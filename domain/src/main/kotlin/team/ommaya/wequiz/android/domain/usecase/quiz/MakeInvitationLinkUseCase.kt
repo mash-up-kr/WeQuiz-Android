@@ -5,14 +5,13 @@
  * Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
  */
 
-package team.ommaya.wequiz.android.domain.usecase.intro
+package team.ommaya.wequiz.android.domain.usecase.quiz
 
-import android.app.Activity
 import team.ommaya.wequiz.android.domain.repository.FirebaseRepository
 import javax.inject.Inject
 
-class ResendPhoneVerificationUseCase @Inject constructor(
+class MakeInvitationLinkUseCase @Inject constructor(
     private val firebaseRepository: FirebaseRepository,
 ) {
-    suspend operator fun invoke(activity: Activity) = firebaseRepository.resendVerifyCode(activity)
+    operator fun invoke(quizId: Int) = firebaseRepository.makeInvitationLink(quizId)
 }

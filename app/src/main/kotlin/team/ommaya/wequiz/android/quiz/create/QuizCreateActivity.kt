@@ -58,6 +58,20 @@ class QuizCreateActivity :
                             binding.btnQuizNext.isEnabled = isRequired
                         }
                     }
+                    launch {
+                        quizLink.collect { inivitationUri ->
+                            startActivity(
+                                Intent(Intent.ACTION_SEND).apply {
+                                    type = "text/html"
+                                    putExtra(
+                                        Intent.EXTRA_TEXT,
+                                        "친구가 만든 찐친고사에 도전해보세요!\n\n$inivitationUri",
+                                    )
+                                    createChooser(intent, "친구가 만든 찐친고사에 도전해보세요!")
+                                },
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -84,16 +98,7 @@ class QuizCreateActivity :
                         isEnabled = true
                         setText(R.string.share_quiz)
                         setOnClickListener {
-                            startActivity(
-                                Intent(Intent.ACTION_SEND).apply {
-                                    setType("text/html")
-                                    putExtra(
-                                        Intent.EXTRA_TEXT,
-                                        "친구가 만든 찐친고사에 도전해보세요!\n\n크크루삥뽕",
-                                    )
-                                    createChooser(intent, "친구가 만든 찐친고사에 도전해보세요!")
-                                },
-                            )
+                            quizSharedViewModel.makeQuizLink()
                         }
                     }
                     ivQuizCreateBack.setOnClickListener {

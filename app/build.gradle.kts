@@ -128,6 +128,7 @@ dependencies {
         libs.compose.foundation,
         libs.compose.activity,
         libs.android.hilt.runtime,
+        libs.firebase.dynamic.links,
         projects.data,
         projects.domain,
         projects.designResource,
