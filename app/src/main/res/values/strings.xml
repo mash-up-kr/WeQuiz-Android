@@ -82,5 +82,8 @@
     <string name="remaining_problem">%d문제 중 %d번째 문제</string>
     <string name="answer_count">답 %d개</string>
     <string name="score">%d점</string>
+    <string name="quiz_title">%s 시험지</string>
+    <string name="quiz_num">제 %d회</string>
+    <string name="user_code_snippet">#%s</string>
 
 </resources>
