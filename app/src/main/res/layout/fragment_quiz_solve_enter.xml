@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Designed and developed by "옴마야" Team 2023.
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_onboarding">
+
+    <ImageView
+        android:id="@+id/iv_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginEnd="20dp"
+        android:contentDescription="@string/home"
+        android:src="@drawable/ic_home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_quiz_number"
+        android:layout_width="69dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="76dp"
+        app:cardBackgroundColor="#28292A"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_quiz_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="@style/WeQuizTextAppearance.Caption1.Bold"
+            android:textColor="@color/G4"
+            tools:text="제 N회" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tv_quiz_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
+        android:textAppearance="@style/WeQuizTextAppearance.Subtitle1.Medium"
+        android:textColor="@color/G4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="나를 맞춰봐! 시험지" />
+
+    <TextView
+        android:id="@+id/tv_quiz_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textAppearance="@style/WeQuizTextAppearance.H4.Bold"
+        android:textColor="@color/G1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_quiz_title"
+        tools:text="매시업귀염둥이" />
+
+    <TextView
+        android:id="@+id/tv_quiz_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/area"
+        android:textAppearance="@style/WeQuizTextAppearance.H6.Bold"
+        android:textColor="@color/G4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_quiz_author" />
+
+
+    <View
+        android:id="@+id/v_name_container"
+        android:layout_width="125dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/bg_28292a_radius_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_quiz_area" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="@string/name"
+        android:textAppearance="@style/WeQuizTextAppearance.Caption1.Medium"
+        android:textColor="@color/G6"
+        app:layout_constraintBottom_toBottomOf="@id/v_name_container"
+        app:layout_constraintStart_toStartOf="@id/v_name_container"
+        app:layout_constraintTop_toTopOf="@id/v_name_container" />
+
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textAppearance="@style/WeQuizTextAppearance.Caption1.Medium"
+        android:textColor="@color/G6"
+        app:layout_constraintBottom_toBottomOf="@id/v_name_container"
+        app:layout_constraintEnd_toEndOf="@id/v_name_container"
+        app:layout_constraintStart_toStartOf="@id/tv_name"
+        app:layout_constraintTop_toTopOf="@id/v_name_container"
+        tools:text="다나" />
+
+    <View
+        android:id="@+id/v_code_container"
+        android:layout_width="200dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_28292a_radius_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_quiz_area" />
+
+    <TextView
+        android:id="@+id/tv_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="@string/quiz_code"
+        android:textAppearance="@style/WeQuizTextAppearance.Caption1.Medium"
+        android:textColor="@color/G6"
+        app:layout_constraintBottom_toBottomOf="@id/v_code_container"
+        app:layout_constraintStart_toStartOf="@id/v_code_container"
+        app:layout_constraintTop_toTopOf="@id/v_code_container" />
+
+    <TextView
+        android:id="@+id/tv_user_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textAppearance="@style/WeQuizTextAppearance.Caption1.Medium"
+        android:textColor="@color/G6"
+        app:layout_constraintBottom_toBottomOf="@id/v_code_container"
+        app:layout_constraintEnd_toEndOf="@id/v_code_container"
+        app:layout_constraintStart_toStartOf="@id/tv_code"
+        app:layout_constraintTop_toTopOf="@id/v_code_container"
+        tools:text="#123456" />
+
+    <ImageView
+        android:id="@+id/iv_quiz_start"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="32dp"
+        android:src="@drawable/img_qui_solve"
+        app:layout_constraintBottom_toTopOf="@id/btn_quiz_start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_name_container" />
+
+    <Button
+        android:id="@+id/btn_quiz_start"
+        style="@style/WeQuizRoundButton"
+        android:text="@string/start_quiz"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
