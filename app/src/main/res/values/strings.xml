@@ -78,5 +78,9 @@
     <string name="name_hint">이름 입력</string>
     <string name="name_require"><font color="#E9ECEF">이름</font> <font color="#FF5D47">(필수)</font></string>
     <string name="join_ad_text">1분만에 가입해서 친구한테 문제내기🗯</string>
+    <string name="report">신고하기</string>
+    <string name="remaining_problem">%d문제 중 %d번째 문제</string>
+    <string name="answer_count">답 %d개</string>
+    <string name="score">%d점</string>
 
 </resources>
