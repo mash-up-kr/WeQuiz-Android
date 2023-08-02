@@ -19,7 +19,7 @@ import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailOption
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailQuestion
 import team.ommaya.wequiz.android.domain.model.quiz.QuizList
 
-fun List<Option>.toOptionDtoList(): List<OptionDto> {
+internal fun List<Option>.toOptionDtoList(): List<OptionDto> {
     return this.map {
         OptionDto(
             content = it.content,
@@ -29,7 +29,7 @@ fun List<Option>.toOptionDtoList(): List<OptionDto> {
     }
 }
 
-fun List<Question>.toQuestionDtoList(): List<QuestionDto> {
+internal fun List<Question>.toQuestionDtoList(): List<QuestionDto> {
     return this.map {
         QuestionDto(
             title = it.title,

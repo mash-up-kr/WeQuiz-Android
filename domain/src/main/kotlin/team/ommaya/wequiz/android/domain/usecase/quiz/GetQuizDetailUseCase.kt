@@ -15,8 +15,8 @@ import javax.inject.Singleton
 class GetQuizDetailUseCase @Inject constructor(
     private val repository: QuizRepository,
 ) {
-    suspend operator fun invoke(token: String, quizId: Int) =
+    suspend operator fun invoke(quizId: Int) =
         runCatching {
-            repository.getQuizDetail(token = token, quizId = quizId)
+            repository.getQuizDetail(quizId = quizId)
         }
 }

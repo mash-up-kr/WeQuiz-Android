@@ -67,14 +67,18 @@ class QuizRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getQuizDetail(token: String, quizId: Int): QuizDetail {
+    override suspend fun getQuizDetail(quizId: Int): QuizDetail {
         val response =
             client
                 .get("quiz/$quizId") {
                     header("x-wequiz-token", TmpToken)
                 }
                 .body<QuizDetailFormattedResponse>()
-        return requireNotNull(response.data).toDomain()
+        if (response.code == "SUCCESS") {
+            return response.data?.toDomain() ?: QuizDetail(emptyList(), 0, "")
+        } else {
+            throw Exception("code: ${response.code} messgae: ${response.message}")
+        }
     }
 
     override suspend fun deleteQuiz(token: String, quizId: Int) {
