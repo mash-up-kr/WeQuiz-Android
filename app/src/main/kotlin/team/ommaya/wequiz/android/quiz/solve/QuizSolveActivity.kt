@@ -9,18 +9,25 @@ package team.ommaya.wequiz.android.quiz.solve
 
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingActivity
 import team.ommaya.wequiz.android.databinding.ActivityQuizSolveBinding
 
+@AndroidEntryPoint
 class QuizSolveActivity :
     BaseViewBindingActivity<ActivityQuizSolveBinding>(ActivityQuizSolveBinding::inflate) {
 
-    /*private val quizSolveViewModel: QuizSolveSharedViewModel by viewModels()*/
+    private val quizSolveViewModel: QuizSolveSharedViewModel by viewModels()
 
 
     private lateinit var navHost: NavHostFragment
@@ -29,7 +36,7 @@ class QuizSolveActivity :
         super.onCreate(savedInstanceState)
         initNavigation()
         initData()
-        /*collectFlows()*/
+        collectFlows()
     }
 
     private fun initData() {
@@ -42,12 +49,9 @@ class QuizSolveActivity :
                 }
 
                 deeplink?.let {
-                    setNavGraph(true)
-                    val code = deeplink.toString().substringAfterLast("quizId=", "").toInt()
-
-                    /*quizSolveViewModel.getQuizDetail(
-                        deeplink.getQueryParameter("quizId")?.toInt() ?: -1
-                    )*/
+                    quizSolveViewModel.getQuizDetail(
+                        deeplink.toString().substringAfterLast("quizId=", "-1").toInt()
+                    )
                 }
             }
             .addOnFailureListener(this) { _ ->
@@ -67,15 +71,15 @@ class QuizSolveActivity :
         navController.setGraph(navGraph, null)
     }
 
-    /* private fun collectFlows() {
-         lifecycleScope.launch {
-             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                 with(quizSolveViewModel) {
-                     isQuizValid.collect { isValid ->
-                         setNavGraph(isValid)
-                     }
-                 }
-             }
-         }
-     }*/
+    private fun collectFlows() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                with(quizSolveViewModel) {
+                    isQuizValid.collect { isValid ->
+                        setNavGraph(isValid)
+                    }
+                }
+            }
+        }
+    }
 }

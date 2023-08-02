@@ -7,9 +7,11 @@
 
 package team.ommaya.wequiz.android.quiz.solve
 
+import dagger.hilt.android.AndroidEntryPoint
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentQuizSolveBinding
 
+@AndroidEntryPoint
 class FragmentQuizSolve :
     BaseViewBindingFragment<FragmentQuizSolveBinding>(FragmentQuizSolveBinding::inflate) {
 }

@@ -15,10 +15,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
+import dagger.hilt.android.AndroidEntryPoint
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentResultBinding
 
+@AndroidEntryPoint
 class ResultFragment :
     BaseViewBindingFragment<FragmentResultBinding>(FragmentResultBinding::inflate) {
 
