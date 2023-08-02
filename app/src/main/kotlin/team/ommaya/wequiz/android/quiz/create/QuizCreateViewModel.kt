@@ -308,7 +308,7 @@ class QuizCreateViewModel @Inject constructor(
         const val QUESTION_ADD_POSITION = -1
         const val MAX_QUESTION_COUNT = 10
         const val MAX_ANSWER_COUNT = 5
-        const val MIN_QUESTION_COUNT = 3
+        const val MIN_QUESTION_COUNT = 2
         const val MIN_ANSWER_COUNT = 2
     }
 }
