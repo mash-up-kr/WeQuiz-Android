@@ -10,8 +10,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/G9"
-    tools:context=".quiz.solve.result.ResultRankingFragment">
+    android:background="@color/G9">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_ranking_top_bar"
