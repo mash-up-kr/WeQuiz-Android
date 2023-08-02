@@ -23,7 +23,7 @@ fun List<Option>.toOptionDtoList(): List<OptionDto> {
     return this.map {
         OptionDto(
             content = it.content,
-            priority = it.priority,
+            id = it.id,
             isCorrect = it.isCorrect,
         )
     }
@@ -33,7 +33,7 @@ fun List<Question>.toQuestionDtoList(): List<QuestionDto> {
     return this.map {
         QuestionDto(
             title = it.title,
-            priority = it.priority,
+            id = it.id,
             duplicatedOption = it.duplicatedOption,
             options = it.options.toOptionDtoList(),
         )

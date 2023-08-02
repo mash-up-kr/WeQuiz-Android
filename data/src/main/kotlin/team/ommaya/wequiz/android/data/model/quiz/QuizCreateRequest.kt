@@ -18,7 +18,7 @@ data class QuizCreateRequest(
 @Serializable
 data class QuestionDto(
     val title: String = "",
-    val priority: Int = 0,
+    val id: Int = 0,
     val duplicatedOption: Boolean = false,
     val options: List<OptionDto> = emptyList(),
 )
@@ -26,6 +26,6 @@ data class QuestionDto(
 @Serializable
 data class OptionDto(
     val content: String = "",
-    val priority: Int = 0,
+    val id: Int = 0,
     val isCorrect: Boolean = false,
 )
