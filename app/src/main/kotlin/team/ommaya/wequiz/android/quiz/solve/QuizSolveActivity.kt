@@ -9,7 +9,6 @@ package team.ommaya.wequiz.android.quiz.solve
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
@@ -21,11 +20,19 @@ import team.ommaya.wequiz.android.databinding.ActivityQuizSolveBinding
 class QuizSolveActivity :
     BaseViewBindingActivity<ActivityQuizSolveBinding>(ActivityQuizSolveBinding::inflate) {
 
+    /*private val quizSolveViewModel: QuizSolveSharedViewModel by viewModels()*/
+
+
     private lateinit var navHost: NavHostFragment
     private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initNavigation()
+        initData()
+        /*collectFlows()*/
+    }
+
+    private fun initData() {
         Firebase.dynamicLinks
             .getDynamicLink(intent)
             .addOnSuccessListener(this) { pendingDynamicLinkData ->
@@ -35,10 +42,17 @@ class QuizSolveActivity :
                 }
 
                 deeplink?.let {
-                    binding.tvUri.text = deeplink.getQueryParameter("quizId")
+                    setNavGraph(true)
+                    val code = deeplink.toString().substringAfterLast("quizId=", "").toInt()
+
+                    /*quizSolveViewModel.getQuizDetail(
+                        deeplink.getQueryParameter("quizId")?.toInt() ?: -1
+                    )*/
                 }
             }
-            .addOnFailureListener(this) { e -> Log.w("딥링크", "getDynamicLink:onFailure", e) }
+            .addOnFailureListener(this) { _ ->
+                setNavGraph(false)
+            }
     }
 
     private fun initNavigation() {
@@ -46,4 +60,22 @@ class QuizSolveActivity :
             supportFragmentManager.findFragmentById(R.id.quiz_solve_nav_host) as NavHostFragment
         navController = navHost.navController
     }
+
+    private fun setNavGraph(isValid: Boolean) {
+        val navGraph = navController.navInflater.inflate(R.navigation.quiz_solve_graph)
+        navGraph.setStartDestination(if (isValid) R.id.fragmentQuizSolveEnter else R.id.fragmentQuizFetchFailed)
+        navController.setGraph(navGraph, null)
+    }
+
+    /* private fun collectFlows() {
+         lifecycleScope.launch {
+             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                 with(quizSolveViewModel) {
+                     isQuizValid.collect { isValid ->
+                         setNavGraph(isValid)
+                     }
+                 }
+             }
+         }
+     }*/
 }
