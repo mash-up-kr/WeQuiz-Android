@@ -102,7 +102,7 @@ class FirebaseRepositoryImpl @Inject constructor(
 
     override fun makeInvitationLink(quizId: Int) = callbackFlow {
         val invitationLink =
-            "https://wequiz.page.link/?link=https://wequiz.page.link?quizId=$quizId&apn=team.ommaya.wequiz.android&isi=6453208230&ibi=wequiz.ios.Main"
+            "https://wequiz.page.link/?link=https://wequiz.page.link/solve?quizId=$quizId&apn=team.ommaya.wequiz.android&isi=6453208230&ibi=wequiz.ios.WeQuiz"
         dynamicLinks.shortLinkAsync(ShortDynamicLink.Suffix.UNGUESSABLE) {
             link = Uri.parse(invitationLink)
             domainUriPrefix = "https://wequiz.page.link"

@@ -68,6 +68,7 @@
 
                 <data
                     android:host="wequiz.page.link"
+                    android:path="/solve"
                     android:scheme="https" />
             </intent-filter>
 
