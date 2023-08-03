@@ -49,7 +49,7 @@ private const val FriendScoreLayoutId = "FriendScoreLayout"
 fun FriendsRank(
     modifier: Modifier = Modifier,
     friendsRanking: ImmutableList<NicknameUuidScoreTriple>,
-    onFriendClick: () -> Unit = {},
+    onFriendClick: (() -> Unit)? = null,
 ) {
     val roundedCornerShape4 = remember { RoundedCornerShape(4.dp) }
     val roundedCornerShape16 = remember { RoundedCornerShape(16.dp) }
@@ -66,7 +66,7 @@ fun FriendsRank(
 
             @Suppress("RememberReturnType")
             remember(nickname) {
-                check(nickname.length in 1..8) { "닉네임 길이가 1..8 이여야 합니다." }
+                check(nickname.length in 1..8) { "닉네임 길이가 1..8 이여야 합니다. ($nickname)" }
             }
 
             Layout(
@@ -77,7 +77,7 @@ fun FriendsRank(
                         color = WeQuizColor.G8.value,
                         shape = roundedCornerShape16,
                     )
-                    .clickable(onClick = onFriendClick),
+                    .then(if (onFriendClick != null) Modifier.clickable(onClick = onFriendClick) else Modifier),
                 content = {
                     Box(
                         modifier = Modifier

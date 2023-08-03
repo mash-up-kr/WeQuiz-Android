@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Designed and developed by "옴마야" Team 2023.
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
+  -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape>
+            <solid android:color="@color/G9" />
+        </shape>
+    </item>
+
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <gradient
+                    android:centerColor="@color/S1_G_center"
+                    android:endColor="@color/S1_G_end"
+                    android:startColor="@color/S1_G_start" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>

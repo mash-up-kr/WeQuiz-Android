@@ -9,7 +9,7 @@ package team.ommaya.wequiz.android.data.model.statistic
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class QuizStatisticResponse(
+internal data class QuizStatisticResponse(
     @field:JsonProperty("quizId")
     val quizId: Int? = null,
 

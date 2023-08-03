@@ -16,6 +16,7 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import kotlinx.coroutines.flow.first
 import team.ommaya.wequiz.android.data.mapper.toDomain
+import team.ommaya.wequiz.android.data.model.user.UserInformationFormattedResponse
 import team.ommaya.wequiz.android.data.model.user.SignUpRequest
 import team.ommaya.wequiz.android.data.model.user.SignUpResponse
 import team.ommaya.wequiz.android.data.model.user.UserResponse
@@ -38,7 +39,7 @@ class UserRepositoryImpl @Inject constructor(
                 .get("user") {
                     header("x-wequiz-token", token)
                 }
-                .body<UserResponse>()
+                .body<UserInformationFormattedResponse>()
         when (response.code) {
             "SUCCESS" -> {
                 return response.toDomain()

@@ -12,17 +12,17 @@
     android:background="@color/G9">
 
 
-    <View
+    <ImageView
         android:id="@+id/v_tmp_app_logo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="92dp"
         android:layout_marginBottom="30dp"
-        android:background="@color/G6"
         app:layout_constraintBottom_toTopOf="@id/tv_quiz_create_finish"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/img_quiz_create_success"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

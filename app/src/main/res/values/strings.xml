@@ -12,6 +12,9 @@
     <string name="next">다음</string>
     <string name="delete">삭제</string>
     <string name="negative">아니요</string>
+    <string name="home">홈</string>
+    <string name="name">이름</string>
+    <string name="finish">완료</string>
 
     <!-- 인트로 -->
     <string name="start_we_quiz">WeQuiz 시작하기</string>
@@ -53,6 +56,34 @@
     <string name="delete_question_text">문제를 삭제할까요?</string>
     <string name="delete_question_noftify">문제를 삭제했어요</string>
     <string name="share_quiz">친구들에게 시험지 공유하기</string>
-    <string name="finish_create_quiz">{서비스명} 시험지를\n 완성했어요!</string>
+    <string name="finish_create_quiz">Wequiz\n 시험지를 완성했어요!</string>
+
+    <!-- 문제 풀기 -->
+    <string name="score_unit">점</string>
+    <string name="result_subtitle">%1$s와 %2$s는</string>
+    <string name="result_title1">옆집보다도 못한 사이</string>
+    <string name="result_title2">그냥 얼굴만 아는 사이</string>
+    <string name="result_title3">거리가 머네요</string>
+    <string name="result_title4">아직 거리가 있는 친구</string>
+    <string name="result_title5">영혼을 공유한 사이</string>
+    <string name="result_sign_up">1분만에 가입해서 친구한테 문제내기 🗯</string>
+    <string name="retry_quiz">다시 풀기</string>
+    <string name="share_result">결과 공유하기</string>
+    <string name="fetch_fail_text">문제 불러오기 실패</string>
+    <string name="quiz_deleted_text">삭제된 시험지에요 🥶</string>
+    <string name="area">영역</string>
+    <string name="quiz_code">수험번호</string>
+    <string name="start_quiz">시험 응시하기</string>
+    <string name="add_nickname">친구가 알 수 있게\n본인의 이름을 적어주세요</string>
+    <string name="name_hint">이름 입력</string>
+    <string name="name_require"><font color="#E9ECEF">이름</font> <font color="#FF5D47">(필수)</font></string>
+    <string name="join_ad_text">1분만에 가입해서 친구한테 문제내기🗯</string>
+    <string name="report">신고하기</string>
+    <string name="remaining_problem">%d문제 중 %d번째 문제</string>
+    <string name="answer_count">답 %d개</string>
+    <string name="score">%d점</string>
+    <string name="quiz_title">%s 시험지</string>
+    <string name="quiz_num">제 %d회</string>
+    <string name="user_code_snippet">#%s</string>
 
 </resources>

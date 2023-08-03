@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
@@ -76,7 +77,7 @@ class QuizListActivity : ComponentActivity() {
             var deleteModeEnable by remember { mutableStateOf(false) }
             var deleteIndexState by remember { mutableStateOf<Int?>(null) }
 
-            var quizIds = remember { listOf<Int>() }
+            var quizIds by remember { mutableStateOf<List<Int>>(emptyList()) }
             var quizList by remember {
                 mutableStateOf<PersistentList<QuizNameAndIsWritingPair>?>(null)
             }
@@ -101,17 +102,27 @@ class QuizListActivity : ComponentActivity() {
                         ?.toPersistentList()
             }
 
+            if (deleteIndexState != null) {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .background(color = WeQuizColor.Dimmed.value)
+                        .zIndex(999f),
+                )
+            }
+
             QuizDeleteConfirmDialog(
                 onDismissRequest = { deleteIndexState = null },
                 deleteIndex = deleteIndexState,
                 deleteAction = { index ->
+                    val quizId = quizIds[index]
                     deleteIndexState = null
 
                     coroutineScope.launch {
                         val result =
                             deleteQuizUseCase(
                                 token = token,
-                                quizId = quizIds[index],
+                                quizId = quizId,
                             )
                         if (result.isSuccess) {
                             quizList = quizList?.removeAt(index)
@@ -227,6 +238,7 @@ class QuizListActivity : ComponentActivity() {
                             )
                         }
                         QuizListComposable(
+                            modifier = Modifier.padding(horizontal = 20.dp),
                             quizs = quizList,
                             deleteModeEnable = deleteModeEnable,
                             onDeleteIconClick = { index ->

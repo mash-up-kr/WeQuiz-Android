@@ -130,12 +130,10 @@ class QuizCreateFragment :
                                 },
                             )
                             questionDeleteDialog = WeQuizDialog(dialogContent)
-                            if (questionList.value.size > QuizCreateViewModel.MIN_QUESTION_COUNT) {
-                                questionDeleteDialog.show(
-                                    requireActivity().supportFragmentManager,
-                                    "questionDeleteDialog",
-                                )
-                            }
+                            questionDeleteDialog.show(
+                                requireActivity().supportFragmentManager,
+                                "questionDeleteDialog",
+                            )
                         }
                     }
                     launch {
@@ -147,6 +145,7 @@ class QuizCreateFragment :
                         createState.collect { state ->
                             when (state) {
                                 QuizCreateViewModel.CreateState.SUCCESS -> {
+                                    quizSharedViewModel.setQuizId(quizCreateViewModel.quizId.value)
                                     findNavController().navigate(R.id.quizCreateFinishFragment)
                                 }
                                 QuizCreateViewModel.CreateState.FAILED -> {

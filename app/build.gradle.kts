@@ -8,6 +8,7 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM", "UnstableApiUsage")
 
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     android("application")
@@ -36,6 +37,7 @@ android {
 
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+        useLiveLiterals = false
     }
 
     sourceSets {
@@ -64,6 +66,15 @@ android {
                 }
             }
         }
+    }
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:liveLiteralsEnabled=false",
+        )
     }
 }
 
@@ -117,6 +128,7 @@ dependencies {
         libs.compose.foundation,
         libs.compose.activity,
         libs.android.hilt.runtime,
+        libs.firebase.dynamic.links,
         projects.data,
         projects.domain,
         projects.designResource,

@@ -13,8 +13,11 @@ internal data class RankResponse(
     @field:JsonProperty("rankings")
     val rankings: List<RankingsItemResponse?>? = null,
 
-    @field:JsonProperty("cursorQuizAnswerId")
-    val cursorQuizAnswerId: Int? = null,
+    @field:JsonProperty("cursorUserId")
+    val cursorUserId: Int? = null,
+
+    @field:JsonProperty("cursorScore")
+    val cursorScore: Int? = null,
 
     @field:JsonProperty("hasNext")
     val hasNext: Boolean? = null,

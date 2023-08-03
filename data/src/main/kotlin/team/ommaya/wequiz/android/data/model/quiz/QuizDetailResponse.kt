@@ -9,7 +9,7 @@ package team.ommaya.wequiz.android.data.model.quiz
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class QuizDetailResponse(
+internal data class QuizDetailResponse(
     @field:JsonProperty("questions")
     val questions: List<QuestionsItem?>? = null,
 

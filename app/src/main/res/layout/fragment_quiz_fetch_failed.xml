@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Designed and developed by "옴마야" Team 2023.
+  ~
+  ~ Licensed under the MIT.
+  ~ Please see full license: https://github.com/mash-up-kr/WeQuiz-Android/blob/main/LICENSE
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_onboarding">
+
+    <ImageView
+        android:id="@+id/iv_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/home" />
+
+    <View
+        android:id="@+id/v_quiz_fail_text_container"
+        android:layout_width="0dp"
+        android:layout_height="95dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_fetch_fail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fetch_fail_text"
+        android:textAppearance="@style/WeQuizTextAppearance.Subtitle1.Regular"
+        android:textColor="@color/G4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/v_quiz_fail_text_container" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/quiz_deleted_text"
+        android:textAppearance="@style/WeQuizTextAppearance.H5.Medium"
+        android:textColor="@color/G1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_fetch_fail" />
+</androidx.constraintlayout.widget.ConstraintLayout>

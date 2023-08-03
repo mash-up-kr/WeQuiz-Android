@@ -50,12 +50,10 @@ import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
@@ -121,12 +119,10 @@ data class AnswerDetailData(
         }
 
     @Stable
-    val chosenPercent = 100 * selectivity
+    val chosenPercent = selectivity * 100
 
     @Stable
-    val overlayColorForBackgroundColor =
-        if (backgroundColor.value.luminance() <= 0.5) WeQuizColor.G1
-        else WeQuizColor.G9
+    val overlayColorForBackgroundColor = WeQuizColor.G9
 }
 
 private val QuizDetailContainerShape = RoundedCornerShape(16.dp)
@@ -517,7 +513,7 @@ private fun QuizAnswerResult(
     }
 
     val typography = WeQuizTypography.M16.asRememberComposeStyle()
-    val percentText = "${answerData.chosenPercent}%"
+    val percentText = "${answerData.chosenPercent.roundToInt()}%"
 
     val percentMeasureResult =
         remember(textMeasurer, answerData) {
@@ -653,7 +649,7 @@ private fun QuizAnswerResult(
             coroutineScope.launch {
                 backgroundWidthAnimatable
                     .animateTo(
-                        targetValue = width * answerData.selectivity.roundToInt(),
+                        targetValue = (width * (answerData.selectivity * 100).roundToInt()) / 100,
                         animationSpec = QuizAnwserResultBackgroundOffsetTween,
                     )
             }

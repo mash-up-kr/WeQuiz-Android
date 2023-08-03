@@ -14,11 +14,11 @@ import team.ommaya.wequiz.android.domain.model.rank.UserSimpleInformation
 
 internal fun RankResponse.toDomain() =
     Rank(
-        cursorQuizAnswerId = requireNotNull(cursorQuizAnswerId),
+        cursorUserId = cursorUserId,
+        cursorScore = cursorScore,
         rankings = requireNotNull(rankings).map { item ->
             requireNotNull(item)
             RankingsItem(
-                quizAnswerId = requireNotNull(item.quizAnswerId),
                 userInfo = UserSimpleInformation(
                     id = requireNotNull(item.userInfo?.id),
                     name = requireNotNull(item.userInfo?.name),

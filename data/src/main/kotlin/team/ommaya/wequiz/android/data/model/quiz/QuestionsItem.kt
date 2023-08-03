@@ -9,7 +9,7 @@ package team.ommaya.wequiz.android.data.model.quiz
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class QuestionsItem(
+internal data class QuestionsItem(
     @field:JsonProperty("score")
     val score: Int? = null,
 
