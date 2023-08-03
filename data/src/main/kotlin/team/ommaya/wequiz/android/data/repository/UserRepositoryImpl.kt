@@ -19,7 +19,6 @@ import team.ommaya.wequiz.android.data.mapper.toDomain
 import team.ommaya.wequiz.android.data.model.user.UserInformationFormattedResponse
 import team.ommaya.wequiz.android.data.model.user.SignUpRequest
 import team.ommaya.wequiz.android.data.model.user.SignUpResponse
-import team.ommaya.wequiz.android.data.model.user.UserResponse
 import team.ommaya.wequiz.android.data.preference.UserPreference
 import team.ommaya.wequiz.android.domain.model.user.UserInformation
 import team.ommaya.wequiz.android.domain.repository.UserRepository
