@@ -36,6 +36,9 @@ class QuizSolveSharedViewModel @Inject constructor(
     private val _isLogin: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isLogin = _isLogin.asStateFlow()
 
+    private val _taskerName: MutableStateFlow<String> = MutableStateFlow("")
+    val taskerName = _taskerName.asStateFlow()
+
     fun getQuizDetail(quizId: Int) {
         viewModelScope.launch {
             getQuizDetailUseCase(quizId)
@@ -52,5 +55,9 @@ class QuizSolveSharedViewModel @Inject constructor(
         viewModelScope.launch {
             _isLogin.value = getUserUseCase().isLogin
         }
+    }
+
+    fun setTaskerName(name: String) {
+        _taskerName.value = name
     }
 }
