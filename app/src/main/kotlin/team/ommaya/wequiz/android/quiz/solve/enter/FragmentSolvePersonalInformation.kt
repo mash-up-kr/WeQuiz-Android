@@ -40,6 +40,7 @@ class FragmentSolvePersonalInformation :
             etNameInput.doOnTextChanged { text, _, _, _ ->
                 btnDone.isEnabled = isValidInputLengthRange(text.toString(), 1, 8)
             }
+            tvQuizTitle.text = quizSolveSharedViewModel.quizDetail.value.title
         }
     }
 }
