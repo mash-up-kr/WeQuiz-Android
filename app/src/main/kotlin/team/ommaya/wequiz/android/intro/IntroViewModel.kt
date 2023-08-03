@@ -65,9 +65,9 @@ class IntroViewModel @Inject constructor(
     init {
         setAuthCallbacksUseCase(this)
             .onSuccess {
-
+                //
             }.onFailure {
-
+                //
             }
     }
 
@@ -99,7 +99,7 @@ class IntroViewModel @Inject constructor(
                 .onSuccess {
                     phoneNumber.value = phone
                 }.onFailure {
-
+                    //
                 }
         }
     }
@@ -108,9 +108,9 @@ class IntroViewModel @Inject constructor(
         viewModelScope.launch {
             resendPhoneVerificationUseCase(activity)
                 .onSuccess {
-
+                    //
                 }.onFailure {
-
+                    //
                 }
         }
     }
@@ -118,9 +118,9 @@ class IntroViewModel @Inject constructor(
     fun verifyCode(verifyCode: String) {
         verifyCodeUseCase(verifyCode)
             .onSuccess {
-
+                //
             }.onFailure {
-
+                //
             }
     }
 
@@ -128,7 +128,7 @@ class IntroViewModel @Inject constructor(
         viewModelScope.launch {
             getUserInformationUseCase(_token.value)
                 .onSuccess {
-                    setNickname (it.data.nickname)
+                    setNickname(it.data.nickname)
                     sendVerifyCodeEvent(VerifyCodeUiEvent.REGISTERED)
                 }.onFailure {
                     if (it is UnregisteredException) {
@@ -151,9 +151,9 @@ class IntroViewModel @Inject constructor(
                 nickname,
                 description,
             ).onSuccess {
-
+                //
             }.onFailure {
-
+                //
             }
         }
     }
@@ -172,7 +172,7 @@ class IntroViewModel @Inject constructor(
     }
 
     override fun onVerificationCompleted(verifyCode: String) {
-
+        //
     }
 
     override fun onCodeSent(
