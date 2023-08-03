@@ -7,12 +7,17 @@
 
 package team.ommaya.wequiz.android.data.mapper
 
-import team.ommaya.wequiz.android.data.model.user.UserInformationResponse
+import team.ommaya.wequiz.android.data.model.user.UserResponse
+import team.ommaya.wequiz.android.domain.model.user.UserData
 import team.ommaya.wequiz.android.domain.model.user.UserInformation
 
-internal fun UserInformationResponse.toDomain() =
+internal fun UserResponse.toDomain() =
     UserInformation(
-        id = requireNotNull(id),
-        nickname = requireNotNull(nickname),
-        description = requireNotNull(description),
+        code = requireNotNull(code),
+        data = UserData(
+            requireNotNull(data?.id),
+            requireNotNull(data?.nickname),
+            requireNotNull(data?.description),
+        ),
+        message = requireNotNull(message),
     )

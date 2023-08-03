@@ -106,8 +106,8 @@ class HomeMainActivity : ComponentActivity() {
 
                 if (user != null && quizRank != null && quizList != null) {
                     HomeMain(
-                        nickname = user.nickname,
-                        profileMessage = user.description,
+                        nickname = user.data.nickname,
+                        profileMessage = user.data.description,
                         profileImageSrc = R.drawable.ic_color_profile_image,
                         friendsRanking = remember(quizRank) {
                             quizRank
