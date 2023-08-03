@@ -17,11 +17,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetail
 import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizDetailUseCase
+import team.ommaya.wequiz.android.domain.usecase.user.GetUserUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class QuizSolveSharedViewModel @Inject constructor(
     private val getQuizDetailUseCase: GetQuizDetailUseCase,
+    private val getUserUseCase: GetUserUseCase,
 ) : ViewModel() {
 
     private val _isQuizValid: MutableSharedFlow<Boolean> = MutableSharedFlow()
@@ -31,14 +33,24 @@ class QuizSolveSharedViewModel @Inject constructor(
         MutableStateFlow(QuizDetail(emptyList(), 0, ""))
     val quizDetail = _quizDetail.asStateFlow()
 
+    private val _isLogin: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isLogin = _isLogin.asStateFlow()
+
     fun getQuizDetail(quizId: Int) {
         viewModelScope.launch {
             getQuizDetailUseCase(quizId)
                 .onSuccess {
                     _isQuizValid.emit(true)
+                    _quizDetail.value = it
                 }.onFailure {
                     _isQuizValid.emit(false)
                 }
+        }
+    }
+
+    fun checkLogin() {
+        viewModelScope.launch {
+            _isLogin.value = getUserUseCase().isLogin
         }
     }
 }

@@ -57,6 +57,7 @@ class QuizSolveActivity :
             .addOnFailureListener(this) { _ ->
                 setNavGraph(false)
             }
+        quizSolveViewModel.checkLogin()
     }
 
     private fun initNavigation() {
