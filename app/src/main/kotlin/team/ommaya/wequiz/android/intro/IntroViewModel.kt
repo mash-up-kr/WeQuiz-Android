@@ -128,6 +128,7 @@ class IntroViewModel @Inject constructor(
         viewModelScope.launch {
             getUserInformationUseCase(_token.value)
                 .onSuccess {
+                    setNickname (it.data.nickname)
                     sendVerifyCodeEvent(VerifyCodeUiEvent.REGISTERED)
                 }.onFailure {
                     if (it is UnregisteredException) {
