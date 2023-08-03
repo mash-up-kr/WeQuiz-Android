@@ -17,5 +17,5 @@ internal data class UserInformationFormattedResponse(
     val data: UserInformationResponse? = null,
 
     @field:JsonProperty("message")
-    val message: String? = null,
+    val message: String? = "",
 )

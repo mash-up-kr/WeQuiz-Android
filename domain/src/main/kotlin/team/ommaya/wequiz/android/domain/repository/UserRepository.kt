@@ -13,4 +13,10 @@ import team.ommaya.wequiz.android.domain.model.user.UserInformation
 interface UserRepository {
     suspend fun getUser(): User
     suspend fun getInformation(token: String): UserInformation
+    suspend fun postUserJoin(
+        token: String,
+        phone: String,
+        nickname: String,
+        description: String,
+    ): String
 }
