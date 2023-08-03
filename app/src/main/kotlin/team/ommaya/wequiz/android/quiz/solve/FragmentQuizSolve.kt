@@ -33,6 +33,14 @@ class FragmentQuizSolve :
     private val quizSolveSharedViewModel: QuizSolveSharedViewModel by activityViewModels()
     private val quizSolveViewModel: QuizSolveViewModel by viewModels()
 
+    private val quizAdapter: QuizAdapter by lazy {
+        QuizAdapter(
+            itemClickListener = { answerId ->
+
+            },
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initData()
@@ -45,8 +53,8 @@ class FragmentQuizSolve :
     }
 
     private fun initData() {
-        quizSolveViewModel.setQuestionCount(
-            quizSolveSharedViewModel.quizDetail.value.questions.size
+        quizSolveViewModel.initQuiz(
+            quizSolveSharedViewModel.quizDetail.value.questions
         )
     }
 
@@ -54,6 +62,7 @@ class FragmentQuizSolve :
         binding.apply {
             setTextGradient(tvAnswerCount)
             tvQuizTitle.text = quizSolveSharedViewModel.quizDetail.value.title
+            rvSolveAnswer.adapter = quizAdapter
         }
     }
 
@@ -101,12 +110,26 @@ class FragmentQuizSolve :
                             binding.tvQuizRemaining.text = getString(
                                 R.string.remaining_problem,
                                 it.second,
-                                it.first,
+                                it.first + 1,
                             )
                             with(binding.pbQuizPercent) {
                                 max = it.second
-                                progress = it.first
+                                progress = it.first + 1
                             }
+                        }
+                    }
+
+                    launch {
+                        currentQuestion.collect { currentQuestion ->
+                            with(binding) {
+                                tvQuestionNum.text = currentQuestion.id.toString()
+                                tvQuestionScore.text = currentQuestion.score.toString()
+                                tvQuestionTitle.text = currentQuestion.title
+                                tvAnswerCount.text =
+                                    getString(R.string.answer_count, currentQuestion.answerCounts)
+                            }
+
+                            quizAdapter.submitList(currentQuestion.options)
                         }
                     }
                 }
