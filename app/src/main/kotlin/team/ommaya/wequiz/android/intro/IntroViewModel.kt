@@ -63,7 +63,8 @@ class IntroViewModel @Inject constructor(
     private val _nickname: MutableStateFlow<String> = MutableStateFlow("")
     val nickname = _nickname.asStateFlow()
 
-    private val phoneNumber: MutableStateFlow<String> = MutableStateFlow("")
+    private val _phoneNumber: MutableStateFlow<String> = MutableStateFlow("")
+    val phoneNumber = _phoneNumber.asStateFlow()
 
     private val _onCodeSentFlow: MutableSharedFlow<Boolean> = MutableSharedFlow()
     val onCodeSentFlow = _onCodeSentFlow.asSharedFlow()
@@ -112,7 +113,7 @@ class IntroViewModel @Inject constructor(
         viewModelScope.launch {
             startPhoneVerificationUseCase(phone, activity)
                 .onSuccess {
-                    phoneNumber.value = phone
+                    _phoneNumber.value = phone
                 }.onFailure {
                     //
                 }
@@ -141,7 +142,7 @@ class IntroViewModel @Inject constructor(
 
     private fun getUserInformation() {
         viewModelScope.launch {
-            getUserInformationUseCase(_token.value)
+            getUserInformationUseCase(token.value)
                 .onSuccess {
                     setNickname(it.data.nickname)
                     sendVerifyCodeEvent(VerifyCodeUiEvent.REGISTERED)
