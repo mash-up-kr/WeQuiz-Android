@@ -48,7 +48,7 @@ class QuizAdapter(
             override fun areContentsTheSame(
                 oldItem: QuizDetailOption,
                 newItem: QuizDetailOption
-            ) = oldItem == newItem
+            ) = oldItem.id == newItem.id
         }
     }
 }
@@ -59,21 +59,26 @@ class QuizDetailViewHolder(
     private val itemClickListener: (QuizDetailOption, Boolean) -> Unit,
 ) : ViewHolder(binding.root) {
 
-    private var isChecked = false
-
     fun bind(item: QuizDetailOption, itemCount: Int) {
-        with(binding) {
-            tvSolveAnswer.text = item.content
-            root.setOnClickListener {
-                isChecked = !isChecked
-                if (isChecked) {
-                    it.setBackgroundResource(getAnswerColorList(itemCount)[adapterPosition])
-                    tvSolveAnswer.setTextColor(context.getColor(R.color.G9))
-                } else {
-                    it.setBackgroundResource(R.drawable.bg_g8_radius_16)
-                    tvSolveAnswer.setTextColor(context.getColor(R.color.G2))
+        var isChecked = false
+        binding.apply {
+            with(root) {
+                setBackgroundResource(R.drawable.bg_g8_radius_16)
+                setOnClickListener {
+                    isChecked = !isChecked
+                    if (isChecked) {
+                        it.setBackgroundResource(getAnswerColorList(itemCount)[adapterPosition])
+                        tvSolveAnswer.setTextColor(context.getColor(R.color.G9))
+                    } else {
+                        it.setBackgroundResource(R.drawable.bg_g8_radius_16)
+                        tvSolveAnswer.setTextColor(context.getColor(R.color.G2))
+                    }
+                    itemClickListener(item, isChecked)
                 }
-                itemClickListener(item, isChecked)
+            }
+            with(tvSolveAnswer) {
+                setTextColor(context.getColor(R.color.G2))
+                text = item.content
             }
         }
     }
