@@ -12,6 +12,7 @@ import team.ommaya.wequiz.android.data.model.quiz.QuestionDto
 import team.ommaya.wequiz.android.data.model.quiz.QuizDetailResponse
 import team.ommaya.wequiz.android.data.model.quiz.QuizListResponse
 import team.ommaya.wequiz.android.data.model.quiz.SubmitResult
+import team.ommaya.wequiz.android.domain.model.quiz.Creator
 import team.ommaya.wequiz.android.domain.model.quiz.Option
 import team.ommaya.wequiz.android.domain.model.quiz.Question
 import team.ommaya.wequiz.android.domain.model.quiz.Quiz
@@ -78,6 +79,7 @@ internal fun QuizDetailResponse.toDomain() =
             },
         id = requireNotNull(id),
         title = requireNotNull(title),
+        creator = Creator(creator.id, creator.name)
     )
 
 internal fun SubmitResult.toQuizResult(): QuizResult {

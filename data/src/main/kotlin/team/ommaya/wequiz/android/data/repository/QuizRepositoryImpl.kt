@@ -26,6 +26,7 @@ import team.ommaya.wequiz.android.data.model.quiz.QuizListFormattedResponse
 import team.ommaya.wequiz.android.data.model.quiz.SubmitAnswerRequest
 import team.ommaya.wequiz.android.data.model.quiz.SubmitAnswerResponse
 import team.ommaya.wequiz.android.domain.model.quiz.Answer
+import team.ommaya.wequiz.android.domain.model.quiz.Creator
 import team.ommaya.wequiz.android.domain.model.quiz.Question
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetail
 import team.ommaya.wequiz.android.domain.model.quiz.QuizList
@@ -75,12 +76,10 @@ class QuizRepositoryImpl @Inject constructor(
     override suspend fun getQuizDetail(quizId: Int): QuizDetail {
         val response =
             client
-                .get("quiz/$quizId") {
-                    header("x-wequiz-token", TmpToken)
-                }
+                .get("quiz/$quizId")
                 .body<QuizDetailFormattedResponse>()
         if (response.code == "SUCCESS") {
-            return response.data?.toDomain() ?: QuizDetail(emptyList(), 0, "")
+            return response.data?.toDomain() ?: QuizDetail(emptyList(), 0, Creator(), "")
         } else {
             throw Exception("code: ${response.code} message: ${response.message}")
         }

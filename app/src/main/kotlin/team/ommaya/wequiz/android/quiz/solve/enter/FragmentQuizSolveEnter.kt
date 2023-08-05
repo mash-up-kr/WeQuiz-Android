@@ -41,6 +41,7 @@ class FragmentQuizSolveEnter :
                             with(binding) {
                                 tvQuizNumber.text = getString(R.string.quiz_num, quizDetail.id)
                                 tvQuizTitle.text = getString(R.string.quiz_title, quizDetail.title)
+                                tvQuizAuthor.text = quizDetail.creator.name
                             }
                         }
                     }

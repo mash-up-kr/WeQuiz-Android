@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import team.ommaya.wequiz.android.domain.model.quiz.Creator
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetail
 import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizDetailUseCase
 import team.ommaya.wequiz.android.domain.usecase.user.GetUserUseCase
@@ -30,7 +31,7 @@ class QuizSolveSharedViewModel @Inject constructor(
     val isQuizValid = _isQuizValid.asSharedFlow()
 
     private val _quizDetail: MutableStateFlow<QuizDetail> =
-        MutableStateFlow(QuizDetail(emptyList(), 0, ""))
+        MutableStateFlow(QuizDetail(emptyList(), 0, Creator(), ""))
     val quizDetail = _quizDetail.asStateFlow()
 
     private val _isLogin: MutableStateFlow<Boolean> = MutableStateFlow(false)
