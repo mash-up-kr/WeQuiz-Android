@@ -7,6 +7,7 @@
 
 package team.ommaya.wequiz.android.quiz.solve.enter
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
@@ -19,6 +20,8 @@ import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentQuizSolveEnterBinding
+import team.ommaya.wequiz.android.home.main.HomeMainActivity
+import team.ommaya.wequiz.android.intro.IntroActivity
 import team.ommaya.wequiz.android.quiz.solve.QuizSolveSharedViewModel
 
 @AndroidEntryPoint
@@ -27,9 +30,32 @@ class FragmentQuizSolveEnter :
 
     private val quizSolveSharedViewModel: QuizSolveSharedViewModel by activityViewModels()
 
+    private lateinit var homeIntent: Intent
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initData()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
         collectFlows()
+    }
+
+    private fun initData() {
+        homeIntent = if (quizSolveSharedViewModel.isLogin.value) {
+            Intent(requireActivity(), HomeMainActivity::class.java)
+        } else {
+            Intent(requireActivity(), IntroActivity::class.java)
+        }
+    }
+
+    private fun initView() {
+        binding.ivHome.setOnClickListener {
+            startActivity(homeIntent)
+            requireActivity().finish()
+        }
     }
 
     private fun collectFlows() {
@@ -50,7 +76,13 @@ class FragmentQuizSolveEnter :
                         isLogin.collect { isLogin ->
                             binding.btnQuizStart.setOnClickListener {
                                 val destination =
-                                    if (isLogin) R.id.fragmentQuizSolve else R.id.fragmentSolvePersonalInformation
+                                    if (isLogin) {
+                                        R.id.fragmentQuizSolve
+                                    } else if (quizSolveSharedViewModel.anonymousToken.value.isNotBlank()) {
+                                        R.id.fragmentQuizSolve
+                                    } else {
+                                        R.id.fragmentSolvePersonalInformation
+                                    }
                                 findNavController().navigate(destination)
                             }
                         }

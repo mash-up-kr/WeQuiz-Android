@@ -66,8 +66,8 @@ class QuizSolveSharedViewModel @Inject constructor(
         }
     }
 
-    fun setAnonymousToken(name: String) {
-        _anonymousToken.value = name
+    fun setAnonymousToken(token: String) {
+        _anonymousToken.value = token
     }
 
     fun setResult(result: QuizResult, rankingList: List<RankingsItem>) {

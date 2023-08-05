@@ -57,7 +57,6 @@ class ResultFragment :
     }
 
     private fun initData() {
-        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
         homeIntent = if (quizSolveSharedViewModel.isLogin.value) {
             Intent(requireActivity(), HomeMainActivity::class.java)
         } else {
@@ -66,6 +65,7 @@ class ResultFragment :
     }
 
     private fun initView() {
+        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
         with(binding) {
             with(tvResultScore) {
                 paint.shader = LinearGradient(

@@ -32,13 +32,13 @@
         android:textAppearance="@style/WeQuizTextAppearance.Subtitle2.Bold"
         android:textColor="@color/G2"
         app:layout_constraintBottom_toBottomOf="@id/btn_back"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintEnd_toStartOf="@+id/iv_report"
         app:layout_constraintStart_toEndOf="@id/btn_back"
         app:layout_constraintTop_toTopOf="@id/btn_back"
         tools:text="나를 맞춰봐" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/iv_report"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

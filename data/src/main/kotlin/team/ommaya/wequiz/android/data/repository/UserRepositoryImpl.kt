@@ -12,8 +12,12 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.header
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
 import kotlinx.coroutines.flow.first
 import team.ommaya.wequiz.android.data.mapper.toDomain
+import team.ommaya.wequiz.android.data.model.quiz.AnonymousJoinRequest
+import team.ommaya.wequiz.android.data.model.quiz.AnonymousJoinResponse
 import team.ommaya.wequiz.android.data.model.user.UserInformationFormattedResponse
 import team.ommaya.wequiz.android.data.preference.UserPreference
 import team.ommaya.wequiz.android.domain.model.user.UserInformation
@@ -34,5 +38,19 @@ class UserRepositoryImpl @Inject constructor(
                 }
                 .body<UserInformationFormattedResponse>()
         return requireNotNull(response.data).toDomain()
+    }
+
+    override suspend fun getAnonymousToken(nickname: String): String {
+        val response =
+            client
+                .post("user/join/anonymous") {
+                    setBody(AnonymousJoinRequest(nickname))
+                }
+                .body<AnonymousJoinResponse>()
+        if (response.code == "SUCCESS") {
+            return response.data.token
+        } else {
+            throw Exception(response.message)
+        }
     }
 }

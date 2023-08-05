@@ -74,6 +74,12 @@ class FragmentQuizSolve :
             setTextGradient(tvAnswerCount)
             tvQuizTitle.text = quizSolveSharedViewModel.quizDetail.value.title
             rvSolveAnswer.adapter = quizAdapter
+            btnBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+            ivReport.setOnClickListener {
+                // 구글 폼 이동
+            }
         }
     }
 
