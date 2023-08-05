@@ -24,6 +24,7 @@ import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentQuizSolveBinding
+import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailOption
 import team.ommaya.wequiz.android.design.resource.R as DesignR
 
 @AndroidEntryPoint
@@ -35,9 +36,9 @@ class FragmentQuizSolve :
 
     private val quizAdapter: QuizAdapter by lazy {
         QuizAdapter(
-            itemClickListener = { answerId ->
-
+            itemClickListener = { answerId, isChecked ->
             },
+            requireContext(),
         )
     }
 
@@ -132,8 +133,20 @@ class FragmentQuizSolve :
                             quizAdapter.submitList(currentQuestion.options)
                         }
                     }
+
+                    launch {
+                        isAnswerSufficient.collect { isSufficient ->
+                            if (isSufficient) {
+                                setNexQuestion()
+                            }
+                        }
+                    }
                 }
             }
         }
+    }
+
+    private fun onAnswerItemClick(item: QuizDetailOption, isChecked: Boolean) {
+
     }
 }
