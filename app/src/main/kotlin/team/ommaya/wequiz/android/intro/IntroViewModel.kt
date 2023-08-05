@@ -74,10 +74,8 @@ class IntroViewModel @Inject constructor(
 
     init {
         setAuthCallbacksUseCase(this)
-            .onSuccess {
-                //
-            }.onFailure {
-                //
+            .onFailure {
+                Log.e(TAG, it.message.toString())
             }
     }
 
@@ -115,7 +113,7 @@ class IntroViewModel @Inject constructor(
                 .onSuccess {
                     _phoneNumber.value = phone
                 }.onFailure {
-                    //
+                    Log.e(TAG, it.message.toString())
                 }
         }
     }
@@ -126,7 +124,7 @@ class IntroViewModel @Inject constructor(
                 .onSuccess {
                     sendVerifyCodeEvent(VerifyCodeUiEvent.RESEND)
                 }.onFailure {
-                    //
+                    Log.e(TAG, it.message.toString())
                 }
         }
     }
@@ -136,7 +134,7 @@ class IntroViewModel @Inject constructor(
             .onSuccess {
                 //
             }.onFailure {
-                //
+                Log.e(TAG, it.message.toString())
             }
     }
 
@@ -170,7 +168,7 @@ class IntroViewModel @Inject constructor(
                 saveTokenUseCase(token.value)
                 appendClientHeaderUseCase(token.value)
             }.onFailure {
-                //
+                Log.e(TAG, it.message.toString())
             }
         }
     }
