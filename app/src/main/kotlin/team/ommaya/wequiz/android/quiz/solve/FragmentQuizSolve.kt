@@ -25,6 +25,7 @@ import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentQuizSolveBinding
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailOption
+import team.ommaya.wequiz.android.utils.toast
 import team.ommaya.wequiz.android.design.resource.R as DesignR
 
 @AndroidEntryPoint
@@ -37,6 +38,7 @@ class FragmentQuizSolve :
     private val quizAdapter: QuizAdapter by lazy {
         QuizAdapter(
             itemClickListener = { answerId, isChecked ->
+                onAnswerItemClick(answerId, isChecked)
             },
             requireContext(),
         )
@@ -137,7 +139,15 @@ class FragmentQuizSolve :
                     launch {
                         isAnswerSufficient.collect { isSufficient ->
                             if (isSufficient) {
-                                setNexQuestion()
+                                when (hasNexQuestion()) {
+                                    false -> {
+                                        // 문제 제출하기
+                                        toast("다 품")
+                                    }
+                                    true -> {
+                                        Unit
+                                    }
+                                }
                             }
                         }
                     }
@@ -147,6 +157,6 @@ class FragmentQuizSolve :
     }
 
     private fun onAnswerItemClick(item: QuizDetailOption, isChecked: Boolean) {
-
+        quizSolveViewModel.setCurrentAnswerList(item, isChecked)
     }
 }
