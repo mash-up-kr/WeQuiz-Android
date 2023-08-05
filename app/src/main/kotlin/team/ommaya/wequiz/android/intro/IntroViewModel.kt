@@ -26,7 +26,6 @@ import team.ommaya.wequiz.android.domain.usecase.intro.SetAuthCallbacksUseCase
 import team.ommaya.wequiz.android.domain.usecase.intro.SignUpUseCase
 import team.ommaya.wequiz.android.domain.usecase.intro.StartPhoneVerificationUseCase
 import team.ommaya.wequiz.android.domain.usecase.intro.VerifyCodeUseCase
-import team.ommaya.wequiz.android.domain.usecase.user.AppendClientHeaderUseCase
 import team.ommaya.wequiz.android.domain.usecase.user.GetUserInformationUseCase
 import team.ommaya.wequiz.android.domain.usecase.user.GetUserUseCase
 import team.ommaya.wequiz.android.domain.usecase.user.SaveTokenUseCase
@@ -42,7 +41,6 @@ class IntroViewModel @Inject constructor(
     private val getUserInformationUseCase: GetUserInformationUseCase,
     private val getUserUseCase: GetUserUseCase,
     private val saveTokenUseCase: SaveTokenUseCase,
-    private val appendClientHeaderUseCase: AppendClientHeaderUseCase,
 ) : ViewModel(), AuthCallbacksListener {
 
     private val _mode: MutableStateFlow<IntroMode> = MutableStateFlow(IntroMode.LOGIN)
@@ -166,7 +164,6 @@ class IntroViewModel @Inject constructor(
                 description,
             ).onSuccess {
                 saveTokenUseCase(token.value)
-                appendClientHeaderUseCase(token.value)
             }.onFailure {
                 Log.e(TAG, it.message.toString())
             }
