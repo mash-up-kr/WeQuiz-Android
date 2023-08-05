@@ -17,11 +17,11 @@ class IntroActivity : BaseViewBindingActivity<ActivityIntroBinding>(ActivityIntr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setIsLogin()
+        checkIsLogin()
         startHomeMainActivity()
     }
 
-    private fun setIsLogin() {
+    private fun checkIsLogin() {
         introViewModel.checkIsLogin()
     }
 
