@@ -24,6 +24,7 @@ class UserPreferenceSerializer @Inject constructor() : Serializer<UserPreference
         isLogin = false,
         isFirstAccess = false,
         isSaveTemporarily = false,
+        token = "",
     )
 
     override suspend fun readFrom(input: InputStream): UserPreference =

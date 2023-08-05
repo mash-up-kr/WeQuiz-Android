@@ -26,7 +26,10 @@ import team.ommaya.wequiz.android.domain.usecase.intro.SetAuthCallbacksUseCase
 import team.ommaya.wequiz.android.domain.usecase.intro.SignUpUseCase
 import team.ommaya.wequiz.android.domain.usecase.intro.StartPhoneVerificationUseCase
 import team.ommaya.wequiz.android.domain.usecase.intro.VerifyCodeUseCase
+import team.ommaya.wequiz.android.domain.usecase.user.AppendClientHeaderUseCase
 import team.ommaya.wequiz.android.domain.usecase.user.GetUserInformationUseCase
+import team.ommaya.wequiz.android.domain.usecase.user.GetUserUseCase
+import team.ommaya.wequiz.android.domain.usecase.user.SaveTokenUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,6 +40,9 @@ class IntroViewModel @Inject constructor(
     private val verifyCodeUseCase: VerifyCodeUseCase,
     private val signUpUseCase: SignUpUseCase,
     private val getUserInformationUseCase: GetUserInformationUseCase,
+    private val getUserUseCase: GetUserUseCase,
+    private val saveTokenUseCase: SaveTokenUseCase,
+    private val appendClientHeaderUseCase: AppendClientHeaderUseCase,
 ) : ViewModel(), AuthCallbacksListener {
 
     private val _mode: MutableStateFlow<IntroMode> = MutableStateFlow(IntroMode.LOGIN)
@@ -62,6 +68,9 @@ class IntroViewModel @Inject constructor(
     private val _onCodeSentFlow: MutableSharedFlow<Boolean> = MutableSharedFlow()
     val onCodeSentFlow = _onCodeSentFlow.asSharedFlow()
 
+    private val _isLogin: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isLogin = _isLogin.asStateFlow()
+
     init {
         setAuthCallbacksUseCase(this)
             .onSuccess {
@@ -85,6 +94,12 @@ class IntroViewModel @Inject constructor(
 
     fun setNickname(nickname: String) {
         _nickname.value = nickname
+    }
+
+    fun setIsLogin() {
+        viewModelScope.launch {
+            _isLogin.value = getUserUseCase().isLogin
+        }
     }
 
     fun sendVerifyCodeEvent(verifyCodeUiEvent: VerifyCodeUiEvent) {
@@ -146,12 +161,13 @@ class IntroViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             signUpUseCase(
-                _token.value,
+                token.value,
                 phoneNumber.value,
                 nickname,
                 description,
             ).onSuccess {
-                //
+                saveTokenUseCase(token.value)
+                appendClientHeaderUseCase(token.value)
             }.onFailure {
                 //
             }

@@ -14,11 +14,13 @@ import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.http.headers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.data.mapper.toDomain
-import team.ommaya.wequiz.android.data.model.user.UserInformationFormattedResponse
 import team.ommaya.wequiz.android.data.model.user.SignUpRequest
 import team.ommaya.wequiz.android.data.model.user.SignUpResponse
+import team.ommaya.wequiz.android.data.model.user.UserInformationFormattedResponse
 import team.ommaya.wequiz.android.data.preference.UserPreference
 import team.ommaya.wequiz.android.domain.model.user.UserInformation
 import team.ommaya.wequiz.android.domain.repository.UserRepository
@@ -73,5 +75,19 @@ class UserRepositoryImpl @Inject constructor(
                 }
                 .body<SignUpResponse>()
         return response.code
+    }
+
+    override suspend fun saveUserToken(token: String) {
+        userDataStore.updateData { preference ->
+            preference.copy(isLogin = true, token = token)
+        }
+    }
+
+    override suspend fun appendClientHeader(token: String) {
+        client.launch {
+            headers {
+                append("x-wequiz-token", token)
+            }
+        }
     }
 }
