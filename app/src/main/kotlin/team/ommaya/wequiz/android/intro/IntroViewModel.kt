@@ -95,7 +95,7 @@ class IntroViewModel @Inject constructor(
         _nickname.value = nickname
     }
 
-    fun setIsLogin() {
+    fun checkIsLogin() {
         viewModelScope.launch {
             _isLogin.value = getUserUseCase().isLogin
         }

@@ -21,6 +21,4 @@ interface UserRepository {
     ): String
 
     suspend fun saveUserToken(token: String)
-
-    suspend fun appendClientHeader(token: String)
 }

@@ -22,7 +22,7 @@ class IntroActivity : BaseViewBindingActivity<ActivityIntroBinding>(ActivityIntr
     }
 
     private fun setIsLogin() {
-        introViewModel.setIsLogin()
+        introViewModel.checkIsLogin()
     }
 
     private fun startHomeMainActivity() {
@@ -30,11 +30,15 @@ class IntroActivity : BaseViewBindingActivity<ActivityIntroBinding>(ActivityIntr
             introViewModel.isLogin.collect { isLogin ->
                 if (isLogin) {
                     val intent = Intent(this@IntroActivity, HomeMainActivity::class.java)
-                    intent.putExtra("token", introViewModel.token.value)
+                    intent.putExtra(TOKEN, introViewModel.token.value)
                     startActivity(intent)
                     finish()
                 }
             }
         }
+    }
+
+    companion object {
+        const val TOKEN = "token"
     }
 }

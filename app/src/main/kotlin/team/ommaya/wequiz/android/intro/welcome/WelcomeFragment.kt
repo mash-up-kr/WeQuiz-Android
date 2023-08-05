@@ -19,6 +19,7 @@ import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentWelcomeBinding
 import team.ommaya.wequiz.android.home.main.HomeMainActivity
+import team.ommaya.wequiz.android.intro.IntroActivity.Companion.TOKEN
 import team.ommaya.wequiz.android.intro.IntroViewModel
 
 @AndroidEntryPoint
@@ -44,7 +45,7 @@ class WelcomeFragment :
             delay(DELAY_TIME)
 
             val intent = Intent(context, HomeMainActivity::class.java)
-            intent.putExtra("token", introViewModel.token.value)
+            intent.putExtra(TOKEN, introViewModel.token.value)
             requireActivity().finish()
         }
     }
