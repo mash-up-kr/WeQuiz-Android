@@ -58,7 +58,7 @@ class IntroViewModel @Inject constructor(
     val verifyCodeEventFlow = _verifyCodeEventFlow.asSharedFlow()
 
     private val _token: MutableStateFlow<String> = MutableStateFlow("")
-    val token = _verifyTime.asStateFlow()
+    val token = _token.asStateFlow()
 
     private val _nickname: MutableStateFlow<String> = MutableStateFlow("")
     val nickname = _nickname.asStateFlow()
