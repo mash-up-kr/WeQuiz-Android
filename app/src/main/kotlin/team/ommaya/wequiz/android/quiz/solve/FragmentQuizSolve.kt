@@ -19,13 +19,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentQuizSolveBinding
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailOption
-import team.ommaya.wequiz.android.utils.toast
+import team.ommaya.wequiz.android.utils.ProgressDialog
+import team.ommaya.wequiz.android.utils.SnackbarMode
+import team.ommaya.wequiz.android.utils.WeQuizSnackbar
 import team.ommaya.wequiz.android.design.resource.R as DesignR
 
 @AndroidEntryPoint
@@ -44,6 +47,10 @@ class FragmentQuizSolve :
         )
     }
 
+    private val progressDialog: ProgressDialog by lazy {
+        ProgressDialog()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initData()
@@ -57,7 +64,7 @@ class FragmentQuizSolve :
 
     private fun initData() {
         quizSolveViewModel.initQuiz(
-            quizSolveSharedViewModel.quizDetail.value.questions
+            quizSolveSharedViewModel.quizDetail.value
         )
     }
 
@@ -141,12 +148,36 @@ class FragmentQuizSolve :
                             if (isSufficient) {
                                 when (hasNexQuestion()) {
                                     false -> {
-                                        // 문제 제출하기
-                                        toast("다 품")
+                                        submitAnswer()
                                     }
                                     true -> {
                                         Unit
                                     }
+                                }
+                            }
+                        }
+                    }
+
+                    launch {
+                        quizSolveUiState.collect { state ->
+                            when (state) {
+                                is SolveUiState.Success -> {
+                                    progressDialog.dismiss()
+                                    findNavController().navigate(R.id.resultFragment)
+                                }
+                                is SolveUiState.Fail -> {
+                                    progressDialog.dismiss()
+                                    WeQuizSnackbar.make(
+                                        requireView(),
+                                        state.message,
+                                        SnackbarMode.FAILURE
+                                    ).show()
+                                }
+                                SolveUiState.Loading -> {
+                                    progressDialog.show(
+                                        requireActivity().supportFragmentManager,
+                                        "progress"
+                                    )
                                 }
                             }
                         }

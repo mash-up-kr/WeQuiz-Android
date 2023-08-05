@@ -10,13 +10,16 @@ package team.ommaya.wequiz.android.quiz.solve
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.domain.model.quiz.Answer
+import team.ommaya.wequiz.android.domain.model.quiz.QuizDetail
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailOption
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailQuestion
 import team.ommaya.wequiz.android.domain.model.quiz.QuizResult
@@ -28,8 +31,11 @@ class QuizSolveViewModel @Inject constructor(
     private val submitQuizAnswerUseCase: SubmitQuizAnswerUseCase,
 ) : ViewModel() {
 
-    private val _quiz: MutableStateFlow<List<QuizDetailQuestion>> = MutableStateFlow(emptyList())
-    val quiz = _quiz.asStateFlow()
+    private val quizId: MutableStateFlow<Int> = MutableStateFlow(0)
+
+    private val _questionList: MutableStateFlow<List<QuizDetailQuestion>> =
+        MutableStateFlow(emptyList())
+    val questionList = _questionList.asStateFlow()
 
     private val _currentQuestion: MutableStateFlow<QuizDetailQuestion> = MutableStateFlow(
         QuizDetailQuestion(0, 0, emptyList(), 0, "")
@@ -73,10 +79,14 @@ class QuizSolveViewModel @Inject constructor(
         false,
     )
 
-    fun initQuiz(quiz: List<QuizDetailQuestion>) {
-        _quiz.value = quiz
-        _currentQuestion.value = quiz[currentQuestionCount.value]
-        questionCount.value = quiz.size
+    private val _quizSolveUiState: MutableSharedFlow<SolveUiState> = MutableSharedFlow()
+    val quizSolveUiState = _quizSolveUiState.asSharedFlow()
+
+    fun initQuiz(quiz: QuizDetail) {
+        quizId.value = quiz.id
+        _questionList.value = quiz.questions
+        _currentQuestion.value = quiz.questions[currentQuestionCount.value]
+        questionCount.value = quiz.questions.size
     }
 
     fun hasNexQuestion(): Boolean {
@@ -92,7 +102,7 @@ class QuizSolveViewModel @Inject constructor(
         totalAnswerList.value = answerList
         return if (currentQuestionCount.value + 1 < questionCount.value) {
             currentQuestionCount.value += 1
-            _currentQuestion.value = quiz.value[currentQuestionCount.value]
+            _currentQuestion.value = questionList.value[currentQuestionCount.value]
             currentSelectAnswerList.value = emptyList()
             true
         } else {
@@ -124,7 +134,24 @@ class QuizSolveViewModel @Inject constructor(
 
     fun submitAnswer() {
         viewModelScope.launch {
-
+            _quizSolveUiState.emit(SolveUiState.Loading)
+            submitQuizAnswerUseCase(quizId.value, totalAnswerList.value)
+                .onSuccess {
+                    _quizSolveUiState.emit(SolveUiState.Success(it))
+                }.onFailure {
+                    _quizSolveUiState.emit(SolveUiState.Fail(it.message ?: "네트워크 에러"))
+                }
         }
     }
+}
+
+sealed interface SolveUiState {
+    object Loading : SolveUiState
+    data class Success(
+        val data: QuizResult
+    ) : SolveUiState
+
+    data class Fail(
+        val message: String
+    ) : SolveUiState
 }
