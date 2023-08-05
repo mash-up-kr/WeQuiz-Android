@@ -17,7 +17,15 @@ class IntroActivity : BaseViewBindingActivity<ActivityIntroBinding>(ActivityIntr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setIsLogin()
+        startHomeMainActivity()
+    }
+
+    private fun setIsLogin() {
         introViewModel.setIsLogin()
+    }
+
+    private fun startHomeMainActivity() {
         lifecycleScope.launch {
             introViewModel.isLogin.collect { isLogin ->
                 if (isLogin) {
