@@ -11,4 +11,5 @@ data class User(
     val isLogin: Boolean,
     val isFirstAccess: Boolean,
     val isSaveTemporarily: Boolean,
+    val token: String,
 )

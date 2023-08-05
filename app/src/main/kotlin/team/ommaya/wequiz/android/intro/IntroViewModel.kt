@@ -27,6 +27,8 @@ import team.ommaya.wequiz.android.domain.usecase.intro.SignUpUseCase
 import team.ommaya.wequiz.android.domain.usecase.intro.StartPhoneVerificationUseCase
 import team.ommaya.wequiz.android.domain.usecase.intro.VerifyCodeUseCase
 import team.ommaya.wequiz.android.domain.usecase.user.GetUserInformationUseCase
+import team.ommaya.wequiz.android.domain.usecase.user.GetUserUseCase
+import team.ommaya.wequiz.android.domain.usecase.user.SaveTokenUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,6 +39,8 @@ class IntroViewModel @Inject constructor(
     private val verifyCodeUseCase: VerifyCodeUseCase,
     private val signUpUseCase: SignUpUseCase,
     private val getUserInformationUseCase: GetUserInformationUseCase,
+    private val getUserUseCase: GetUserUseCase,
+    private val saveTokenUseCase: SaveTokenUseCase,
 ) : ViewModel(), AuthCallbacksListener {
 
     private val _mode: MutableStateFlow<IntroMode> = MutableStateFlow(IntroMode.LOGIN)
@@ -52,22 +56,24 @@ class IntroViewModel @Inject constructor(
     val verifyCodeEventFlow = _verifyCodeEventFlow.asSharedFlow()
 
     private val _token: MutableStateFlow<String> = MutableStateFlow("")
-    val token = _verifyTime.asStateFlow()
+    val token = _token.asStateFlow()
 
     private val _nickname: MutableStateFlow<String> = MutableStateFlow("")
     val nickname = _nickname.asStateFlow()
 
-    private val phoneNumber: MutableStateFlow<String> = MutableStateFlow("")
+    private val _phoneNumber: MutableStateFlow<String> = MutableStateFlow("")
+    val phoneNumber = _phoneNumber.asStateFlow()
 
     private val _onCodeSentFlow: MutableSharedFlow<Boolean> = MutableSharedFlow()
     val onCodeSentFlow = _onCodeSentFlow.asSharedFlow()
 
+    private val _isLogin: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isLogin = _isLogin.asStateFlow()
+
     init {
         setAuthCallbacksUseCase(this)
-            .onSuccess {
-                //
-            }.onFailure {
-                //
+            .onFailure {
+                Log.e(TAG, it.message.toString())
             }
     }
 
@@ -87,6 +93,12 @@ class IntroViewModel @Inject constructor(
         _nickname.value = nickname
     }
 
+    fun checkIsLogin() {
+        viewModelScope.launch {
+            _isLogin.value = getUserUseCase().isLogin
+        }
+    }
+
     fun sendVerifyCodeEvent(verifyCodeUiEvent: VerifyCodeUiEvent) {
         viewModelScope.launch {
             _verifyCodeEventFlow.emit(verifyCodeUiEvent)
@@ -97,9 +109,9 @@ class IntroViewModel @Inject constructor(
         viewModelScope.launch {
             startPhoneVerificationUseCase(phone, activity)
                 .onSuccess {
-                    phoneNumber.value = phone
+                    _phoneNumber.value = phone
                 }.onFailure {
-                    //
+                    Log.e(TAG, it.message.toString())
                 }
         }
     }
@@ -108,9 +120,9 @@ class IntroViewModel @Inject constructor(
         viewModelScope.launch {
             resendPhoneVerificationUseCase(activity)
                 .onSuccess {
-                    //
+                    sendVerifyCodeEvent(VerifyCodeUiEvent.RESEND)
                 }.onFailure {
-                    //
+                    Log.e(TAG, it.message.toString())
                 }
         }
     }
@@ -120,13 +132,13 @@ class IntroViewModel @Inject constructor(
             .onSuccess {
                 //
             }.onFailure {
-                //
+                Log.e(TAG, it.message.toString())
             }
     }
 
     private fun getUserInformation() {
         viewModelScope.launch {
-            getUserInformationUseCase(_token.value)
+            getUserInformationUseCase(token.value)
                 .onSuccess {
                     setNickname(it.data.nickname)
                     sendVerifyCodeEvent(VerifyCodeUiEvent.REGISTERED)
@@ -146,14 +158,14 @@ class IntroViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             signUpUseCase(
-                _token.value,
+                token.value,
                 phoneNumber.value,
                 nickname,
                 description,
             ).onSuccess {
-                //
+                saveTokenUseCase(token.value)
             }.onFailure {
-                //
+                Log.e(TAG, it.message.toString())
             }
         }
     }

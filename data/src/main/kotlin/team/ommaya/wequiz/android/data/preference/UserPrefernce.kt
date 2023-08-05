@@ -15,11 +15,13 @@ data class UserPreference(
     val isLogin: Boolean,
     val isFirstAccess: Boolean,
     val isSaveTemporarily: Boolean,
+    val token: String,
 ) {
     fun toUserModel() = User(
         isLogin = isLogin,
         isFirstAccess = isFirstAccess,
         isSaveTemporarily = isSaveTemporarily,
+        token = token,
     )
 
     companion object {

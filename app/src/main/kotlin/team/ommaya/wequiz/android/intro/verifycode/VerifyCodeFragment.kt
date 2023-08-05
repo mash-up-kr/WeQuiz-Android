@@ -82,13 +82,8 @@ class VerifyCodeFragment :
 
                 if (isValidInputLength(text, VERIFY_CODE_LENGTH)) {
                     if (!introViewModel.isVerifyTimeOut.value) {
+                        hideKeyboard()
                         introViewModel.verifyCode(text)
-                        etVerifyCodeInput.clearFocus()
-
-                        WindowInsetsControllerCompat(
-                            requireActivity().window,
-                            etVerifyCodeInput,
-                        ).show(WindowInsetsCompat.Type.ime())
                     } else {
                         showFailureWeQuizSnackbar(R.string.verify_code_resend_time_out)
                     }
@@ -97,7 +92,7 @@ class VerifyCodeFragment :
 
             textInputLayoutVerifyCodeInput.setEndIconOnClickListener {
                 startTime()
-                introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.RESEND)
+                introViewModel.resendVerifyCode(requireActivity())
             }
 
             btnVerifyCodeBack.setOnClickListener {
@@ -120,7 +115,6 @@ class VerifyCodeFragment :
                         when (event) {
                             VerifyCodeUiEvent.RESEND -> {
                                 showSuccessWeQuizSnackbar(R.string.verify_code_resend)
-                                introViewModel.resendVerifyCode(requireActivity())
                             }
                             VerifyCodeUiEvent.TIMEOUT -> {
                                 showFailureWeQuizSnackbar(R.string.verify_code_time_out)
@@ -207,6 +201,17 @@ class VerifyCodeFragment :
                 binding.etVerifyCodeInput.clearFocus()
             },
         )
+    }
+
+    private fun hideKeyboard() {
+        with(binding) {
+            WindowInsetsControllerCompat(
+                requireActivity().window,
+                etVerifyCodeInput,
+            ).hide(WindowInsetsCompat.Type.ime())
+
+            etVerifyCodeInput.clearFocus()
+        }
     }
 
     override fun onDestroyView() {

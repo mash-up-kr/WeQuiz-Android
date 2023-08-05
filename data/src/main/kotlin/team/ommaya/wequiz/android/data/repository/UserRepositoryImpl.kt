@@ -16,9 +16,9 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import kotlinx.coroutines.flow.first
 import team.ommaya.wequiz.android.data.mapper.toDomain
-import team.ommaya.wequiz.android.data.model.user.UserInformationFormattedResponse
 import team.ommaya.wequiz.android.data.model.user.SignUpRequest
 import team.ommaya.wequiz.android.data.model.user.SignUpResponse
+import team.ommaya.wequiz.android.data.model.user.UserInformationFormattedResponse
 import team.ommaya.wequiz.android.data.preference.UserPreference
 import team.ommaya.wequiz.android.domain.model.user.UserInformation
 import team.ommaya.wequiz.android.domain.repository.UserRepository
@@ -73,5 +73,11 @@ class UserRepositoryImpl @Inject constructor(
                 }
                 .body<SignUpResponse>()
         return response.code
+    }
+
+    override suspend fun saveUserToken(token: String) {
+        userDataStore.updateData { preference ->
+            preference.copy(isLogin = true, token = token)
+        }
     }
 }
