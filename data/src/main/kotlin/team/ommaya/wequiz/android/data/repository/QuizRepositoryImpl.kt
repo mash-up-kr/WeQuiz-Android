@@ -69,7 +69,7 @@ class QuizRepositoryImpl @Inject constructor(
         if (response.code == "SUCCESS") {
             return response.data.quizId
         } else {
-            throw Exception("code: ${response.code} messgae: ${response.message}")
+            throw Exception("response.message")
         }
     }
 

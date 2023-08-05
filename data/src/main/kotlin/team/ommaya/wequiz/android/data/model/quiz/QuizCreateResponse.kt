@@ -10,7 +10,7 @@ package team.ommaya.wequiz.android.data.model.quiz
 data class QuizCreateResponse(
     val code: String = "",
     val data: QuizInfo = QuizInfo(),
-    val message: String = "",
+    val message: String = "네트워크 에러",
 )
 
 data class QuizInfo(

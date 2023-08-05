@@ -68,13 +68,13 @@ class QuizCreateViewModel @Inject constructor(
 
     fun createQuiz(title: String, questions: List<Question>) {
         viewModelScope.launch {
-            _createState.emit(CreateState.LOADING)
+            _createState.emit(CreateState.Loading)
             createQuizUseCase(title, questions.toQuestionDomainList())
                 .onSuccess {
                     _quizId.value = it
-                    _createState.emit(CreateState.SUCCESS)
+                    _createState.emit(CreateState.Success)
                 }.onFailure {
-                    _createState.emit(CreateState.FAILED)
+                    _createState.emit(CreateState.Fail(it.message?: "네트워크 에러"))
                 }
         }
     }
@@ -300,8 +300,16 @@ class QuizCreateViewModel @Inject constructor(
         addAll(questionList.value[questionPosition].answerList)
     }
 
-    enum class CreateState {
+    /*enum class CreateState {
         SUCCESS, FAILED, LOADING,
+    }*/
+
+    sealed interface CreateState {
+        object Loading : CreateState
+        object Success : CreateState
+        data class Fail(
+            val message: String,
+        ) : CreateState
     }
 
     companion object {
