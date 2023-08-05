@@ -7,13 +7,16 @@
 
 package team.ommaya.wequiz.android.domain.repository
 
+import team.ommaya.wequiz.android.domain.model.quiz.Answer
 import team.ommaya.wequiz.android.domain.model.quiz.Question
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetail
 import team.ommaya.wequiz.android.domain.model.quiz.QuizList
+import team.ommaya.wequiz.android.domain.model.quiz.QuizResult
 
 interface QuizRepository {
     suspend fun getQuizList(token: String, size: Int, cursor: Int?): QuizList
     suspend fun postQuiz(title: String, questions: List<Question>): Int
     suspend fun getQuizDetail(quizId: Int): QuizDetail
     suspend fun deleteQuiz(token: String, quizId: Int)
+    suspend fun submitQuizAnswer(quizId: Int, answerList: List<Answer>): QuizResult
 }

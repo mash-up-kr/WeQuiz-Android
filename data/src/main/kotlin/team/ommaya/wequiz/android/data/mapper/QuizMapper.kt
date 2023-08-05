@@ -11,6 +11,7 @@ import team.ommaya.wequiz.android.data.model.quiz.OptionDto
 import team.ommaya.wequiz.android.data.model.quiz.QuestionDto
 import team.ommaya.wequiz.android.data.model.quiz.QuizDetailResponse
 import team.ommaya.wequiz.android.data.model.quiz.QuizListResponse
+import team.ommaya.wequiz.android.data.model.quiz.SubmitResult
 import team.ommaya.wequiz.android.domain.model.quiz.Option
 import team.ommaya.wequiz.android.domain.model.quiz.Question
 import team.ommaya.wequiz.android.domain.model.quiz.Quiz
@@ -18,6 +19,7 @@ import team.ommaya.wequiz.android.domain.model.quiz.QuizDetail
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailOption
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailQuestion
 import team.ommaya.wequiz.android.domain.model.quiz.QuizList
+import team.ommaya.wequiz.android.domain.model.quiz.QuizResult
 
 internal fun List<Option>.toOptionDtoList(): List<OptionDto> {
     return this.map {
@@ -77,3 +79,13 @@ internal fun QuizDetailResponse.toDomain() =
         id = requireNotNull(id),
         title = requireNotNull(title),
     )
+
+internal fun SubmitResult.toQuizResult(): QuizResult {
+    return QuizResult(
+        score = totalScore,
+        creatorId = quizCreator.id,
+        creatorName = quizCreator.name,
+        resolverId = quizResolver.id,
+        resolverName = quizResolver.name,
+    )
+}

@@ -9,16 +9,24 @@ package team.ommaya.wequiz.android.quiz.solve
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.domain.model.quiz.Answer
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailOption
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailQuestion
+import team.ommaya.wequiz.android.domain.model.quiz.QuizResult
+import team.ommaya.wequiz.android.domain.usecase.quiz.SubmitQuizAnswerUseCase
+import javax.inject.Inject
 
-class QuizSolveViewModel : ViewModel() {
+@HiltViewModel
+class QuizSolveViewModel @Inject constructor(
+    private val submitQuizAnswerUseCase: SubmitQuizAnswerUseCase,
+) : ViewModel() {
 
     private val _quiz: MutableStateFlow<List<QuizDetailQuestion>> = MutableStateFlow(emptyList())
     val quiz = _quiz.asStateFlow()
@@ -27,6 +35,9 @@ class QuizSolveViewModel : ViewModel() {
         QuizDetailQuestion(0, 0, emptyList(), 0, "")
     )
     val currentQuestion = _currentQuestion.asStateFlow()
+
+    private val _result: MutableStateFlow<QuizResult> = MutableStateFlow(QuizResult())
+    val result = _result.asStateFlow()
 
     private val totalAnswerList = MutableStateFlow<List<Answer>>(emptyList())
 
@@ -108,6 +119,12 @@ class QuizSolveViewModel : ViewModel() {
                 }
                 currentSelectAnswerList.value = currentList
             }
+        }
+    }
+
+    fun submitAnswer() {
+        viewModelScope.launch {
+
         }
     }
 }

@@ -22,7 +22,7 @@ import team.ommaya.wequiz.android.quiz.create.QuizCreateViewModel
 import team.ommaya.wequiz.android.quiz.create.viewholder.QuestionAddViewHolder
 import team.ommaya.wequiz.android.quiz.create.viewholder.QuestionViewHolder
 
-class QuizCreateAdapter(
+class 경QuizCreateAdapter(
     private val quizSharedViewModel: QuizCreateSharedViewModel,
     private val quizViewModel: QuizCreateViewModel,
     private val context: Context,
