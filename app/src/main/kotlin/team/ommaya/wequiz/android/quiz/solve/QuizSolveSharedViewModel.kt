@@ -39,8 +39,8 @@ class QuizSolveSharedViewModel @Inject constructor(
     private val _isLogin: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isLogin = _isLogin.asStateFlow()
 
-    private val _taskerName: MutableStateFlow<String> = MutableStateFlow("")
-    val taskerName = _taskerName.asStateFlow()
+    private val _anonymousToken: MutableStateFlow<String> = MutableStateFlow("")
+    val anonymousToken = _anonymousToken.asStateFlow()
 
     private val _result: MutableStateFlow<QuizResult> = MutableStateFlow(QuizResult())
     val result = _result.asStateFlow()
@@ -66,8 +66,8 @@ class QuizSolveSharedViewModel @Inject constructor(
         }
     }
 
-    fun setTaskerName(name: String) {
-        _taskerName.value = name
+    fun setAnonymousToken(name: String) {
+        _anonymousToken.value = name
     }
 
     fun setResult(result: QuizResult, rankingList: List<RankingsItem>) {

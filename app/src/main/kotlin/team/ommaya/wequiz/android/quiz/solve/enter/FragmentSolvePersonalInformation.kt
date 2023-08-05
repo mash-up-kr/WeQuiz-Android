@@ -34,7 +34,7 @@ class FragmentSolvePersonalInformation :
     private fun initView() {
         binding.apply {
             btnDone.setOnClickListener {
-                quizSolveSharedViewModel.setTaskerName(etNameInput.text.toString())
+                quizSolveSharedViewModel.setAnonymousToken(etNameInput.text.toString())
                 findNavController().navigate(R.id.fragmentQuizSolve)
             }
             etNameInput.doOnTextChanged { text, _, _, _ ->

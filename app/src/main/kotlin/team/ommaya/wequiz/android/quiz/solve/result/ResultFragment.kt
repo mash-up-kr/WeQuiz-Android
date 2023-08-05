@@ -8,33 +8,66 @@
 package team.ommaya.wequiz.android.quiz.solve.result
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.graphics.LinearGradient
 import android.graphics.Matrix
 import android.graphics.Shader
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentResultBinding
+import team.ommaya.wequiz.android.home.main.HomeMainActivity
+import team.ommaya.wequiz.android.intro.IntroActivity
+import team.ommaya.wequiz.android.quiz.solve.QuizSolveSharedViewModel
+import team.ommaya.wequiz.android.design.resource.R as DesignR
 
 @AndroidEntryPoint
 class ResultFragment :
     BaseViewBindingFragment<FragmentResultBinding>(FragmentResultBinding::inflate) {
 
+    private val quizSolveSharedViewModel: QuizSolveSharedViewModel by activityViewModels()
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {}
+    }
+
+    private lateinit var homeIntent: Intent
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initData()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initView()
+        collectFlows()
+    }
+
+    private fun initData() {
+        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
+        homeIntent = if (quizSolveSharedViewModel.isLogin.value) {
+            Intent(requireActivity(), HomeMainActivity::class.java)
+        } else {
+            Intent(requireActivity(), IntroActivity::class.java)
+        }
     }
 
     private fun initView() {
         with(binding) {
             with(tvResultScore) {
-                text = TEST_SCORE.toString()
-
                 paint.shader = LinearGradient(
                     paint.measureText(text.toString()) * 0.15f,
                     textSize * 0.15f,
@@ -66,47 +99,77 @@ class ResultFragment :
                 )
                 paint.shader.setLocalMatrix(matrix)
             }
-
-            tvResultSubtitle.text = getString(
-                R.string.result_subtitle,
-                "지우",
-                "매쉬업귀염둥이",
-            )
-
-            tvResultTitle.text = when (TEST_SCORE) {
-                in 10..29 -> getString(R.string.result_title1)
-                in 30..49 -> getString(R.string.result_title2)
-                in 50..69 -> getString(R.string.result_title3)
-                in 70..89 -> getString(R.string.result_title4)
-                in 90..100 -> getString(R.string.result_title5)
-                else -> throw IllegalArgumentException("점수 범위 초과")
-            }
-
-            when (TEST_SCORE) {
-                in 10..29 -> ivResult.setImageResource(team.ommaya.wequiz.android.design.resource.R.drawable.ic_result_fight)
-                in 30..49 -> ivResult.setImageResource(team.ommaya.wequiz.android.design.resource.R.drawable.ic_result_run)
-                in 50..69 -> ivResult.setImageResource(team.ommaya.wequiz.android.design.resource.R.drawable.ic_result_fight)
-                in 70..89 -> ivResult.setImageResource(team.ommaya.wequiz.android.design.resource.R.drawable.ic_result_jjinchin)
-                in 90..100 -> ivResult.setImageResource(team.ommaya.wequiz.android.design.resource.R.drawable.ic_result_fight)
-                else -> throw IllegalArgumentException("점수 범위 초과")
-            }
-
             btnResultHome.setOnClickListener {
-                Log.d(TAG, "btnResultHome")
+                startActivity(homeIntent)
+                requireActivity().finish()
             }
 
             btnResultSignUp.setOnClickListener {
-                Log.d(TAG, "btnResultSignUp")
+                startActivity(homeIntent)
+                requireActivity().finish()
             }
 
             btnResultRetry.setOnClickListener {
-                Log.d(TAG, "btnResultRetry")
+                findNavController().navigate(
+                    R.id.fragmentQuizSolveEnter,
+                    null,
+                    NavOptions.Builder()
+                        .setPopUpTo(
+                            R.id.fragmentQuizSolveEnter,
+                            inclusive = true,
+                        )
+                        .build()
+                )
             }
 
             btnResultShare.setOnClickListener {
                 Log.d(TAG, "btnResultShare")
             }
         }
+    }
+
+    private fun collectFlows() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                quizSolveSharedViewModel.result.collect { result ->
+                    with(binding) {
+                        tvResultSubtitle.text = getString(
+                            R.string.result_subtitle,
+                            result.resolverName,
+                            result.creatorName,
+                        )
+                        tvResultScore.text = result.score.toString()
+                        tvResultTitle.text = getResultContext(result.score)
+                        ivResult.setImageResource(getResultImage(result.score))
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getResultContext(score: Int): String {
+        return when (score) {
+            in 30..49 -> getString(R.string.result_title2)
+            in 50..69 -> getString(R.string.result_title3)
+            in 70..89 -> getString(R.string.result_title4)
+            in 90..100 -> getString(R.string.result_title5)
+            else -> getString(R.string.result_title1)
+        }
+    }
+
+    private fun getResultImage(score: Int): Int {
+        return when (score) {
+            in 30..49 -> DesignR.drawable.img_result_02
+            in 50..69 -> DesignR.drawable.img_result_03
+            in 70..89 -> DesignR.drawable.img_result_04
+            in 90..100 -> DesignR.drawable.img_result_05
+            else -> DesignR.drawable.img_result_01
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        onBackPressedCallback.remove()
     }
 
     companion object {

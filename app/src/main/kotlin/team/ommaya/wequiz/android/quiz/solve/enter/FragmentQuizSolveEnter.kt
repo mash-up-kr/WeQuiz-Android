@@ -49,7 +49,9 @@ class FragmentQuizSolveEnter :
                     launch {
                         isLogin.collect { isLogin ->
                             binding.btnQuizStart.setOnClickListener {
-                                findNavController().navigate(if (isLogin) R.id.fragmentQuizSolve else R.id.fragmentSolvePersonalInformation)
+                                val destination =
+                                    if (isLogin) R.id.fragmentQuizSolve else R.id.fragmentSolvePersonalInformation
+                                findNavController().navigate(destination)
                             }
                         }
                     }
