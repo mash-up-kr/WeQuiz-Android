@@ -43,6 +43,7 @@ class WelcomeFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             delay(DELAY_TIME)
             startActivity(Intent(context, HomeMainActivity::class.java))
+            requireActivity().finish()
         }
     }
 

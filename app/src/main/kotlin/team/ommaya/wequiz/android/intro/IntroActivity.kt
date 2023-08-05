@@ -30,6 +30,7 @@ class IntroActivity : BaseViewBindingActivity<ActivityIntroBinding>(ActivityIntr
             introViewModel.isLogin.collect { isLogin ->
                 if (isLogin) {
                     startActivity(Intent(this@IntroActivity, HomeMainActivity::class.java))
+                    finish()
                 }
             }
         }
