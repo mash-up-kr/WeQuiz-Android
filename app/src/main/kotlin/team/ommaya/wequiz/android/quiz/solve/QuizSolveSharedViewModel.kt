@@ -17,6 +17,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.domain.model.quiz.Creator
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetail
+import team.ommaya.wequiz.android.domain.model.quiz.QuizResult
+import team.ommaya.wequiz.android.domain.model.rank.RankingsItem
 import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizDetailUseCase
 import team.ommaya.wequiz.android.domain.usecase.user.GetUserUseCase
 import javax.inject.Inject
@@ -40,6 +42,12 @@ class QuizSolveSharedViewModel @Inject constructor(
     private val _taskerName: MutableStateFlow<String> = MutableStateFlow("")
     val taskerName = _taskerName.asStateFlow()
 
+    private val _result: MutableStateFlow<QuizResult> = MutableStateFlow(QuizResult())
+    val result = _result.asStateFlow()
+
+    private val _rankingList: MutableStateFlow<List<RankingsItem>> = MutableStateFlow(emptyList())
+    val rankingList = _rankingList.asStateFlow()
+
     fun getQuizDetail(quizId: Int) {
         viewModelScope.launch {
             getQuizDetailUseCase(quizId)
@@ -60,5 +68,10 @@ class QuizSolveSharedViewModel @Inject constructor(
 
     fun setTaskerName(name: String) {
         _taskerName.value = name
+    }
+
+    fun setResult(result: QuizResult, rankingList: List<RankingsItem>) {
+        _result.value = result
+        _rankingList.value = rankingList
     }
 }

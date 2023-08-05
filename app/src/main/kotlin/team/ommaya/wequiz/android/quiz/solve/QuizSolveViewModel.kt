@@ -23,19 +23,20 @@ import team.ommaya.wequiz.android.domain.model.quiz.QuizDetail
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailOption
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailQuestion
 import team.ommaya.wequiz.android.domain.model.quiz.QuizResult
+import team.ommaya.wequiz.android.domain.model.rank.Rank
+import team.ommaya.wequiz.android.domain.usecase.quiz.GetSolveRankUseCase
 import team.ommaya.wequiz.android.domain.usecase.quiz.SubmitQuizAnswerUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class QuizSolveViewModel @Inject constructor(
     private val submitQuizAnswerUseCase: SubmitQuizAnswerUseCase,
+    private val getSolveRankUseCase: GetSolveRankUseCase,
 ) : ViewModel() {
 
     private val quizId: MutableStateFlow<Int> = MutableStateFlow(0)
 
-    private val _questionList: MutableStateFlow<List<QuizDetailQuestion>> =
-        MutableStateFlow(emptyList())
-    val questionList = _questionList.asStateFlow()
+    private val questionList = MutableStateFlow<List<QuizDetailQuestion>>((emptyList()))
 
     private val _currentQuestion: MutableStateFlow<QuizDetailQuestion> = MutableStateFlow(
         QuizDetailQuestion(0, 0, emptyList(), 0, "")
@@ -84,7 +85,7 @@ class QuizSolveViewModel @Inject constructor(
 
     fun initQuiz(quiz: QuizDetail) {
         quizId.value = quiz.id
-        _questionList.value = quiz.questions
+        questionList.value = quiz.questions
         _currentQuestion.value = quiz.questions[currentQuestionCount.value]
         questionCount.value = quiz.questions.size
     }
@@ -136,8 +137,12 @@ class QuizSolveViewModel @Inject constructor(
         viewModelScope.launch {
             _quizSolveUiState.emit(SolveUiState.Loading)
             submitQuizAnswerUseCase(quizId.value, totalAnswerList.value)
-                .onSuccess {
-                    _quizSolveUiState.emit(SolveUiState.Success(it))
+                .onSuccess { result ->
+                    getSolveRankUseCase(quizId.value).onSuccess { rank ->
+                        _quizSolveUiState.emit(SolveUiState.Success(result, rank))
+                    }.onFailure {
+                        _quizSolveUiState.emit(SolveUiState.Fail(it.message ?: "네트워크 에러"))
+                    }
                 }.onFailure {
                     _quizSolveUiState.emit(SolveUiState.Fail(it.message ?: "네트워크 에러"))
                 }
@@ -148,7 +153,8 @@ class QuizSolveViewModel @Inject constructor(
 sealed interface SolveUiState {
     object Loading : SolveUiState
     data class Success(
-        val data: QuizResult
+        val result: QuizResult,
+        val rank: Rank,
     ) : SolveUiState
 
     data class Fail(

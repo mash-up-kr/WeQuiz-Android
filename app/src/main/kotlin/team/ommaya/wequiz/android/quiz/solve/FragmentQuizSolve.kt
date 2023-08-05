@@ -19,6 +19,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -163,7 +164,25 @@ class FragmentQuizSolve :
                             when (state) {
                                 is SolveUiState.Success -> {
                                     progressDialog.dismiss()
-                                    findNavController().navigate(R.id.resultFragment)
+                                    quizSolveSharedViewModel.setResult(
+                                        state.result,
+                                        state.rank.rankings,
+                                    )
+                                    val destination = if (state.rank.rankings.size < 3) {
+                                        R.id.resultFragment
+                                    } else {
+                                        R.id.resultRankingFragment
+                                    }
+                                    findNavController().navigate(
+                                        destination,
+                                        null,
+                                        NavOptions.Builder()
+                                            .setPopUpTo(
+                                                R.id.fragmentQuizSolveEnter,
+                                                inclusive = true
+                                            )
+                                            .build()
+                                    )
                                 }
                                 is SolveUiState.Fail -> {
                                     progressDialog.dismiss()
