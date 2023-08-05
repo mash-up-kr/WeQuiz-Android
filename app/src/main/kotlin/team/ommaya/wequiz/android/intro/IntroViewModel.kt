@@ -124,7 +124,7 @@ class IntroViewModel @Inject constructor(
         viewModelScope.launch {
             resendPhoneVerificationUseCase(activity)
                 .onSuccess {
-                    //
+                    sendVerifyCodeEvent(VerifyCodeUiEvent.RESEND)
                 }.onFailure {
                     //
                 }
