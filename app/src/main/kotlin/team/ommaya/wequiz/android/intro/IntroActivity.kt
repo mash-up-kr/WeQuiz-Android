@@ -29,7 +29,9 @@ class IntroActivity : BaseViewBindingActivity<ActivityIntroBinding>(ActivityIntr
         lifecycleScope.launch {
             introViewModel.isLogin.collect { isLogin ->
                 if (isLogin) {
-                    startActivity(Intent(this@IntroActivity, HomeMainActivity::class.java))
+                    val intent = Intent(this@IntroActivity, HomeMainActivity::class.java)
+                    intent.putExtra("token", introViewModel.token.value)
+                    startActivity(intent)
                     finish()
                 }
             }

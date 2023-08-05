@@ -42,7 +42,9 @@ class WelcomeFragment :
     private fun startHomeMainActivity() {
         viewLifecycleOwner.lifecycleScope.launch {
             delay(DELAY_TIME)
-            startActivity(Intent(context, HomeMainActivity::class.java))
+
+            val intent = Intent(context, HomeMainActivity::class.java)
+            intent.putExtra("token", introViewModel.token.value)
             requireActivity().finish()
         }
     }
