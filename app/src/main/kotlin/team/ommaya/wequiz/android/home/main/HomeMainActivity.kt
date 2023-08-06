@@ -36,11 +36,13 @@ import team.ommaya.wequiz.android.domain.model.user.UserInformation
 import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizListUseCase
 import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizRankUseCase
 import team.ommaya.wequiz.android.domain.usecase.user.GetUserInformationUseCase
+import team.ommaya.wequiz.android.domain.usecase.user.UserLogoutUseCase
 import team.ommaya.wequiz.android.home.friends.FriendsRankActivity
 import team.ommaya.wequiz.android.home.obtainToken
 import team.ommaya.wequiz.android.home.quizdetail.QuizDetailActivity
 import team.ommaya.wequiz.android.home.quizlist.QuizListActivity
 import team.ommaya.wequiz.android.intro.IntroActivity
+import team.ommaya.wequiz.android.quiz.create.QuizCreateActivity
 import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.toast
 import javax.inject.Inject
@@ -56,6 +58,9 @@ class HomeMainActivity : ComponentActivity() {
 
     @Inject
     lateinit var getQuizListUseCase: GetQuizListUseCase
+
+    @Inject
+    lateinit var userLogoutUseCase: UserLogoutUseCase
 
     private var quizList by mutableStateOf<QuizList?>(null)
     private var user by mutableStateOf<UserInformation?>(null)
@@ -133,6 +138,14 @@ class HomeMainActivity : ComponentActivity() {
                                 ).apply {
                                     putExtra(IntroActivity.TOKEN, token)
                                 },
+                            )
+                        },
+                        onQuizCreateClick = {
+                            startActivity(
+                                Intent(
+                                    this@HomeMainActivity,
+                                    QuizCreateActivity::class.java,
+                                )
                             )
                         },
                         onQuizClick = { index ->
