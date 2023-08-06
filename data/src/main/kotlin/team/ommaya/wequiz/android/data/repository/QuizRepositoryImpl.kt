@@ -99,9 +99,7 @@ class QuizRepositoryImpl @Inject constructor(
                 .post("quiz/$quizId/answers") {
                     header("x-wequiz-token", token)
                     setBody(
-                        SubmitAnswerRequest(
-                            answerList
-                        )
+                        SubmitAnswerRequest(answerList),
                     )
                 }
                 .body<SubmitAnswerResponse>()

@@ -18,5 +18,5 @@ data class AnonymousJoinResponse(
 
 @Serializable
 data class UserToken(
-    val token: String = ""
+    val token: String = "",
 )

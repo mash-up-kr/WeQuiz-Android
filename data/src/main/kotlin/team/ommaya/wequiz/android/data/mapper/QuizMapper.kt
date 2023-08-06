@@ -79,7 +79,7 @@ internal fun QuizDetailResponse.toDomain() =
             },
         id = requireNotNull(id),
         title = requireNotNull(title),
-        creator = Creator(creator.id, creator.name)
+        creator = Creator(creator.id, creator.name),
     )
 
 internal fun SubmitResult.toQuizResult(): QuizResult {
