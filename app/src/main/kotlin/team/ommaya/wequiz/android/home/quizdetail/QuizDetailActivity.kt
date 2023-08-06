@@ -221,7 +221,7 @@ class QuizDetailActivity : ComponentActivity() {
                                                     Intent.createChooser(
                                                         intent,
                                                         "친구가 만든 찐친고사에 도전해보세요!",
-                                                    )
+                                                    ),
                                                 )
                                             }
                                     }

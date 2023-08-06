@@ -145,7 +145,7 @@ class HomeMainActivity : ComponentActivity() {
                                 Intent(
                                     this@HomeMainActivity,
                                     QuizCreateActivity::class.java,
-                                )
+                                ),
                             )
                         },
                         onQuizClick = { index ->
