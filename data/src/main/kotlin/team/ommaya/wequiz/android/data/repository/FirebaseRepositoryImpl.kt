@@ -42,12 +42,6 @@ class FirebaseRepositoryImpl @Inject constructor(
     private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         override fun onVerificationCompleted(credential: PhoneAuthCredential) {
             // 문자가 오면 자동으로 인증하는 코드
-//            val verifyCode = credential.smsCode
-//
-//            if (!verifyCode.isNullOrEmpty()) {
-//                authCallbacksListener.onVerificationCompleted(verifyCode)
-//            }
-//
 //            signInWithPhoneAuthCredential(credential)
         }
 
