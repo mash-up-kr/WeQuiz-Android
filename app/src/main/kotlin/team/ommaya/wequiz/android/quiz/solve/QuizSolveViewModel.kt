@@ -26,12 +26,14 @@ import team.ommaya.wequiz.android.domain.model.quiz.QuizResult
 import team.ommaya.wequiz.android.domain.model.rank.Rank
 import team.ommaya.wequiz.android.domain.usecase.quiz.GetSolveRankUseCase
 import team.ommaya.wequiz.android.domain.usecase.quiz.SubmitQuizAnswerUseCase
+import team.ommaya.wequiz.android.domain.usecase.user.GetUserUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class QuizSolveViewModel @Inject constructor(
     private val submitQuizAnswerUseCase: SubmitQuizAnswerUseCase,
     private val getSolveRankUseCase: GetSolveRankUseCase,
+    private val getUserUseCase: GetUserUseCase,
 ) : ViewModel() {
 
     private val quizId: MutableStateFlow<Int> = MutableStateFlow(0)
@@ -133,19 +135,21 @@ class QuizSolveViewModel @Inject constructor(
         }
     }
 
-    fun submitAnswer() {
+    fun submitAnswer(token: String) {
         viewModelScope.launch {
             _quizSolveUiState.emit(SolveUiState.Loading)
-            submitQuizAnswerUseCase(quizId.value, totalAnswerList.value)
-                .onSuccess { result ->
-                    getSolveRankUseCase(quizId.value).onSuccess { rank ->
-                        _quizSolveUiState.emit(SolveUiState.Success(result, rank))
+            if (!getUserUseCase().isLogin) {
+                submitQuizAnswerUseCase(token, quizId.value, totalAnswerList.value)
+                    .onSuccess { result ->
+                        getSolveRankUseCase(quizId.value).onSuccess { rank ->
+                            _quizSolveUiState.emit(SolveUiState.Success(result, rank))
+                        }.onFailure {
+                            _quizSolveUiState.emit(SolveUiState.Fail(it.message ?: "네트워크 에러"))
+                        }
                     }.onFailure {
                         _quizSolveUiState.emit(SolveUiState.Fail(it.message ?: "네트워크 에러"))
                     }
-                }.onFailure {
-                    _quizSolveUiState.emit(SolveUiState.Fail(it.message ?: "네트워크 에러"))
-                }
+            }
         }
     }
 }

@@ -89,11 +89,15 @@ class QuizRepositoryImpl @Inject constructor(
         client.delete("quiz/$quizId") { header("x-wequiz-token", token) }
     }
 
-    override suspend fun submitQuizAnswer(quizId: Int, answerList: List<Answer>): QuizResult {
+    override suspend fun submitQuizAnswer(
+        token: String,
+        quizId: Int,
+        answerList: List<Answer>,
+    ): QuizResult {
         val response =
             client
                 .post("quiz/$quizId/answers") {
-                    header("x-wequiz-token", TmpToken)
+                    header("x-wequiz-token", token)
                     setBody(
                         SubmitAnswerRequest(
                             answerList

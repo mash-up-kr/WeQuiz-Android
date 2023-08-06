@@ -59,13 +59,13 @@ class QuizCreateActivity :
                         }
                     }
                     launch {
-                        quizLink.collect { inivitationUri ->
+                        quizLink.collect { invitationUri ->
                             startActivity(
                                 Intent(Intent.ACTION_SEND).apply {
                                     type = "text/html"
                                     putExtra(
                                         Intent.EXTRA_TEXT,
-                                        "친구가 만든 찐친고사에 도전해보세요!\n\n$inivitationUri",
+                                        "친구가 만든 찐친고사에 도전해보세요!\n\n$invitationUri",
                                     )
                                     createChooser(intent, "친구가 만든 찐친고사에 도전해보세요!")
                                 },

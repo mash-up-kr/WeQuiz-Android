@@ -109,7 +109,9 @@ class FirebaseRepositoryImpl @Inject constructor(
             domainUriPrefix = "https://wequiz.page.link"
             socialMetaTagParameters {
                 title = "진정한 친구들만 통과할 수 있는 찐친고사"
-                description = "너 나 알아? 위키즈 우정테스트"
+                description = "너 나 알아? WeQuiz 우정테스트"
+                imageUrl =
+                    Uri.parse("https://firebasestorage.googleapis.com/v0/b/wequiz-3910f.appspot.com/o/metaTagImage.png?alt=media&token=22389993-44e2-4ffa-adce-0a8f369d0173")
             }
         }.addOnSuccessListener { shortDynamicLink ->
             val shortLinkUri = shortDynamicLink.shortLink

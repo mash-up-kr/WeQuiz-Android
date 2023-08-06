@@ -155,7 +155,7 @@ class FragmentQuizSolve :
                             if (isSufficient) {
                                 when (hasNexQuestion()) {
                                     false -> {
-                                        submitAnswer()
+                                        submitAnswer(quizSolveSharedViewModel.anonymousToken.value)
                                     }
                                     true -> {
                                         Unit

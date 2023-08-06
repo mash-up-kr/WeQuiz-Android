@@ -14,7 +14,7 @@ import javax.inject.Inject
 class SubmitQuizAnswerUseCase @Inject constructor(
     private val quizRepository: QuizRepository
 ) {
-    suspend operator fun invoke(quizId: Int, answerList: List<Answer>) = runCatching {
-        quizRepository.submitQuizAnswer(quizId, answerList)
+    suspend operator fun invoke(token: String, quizId: Int, answerList: List<Answer>) = runCatching {
+        quizRepository.submitQuizAnswer(token, quizId, answerList)
     }
 }
