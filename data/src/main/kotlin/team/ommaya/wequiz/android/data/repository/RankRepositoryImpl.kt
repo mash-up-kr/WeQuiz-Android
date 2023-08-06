@@ -12,6 +12,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
+import team.ommaya.wequiz.android.data.client.TmpToken
 import team.ommaya.wequiz.android.data.mapper.toDomain
 import team.ommaya.wequiz.android.data.model.rank.RankFormattedResponse
 import team.ommaya.wequiz.android.domain.model.rank.Rank
@@ -37,5 +38,21 @@ class RankRepositoryImpl @Inject constructor(
                 }
                 .body<RankFormattedResponse>()
         return requireNotNull(response.data).toDomain()
+    }
+
+    override suspend fun getSolveRank(quizId: Int, size: Int, cursorId: Int?): Rank {
+        val response =
+            client
+                .get("ranking/quiz/$quizId") {
+                    header("x-wequiz-token", TmpToken)
+                    parameter("size", size)
+                    parameter("quizAnswerCursorId", cursorId)
+                }
+                .body<RankFormattedResponse>()
+        if (response.code == "SUCCESS") {
+            return requireNotNull(response.data).toDomain()
+        } else {
+            throw Exception(response.message ?: "네트워크 에러")
+        }
     }
 }

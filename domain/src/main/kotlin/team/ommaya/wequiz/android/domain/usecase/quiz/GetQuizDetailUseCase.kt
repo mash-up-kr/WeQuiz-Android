@@ -9,14 +9,12 @@ package team.ommaya.wequiz.android.domain.usecase.quiz
 
 import team.ommaya.wequiz.android.domain.repository.QuizRepository
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class GetQuizDetailUseCase @Inject constructor(
     private val repository: QuizRepository,
 ) {
-    suspend operator fun invoke(token: String, quizId: Int) =
+    suspend operator fun invoke(quizId: Int) =
         runCatching {
-            repository.getQuizDetail(token = token, quizId = quizId)
+            repository.getQuizDetail(quizId = quizId)
         }
 }

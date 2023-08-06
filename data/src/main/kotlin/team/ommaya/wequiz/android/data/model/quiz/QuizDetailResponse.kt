@@ -16,6 +16,9 @@ internal data class QuizDetailResponse(
     @field:JsonProperty("id")
     val id: Int? = null,
 
+    @field:JsonProperty("creator")
+    val creator: Creator,
+
     @field:JsonProperty("title")
     val title: String? = null,
 )

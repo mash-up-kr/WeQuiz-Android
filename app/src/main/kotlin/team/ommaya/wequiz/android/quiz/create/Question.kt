@@ -85,7 +85,7 @@ fun List<Answer>.toOptionList(): List<Option> {
         list.add(
             Option(
                 content = answer.content,
-                priority = index,
+                id = index,
                 isCorrect = answer.isCorrect,
             ),
         )
@@ -99,7 +99,7 @@ fun List<Question>.toQuestionDomainList(): List<QuestionDomainModel> {
         list.add(
             QuestionDomainModel(
                 title = question.title,
-                priority = index,
+                id = index,
                 duplicatedOption = question.isMultipleChoice,
                 options = question.answerList.toOptionList(),
             ),

@@ -10,5 +10,11 @@ package team.ommaya.wequiz.android.domain.model.quiz
 data class QuizDetail(
     val questions: List<QuizDetailQuestion>,
     val id: Int,
+    val creator: Creator,
     val title: String,
+)
+
+data class Creator(
+    val id: Int = 0,
+    val name: String = "",
 )

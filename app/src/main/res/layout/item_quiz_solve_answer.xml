@@ -11,8 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="58dp"
     android:layout_marginTop="20dp"
-    android:background="@drawable/bg_radius_16"
-    android:backgroundTint="@color/G8">
+    android:background="@drawable/bg_g8_radius_16">
 
     <TextView
         android:id="@+id/tv_solve_answer"

@@ -12,11 +12,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import team.ommaya.wequiz.android.databinding.ItemQuizSolveRankingBinding
-import team.ommaya.wequiz.android.quiz.solve.result.Ranking
+import team.ommaya.wequiz.android.domain.model.rank.RankingsItem
 import team.ommaya.wequiz.android.quiz.solve.result.viewholder.ResultRankingViewHolder
 
 class ResultRankingAdapter :
-    ListAdapter<Ranking, ResultRankingViewHolder>(rankingDiffCallback) {
+    ListAdapter<RankingsItem, ResultRankingViewHolder>(rankingDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultRankingViewHolder {
         return ResultRankingViewHolder(
@@ -32,16 +32,12 @@ class ResultRankingAdapter :
         holder.bind(getItem(position), position)
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return super.getItemViewType(position)
-    }
-
     companion object {
-        private val rankingDiffCallback = object : DiffUtil.ItemCallback<Ranking>() {
-            override fun areItemsTheSame(oldItem: Ranking, newItem: Ranking): Boolean =
+        private val rankingDiffCallback = object : DiffUtil.ItemCallback<RankingsItem>() {
+            override fun areItemsTheSame(oldItem: RankingsItem, newItem: RankingsItem): Boolean =
                 oldItem === newItem
 
-            override fun areContentsTheSame(oldItem: Ranking, newItem: Ranking): Boolean =
+            override fun areContentsTheSame(oldItem: RankingsItem, newItem: RankingsItem): Boolean =
                 oldItem == newItem
         }
     }

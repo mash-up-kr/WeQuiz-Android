@@ -10,8 +10,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/G9"
-    tools:context=".ResultFragment">
+    android:background="@color/G9">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_result_home"

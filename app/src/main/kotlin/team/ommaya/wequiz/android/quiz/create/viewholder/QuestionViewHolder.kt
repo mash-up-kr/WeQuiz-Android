@@ -65,7 +65,7 @@ class QuestionViewHolder(
                             rvAnswerList.isVisible = currentItem.isFocus
                             ivMultipleChoice.isVisible = currentItem.isFocus
                             tvMultipleChoice.isVisible = currentItem.isFocus
-                            ivDeleteQuestion.isVisible = currentItem.answerList.size > 3
+                            ivDeleteQuestion.isVisible = it.size > 3
 
                             val multipleChoiceIconRes = if (currentItem.isMultipleChoice) {
                                 R.drawable.ic_circle_success
