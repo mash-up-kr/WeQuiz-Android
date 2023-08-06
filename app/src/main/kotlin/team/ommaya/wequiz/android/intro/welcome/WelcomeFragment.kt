@@ -46,6 +46,7 @@ class WelcomeFragment :
 
             val intent = Intent(context, HomeMainActivity::class.java)
             intent.putExtra(TOKEN, introViewModel.token.value)
+            startActivity(intent)
             requireActivity().finish()
         }
     }
