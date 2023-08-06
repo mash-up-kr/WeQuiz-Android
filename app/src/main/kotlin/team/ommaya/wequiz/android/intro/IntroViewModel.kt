@@ -129,9 +129,7 @@ class IntroViewModel @Inject constructor(
 
     fun verifyCode(verifyCode: String) {
         verifyCodeUseCase(verifyCode)
-            .onSuccess {
-                //
-            }.onFailure {
+            .onFailure {
                 Log.e(TAG, it.message.toString())
             }
     }
@@ -141,6 +139,7 @@ class IntroViewModel @Inject constructor(
             getUserInformationUseCase(token.value)
                 .onSuccess {
                     setNickname(it.data.nickname)
+                    saveTokenUseCase(token.value)
                     sendVerifyCodeEvent(VerifyCodeUiEvent.REGISTERED)
                 }.onFailure {
                     if (it is UnregisteredException) {
