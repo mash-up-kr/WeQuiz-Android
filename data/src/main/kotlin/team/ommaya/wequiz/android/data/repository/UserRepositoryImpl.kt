@@ -96,4 +96,10 @@ class UserRepositoryImpl @Inject constructor(
             throw Exception(response.message)
         }
     }
+
+    override suspend fun logout() {
+        userDataStore.updateData { preference ->
+            preference.copy(isLogin = false, token = "")
+        }
+    }
 }
