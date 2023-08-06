@@ -57,12 +57,12 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
-import team.ommaya.wequiz.android.data.client.TmpToken
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.domain.model.statistic.QuizStatistic
 import team.ommaya.wequiz.android.domain.usecase.quiz.DeleteQuizUseCase
 import team.ommaya.wequiz.android.domain.usecase.statistic.GetQuizStatisticUseCase
 import team.ommaya.wequiz.android.home.common.QuizDeleteConfirmDialog
+import team.ommaya.wequiz.android.home.obtainToken
 import team.ommaya.wequiz.android.utils.applyIf
 import team.ommaya.wequiz.android.utils.asLoose
 import team.ommaya.wequiz.android.utils.fitPaint
@@ -85,7 +85,7 @@ class QuizDetailActivity : ComponentActivity() {
     @Inject
     lateinit var deleteQuizUseCase: DeleteQuizUseCase
 
-    private val token by lazy { intent?.getStringExtra("token") ?: TmpToken }
+    private val token by lazy { obtainToken() }
     private val quizId by lazy {
         (intent?.getIntExtra("quizId", Int.MIN_VALUE) ?: Int.MIN_VALUE)
             .also { value ->

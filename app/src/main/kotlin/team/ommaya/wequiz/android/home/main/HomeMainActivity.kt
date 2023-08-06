@@ -37,8 +37,10 @@ import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizListUseCase
 import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizRankUseCase
 import team.ommaya.wequiz.android.domain.usecase.user.GetUserInformationUseCase
 import team.ommaya.wequiz.android.home.friends.FriendsRankActivity
+import team.ommaya.wequiz.android.home.obtainToken
 import team.ommaya.wequiz.android.home.quizdetail.QuizDetailActivity
 import team.ommaya.wequiz.android.home.quizlist.QuizListActivity
+import team.ommaya.wequiz.android.intro.IntroActivity
 import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.toast
 import javax.inject.Inject
@@ -59,8 +61,7 @@ class HomeMainActivity : ComponentActivity() {
     private var user by mutableStateOf<UserInformation?>(null)
     private var quizRank by mutableStateOf<Rank?>(null)
 
-    private val token =
-        "AIE-54W-amwtn2V03BQXn5ibwu3my68KXVAL4b7wQMa7gIDLV_QGwcQji_5lQ30sV20L5igMhn4Daig6w4JhTPOF_rQ_c-CF5rojgpVw8EVKnNgJF2ePgAt4bRJ86Mvml51yWvWl2wcTX30StvIeSomDhlhUx2jcMw"
+    private val token by lazy { obtainToken() }
 
     override fun onRestart() {
         super.onRestart()
@@ -109,7 +110,6 @@ class HomeMainActivity : ComponentActivity() {
                             quizList
                                 ?.quiz
                                 ?.map { item ->
-                                    // TODO: 문제 만들기 상태 연결
                                     Pair(item.title, false)
                                 }
                                 .orEmpty()
@@ -121,7 +121,7 @@ class HomeMainActivity : ComponentActivity() {
                                     this@HomeMainActivity,
                                     FriendsRankActivity::class.java,
                                 ).apply {
-                                    putExtra("token", token)
+                                    putExtra(IntroActivity.TOKEN, token)
                                 },
                             )
                         },
@@ -131,7 +131,7 @@ class HomeMainActivity : ComponentActivity() {
                                     this@HomeMainActivity,
                                     QuizListActivity::class.java,
                                 ).apply {
-                                    putExtra("token", token)
+                                    putExtra(IntroActivity.TOKEN, token)
                                 },
                             )
                         },
@@ -141,7 +141,7 @@ class HomeMainActivity : ComponentActivity() {
                                     this@HomeMainActivity,
                                     QuizDetailActivity::class.java,
                                 ).apply {
-                                    putExtra("token", token)
+                                    putExtra(IntroActivity.TOKEN, token)
                                     putExtra("quizId", quizList!!.quiz[index].id)
                                 },
                             )
@@ -154,12 +154,13 @@ class HomeMainActivity : ComponentActivity() {
 
     private fun CoroutineScope.loadResources() {
         launch {
-            user = getUserInformationUseCase(token)
-                .getOrElse { exception ->
-                    toast(exception.toString())
-                    exception.printStackTrace()
-                    user
-                }
+            user =
+                getUserInformationUseCase(token)
+                    .getOrElse { exception ->
+                        toast(exception.toString())
+                        exception.printStackTrace()
+                        user
+                    }
         }
 
         launch {
