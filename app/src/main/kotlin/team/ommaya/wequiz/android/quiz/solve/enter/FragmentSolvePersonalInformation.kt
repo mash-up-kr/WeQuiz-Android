@@ -73,7 +73,7 @@ class FragmentSolvePersonalInformation :
                     when (state) {
                         is QuizSolveAnonymousViewModel.UiState.Success -> {
                             progressDialog.dismiss()
-                            quizSolveSharedViewModel.setAnonymousToken(state.token)
+                            quizSolveSharedViewModel.setToken(state.token)
                             findNavController().navigate(
                                 R.id.fragmentQuizSolve,
                                 null,

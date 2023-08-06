@@ -138,18 +138,16 @@ class QuizSolveViewModel @Inject constructor(
     fun submitAnswer(token: String) {
         viewModelScope.launch {
             _quizSolveUiState.emit(SolveUiState.Loading)
-            if (!getUserUseCase().isLogin) {
-                submitQuizAnswerUseCase(token, quizId.value, totalAnswerList.value)
-                    .onSuccess { result ->
-                        getSolveRankUseCase(quizId.value).onSuccess { rank ->
-                            _quizSolveUiState.emit(SolveUiState.Success(result, rank))
-                        }.onFailure {
-                            _quizSolveUiState.emit(SolveUiState.Fail(it.message ?: "네트워크 에러"))
-                        }
+            submitQuizAnswerUseCase(token, quizId.value, totalAnswerList.value)
+                .onSuccess { result ->
+                    getSolveRankUseCase(quizId.value).onSuccess { rank ->
+                        _quizSolveUiState.emit(SolveUiState.Success(result, rank))
                     }.onFailure {
                         _quizSolveUiState.emit(SolveUiState.Fail(it.message ?: "네트워크 에러"))
                     }
-            }
+                }.onFailure {
+                    _quizSolveUiState.emit(SolveUiState.Fail(it.message ?: "네트워크 에러"))
+                }
         }
     }
 }

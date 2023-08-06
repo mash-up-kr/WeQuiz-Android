@@ -78,7 +78,7 @@ class FragmentQuizSolveEnter :
                                 val destination =
                                     if (isLogin) {
                                         R.id.fragmentQuizSolve
-                                    } else if (quizSolveSharedViewModel.anonymousToken.value.isNotBlank()) {
+                                    } else if (quizSolveSharedViewModel.userToken.value.isNotBlank()) {
                                         R.id.fragmentQuizSolve
                                     } else {
                                         R.id.fragmentSolvePersonalInformation
