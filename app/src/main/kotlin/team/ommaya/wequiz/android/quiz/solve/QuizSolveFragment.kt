@@ -28,7 +28,7 @@ import team.ommaya.wequiz.android.utils.WeQuizSnackbar
 import team.ommaya.wequiz.android.utils.setTextGradient
 
 @AndroidEntryPoint
-class FragmentQuizSolve :
+class QuizSolveFragment :
     BaseViewBindingFragment<FragmentQuizSolveBinding>(FragmentQuizSolveBinding::inflate) {
 
     private val quizSolveSharedViewModel: QuizSolveSharedViewModel by activityViewModels()
