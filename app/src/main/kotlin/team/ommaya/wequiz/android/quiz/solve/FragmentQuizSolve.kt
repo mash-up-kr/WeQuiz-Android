@@ -7,13 +7,8 @@
 
 package team.ommaya.wequiz.android.quiz.solve
 
-import android.graphics.LinearGradient
-import android.graphics.Matrix
-import android.graphics.Shader
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -30,7 +25,7 @@ import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailOption
 import team.ommaya.wequiz.android.utils.ProgressDialog
 import team.ommaya.wequiz.android.utils.SnackbarMode
 import team.ommaya.wequiz.android.utils.WeQuizSnackbar
-import team.ommaya.wequiz.android.design.resource.R as DesignR
+import team.ommaya.wequiz.android.utils.setTextGradient
 
 @AndroidEntryPoint
 class FragmentQuizSolve :
@@ -80,41 +75,6 @@ class FragmentQuizSolve :
             ivReport.setOnClickListener {
                 // 구글 폼 이동
             }
-        }
-    }
-
-    private fun setTextGradient(textView: TextView) {
-        with(textView) {
-            paint.shader = LinearGradient(
-                paint.measureText(text.toString()) * 0.15f,
-                textSize * 0.15f,
-                paint.measureText(text.toString()) * 0.85f,
-                textSize * 0.85f,
-                intArrayOf(
-                    ContextCompat.getColor(
-                        context,
-                        DesignR.color.S1_G_start,
-                    ),
-                    ContextCompat.getColor(
-                        context,
-                        DesignR.color.S1_G_center,
-                    ),
-                    ContextCompat.getColor(
-                        context,
-                        DesignR.color.S1_G_end,
-                    ),
-                ),
-                null,
-                Shader.TileMode.CLAMP,
-            )
-
-            val matrix = Matrix()
-            matrix.setRotate(
-                275f,
-                paint.measureText(text.toString()) / 2,
-                textSize / 2,
-            )
-            paint.shader.setLocalMatrix(matrix)
         }
     }
 

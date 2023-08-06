@@ -10,15 +10,15 @@ package team.ommaya.wequiz.android.quiz.solve.result.viewholder
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import team.ommaya.wequiz.android.databinding.ItemQuizSolveRankingBinding
-import team.ommaya.wequiz.android.quiz.solve.result.Ranking
+import team.ommaya.wequiz.android.domain.model.rank.RankingsItem
 
 class ResultRankingViewHolder(
     private val binding: ItemQuizSolveRankingBinding,
 ) : ViewHolder(binding.root) {
-    fun bind(ranking: Ranking, position: Int) {
+    fun bind(ranking: RankingsItem, position: Int) {
         with(binding) {
-            tvResultNickname.text = ranking.nickname
-            tvResultHash.text = "#${ranking.hash}"
+            tvResultNickname.text = ranking.userInfo.name
+            tvResultHash.text = ranking.userInfo.id.toString()
             tvResultScore.text = "${ranking.score}점"
 
             when (position) {
