@@ -4,6 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.appcheck.ktx.appCheck
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.initialize
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.base.BaseViewBindingActivity
@@ -17,8 +21,16 @@ class IntroActivity : BaseViewBindingActivity<ActivityIntroBinding>(ActivityIntr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initFirebasePlayIntegrity()
         checkIsLogin()
         startHomeMainActivity()
+    }
+
+    private fun initFirebasePlayIntegrity() {
+        Firebase.initialize(context = this)
+        Firebase.appCheck.installAppCheckProviderFactory(
+            PlayIntegrityAppCheckProviderFactory.getInstance(),
+        )
     }
 
     private fun checkIsLogin() {
