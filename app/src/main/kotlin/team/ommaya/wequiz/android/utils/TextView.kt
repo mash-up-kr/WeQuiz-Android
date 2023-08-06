@@ -48,4 +48,3 @@ fun setTextGradient(textView: TextView) {
         paint.shader.setLocalMatrix(matrix)
     }
 }
-

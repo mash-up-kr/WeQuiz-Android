@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class QuizSolveAnonymousViewModel @Inject constructor(
-    private val getAnonymousTokenUseCase: GetAnonymousTokenUseCase
+    private val getAnonymousTokenUseCase: GetAnonymousTokenUseCase,
 ) : ViewModel() {
 
     private val _anonymousUiState: MutableSharedFlow<UiState> = MutableSharedFlow()

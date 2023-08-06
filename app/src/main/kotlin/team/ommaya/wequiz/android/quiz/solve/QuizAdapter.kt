@@ -42,12 +42,12 @@ class QuizAdapter(
         val quizDiffCallback = object : DiffUtil.ItemCallback<QuizDetailOption>() {
             override fun areItemsTheSame(
                 oldItem: QuizDetailOption,
-                newItem: QuizDetailOption
+                newItem: QuizDetailOption,
             ) = oldItem.id == newItem.id
 
             override fun areContentsTheSame(
                 oldItem: QuizDetailOption,
-                newItem: QuizDetailOption
+                newItem: QuizDetailOption,
             ) = oldItem.id == newItem.id
         }
     }

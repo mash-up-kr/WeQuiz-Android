@@ -60,7 +60,7 @@ class FragmentQuizSolve :
 
     private fun initData() {
         quizSolveViewModel.initQuiz(
-            quizSolveSharedViewModel.quizDetail.value
+            quizSolveSharedViewModel.quizDetail.value,
         )
     }
 
@@ -145,9 +145,9 @@ class FragmentQuizSolve :
                                         NavOptions.Builder()
                                             .setPopUpTo(
                                                 R.id.fragmentQuizSolveEnter,
-                                                inclusive = true
+                                                inclusive = true,
                                             )
-                                            .build()
+                                            .build(),
                                     )
                                 }
                                 is SolveUiState.Fail -> {
@@ -155,13 +155,13 @@ class FragmentQuizSolve :
                                     WeQuizSnackbar.make(
                                         requireView(),
                                         state.message,
-                                        SnackbarMode.FAILURE
+                                        SnackbarMode.FAILURE,
                                     ).show()
                                 }
                                 SolveUiState.Loading -> {
                                     progressDialog.show(
                                         requireActivity().supportFragmentManager,
-                                        "progress"
+                                        "progress",
                                     )
                                 }
                             }

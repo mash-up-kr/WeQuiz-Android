@@ -91,7 +91,7 @@ class ResultRankingFragment :
                             R.id.fragmentQuizSolveEnter,
                             inclusive = true,
                         )
-                        .build()
+                        .build(),
                 )
             }
 

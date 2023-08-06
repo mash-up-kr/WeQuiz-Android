@@ -10,7 +10,6 @@ package team.ommaya.wequiz.android.utils
 import android.content.Context
 import team.ommaya.wequiz.android.R
 
-
 fun getResultContext(context: Context, score: Int): String {
     return when (score) {
         in 30..49 -> context.getString(R.string.result_title2)

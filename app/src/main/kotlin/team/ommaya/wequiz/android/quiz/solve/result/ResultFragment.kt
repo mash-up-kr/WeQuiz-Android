@@ -7,10 +7,8 @@
 
 package team.ommaya.wequiz.android.quiz.solve.result
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
@@ -85,12 +83,12 @@ class ResultFragment :
                             R.id.fragmentQuizSolveEnter,
                             inclusive = true,
                         )
-                        .build()
+                        .build(),
                 )
             }
 
             btnResultShare.setOnClickListener {
-                Log.d(TAG, "btnResultShare")
+                // TODO
             }
         }
     }

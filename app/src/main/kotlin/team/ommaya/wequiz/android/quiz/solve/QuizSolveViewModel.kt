@@ -41,7 +41,7 @@ class QuizSolveViewModel @Inject constructor(
     private val questionList = MutableStateFlow<List<QuizDetailQuestion>>((emptyList()))
 
     private val _currentQuestion: MutableStateFlow<QuizDetailQuestion> = MutableStateFlow(
-        QuizDetailQuestion(0, 0, emptyList(), 0, "")
+        QuizDetailQuestion(0, 0, emptyList(), 0, ""),
     )
     val currentQuestion = _currentQuestion.asStateFlow()
 
@@ -99,7 +99,7 @@ class QuizSolveViewModel @Inject constructor(
                 Answer(
                     currentSelectAnswerList.value,
                     currentQuestion.value.id,
-                )
+                ),
             )
         }
         totalAnswerList.value = answerList
@@ -160,6 +160,6 @@ sealed interface SolveUiState {
     ) : SolveUiState
 
     data class Fail(
-        val message: String
+        val message: String,
     ) : SolveUiState
 }

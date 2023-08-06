@@ -74,7 +74,7 @@ class QuizCreateViewModel @Inject constructor(
                     _quizId.value = it
                     _createState.emit(CreateState.Success)
                 }.onFailure {
-                    _createState.emit(CreateState.Fail(it.message?: "네트워크 에러"))
+                    _createState.emit(CreateState.Fail(it.message ?: "네트워크 에러"))
                 }
         }
     }

@@ -29,7 +29,6 @@ class QuizSolveActivity :
 
     private val quizSolveViewModel: QuizSolveSharedViewModel by viewModels()
 
-
     private lateinit var navHost: NavHostFragment
     private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +49,7 @@ class QuizSolveActivity :
 
                 deeplink?.let {
                     quizSolveViewModel.getQuizDetail(
-                        deeplink.toString().substringAfterLast("quizId=", "-1").toInt()
+                        deeplink.toString().substringAfterLast("quizId=", "-1").toInt(),
                     )
                 }
             }

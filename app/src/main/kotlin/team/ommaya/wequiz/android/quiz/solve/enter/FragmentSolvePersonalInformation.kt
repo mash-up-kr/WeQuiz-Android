@@ -33,7 +33,7 @@ import team.ommaya.wequiz.android.utils.isValidInputLengthRange
 @AndroidEntryPoint
 class FragmentSolvePersonalInformation :
     BaseViewBindingFragment<FragmentSolvePersonalInformationBinding>(
-        FragmentSolvePersonalInformationBinding::inflate
+        FragmentSolvePersonalInformationBinding::inflate,
     ) {
     private val quizSolveSharedViewModel: QuizSolveSharedViewModel by activityViewModels()
     private val quizSolveAnonymousViewModel: QuizSolveAnonymousViewModel by viewModels()
@@ -90,7 +90,7 @@ class FragmentSolvePersonalInformation :
                         QuizSolveAnonymousViewModel.UiState.Loading -> {
                             progressDialog.show(
                                 requireActivity().supportFragmentManager,
-                                "progressAnonymousToken"
+                                "progressAnonymousToken",
                             )
                         }
                     }

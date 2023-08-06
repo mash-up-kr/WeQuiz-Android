@@ -157,7 +157,7 @@ class QuizCreateFragment :
                                 QuizCreateViewModel.CreateState.Loading -> {
                                     progressDialog.show(
                                         requireActivity().supportFragmentManager,
-                                        "createProgress"
+                                        "createProgress",
                                     )
                                 }
                                 is QuizCreateViewModel.CreateState.Fail -> {
