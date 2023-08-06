@@ -16,5 +16,5 @@ data class QuizDetail(
 
 data class Creator(
     val id: Int = 0,
-    val name: String = ""
+    val name: String = "",
 )

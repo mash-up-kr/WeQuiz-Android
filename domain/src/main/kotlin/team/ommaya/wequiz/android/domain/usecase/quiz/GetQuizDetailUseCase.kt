@@ -9,7 +9,6 @@ package team.ommaya.wequiz.android.domain.usecase.quiz
 
 import team.ommaya.wequiz.android.domain.repository.QuizRepository
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class GetQuizDetailUseCase @Inject constructor(
     private val repository: QuizRepository,

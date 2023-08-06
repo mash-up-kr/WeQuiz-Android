@@ -11,7 +11,7 @@ import team.ommaya.wequiz.android.domain.repository.UserRepository
 import javax.inject.Inject
 
 class GetAnonymousTokenUseCase @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) {
     suspend operator fun invoke(nickname: String) = runCatching {
         userRepository.getAnonymousToken(nickname)
