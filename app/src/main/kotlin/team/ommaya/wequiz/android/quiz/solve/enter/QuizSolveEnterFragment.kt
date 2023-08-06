@@ -25,7 +25,7 @@ import team.ommaya.wequiz.android.intro.IntroActivity
 import team.ommaya.wequiz.android.quiz.solve.QuizSolveSharedViewModel
 
 @AndroidEntryPoint
-class FragmentQuizSolveEnter :
+class QuizSolveEnterFragment :
     BaseViewBindingFragment<FragmentQuizSolveEnterBinding>(FragmentQuizSolveEnterBinding::inflate) {
 
     private val quizSolveSharedViewModel: QuizSolveSharedViewModel by activityViewModels()

@@ -31,7 +31,7 @@ import team.ommaya.wequiz.android.utils.WeQuizSnackbar
 import team.ommaya.wequiz.android.utils.isValidInputLengthRange
 
 @AndroidEntryPoint
-class FragmentSolvePersonalInformation :
+class SolvePersonalInformationFragment :
     BaseViewBindingFragment<FragmentSolvePersonalInformationBinding>(
         FragmentSolvePersonalInformationBinding::inflate,
     ) {

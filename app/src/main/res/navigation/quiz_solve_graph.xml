@@ -11,17 +11,17 @@
 
     <fragment
         android:id="@+id/fragmentQuizFetchFailed"
-        android:name="team.ommaya.wequiz.android.quiz.solve.enter.FragmentQuizFetchFailed"
+        android:name="team.ommaya.wequiz.android.quiz.solve.enter.QuizFetchFailedFragment"
         android:label="FragmentQuizFetchFailed"
         tools:layout="@layout/fragment_quiz_fetch_failed" />
     <fragment
         android:id="@+id/fragmentQuizSolveEnter"
-        android:name="team.ommaya.wequiz.android.quiz.solve.enter.FragmentQuizSolveEnter"
+        android:name="team.ommaya.wequiz.android.quiz.solve.enter.QuizSolveEnterFragment"
         android:label="FragmentQuizSolveEnter"
         tools:layout="@layout/fragment_quiz_solve_enter" />
     <fragment
         android:id="@+id/fragmentSolvePersonalInformation"
-        android:name="team.ommaya.wequiz.android.quiz.solve.enter.FragmentSolvePersonalInformation"
+        android:name="team.ommaya.wequiz.android.quiz.solve.enter.SolvePersonalInformationFragment"
         android:label="FragmentSolvePersonalInformation"
         tools:layout="@layout/fragment_solve_personal_information" />
     <fragment
