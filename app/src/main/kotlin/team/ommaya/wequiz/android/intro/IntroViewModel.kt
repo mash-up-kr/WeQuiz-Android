@@ -183,10 +183,6 @@ class IntroViewModel @Inject constructor(
         sendVerifyCodeEvent(VerifyCodeUiEvent.FAILURE)
     }
 
-    override fun onVerificationCompleted(verifyCode: String) {
-        //
-    }
-
     override fun onCodeSent(
         verificationId: String?,
         token: PhoneAuthProvider.ForceResendingToken?,

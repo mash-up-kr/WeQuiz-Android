@@ -16,7 +16,5 @@ interface AuthCallbacksListener {
 
     fun onVerifyCodeInvalid()
 
-    fun onVerificationCompleted(verifyCode: String)
-
     fun onCodeSent(verificationId: String?, token: PhoneAuthProvider.ForceResendingToken?)
 }
