@@ -15,5 +15,7 @@ class StartPhoneVerificationUseCase @Inject constructor(
     private val firebaseRepository: FirebaseRepository,
 ) {
     suspend operator fun invoke(phoneNumber: String, activity: Activity) =
-        firebaseRepository.startPhoneNumberVerification(phoneNumber, activity)
+        runCatching {
+            firebaseRepository.startPhoneNumberVerification(phoneNumber, activity)
+        }
 }

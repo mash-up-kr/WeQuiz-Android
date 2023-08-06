@@ -69,6 +69,10 @@ class JoinFragment : BaseViewBindingFragment<FragmentJoinBinding>(FragmentJoinBi
             }
 
             btnJoinNext.setOnClickListener {
+                introViewModel.signUp(
+                    nickname = etJoinInputNickname.text.toString(),
+                    description = etJoinInputIntroduction.text.toString(),
+                )
                 introViewModel.setNickname(etJoinInputNickname.text.toString())
                 findNavController().navigate(R.id.action_joinFragment_to_welcomeFragment)
             }

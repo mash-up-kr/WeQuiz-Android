@@ -15,5 +15,7 @@ class SetAuthCallbacksUseCase @Inject constructor(
     private val firebaseRepository: FirebaseRepository,
 ) {
     operator fun invoke(listener: AuthCallbacksListener) =
-        firebaseRepository.setFirebaseAuthCallbacksListener(listener)
+        runCatching {
+            firebaseRepository.setFirebaseAuthCallbacksListener(listener)
+        }
 }

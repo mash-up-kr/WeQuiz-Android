@@ -42,7 +42,8 @@
             app:popUpTo="@id/phoneFragment" />
         <action
             android:id="@+id/action_verifyCodeFragment_to_welcomeFragment"
-            app:destination="@id/welcomeFragment" />
+            app:destination="@id/welcomeFragment"
+            app:popUpTo="@id/phoneFragment" />
     </fragment>
 
     <fragment
@@ -52,7 +53,8 @@
         tools:layout="@layout/fragment_join">
         <action
             android:id="@+id/action_joinFragment_to_welcomeFragment"
-            app:destination="@id/welcomeFragment" />
+            app:destination="@id/welcomeFragment"
+            app:popUpTo="@id/phoneFragment" />
     </fragment>
 
     <fragment

@@ -82,15 +82,8 @@ class VerifyCodeFragment :
 
                 if (isValidInputLength(text, VERIFY_CODE_LENGTH)) {
                     if (!introViewModel.isVerifyTimeOut.value) {
+                        hideKeyboard()
                         introViewModel.verifyCode(text)
-
-                        setTimerAndResendBtnVisibility(false)
-                        etVerifyCodeInput.clearFocus()
-
-                        WindowInsetsControllerCompat(
-                            requireActivity().window,
-                            etVerifyCodeInput,
-                        ).show(WindowInsetsCompat.Type.ime())
                     } else {
                         showFailureWeQuizSnackbar(R.string.verify_code_resend_time_out)
                     }
@@ -99,7 +92,7 @@ class VerifyCodeFragment :
 
             textInputLayoutVerifyCodeInput.setEndIconOnClickListener {
                 startTime()
-                introViewModel.sendVerifyCodeEvent(VerifyCodeUiEvent.RESEND)
+                introViewModel.resendVerifyCode(requireActivity())
             }
 
             btnVerifyCodeBack.setOnClickListener {
@@ -122,39 +115,30 @@ class VerifyCodeFragment :
                         when (event) {
                             VerifyCodeUiEvent.RESEND -> {
                                 showSuccessWeQuizSnackbar(R.string.verify_code_resend)
-                                introViewModel.resendVerifyCode(requireActivity())
                             }
                             VerifyCodeUiEvent.TIMEOUT -> {
                                 showFailureWeQuizSnackbar(R.string.verify_code_time_out)
                                 introViewModel.setIsVerifyTimeOut(true)
                             }
-                            VerifyCodeUiEvent.SUCCESS -> {
-                                // 서버에 user 존재 여부 찌르고 result를 isUserRegistered에 저장
+                            VerifyCodeUiEvent.REGISTERED -> {
+                                findNavController().navigate(R.id.action_verifyCodeFragment_to_welcomeFragment)
+                            }
 
+                            VerifyCodeUiEvent.UNREGISTERED -> {
                                 when (introViewModel.mode.value) {
                                     IntroMode.LOGIN -> {
-                                        if (introViewModel.isUserRegistered.value) {
-                                            findNavController().navigate(R.id.action_verifyCodeFragment_to_welcomeFragment)
-                                        } else {
-                                            showWeQuizDialog(
-                                                { findNavController().popBackStack() },
-                                                { findNavController().navigate(R.id.action_verifyCodeFragment_to_joinFragment) },
-                                            )
-                                        }
+                                        showWeQuizDialog(
+                                            { findNavController().popBackStack() },
+                                            { findNavController().navigate(R.id.action_verifyCodeFragment_to_joinFragment) },
+                                        )
                                     }
                                     IntroMode.SIGNUP -> {
-                                        if (introViewModel.isUserRegistered.value) {
-                                            findNavController().navigate(R.id.action_verifyCodeFragment_to_welcomeFragment)
-                                        } else {
-                                            findNavController().navigate(R.id.action_verifyCodeFragment_to_joinFragment)
-                                        }
+                                        findNavController().navigate(R.id.action_verifyCodeFragment_to_joinFragment)
                                     }
                                 }
-
-                                setTimerAndResendBtnVisibility(true)
                             }
+
                             VerifyCodeUiEvent.FAILURE -> {
-                                setTimerAndResendBtnVisibility(true)
                                 showFailureWeQuizSnackbar(R.string.verify_code_incorrect)
                             }
                         }
@@ -217,6 +201,17 @@ class VerifyCodeFragment :
                 binding.etVerifyCodeInput.clearFocus()
             },
         )
+    }
+
+    private fun hideKeyboard() {
+        with(binding) {
+            WindowInsetsControllerCompat(
+                requireActivity().window,
+                etVerifyCodeInput,
+            ).hide(WindowInsetsCompat.Type.ime())
+
+            etVerifyCodeInput.clearFocus()
+        }
     }
 
     override fun onDestroyView() {

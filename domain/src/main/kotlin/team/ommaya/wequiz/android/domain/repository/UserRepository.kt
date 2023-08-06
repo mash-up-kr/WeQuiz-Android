@@ -14,4 +14,12 @@ interface UserRepository {
     suspend fun getUser(): User
     suspend fun getInformation(token: String): UserInformation
     suspend fun getAnonymousToken(nickname: String): String
+    suspend fun postUserJoin(
+        token: String,
+        phone: String,
+        nickname: String,
+        description: String,
+    ): String
+
+    suspend fun saveUserToken(token: String)
 }
