@@ -20,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -78,6 +79,8 @@ class HomeMainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val coroutineScope = rememberCoroutineScope()
+
             LaunchedEffect(token) {
                 loadResources()
             }
@@ -158,6 +161,19 @@ class HomeMainActivity : ComponentActivity() {
                                     putExtra("quizId", quizList!!.quiz[index].id)
                                 },
                             )
+                        },
+                        onLogoutClick = {
+                            coroutineScope.launch {
+                                userLogoutUseCase()
+                                    .onSuccess {
+                                        finish()
+                                        toast("로그아웃 되었어요.")
+                                    }
+                                    .onFailure { exception ->
+                                        toast("로그아웃에 실패했어요.")
+                                        exception.printStackTrace()
+                                    }
+                            }
                         },
                     )
                 }

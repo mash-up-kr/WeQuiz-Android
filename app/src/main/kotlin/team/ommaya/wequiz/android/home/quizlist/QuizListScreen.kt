@@ -89,7 +89,7 @@ fun QuizList(
 
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .then(modifier),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
