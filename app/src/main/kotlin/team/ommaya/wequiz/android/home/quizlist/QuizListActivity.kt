@@ -40,14 +40,15 @@ import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
-import team.ommaya.wequiz.android.data.client.TmpToken
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizTypography
 import team.ommaya.wequiz.android.domain.model.quiz.Quiz
 import team.ommaya.wequiz.android.domain.usecase.quiz.DeleteQuizUseCase
 import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizListUseCase
 import team.ommaya.wequiz.android.home.common.QuizDeleteConfirmDialog
+import team.ommaya.wequiz.android.home.obtainToken
 import team.ommaya.wequiz.android.home.quizdetail.QuizDetailActivity
+import team.ommaya.wequiz.android.intro.IntroActivity
 import team.ommaya.wequiz.android.utils.asLoose
 import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.get
@@ -69,7 +70,7 @@ class QuizListActivity : ComponentActivity() {
     @Inject
     lateinit var deleteQuizUseCase: DeleteQuizUseCase
 
-    private val token by lazy { intent?.getStringExtra("token") ?: TmpToken }
+    private val token by lazy { obtainToken() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -250,7 +251,7 @@ class QuizListActivity : ComponentActivity() {
                                         this@QuizListActivity,
                                         QuizDetailActivity::class.java,
                                     ).apply {
-                                        putExtra("token", token)
+                                        putExtra(IntroActivity.TOKEN, token)
                                         putExtra("quizId", quizIds[index])
                                     },
                                 )

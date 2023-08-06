@@ -80,4 +80,10 @@ class UserRepositoryImpl @Inject constructor(
             preference.copy(isLogin = true, token = token)
         }
     }
+
+    override suspend fun logout() {
+        userDataStore.updateData { preference ->
+            preference.copy(isLogin = false, token = "")
+        }
+    }
 }
