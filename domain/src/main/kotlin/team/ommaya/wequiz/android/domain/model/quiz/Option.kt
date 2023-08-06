@@ -9,6 +9,6 @@ package team.ommaya.wequiz.android.domain.model.quiz
 
 data class Option(
     val content: String = "",
-    val priority: Int = 0,
+    val id: Int = 0,
     val isCorrect: Boolean = false,
 )

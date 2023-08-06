@@ -16,6 +16,8 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import kotlinx.coroutines.flow.first
 import team.ommaya.wequiz.android.data.mapper.toDomain
+import team.ommaya.wequiz.android.data.model.quiz.AnonymousJoinRequest
+import team.ommaya.wequiz.android.data.model.quiz.AnonymousJoinResponse
 import team.ommaya.wequiz.android.data.model.user.SignUpRequest
 import team.ommaya.wequiz.android.data.model.user.SignUpResponse
 import team.ommaya.wequiz.android.data.model.user.UserInformationFormattedResponse
@@ -78,6 +80,20 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun saveUserToken(token: String) {
         userDataStore.updateData { preference ->
             preference.copy(isLogin = true, token = token)
+        }
+    }
+
+    override suspend fun getAnonymousToken(nickname: String): String {
+        val response =
+            client
+                .post("user/join/anonymous") {
+                    setBody(AnonymousJoinRequest(nickname))
+                }
+                .body<AnonymousJoinResponse>()
+        if (response.code == "SUCCESS") {
+            return response.data.token
+        } else {
+            throw Exception(response.message)
         }
     }
 

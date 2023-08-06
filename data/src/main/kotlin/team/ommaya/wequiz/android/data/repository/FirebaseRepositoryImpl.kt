@@ -21,6 +21,7 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.dynamiclinks.ShortDynamicLink
 import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
+import com.google.firebase.dynamiclinks.ktx.socialMetaTagParameters
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -96,10 +97,16 @@ class FirebaseRepositoryImpl @Inject constructor(
 
     override fun makeInvitationLink(quizId: Int) = callbackFlow {
         val invitationLink =
-            "https://wequiz.page.link/?link=https://wequiz.page.link?quizId=$quizId&apn=team.ommaya.wequiz.android&isi=6453208230&ibi=wequiz.ios.Main"
+            "https://wequiz.page.link/?link=https://wequiz.page.link/solve?quizId=$quizId&apn=team.ommaya.wequiz.android&isi=6453208230&ibi=wequiz.ios.WeQuiz"
         dynamicLinks.shortLinkAsync(ShortDynamicLink.Suffix.UNGUESSABLE) {
             link = Uri.parse(invitationLink)
             domainUriPrefix = "https://wequiz.page.link"
+            socialMetaTagParameters {
+                title = "진정한 친구들만 통과할 수 있는 찐친고사"
+                description = "너 나 알아? WeQuiz 우정테스트"
+                imageUrl =
+                    Uri.parse("https://firebasestorage.googleapis.com/v0/b/wequiz-3910f.appspot.com/o/metaTagImage.png?alt=media&token=22389993-44e2-4ffa-adce-0a8f369d0173")
+            }
         }.addOnSuccessListener { shortDynamicLink ->
             val shortLinkUri = shortDynamicLink.shortLink
             trySend(shortLinkUri ?: Uri.EMPTY)

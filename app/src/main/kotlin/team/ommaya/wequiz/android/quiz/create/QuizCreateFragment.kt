@@ -26,6 +26,7 @@ import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentQuizCreateBinding
 import team.ommaya.wequiz.android.quiz.create.adapter.QuizCreateAdapter
+import team.ommaya.wequiz.android.utils.ProgressDialog
 import team.ommaya.wequiz.android.utils.SnackbarMode
 import team.ommaya.wequiz.android.utils.WeQuizDialog
 import team.ommaya.wequiz.android.utils.WeQuizDialogContents
@@ -60,6 +61,10 @@ class QuizCreateFragment :
                 onQuestionItemClick(position, isEditable)
             },
         )
+    }
+
+    private val progressDialog: ProgressDialog by lazy {
+        ProgressDialog()
     }
 
     private val adapterDataObserver = object : RecyclerView.AdapterDataObserver() {
@@ -144,19 +149,24 @@ class QuizCreateFragment :
                     launch {
                         createState.collect { state ->
                             when (state) {
-                                QuizCreateViewModel.CreateState.SUCCESS -> {
+                                QuizCreateViewModel.CreateState.Success -> {
+                                    progressDialog.dismiss()
                                     quizSharedViewModel.setQuizId(quizCreateViewModel.quizId.value)
                                     findNavController().navigate(R.id.quizCreateFinishFragment)
                                 }
-                                QuizCreateViewModel.CreateState.FAILED -> {
+                                QuizCreateViewModel.CreateState.Loading -> {
+                                    progressDialog.show(
+                                        requireActivity().supportFragmentManager,
+                                        "createProgress",
+                                    )
+                                }
+                                is QuizCreateViewModel.CreateState.Fail -> {
+                                    progressDialog.dismiss()
                                     WeQuizSnackbar.make(
                                         requireView(),
-                                        "문제 만들기 실패",
+                                        state.message,
                                         SnackbarMode.FAILURE,
                                     ).show()
-                                }
-                                QuizCreateViewModel.CreateState.LOADING -> {
-                                    // TODO
                                 }
                             }
                         }

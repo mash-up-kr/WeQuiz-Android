@@ -16,4 +16,10 @@ interface RankRepository {
         cursorScore: Int?,
         cursorUserld: Int?,
     ): Rank
+
+    suspend fun getSolveRank(
+        quizId: Int,
+        size: Int,
+        cursorId: Int?,
+    ): Rank
 }
