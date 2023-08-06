@@ -31,11 +31,11 @@ import androidx.compose.ui.unit.dp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.collections.immutable.toImmutableList
 import team.ommaya.wequiz.android.R
-import team.ommaya.wequiz.android.data.client.TmpToken
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizTypography
 import team.ommaya.wequiz.android.domain.model.rank.Rank
 import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizRankUseCase
+import team.ommaya.wequiz.android.home.obtainToken
 import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.noRippleClickable
 import team.ommaya.wequiz.android.utils.toast
@@ -47,7 +47,7 @@ class FriendsRankActivity : ComponentActivity() {
     @Inject
     lateinit var getQuizRankUseCase: GetQuizRankUseCase
 
-    private val token by lazy { intent?.getStringExtra("token") ?: TmpToken }
+    private val token by lazy { obtainToken() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

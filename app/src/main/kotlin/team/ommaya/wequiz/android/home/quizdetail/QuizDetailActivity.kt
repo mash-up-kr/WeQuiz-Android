@@ -10,6 +10,8 @@
 
 package team.ommaya.wequiz.android.home.quizdetail
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -55,14 +57,17 @@ import androidx.compose.ui.zIndex
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.R
-import team.ommaya.wequiz.android.data.client.TmpToken
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
 import team.ommaya.wequiz.android.domain.model.statistic.QuizStatistic
 import team.ommaya.wequiz.android.domain.usecase.quiz.DeleteQuizUseCase
+import team.ommaya.wequiz.android.domain.usecase.quiz.MakeInvitationLinkUseCase
 import team.ommaya.wequiz.android.domain.usecase.statistic.GetQuizStatisticUseCase
 import team.ommaya.wequiz.android.home.common.QuizDeleteConfirmDialog
+import team.ommaya.wequiz.android.home.obtainToken
 import team.ommaya.wequiz.android.utils.applyIf
 import team.ommaya.wequiz.android.utils.asLoose
 import team.ommaya.wequiz.android.utils.fitPaint
@@ -85,7 +90,10 @@ class QuizDetailActivity : ComponentActivity() {
     @Inject
     lateinit var deleteQuizUseCase: DeleteQuizUseCase
 
-    private val token by lazy { intent?.getStringExtra("token") ?: TmpToken }
+    @Inject
+    lateinit var makeInvitationLinkUseCase: MakeInvitationLinkUseCase
+
+    private val token by lazy { obtainToken() }
     private val quizId by lazy {
         (intent?.getIntExtra("quizId", Int.MIN_VALUE) ?: Int.MIN_VALUE)
             .also { value ->
@@ -149,17 +157,18 @@ class QuizDetailActivity : ComponentActivity() {
                     deleteIndexState = null
 
                     coroutineScope.launch {
-                        val result =
-                            deleteQuizUseCase(
-                                token = token,
-                                quizId = quizId,
-                            )
-                        if (result.isSuccess) {
-                            finish()
-                            toast("문제를 삭제했어요.")
-                        } else {
-                            toast(result.exceptionOrNull()!!.toString())
-                        }
+                        deleteQuizUseCase(
+                            token = token,
+                            quizId = quizId,
+                        )
+                            .onSuccess {
+                                finish()
+                                toast("문제를 삭제했어요.")
+                            }
+                            .onFailure { exception ->
+                                toast("문제 삭제에 실패했어요.")
+                                exception.printStackTrace()
+                            }
                     }
                 },
             )
@@ -190,7 +199,33 @@ class QuizDetailActivity : ComponentActivity() {
                                     drawableId = R.drawable.ic_round_share_24,
                                     colorFilter = WeQuizColor.G2.toRememberColorFilterOrNull(),
                                 )
-                                .noRippleClickable { toast("준비중...") },
+                                .noRippleClickable {
+                                    coroutineScope.launch {
+                                        makeInvitationLinkUseCase(quizId)
+                                            .catch { exception ->
+                                                toast("퀴즈 공유에 실패했어요.")
+                                                exception.printStackTrace()
+                                            }
+                                            .first()
+                                            .let { uri ->
+                                                if (uri == Uri.EMPTY) return@launch run { toast("퀴즈 공유에 실패했어요.") }
+
+                                                val intent = Intent(Intent.ACTION_SEND).apply {
+                                                    type = "text/html"
+                                                    putExtra(
+                                                        Intent.EXTRA_TEXT,
+                                                        "친구가 만든 찐친고사에 도전해보세요!\n\n$uri",
+                                                    )
+                                                }
+                                                startActivity(
+                                                    Intent.createChooser(
+                                                        intent,
+                                                        "친구가 만든 찐친고사에 도전해보세요!",
+                                                    ),
+                                                )
+                                            }
+                                    }
+                                },
                         )
                         Box(
                             Modifier
