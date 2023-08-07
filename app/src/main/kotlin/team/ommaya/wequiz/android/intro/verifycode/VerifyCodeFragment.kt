@@ -26,6 +26,7 @@ import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentVerifyCodeBinding
 import team.ommaya.wequiz.android.intro.IntroMode
 import team.ommaya.wequiz.android.intro.IntroViewModel
+import team.ommaya.wequiz.android.intro.IntroViewModel.Companion.INITIAL_VERIFY_TIME
 import team.ommaya.wequiz.android.intro.VerifyCodeUiEvent
 import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
 import team.ommaya.wequiz.android.utils.SnackbarMode
@@ -47,7 +48,7 @@ class VerifyCodeFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        startTime()
+        startTimer()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,7 +59,7 @@ class VerifyCodeFragment :
         collectFlow()
     }
 
-    private fun startTime() {
+    private fun startTimer() {
         if (timer.isActive) timer.cancel()
         introViewModel.setIsVerifyTimeOut(false)
 
@@ -91,7 +92,7 @@ class VerifyCodeFragment :
             }
 
             textInputLayoutVerifyCodeInput.setEndIconOnClickListener {
-                startTime()
+                startTimer()
                 introViewModel.resendVerifyCode(requireActivity())
             }
 
@@ -123,7 +124,6 @@ class VerifyCodeFragment :
                             VerifyCodeUiEvent.REGISTERED -> {
                                 findNavController().navigate(R.id.action_verifyCodeFragment_to_welcomeFragment)
                             }
-
                             VerifyCodeUiEvent.UNREGISTERED -> {
                                 when (introViewModel.mode.value) {
                                     IntroMode.LOGIN -> {
@@ -216,7 +216,11 @@ class VerifyCodeFragment :
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+        introViewModel.setIsVerifyTimeOut(true)
+        introViewModel.setVerifyTime(INITIAL_VERIFY_TIME)
         keyboardVisibilityUtils.detachKeyboardListeners()
+        timer.cancel()
     }
 
     companion object {

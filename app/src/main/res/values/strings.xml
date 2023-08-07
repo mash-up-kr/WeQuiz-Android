@@ -40,6 +40,7 @@
     <string name="nickname"><font color="#E9ECEF">닉네임</font> <font color="#FF5D47">(필수)</font></string>
     <string name="nickname_hint">닉네임 입력</string>
     <string name="welcome_comment">반가워요\n%1$s</string>
+    <string name="send_verify_code_failure">인증번호 전송에 실패했습니다</string>
 
     <!-- 문제 만들기 -->
     <string name="create_quiz">문제 만들기</string>
