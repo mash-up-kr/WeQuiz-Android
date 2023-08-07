@@ -44,7 +44,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/quiz_create_graph" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_quiz_next"
         style="@style/WeQuizRoundButton"
         android:enabled="false"

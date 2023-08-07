@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import team.ommaya.wequiz.android.domain.usecase.quiz.CreateQuizUseCase
+import team.ommaya.wequiz.android.domain.usecase.user.GetUserUseCase
 import team.ommaya.wequiz.android.quiz.create.Answer.Companion.makeAnswer
 import team.ommaya.wequiz.android.quiz.create.Question.Companion.makeQuestion
 import javax.inject.Inject
@@ -27,6 +28,7 @@ import javax.inject.Inject
 @HiltViewModel
 class QuizCreateViewModel @Inject constructor(
     private val createQuizUseCase: CreateQuizUseCase,
+    private val getUserUseCase: GetUserUseCase,
 ) : ViewModel() {
 
     private val _questionList: MutableStateFlow<List<Question>> =
@@ -50,6 +52,8 @@ class QuizCreateViewModel @Inject constructor(
     private val _quizId: MutableStateFlow<Int> = MutableStateFlow(0)
     val quizId = _quizId.asStateFlow()
 
+    private var authToken: String = ""
+
     val isQuizMeetRequireMeet =
         combine(
             isAnswerCountRequired,
@@ -69,13 +73,19 @@ class QuizCreateViewModel @Inject constructor(
     fun createQuiz(title: String, questions: List<Question>) {
         viewModelScope.launch {
             _createState.emit(CreateState.Loading)
-            createQuizUseCase(title, questions.toQuestionDomainList())
+            createQuizUseCase(authToken, title, questions.toQuestionDomainList())
                 .onSuccess {
                     _quizId.value = it
                     _createState.emit(CreateState.Success)
                 }.onFailure {
                     _createState.emit(CreateState.Fail(it.message ?: "네트워크 에러"))
                 }
+        }
+    }
+
+    fun setAuthToken() {
+        viewModelScope.launch {
+            authToken = getUserUseCase().token
         }
     }
 

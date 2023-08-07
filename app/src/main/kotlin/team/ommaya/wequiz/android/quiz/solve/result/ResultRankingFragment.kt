@@ -43,7 +43,9 @@ class ResultRankingFragment :
     }
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {}
+        override fun handleOnBackPressed() {
+            requireActivity().finish()
+        }
     }
 
     private lateinit var homeIntent: Intent
