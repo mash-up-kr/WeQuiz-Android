@@ -8,10 +8,13 @@
 package team.ommaya.wequiz.android.data.repository
 
 import android.app.Activity
+import android.content.Context
 import android.net.Uri
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
+import com.google.firebase.appcheck.ktx.appCheck
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthMissingActivityForRecaptchaException
@@ -22,6 +25,9 @@ import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.dynamiclinks.ShortDynamicLink
 import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
 import com.google.firebase.dynamiclinks.ktx.socialMetaTagParameters
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.initialize
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -34,6 +40,8 @@ import javax.inject.Inject
 class FirebaseRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     private val dynamicLinks: FirebaseDynamicLinks,
+    @ApplicationContext private val context: Context,
+    private val firebase: Firebase,
 ) : FirebaseRepository {
     private lateinit var verificationID: String
     private lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
@@ -42,12 +50,6 @@ class FirebaseRepositoryImpl @Inject constructor(
     private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         override fun onVerificationCompleted(credential: PhoneAuthCredential) {
             // 문자가 오면 자동으로 인증하는 코드
-//            val verifyCode = credential.smsCode
-//
-//            if (!verifyCode.isNullOrEmpty()) {
-//                authCallbacksListener.onVerificationCompleted(verifyCode)
-//            }
-//
 //            signInWithPhoneAuthCredential(credential)
         }
 
@@ -99,6 +101,13 @@ class FirebaseRepositoryImpl @Inject constructor(
 
     override fun verifyPhoneNumberWithCode(verifyCode: String) {
         signInWithPhoneAuthCredential(PhoneAuthProvider.getCredential(verificationID, verifyCode))
+    }
+
+    override fun setFirebasePlayIntegrity() {
+        firebase.initialize(context)
+        firebase.appCheck.installAppCheckProviderFactory(
+            PlayIntegrityAppCheckProviderFactory.getInstance(),
+        )
     }
 
     override fun makeInvitationLink(quizId: Int) = callbackFlow {

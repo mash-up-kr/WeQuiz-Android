@@ -12,6 +12,7 @@
         <item name="colorPrimary">@color/P1</item>
         <item name="colorPrimaryVariant">@color/G9</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorAccent">@color/P1</item>
 
         <!-- statusBarColor -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>

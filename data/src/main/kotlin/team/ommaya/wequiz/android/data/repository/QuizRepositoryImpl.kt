@@ -15,7 +15,6 @@ import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import team.ommaya.wequiz.android.data.client.TmpToken
 import team.ommaya.wequiz.android.data.mapper.toDomain
 import team.ommaya.wequiz.android.data.mapper.toQuestionDtoList
 import team.ommaya.wequiz.android.data.mapper.toQuizResult
@@ -53,11 +52,11 @@ class QuizRepositoryImpl @Inject constructor(
         return requireNotNull(response.data).toDomain()
     }
 
-    override suspend fun postQuiz(title: String, questions: List<Question>): Int {
+    override suspend fun postQuiz(token: String, title: String, questions: List<Question>): Int {
         val response =
             client
                 .post("quiz") {
-                    header("x-wequiz-token", TmpToken)
+                    header("x-wequiz-token", token)
                     setBody(
                         QuizCreateRequest(
                             title = title,

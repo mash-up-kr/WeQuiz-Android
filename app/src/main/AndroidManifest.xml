@@ -22,7 +22,6 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan"
             tools:ignore="LockedOrientationActivity/" />
 
@@ -38,7 +37,8 @@
 
         <activity
             android:name=".home.main.HomeMainActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop" />
 
         <activity
             android:name=".home.friends.FriendsRankActivity"
