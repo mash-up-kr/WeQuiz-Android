@@ -17,6 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -152,7 +153,16 @@ class QuizCreateFragment :
                                 QuizCreateViewModel.CreateState.Success -> {
                                     progressDialog.dismiss()
                                     quizSharedViewModel.setQuizId(quizCreateViewModel.quizId.value)
-                                    findNavController().navigate(R.id.quizCreateFinishFragment)
+                                    findNavController().navigate(
+                                        R.id.quizCreateFinishFragment,
+                                        null,
+                                        NavOptions.Builder()
+                                            .setPopUpTo(
+                                                R.id.quizCreateFragment,
+                                                inclusive = true,
+                                            )
+                                            .build(),
+                                    )
                                 }
                                 QuizCreateViewModel.CreateState.Loading -> {
                                     progressDialog.show(
