@@ -24,6 +24,8 @@ import team.ommaya.wequiz.android.databinding.FragmentQuizSolveBinding
 import team.ommaya.wequiz.android.domain.model.quiz.QuizDetailOption
 import team.ommaya.wequiz.android.utils.ProgressDialog
 import team.ommaya.wequiz.android.utils.SnackbarMode
+import team.ommaya.wequiz.android.utils.WeQuizDialog
+import team.ommaya.wequiz.android.utils.WeQuizDialogContents
 import team.ommaya.wequiz.android.utils.WeQuizSnackbar
 import team.ommaya.wequiz.android.utils.setTextGradient
 
@@ -47,6 +49,7 @@ class QuizSolveFragment :
         ProgressDialog()
     }
 
+    private lateinit var reportDialog: WeQuizDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initData()
@@ -73,7 +76,25 @@ class QuizSolveFragment :
                 findNavController().popBackStack()
             }
             ivReport.setOnClickListener {
-                // 구글 폼 이동
+                val dialogContent = WeQuizDialogContents(
+                    title = getString(R.string.delete_question_text),
+                    negativeBtnText = getString(R.string.negative),
+                    positiveBtnText = getString(R.string.report),
+                    negativeBtnAction = {
+                        reportDialog.dismiss()
+                    },
+                    positiveBtnAction = {
+                        WeQuizSnackbar.make(
+                            requireView(),
+                            getString(R.string.report_question_finish),
+                        ).show()
+                    },
+                )
+
+                reportDialog = WeQuizDialog(
+                    dialogContent,
+                )
+                reportDialog.show(requireActivity().supportFragmentManager, "report")
             }
         }
     }

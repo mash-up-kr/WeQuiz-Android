@@ -7,10 +7,8 @@
 
 package team.ommaya.wequiz.android.quiz.solve.result
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
@@ -98,7 +96,7 @@ class ResultRankingFragment :
             }
 
             btnResultShare.setOnClickListener {
-                Log.d(ContentValues.TAG, "btnResultShare")
+                quizSolveSharedViewModel.makeQuizLink()
             }
         }
     }
@@ -123,6 +121,23 @@ class ResultRankingFragment :
                 launch {
                     quizSolveSharedViewModel.rankingList.collect { rankingList ->
                         resultRankingAdapter.submitList(rankingList)
+                    }
+                }
+                launch {
+                    quizSolveSharedViewModel.quizLink.collect { invitationUri ->
+                        startActivity(
+                            Intent(Intent.ACTION_SEND).apply {
+                                type = "text/html"
+                                putExtra(
+                                    Intent.EXTRA_TEXT,
+                                    "친구가 만든 찐친고사에 도전해보세요!\n\n$invitationUri",
+                                )
+                                Intent.createChooser(
+                                    requireActivity().intent,
+                                    "친구가 만든 찐친고사에 도전해보세요!",
+                                )
+                            },
+                        )
                     }
                 }
             }
