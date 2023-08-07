@@ -154,6 +154,8 @@ class IntroViewModel @Inject constructor(
             }
     }
 
+//    fun
+
     private fun getUserInformation() {
         viewModelScope.launch {
             getUserInformationUseCase(token.value)
