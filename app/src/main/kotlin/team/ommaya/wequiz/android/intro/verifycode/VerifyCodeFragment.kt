@@ -29,6 +29,7 @@ import team.ommaya.wequiz.android.intro.IntroViewModel
 import team.ommaya.wequiz.android.intro.IntroViewModel.Companion.INITIAL_VERIFY_TIME
 import team.ommaya.wequiz.android.intro.VerifyCodeUiEvent
 import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
+import team.ommaya.wequiz.android.utils.ProgressDialog
 import team.ommaya.wequiz.android.utils.SnackbarMode
 import team.ommaya.wequiz.android.utils.WeQuizDialog
 import team.ommaya.wequiz.android.utils.WeQuizDialogContents
@@ -43,6 +44,9 @@ class VerifyCodeFragment :
     BaseViewBindingFragment<FragmentVerifyCodeBinding>(FragmentVerifyCodeBinding::inflate) {
     private val introViewModel: IntroViewModel by activityViewModels()
     private var timer: Job = Job()
+    private val progressDialog: ProgressDialog by lazy {
+        ProgressDialog()
+    }
     private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,6 +89,11 @@ class VerifyCodeFragment :
                     if (!introViewModel.isVerifyTimeOut.value) {
                         hideKeyboard()
                         introViewModel.verifyCode(text)
+                        progressDialog.show(
+                            requireActivity().supportFragmentManager,
+                            "createProgress",
+                        )
+                        setTimerAndResendBtnVisibility(false)
                     } else {
                         showFailureWeQuizSnackbar(R.string.verify_code_resend_time_out)
                     }
@@ -113,6 +122,8 @@ class VerifyCodeFragment :
 
                 launch {
                     introViewModel.verifyCodeEventFlow.collect { event ->
+                        setTimerAndResendBtnVisibility(true)
+                        progressDialog.dismiss()
                         when (event) {
                             VerifyCodeUiEvent.RESEND -> {
                                 showSuccessWeQuizSnackbar(R.string.verify_code_resend)
@@ -137,7 +148,6 @@ class VerifyCodeFragment :
                                     }
                                 }
                             }
-
                             VerifyCodeUiEvent.FAILURE -> {
                                 showFailureWeQuizSnackbar(R.string.verify_code_incorrect)
                             }
