@@ -30,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import kotlinx.collections.immutable.ImmutableList
@@ -42,6 +43,7 @@ import team.ommaya.wequiz.android.home.friends.FriendsRank
 import team.ommaya.wequiz.android.home.friends.NicknameUuidScoreTriple
 import team.ommaya.wequiz.android.home.quizlist.QuizList
 import team.ommaya.wequiz.android.home.quizlist.QuizNameAndIsWritingPair
+import team.ommaya.wequiz.android.utils.asLoose
 import team.ommaya.wequiz.android.utils.fitPaint
 import team.ommaya.wequiz.android.utils.noRippleClickable
 
@@ -57,6 +59,7 @@ fun HomeMain(
     onFriendRankingSectionClick: () -> Unit = {},
     onMyQuizSectionClick: () -> Unit = {},
     onQuizClick: (index: Int) -> Unit = {},
+    onLogoutClick: () -> Unit = {},
 ) {
     val roundedCornerShape16 = remember { RoundedCornerShape(16.dp) }
 
@@ -161,6 +164,40 @@ fun HomeMain(
                 )
             }
         }
+        BasicText(
+            modifier = Modifier
+                .layout { measurable, constraints ->
+                    val looseConstraints = constraints.asLoose(width = true, height = true)
+                    val placeable = measurable.measure(looseConstraints)
+
+                    val width = constraints.maxWidth
+                    val height = placeable.height
+
+                    layout(width = width, height = height) {
+                        placeable.place(
+                            x = Alignment
+                                .CenterHorizontally
+                                .align(
+                                    size = placeable.width,
+                                    space = width,
+                                    layoutDirection = layoutDirection,
+                                ),
+                            y = Alignment
+                                .CenterVertically
+                                .align(
+                                    size = placeable.height,
+                                    space = height,
+                                ),
+                        )
+                    }
+                }
+                .padding(top = 26.dp, bottom = 40.dp - 27.dp)
+                .noRippleClickable(onLogoutClick),
+            text = "로그아웃",
+            style = WeQuizTypography.R16
+                .change(color = WeQuizColor.G4)
+                .asRememberComposeStyle(),
+        )
     }
 }
 
