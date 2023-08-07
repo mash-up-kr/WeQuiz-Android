@@ -9,7 +9,9 @@ package team.ommaya.wequiz.android.home.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -68,6 +71,16 @@ class HomeMainActivity : ComponentActivity() {
 
     private val token by lazy { obtainToken() }
 
+    private var waitTime = mutableLongStateOf(0L)
+
+    private val finishToast by lazy {
+        Toast.makeText(
+            this@HomeMainActivity,
+            "한번 더 누르면 종료됩니다.",
+            Toast.LENGTH_SHORT,
+        )
+    }
+
     override fun onRestart() {
         super.onRestart()
         lifecycleScope.launch {
@@ -75,8 +88,21 @@ class HomeMainActivity : ComponentActivity() {
         }
     }
 
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (System.currentTimeMillis() - waitTime.longValue >= 2000) {
+                waitTime.longValue = System.currentTimeMillis()
+                finishToast.show()
+            } else {
+                finishToast.cancel()
+                finish()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.onBackPressedDispatcher.addCallback(onBackPressedCallback)
         setContent {
             LaunchedEffect(token) {
                 loadResources()
@@ -195,5 +221,10 @@ class HomeMainActivity : ComponentActivity() {
                         quizList
                     }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        onBackPressedCallback.remove()
     }
 }
