@@ -42,6 +42,9 @@
     <string name="nickname_hint">닉네임 입력</string>
     <string name="welcome_comment">반가워요\n%1$s</string>
     <string name="send_verify_code_failure">인증번호 전송에 실패했습니다</string>
+    <string name="invalid_phone_number_error">전화번호를 다시 확인해주세요</string>
+    <string name="too_many_requests_error">일일 SMS 전송 가능 횟수 초과</string>
+    <string name="network_error">네트워크 에러</string>
 
     <!-- 문제 만들기 -->
     <string name="create_quiz">문제 만들기</string>

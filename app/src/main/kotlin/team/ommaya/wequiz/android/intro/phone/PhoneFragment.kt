@@ -26,6 +26,7 @@ import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentPhoneBinding
 import team.ommaya.wequiz.android.intro.IntroMode
 import team.ommaya.wequiz.android.intro.IntroViewModel
+import team.ommaya.wequiz.android.intro.PhoneUiEvent
 import team.ommaya.wequiz.android.intro.verifycode.VerifyCodeFragment
 import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
 import team.ommaya.wequiz.android.utils.ProgressDialog
@@ -107,10 +108,27 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
                 launch {
                     introViewModel.onCodeSentFlow.collect { isCodeSent ->
                         if (isCodeSent) {
+                            timer.cancel()
                             binding.etPhoneInput.text?.clear()
                             progressDialog.dismiss()
-                            timer.cancel()
                             findNavController().navigate(R.id.action_phoneFragment_to_verifyCodeFragment)
+                        }
+                    }
+                }
+
+                launch {
+                    introViewModel.phoneEventFlow.collect { event ->
+                        progressDialog.dismiss()
+                        when (event) {
+                            PhoneUiEvent.INVALID_PHONE_NUMBER_ERROR -> {
+                                showFailureWeQuizSnackbar(R.string.invalid_phone_number_error)
+                            }
+                            PhoneUiEvent.TOO_MANY_REQUESTS_ERROR -> {
+                                showFailureWeQuizSnackbar(R.string.too_many_requests_error)
+                            }
+                            PhoneUiEvent.NETWORK_ERROR -> {
+                                showFailureWeQuizSnackbar(R.string.network_error)
+                            }
                         }
                     }
                 }
