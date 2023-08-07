@@ -77,7 +77,7 @@ class QuizSolveFragment :
             }
             ivReport.setOnClickListener {
                 val dialogContent = WeQuizDialogContents(
-                    title = getString(R.string.delete_question_text),
+                    title = getString(R.string.report_question_text),
                     negativeBtnText = getString(R.string.negative),
                     positiveBtnText = getString(R.string.report),
                     negativeBtnAction = {
@@ -121,7 +121,8 @@ class QuizSolveFragment :
                         currentQuestion.collect { currentQuestion ->
                             with(binding) {
                                 tvQuestionNum.text = currentQuestion.id.toString()
-                                tvQuestionScore.text = currentQuestion.score.toString()
+                                tvQuestionScore.text =
+                                    getString(R.string.score, currentQuestion.score)
                                 tvQuestionTitle.text = currentQuestion.title
                                 tvAnswerCount.text =
                                     getString(R.string.answer_count, currentQuestion.answerCounts)

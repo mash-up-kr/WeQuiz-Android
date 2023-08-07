@@ -7,12 +7,13 @@
 
 package team.ommaya.wequiz.android.domain
 
+import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthProvider
 
 interface AuthCallbacksListener {
     fun onVerificationSuccess(uid: String)
 
-    fun onVerificationFailed(message: String)
+    fun onVerificationFailed(firebaseException: FirebaseException)
 
     fun onVerifyCodeInvalid()
 

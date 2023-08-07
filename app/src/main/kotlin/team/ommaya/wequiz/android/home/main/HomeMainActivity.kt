@@ -198,7 +198,7 @@ class HomeMainActivity : ComponentActivity() {
                                             Intent(
                                                 this@HomeMainActivity,
                                                 IntroActivity::class.java,
-                                            )
+                                            ),
                                         )
                                     }
                                     .onFailure { exception ->

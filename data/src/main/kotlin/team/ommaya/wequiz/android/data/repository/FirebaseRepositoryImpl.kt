@@ -11,13 +11,10 @@ import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import com.google.firebase.FirebaseException
-import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.appcheck.ktx.appCheck
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthMissingActivityForRecaptchaException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
@@ -54,15 +51,7 @@ class FirebaseRepositoryImpl @Inject constructor(
         }
 
         override fun onVerificationFailed(firebaseException: FirebaseException) {
-            if (firebaseException is FirebaseAuthInvalidCredentialsException) {
-                authCallbacksListener.onVerificationFailed("전화번호 오류")
-            } else if (firebaseException is FirebaseTooManyRequestsException) {
-                authCallbacksListener.onVerificationFailed("SMS 할당량 초과 오류")
-            } else if (firebaseException is FirebaseNetworkException) {
-                authCallbacksListener.onVerificationFailed("네트워크 오류")
-            } else if (firebaseException is FirebaseAuthMissingActivityForRecaptchaException) {
-                authCallbacksListener.onVerificationFailed("null Activity에서 reCAPTCHA 시도 오류")
-            }
+            authCallbacksListener.onVerificationFailed(firebaseException)
         }
 
         override fun onCodeSent(
