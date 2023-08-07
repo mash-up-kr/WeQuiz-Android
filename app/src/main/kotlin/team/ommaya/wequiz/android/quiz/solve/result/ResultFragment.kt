@@ -90,7 +90,7 @@ class ResultFragment :
             }
 
             btnResultShare.setOnClickListener {
-                // TODO
+                quizSolveSharedViewModel.makeQuizLink()
             }
         }
     }
@@ -98,16 +98,35 @@ class ResultFragment :
     private fun collectFlows() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                quizSolveSharedViewModel.result.collect { result ->
-                    with(binding) {
-                        tvResultSubtitle.text = getString(
-                            R.string.result_subtitle,
-                            result.resolverName,
-                            result.creatorName,
+                launch {
+                    quizSolveSharedViewModel.result.collect { result ->
+                        with(binding) {
+                            tvResultSubtitle.text = getString(
+                                R.string.result_subtitle,
+                                result.resolverName,
+                                result.creatorName,
+                            )
+                            tvResultScore.text = result.score.toString()
+                            tvResultTitle.text = getResultContext(requireContext(), result.score)
+                            ivResult.setImageResource(getResultImage(result.score))
+                        }
+                    }
+                }
+                launch {
+                    quizSolveSharedViewModel.quizLink.collect { invitationUri ->
+                        startActivity(
+                            Intent(Intent.ACTION_SEND).apply {
+                                type = "text/html"
+                                putExtra(
+                                    Intent.EXTRA_TEXT,
+                                    "친구가 만든 찐친고사에 도전해보세요!\n\n$invitationUri",
+                                )
+                                Intent.createChooser(
+                                    requireActivity().intent,
+                                    "친구가 만든 찐친고사에 도전해보세요!",
+                                )
+                            },
                         )
-                        tvResultScore.text = result.score.toString()
-                        tvResultTitle.text = getResultContext(requireContext(), result.score)
-                        ivResult.setImageResource(getResultImage(result.score))
                     }
                 }
             }

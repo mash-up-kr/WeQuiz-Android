@@ -70,7 +70,7 @@
     <string name="result_title5">영혼을 공유한 사이❤️</string>
     <string name="result_sign_up">1분만에 가입해서 친구한테 문제내기 🗯</string>
     <string name="retry_quiz">다시 풀기</string>
-    <string name="share_result">결과 공유하기</string>
+    <string name="share_result">공유하기</string>
     <string name="fetch_fail_text">문제 불러오기 실패</string>
     <string name="quiz_deleted_text">삭제된 시험지에요 🥶</string>
     <string name="area">영역</string>
