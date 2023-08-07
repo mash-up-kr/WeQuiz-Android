@@ -194,6 +194,12 @@ class HomeMainActivity : ComponentActivity() {
                                     .onSuccess {
                                         finish()
                                         toast("로그아웃 되었어요.")
+                                        startActivity(
+                                            Intent(
+                                                this@HomeMainActivity,
+                                                IntroActivity::class.java,
+                                            )
+                                        )
                                     }
                                     .onFailure { exception ->
                                         toast("로그아웃에 실패했어요.")
