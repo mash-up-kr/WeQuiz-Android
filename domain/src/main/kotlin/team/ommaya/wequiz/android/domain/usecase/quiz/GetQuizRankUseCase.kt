@@ -8,6 +8,7 @@
 package team.ommaya.wequiz.android.domain.usecase.quiz
 
 import team.ommaya.wequiz.android.domain.repository.RankRepository
+import team.ommaya.wequiz.android.domain.runSuspendCatching
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,7 +22,7 @@ class GetQuizRankUseCase @Inject constructor(
         cursorScore: Int? = null,
         cursorUserld: Int? = null,
     ) =
-        runCatching {
+        runSuspendCatching {
             repository
                 .getQuizRank(
                     token = token,

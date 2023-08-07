@@ -8,13 +8,14 @@
 package team.ommaya.wequiz.android.domain.usecase.user
 
 import team.ommaya.wequiz.android.domain.repository.UserRepository
+import team.ommaya.wequiz.android.domain.runSuspendCatching
 import javax.inject.Inject
 
 class SaveTokenUseCase @Inject constructor(
     private val userRepository: UserRepository,
 ) {
     suspend operator fun invoke(token: String) =
-        runCatching {
+        runSuspendCatching {
             userRepository.saveUserToken(token)
         }
 }

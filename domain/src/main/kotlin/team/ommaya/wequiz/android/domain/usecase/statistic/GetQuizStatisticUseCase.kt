@@ -8,6 +8,7 @@
 package team.ommaya.wequiz.android.domain.usecase.statistic
 
 import team.ommaya.wequiz.android.domain.repository.StatisticRepository
+import team.ommaya.wequiz.android.domain.runSuspendCatching
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,7 +20,7 @@ class GetQuizStatisticUseCase @Inject constructor(
         token: String,
         quizId: Int,
     ) =
-        runCatching {
+        runSuspendCatching {
             repository.getQuizStatistic(token = token, quizId = quizId)
         }
 }

@@ -9,13 +9,14 @@ package team.ommaya.wequiz.android.domain.usecase.quiz
 
 import team.ommaya.wequiz.android.domain.model.quiz.Question
 import team.ommaya.wequiz.android.domain.repository.QuizRepository
+import team.ommaya.wequiz.android.domain.runSuspendCatching
 import javax.inject.Inject
 
 class CreateQuizUseCase @Inject constructor(
     private val quizRepository: QuizRepository,
 ) {
     suspend operator fun invoke(title: String, questions: List<Question>) =
-        runCatching {
+        runSuspendCatching {
             quizRepository.postQuiz(title, questions)
         }
 }

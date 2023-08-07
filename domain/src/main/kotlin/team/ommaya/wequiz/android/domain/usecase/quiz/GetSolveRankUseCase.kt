@@ -8,12 +8,14 @@
 package team.ommaya.wequiz.android.domain.usecase.quiz
 
 import team.ommaya.wequiz.android.domain.repository.RankRepository
+import team.ommaya.wequiz.android.domain.runSuspendCatching
 import javax.inject.Inject
 
 class GetSolveRankUseCase @Inject constructor(
     private val rankRepository: RankRepository,
 ) {
-    suspend operator fun invoke(quizId: Int) = runCatching {
-        rankRepository.getSolveRank(quizId, 30, null)
-    }
+    suspend operator fun invoke(quizId: Int) =
+        runSuspendCatching {
+            rankRepository.getSolveRank(quizId, 30, null)
+        }
 }

@@ -8,6 +8,7 @@
 package team.ommaya.wequiz.android.domain.usecase.user
 
 import team.ommaya.wequiz.android.domain.repository.UserRepository
+import team.ommaya.wequiz.android.domain.runSuspendCatching
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,5 +17,7 @@ class GetUserInformationUseCase @Inject constructor(
     private val repository: UserRepository,
 ) {
     suspend operator fun invoke(token: String) =
-        runCatching { repository.getInformation(token) }
+        runSuspendCatching {
+            repository.getInformation(token)
+        }
 }

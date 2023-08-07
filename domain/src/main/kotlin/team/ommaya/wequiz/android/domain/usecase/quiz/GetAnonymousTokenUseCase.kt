@@ -8,12 +8,14 @@
 package team.ommaya.wequiz.android.domain.usecase.quiz
 
 import team.ommaya.wequiz.android.domain.repository.UserRepository
+import team.ommaya.wequiz.android.domain.runSuspendCatching
 import javax.inject.Inject
 
 class GetAnonymousTokenUseCase @Inject constructor(
     private val userRepository: UserRepository,
 ) {
-    suspend operator fun invoke(nickname: String) = runCatching {
-        userRepository.getAnonymousToken(nickname)
-    }
+    suspend operator fun invoke(nickname: String) =
+        runSuspendCatching {
+            userRepository.getAnonymousToken(nickname)
+        }
 }

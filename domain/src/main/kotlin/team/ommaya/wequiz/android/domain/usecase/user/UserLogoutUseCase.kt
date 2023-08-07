@@ -8,6 +8,7 @@
 package team.ommaya.wequiz.android.domain.usecase.user
 
 import team.ommaya.wequiz.android.domain.repository.UserRepository
+import team.ommaya.wequiz.android.domain.runSuspendCatching
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,7 +17,7 @@ class UserLogoutUseCase @Inject constructor(
     private val userRepository: UserRepository,
 ) {
     suspend operator fun invoke() =
-        runCatching {
+        runSuspendCatching {
             userRepository.logout()
         }
 }

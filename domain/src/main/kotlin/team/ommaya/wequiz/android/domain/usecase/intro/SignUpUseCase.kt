@@ -8,6 +8,7 @@
 package team.ommaya.wequiz.android.domain.usecase.intro
 
 import team.ommaya.wequiz.android.domain.repository.UserRepository
+import team.ommaya.wequiz.android.domain.runSuspendCatching
 import javax.inject.Inject
 
 class SignUpUseCase @Inject constructor(
@@ -19,7 +20,7 @@ class SignUpUseCase @Inject constructor(
         nickname: String,
         description: String,
     ) =
-        runCatching {
+        runSuspendCatching {
             userRepository.postUserJoin(
                 token,
                 phone,
