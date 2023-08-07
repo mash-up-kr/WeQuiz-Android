@@ -21,5 +21,7 @@ interface FirebaseRepository {
 
     fun verifyPhoneNumberWithCode(verifyCode: String)
 
+    fun setFirebasePlayIntegrity()
+
     fun makeInvitationLink(quizId: Int): Flow<Uri>
 }

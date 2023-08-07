@@ -17,8 +17,13 @@ class IntroActivity : BaseViewBindingActivity<ActivityIntroBinding>(ActivityIntr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setFirebasePlayIntegrity()
         checkIsLogin()
         startHomeMainActivity()
+    }
+
+    private fun setFirebasePlayIntegrity() {
+        introViewModel.setPlayIntegrity()
     }
 
     private fun checkIsLogin() {

@@ -26,8 +26,10 @@ import team.ommaya.wequiz.android.base.BaseViewBindingFragment
 import team.ommaya.wequiz.android.databinding.FragmentVerifyCodeBinding
 import team.ommaya.wequiz.android.intro.IntroMode
 import team.ommaya.wequiz.android.intro.IntroViewModel
+import team.ommaya.wequiz.android.intro.IntroViewModel.Companion.INITIAL_VERIFY_TIME
 import team.ommaya.wequiz.android.intro.VerifyCodeUiEvent
 import team.ommaya.wequiz.android.utils.KeyboardVisibilityUtils
+import team.ommaya.wequiz.android.utils.ProgressDialog
 import team.ommaya.wequiz.android.utils.SnackbarMode
 import team.ommaya.wequiz.android.utils.WeQuizDialog
 import team.ommaya.wequiz.android.utils.WeQuizDialogContents
@@ -42,12 +44,15 @@ class VerifyCodeFragment :
     BaseViewBindingFragment<FragmentVerifyCodeBinding>(FragmentVerifyCodeBinding::inflate) {
     private val introViewModel: IntroViewModel by activityViewModels()
     private var timer: Job = Job()
+    private val progressDialog: ProgressDialog by lazy {
+        ProgressDialog()
+    }
     private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        startTime()
+        startTimer()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,7 +63,7 @@ class VerifyCodeFragment :
         collectFlow()
     }
 
-    private fun startTime() {
+    private fun startTimer() {
         if (timer.isActive) timer.cancel()
         introViewModel.setIsVerifyTimeOut(false)
 
@@ -84,6 +89,11 @@ class VerifyCodeFragment :
                     if (!introViewModel.isVerifyTimeOut.value) {
                         hideKeyboard()
                         introViewModel.verifyCode(text)
+                        progressDialog.show(
+                            requireActivity().supportFragmentManager,
+                            "createProgress",
+                        )
+                        setTimerAndResendBtnVisibility(false)
                     } else {
                         showFailureWeQuizSnackbar(R.string.verify_code_resend_time_out)
                     }
@@ -91,7 +101,7 @@ class VerifyCodeFragment :
             }
 
             textInputLayoutVerifyCodeInput.setEndIconOnClickListener {
-                startTime()
+                startTimer()
                 introViewModel.resendVerifyCode(requireActivity())
             }
 
@@ -112,6 +122,8 @@ class VerifyCodeFragment :
 
                 launch {
                     introViewModel.verifyCodeEventFlow.collect { event ->
+                        setTimerAndResendBtnVisibility(true)
+                        progressDialog.dismiss()
                         when (event) {
                             VerifyCodeUiEvent.RESEND -> {
                                 showSuccessWeQuizSnackbar(R.string.verify_code_resend)
@@ -123,7 +135,6 @@ class VerifyCodeFragment :
                             VerifyCodeUiEvent.REGISTERED -> {
                                 findNavController().navigate(R.id.action_verifyCodeFragment_to_welcomeFragment)
                             }
-
                             VerifyCodeUiEvent.UNREGISTERED -> {
                                 when (introViewModel.mode.value) {
                                     IntroMode.LOGIN -> {
@@ -137,7 +148,6 @@ class VerifyCodeFragment :
                                     }
                                 }
                             }
-
                             VerifyCodeUiEvent.FAILURE -> {
                                 showFailureWeQuizSnackbar(R.string.verify_code_incorrect)
                             }
@@ -216,7 +226,11 @@ class VerifyCodeFragment :
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+        introViewModel.setIsVerifyTimeOut(true)
+        introViewModel.setVerifyTime(INITIAL_VERIFY_TIME)
         keyboardVisibilityUtils.detachKeyboardListeners()
+        timer.cancel()
     }
 
     companion object {
