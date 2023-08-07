@@ -29,6 +29,7 @@ import team.ommaya.wequiz.android.domain.usecase.intro.VerifyCodeUseCase
 import team.ommaya.wequiz.android.domain.usecase.user.GetUserInformationUseCase
 import team.ommaya.wequiz.android.domain.usecase.user.GetUserUseCase
 import team.ommaya.wequiz.android.domain.usecase.user.SaveTokenUseCase
+import team.ommaya.wequiz.android.domain.usecase.user.SetPlayIntegrityUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,6 +42,7 @@ class IntroViewModel @Inject constructor(
     private val getUserInformationUseCase: GetUserInformationUseCase,
     private val getUserUseCase: GetUserUseCase,
     private val saveTokenUseCase: SaveTokenUseCase,
+    private val setPlayIntegrityUseCase: SetPlayIntegrityUseCase,
 ) : ViewModel(), AuthCallbacksListener {
 
     private val _mode: MutableStateFlow<IntroMode> = MutableStateFlow(IntroMode.LOGIN)
@@ -188,6 +190,12 @@ class IntroViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             _onCodeSentFlow.emit(true)
+        }
+    }
+
+    fun setPlayIntegrity() {
+        viewModelScope.launch {
+            setPlayIntegrityUseCase()
         }
     }
 
