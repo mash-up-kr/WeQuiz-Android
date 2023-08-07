@@ -8,13 +8,14 @@
 package team.ommaya.wequiz.android.domain.usecase.intro
 
 import team.ommaya.wequiz.android.domain.repository.FirebaseRepository
+import team.ommaya.wequiz.android.domain.runSuspendCatching
 import javax.inject.Inject
 
 class VerifyCodeUseCase @Inject constructor(
     private val firebaseRepository: FirebaseRepository,
 ) {
     operator fun invoke(verifyCode: String) =
-        runCatching {
+        runSuspendCatching {
             firebaseRepository.verifyPhoneNumberWithCode(verifyCode)
         }
 }

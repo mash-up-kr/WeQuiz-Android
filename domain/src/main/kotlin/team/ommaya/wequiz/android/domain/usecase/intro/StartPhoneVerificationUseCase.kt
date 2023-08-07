@@ -9,13 +9,14 @@ package team.ommaya.wequiz.android.domain.usecase.intro
 
 import android.app.Activity
 import team.ommaya.wequiz.android.domain.repository.FirebaseRepository
+import team.ommaya.wequiz.android.domain.runSuspendCatching
 import javax.inject.Inject
 
 class StartPhoneVerificationUseCase @Inject constructor(
     private val firebaseRepository: FirebaseRepository,
 ) {
     suspend operator fun invoke(phoneNumber: String, activity: Activity) =
-        runCatching {
+        runSuspendCatching {
             firebaseRepository.startPhoneNumberVerification(phoneNumber, activity)
         }
 }

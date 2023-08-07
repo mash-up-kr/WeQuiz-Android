@@ -9,13 +9,14 @@ package team.ommaya.wequiz.android.domain.usecase.intro
 
 import team.ommaya.wequiz.android.domain.AuthCallbacksListener
 import team.ommaya.wequiz.android.domain.repository.FirebaseRepository
+import team.ommaya.wequiz.android.domain.runSuspendCatching
 import javax.inject.Inject
 
 class SetAuthCallbacksUseCase @Inject constructor(
     private val firebaseRepository: FirebaseRepository,
 ) {
     operator fun invoke(listener: AuthCallbacksListener) =
-        runCatching {
+        runSuspendCatching {
             firebaseRepository.setFirebaseAuthCallbacksListener(listener)
         }
 }

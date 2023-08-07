@@ -8,6 +8,7 @@
 package team.ommaya.wequiz.android.domain.usecase.quiz
 
 import team.ommaya.wequiz.android.domain.repository.QuizRepository
+import team.ommaya.wequiz.android.domain.runSuspendCatching
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,7 +17,7 @@ class DeleteQuizUseCase @Inject constructor(
     private val repository: QuizRepository,
 ) {
     suspend operator fun invoke(token: String, quizId: Int) =
-        runCatching {
+        runSuspendCatching {
             repository.deleteQuiz(token = token, quizId = quizId)
         }
 }

@@ -8,6 +8,7 @@
 package team.ommaya.wequiz.android.domain.usecase.quiz
 
 import team.ommaya.wequiz.android.domain.repository.QuizRepository
+import team.ommaya.wequiz.android.domain.runSuspendCatching
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,7 +21,7 @@ class GetQuizListUseCase @Inject constructor(
         size: Int = 15,
         cursor: Int? = null,
     ) =
-        runCatching {
+        runSuspendCatching {
             repository.getQuizList(token, size, cursor)
         }
 }
