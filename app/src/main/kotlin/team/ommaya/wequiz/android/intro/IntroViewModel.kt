@@ -16,7 +16,6 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthMissingActivityForRecaptchaException
 import com.google.firebase.auth.PhoneAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -201,8 +200,8 @@ class IntroViewModel @Inject constructor(
             sendPhoneEvent(PhoneUiEvent.TOO_MANY_REQUESTS_ERROR)
         } else if (firebaseException is FirebaseNetworkException) {
             sendPhoneEvent(PhoneUiEvent.NETWORK_ERROR)
-        } else if (firebaseException is FirebaseAuthMissingActivityForRecaptchaException) {
-            Log.e(TAG, "null Activity에서 reCAPTCHA 시도 오류")
+        } else {
+            sendPhoneEvent(PhoneUiEvent.ETC_ERROR)
         }
     }
 
@@ -239,5 +238,5 @@ enum class VerifyCodeUiEvent {
 }
 
 enum class PhoneUiEvent {
-    INVALID_PHONE_NUMBER_ERROR, TOO_MANY_REQUESTS_ERROR, NETWORK_ERROR,
+    INVALID_PHONE_NUMBER_ERROR, TOO_MANY_REQUESTS_ERROR, NETWORK_ERROR, ETC_ERROR,
 }

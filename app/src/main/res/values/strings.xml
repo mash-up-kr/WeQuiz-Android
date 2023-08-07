@@ -44,6 +44,7 @@
     <string name="invalid_phone_number_error">전화번호를 다시 확인해주세요</string>
     <string name="too_many_requests_error">일일 SMS 전송 가능 횟수 초과</string>
     <string name="network_error">네트워크 에러</string>
+    <string name="etc_error">에러</string>
 
     <!-- 문제 만들기 -->
     <string name="create_quiz">문제 만들기</string>

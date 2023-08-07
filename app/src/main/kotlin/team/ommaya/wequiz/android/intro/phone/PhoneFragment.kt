@@ -131,6 +131,9 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
                             PhoneUiEvent.NETWORK_ERROR -> {
                                 showFailureWeQuizSnackbar(R.string.network_error)
                             }
+                            PhoneUiEvent.ETC_ERROR -> {
+                                showFailureWeQuizSnackbar(R.string.etc_error)
+                            }
                         }
                     }
                 }
