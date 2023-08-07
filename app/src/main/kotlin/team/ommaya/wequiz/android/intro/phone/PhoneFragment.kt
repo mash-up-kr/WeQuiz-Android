@@ -109,6 +109,7 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
                         if (isCodeSent) {
                             binding.etPhoneInput.text?.clear()
                             progressDialog.dismiss()
+                            timer.cancel()
                             findNavController().navigate(R.id.action_phoneFragment_to_verifyCodeFragment)
                         }
                     }
@@ -152,6 +153,6 @@ class PhoneFragment : BaseViewBindingFragment<FragmentPhoneBinding>(FragmentPhon
     companion object {
         const val PHONE_NUMBER_LENGTH = 13
         const val COUNTRY_CODE_KOREA = "KR"
-        const val WAITING_TIME = 10_000L
+        const val WAITING_TIME = 15_000L
     }
 }
