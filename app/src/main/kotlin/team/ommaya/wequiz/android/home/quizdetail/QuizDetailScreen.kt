@@ -140,7 +140,7 @@ fun QuizDetail(
     title: String,
     answerDatas: ImmutableList<AnswerDetailData>,
     quizIndex: Int,
-    totalQuizIndex: Int,
+    totalQuestionSize: Int,
     viewMode: QuizDetailViewMode,
     onViewModeToggleClick: () -> Unit,
 ) {
@@ -180,7 +180,7 @@ fun QuizDetail(
                 title = title,
                 answerContents = answerContents,
                 quizIndex = quizIndex,
-                totalQuizIndex = totalQuizIndex,
+                totalQuestionSize = totalQuestionSize,
                 onViewModeToggleClick = onViewModeToggleClick,
             )
         } else {
@@ -191,7 +191,7 @@ fun QuizDetail(
                 title = title,
                 answerDatas = answerDatas,
                 quizIndex = quizIndex,
-                totalQuizIndex = totalQuizIndex,
+                totalQuestionSize = totalQuestionSize,
                 onViewModeToggleClick = onViewModeToggleClick,
             )
         }
@@ -212,7 +212,7 @@ private fun QuizTitle(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        BasicText(text = "$index.", style = typography)
+        BasicText(text = "${index + 1}.", style = typography)
         BasicText(text = title, style = typography)
     }
 }
@@ -221,7 +221,7 @@ private fun QuizTitle(
 private fun QuizAnswerViewModeToggle(
     modifier: Modifier = Modifier,
     currentQuizIndex: Int,
-    quizIndex: Int,
+    totalQuestionSize: Int,
     viewMode: QuizDetailViewMode,
     onViewModeToggleClick: () -> Unit,
 ) {
@@ -231,7 +231,7 @@ private fun QuizAnswerViewModeToggle(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         BasicText(
-            text = "$currentQuizIndex/$quizIndex",
+            text = "${currentQuizIndex + 1}/$totalQuestionSize",
             style = WeQuizTypography.M14
                 .change(color = WeQuizColor.G2)
                 .asRememberComposeStyle(),
@@ -274,7 +274,7 @@ private fun QuizAnswer(
     title: String,
     answerContents: ImmutableList<String>,
     quizIndex: Int,
-    totalQuizIndex: Int,
+    totalQuestionSize: Int,
     onViewModeToggleClick: () -> Unit,
 ) {
     Column(
@@ -303,7 +303,7 @@ private fun QuizAnswer(
         QuizAnswerViewModeToggle(
             modifier = Modifier.padding(top = 40.dp, start = 12.dp),
             currentQuizIndex = quizIndex,
-            quizIndex = totalQuizIndex,
+            totalQuestionSize = totalQuestionSize,
             viewMode = QuizDetailViewMode.Answer,
             onViewModeToggleClick = onViewModeToggleClick,
         )
@@ -316,7 +316,7 @@ private fun QuizResult(
     title: String,
     answerDatas: ImmutableList<AnswerDetailData>,
     quizIndex: Int,
-    totalQuizIndex: Int,
+    totalQuestionSize: Int,
     onViewModeToggleClick: () -> Unit,
 ) {
     Column(
@@ -345,7 +345,7 @@ private fun QuizResult(
         QuizAnswerViewModeToggle(
             modifier = Modifier.padding(top = 40.dp, start = 12.dp),
             currentQuizIndex = quizIndex,
-            quizIndex = totalQuizIndex,
+            totalQuestionSize = totalQuestionSize,
             viewMode = QuizDetailViewMode.Result,
             onViewModeToggleClick = onViewModeToggleClick,
         )
