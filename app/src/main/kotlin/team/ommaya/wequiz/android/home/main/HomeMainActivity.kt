@@ -28,6 +28,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope
@@ -193,6 +195,7 @@ class HomeMainActivity : ComponentActivity() {
                                 userLogoutUseCase()
                                     .onSuccess {
                                         finish()
+                                        Firebase.auth.signOut()
                                         toast("로그아웃 되었어요.")
                                         startActivity(
                                             Intent(
