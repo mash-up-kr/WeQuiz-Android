@@ -15,7 +15,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="WeQuiz"
         android:theme="@style/Theme.WeQuiz"
-        tools:ignore="MissingApplicationIcon">
+        tools:ignore="MissingApplicationIcon,LockedOrientationActivity">
 
         <activity
             android:name=".quiz.create.QuizCreateActivity"
@@ -28,6 +28,7 @@
         <activity
             android:name=".intro.IntroActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,18 +39,22 @@
         <activity
             android:name=".home.main.HomeMainActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" />
 
         <activity
             android:name=".home.friends.FriendsRankActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
 
         <activity
             android:name=".home.quizdetail.QuizDetailActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
 
         <activity
             android:name=".home.quizlist.QuizListActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
 
         <activity

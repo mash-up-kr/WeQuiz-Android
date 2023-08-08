@@ -7,6 +7,7 @@
 
 package team.ommaya.wequiz.android.quiz.solve
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +21,7 @@ import team.ommaya.wequiz.android.domain.model.quiz.QuizDetail
 import team.ommaya.wequiz.android.domain.model.quiz.QuizResult
 import team.ommaya.wequiz.android.domain.model.rank.RankingsItem
 import team.ommaya.wequiz.android.domain.usecase.quiz.GetQuizDetailUseCase
+import team.ommaya.wequiz.android.domain.usecase.quiz.MakeInvitationLinkUseCase
 import team.ommaya.wequiz.android.domain.usecase.user.GetUserUseCase
 import javax.inject.Inject
 
@@ -27,7 +29,11 @@ import javax.inject.Inject
 class QuizSolveSharedViewModel @Inject constructor(
     private val getQuizDetailUseCase: GetQuizDetailUseCase,
     private val getUserUseCase: GetUserUseCase,
+    private val makeInvitationLinkUseCase: MakeInvitationLinkUseCase,
 ) : ViewModel() {
+
+    private val _quizId: MutableStateFlow<Int> = MutableStateFlow(0)
+    val quizId = _quizId.asStateFlow()
 
     private val _isQuizValid: MutableSharedFlow<Boolean> = MutableSharedFlow()
     val isQuizValid = _isQuizValid.asSharedFlow()
@@ -48,7 +54,11 @@ class QuizSolveSharedViewModel @Inject constructor(
     private val _rankingList: MutableStateFlow<List<RankingsItem>> = MutableStateFlow(emptyList())
     val rankingList = _rankingList.asStateFlow()
 
+    private val _quizLink: MutableSharedFlow<Uri> = MutableSharedFlow()
+    val quizLink = _quizLink.asSharedFlow()
+
     fun getQuizDetail(quizId: Int) {
+        _quizId.value = quizId
         viewModelScope.launch {
             getQuizDetailUseCase(quizId)
                 .onSuccess {
@@ -71,6 +81,14 @@ class QuizSolveSharedViewModel @Inject constructor(
 
     fun setToken(token: String) {
         _userToken.value = token
+    }
+
+    fun makeQuizLink() {
+        viewModelScope.launch {
+            makeInvitationLinkUseCase(quizId.value).collect {
+                _quizLink.emit(it)
+            }
+        }
     }
 
     fun setResult(result: QuizResult, rankingList: List<RankingsItem>) {

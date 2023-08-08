@@ -15,6 +15,7 @@
     <string name="home">홈</string>
     <string name="name">이름</string>
     <string name="finish">완료</string>
+    <string name="report">신고</string>
 
     <!-- 인트로 -->
     <string name="start_we_quiz">WeQuiz 시작하기</string>
@@ -40,7 +41,10 @@
     <string name="nickname"><font color="#E9ECEF">닉네임</font> <font color="#FF5D47">(필수)</font></string>
     <string name="nickname_hint">닉네임 입력</string>
     <string name="welcome_comment">반가워요\n%1$s</string>
-    <string name="send_verify_code_failure">인증번호 전송에 실패했습니다</string>
+    <string name="invalid_phone_number_error">전화번호를 다시 확인해주세요</string>
+    <string name="too_many_requests_error">일일 SMS 전송 가능 횟수 초과</string>
+    <string name="network_error">네트워크 에러</string>
+    <string name="etc_error">에러</string>
 
     <!-- 문제 만들기 -->
     <string name="create_quiz">문제 만들기</string>
@@ -69,7 +73,7 @@
     <string name="result_title5">영혼을 공유한 사이❤️</string>
     <string name="result_sign_up">1분만에 가입해서 친구한테 문제내기 🗯</string>
     <string name="retry_quiz">다시 풀기</string>
-    <string name="share_result">결과 공유하기</string>
+    <string name="share_result">공유하기</string>
     <string name="fetch_fail_text">문제 불러오기 실패</string>
     <string name="quiz_deleted_text">삭제된 시험지에요 🥶</string>
     <string name="area">영역</string>
@@ -79,12 +83,14 @@
     <string name="name_hint">이름 입력</string>
     <string name="name_require"><font color="#E9ECEF">이름</font> <font color="#FF5D47">(필수)</font></string>
     <string name="join_ad_text">1분만에 가입해서 친구한테 문제내기🗯</string>
-    <string name="report">신고하기</string>
+    <string name="do_report">신고하기</string>
     <string name="remaining_problem">%d문제 중 %d번째 문제</string>
     <string name="answer_count">답 %d개</string>
     <string name="score">%d점</string>
     <string name="quiz_title">%s 시험지</string>
     <string name="quiz_num">제 %d회</string>
     <string name="user_code_snippet">#%s</string>
+    <string name="report_question_text">문제를 신고할까요?</string>
+    <string name="report_question_finish">문제 신고가 완료되었습니다</string>
 
 </resources>

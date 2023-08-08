@@ -12,6 +12,10 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.FirebaseException
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.FirebaseTooManyRequestsException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -56,6 +60,9 @@ class IntroViewModel @Inject constructor(
 
     private val _verifyCodeEventFlow: MutableSharedFlow<VerifyCodeUiEvent> = MutableSharedFlow()
     val verifyCodeEventFlow = _verifyCodeEventFlow.asSharedFlow()
+
+    private val _phoneEventFlow: MutableSharedFlow<PhoneUiEvent> = MutableSharedFlow()
+    val phoneEventFlow = _phoneEventFlow.asSharedFlow()
 
     private val _token: MutableStateFlow<String> = MutableStateFlow("")
     val token = _token.asStateFlow()
@@ -108,6 +115,12 @@ class IntroViewModel @Inject constructor(
     fun sendVerifyCodeEvent(verifyCodeUiEvent: VerifyCodeUiEvent) {
         viewModelScope.launch {
             _verifyCodeEventFlow.emit(verifyCodeUiEvent)
+        }
+    }
+
+    private fun sendPhoneEvent(phoneUiEvent: PhoneUiEvent) {
+        viewModelScope.launch {
+            _phoneEventFlow.emit(phoneUiEvent)
         }
     }
 
@@ -180,8 +193,16 @@ class IntroViewModel @Inject constructor(
         getUserInformation()
     }
 
-    override fun onVerificationFailed(message: String) {
-        Log.e(TAG, message)
+    override fun onVerificationFailed(firebaseException: FirebaseException) {
+        if (firebaseException is FirebaseAuthInvalidCredentialsException) {
+            sendPhoneEvent(PhoneUiEvent.INVALID_PHONE_NUMBER_ERROR)
+        } else if (firebaseException is FirebaseTooManyRequestsException) {
+            sendPhoneEvent(PhoneUiEvent.TOO_MANY_REQUESTS_ERROR)
+        } else if (firebaseException is FirebaseNetworkException) {
+            sendPhoneEvent(PhoneUiEvent.NETWORK_ERROR)
+        } else {
+            sendPhoneEvent(PhoneUiEvent.ETC_ERROR)
+        }
     }
 
     override fun onVerifyCodeInvalid() {
@@ -214,4 +235,8 @@ enum class IntroMode {
 
 enum class VerifyCodeUiEvent {
     RESEND, TIMEOUT, REGISTERED, UNREGISTERED, FAILURE,
+}
+
+enum class PhoneUiEvent {
+    INVALID_PHONE_NUMBER_ERROR, TOO_MANY_REQUESTS_ERROR, NETWORK_ERROR, ETC_ERROR,
 }

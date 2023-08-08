@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
@@ -28,6 +30,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope
@@ -128,6 +132,7 @@ class HomeMainActivity : ComponentActivity() {
 
                 if (user != null) {
                     HomeMain(
+                        modifier = Modifier.verticalScroll(state = rememberScrollState()),
                         nickname = user.data.nickname,
                         profileMessage = user.data.description,
                         profileImageSrc = R.drawable.ic_color_profile_image,
@@ -193,12 +198,13 @@ class HomeMainActivity : ComponentActivity() {
                                 userLogoutUseCase()
                                     .onSuccess {
                                         finish()
+                                        Firebase.auth.signOut()
                                         toast("로그아웃 되었어요.")
                                         startActivity(
                                             Intent(
                                                 this@HomeMainActivity,
                                                 IntroActivity::class.java,
-                                            )
+                                            ),
                                         )
                                     }
                                     .onFailure { exception ->
@@ -206,6 +212,43 @@ class HomeMainActivity : ComponentActivity() {
                                         exception.printStackTrace()
                                     }
                             }
+                        },
+                        onDeleteAccountClick = {
+                            fun logoutWithDeleteAccount() {
+                                coroutineScope.launch {
+                                    userLogoutUseCase()
+                                        .onSuccess {
+                                            finish()
+                                            toast("회원탈퇴가 완료되었어요.")
+                                            startActivity(
+                                                Intent(
+                                                    this@HomeMainActivity,
+                                                    IntroActivity::class.java,
+                                                ),
+                                            )
+                                        }
+                                        .onFailure { exception ->
+                                            toast("회원탈퇴에 실패했어요.")
+                                            exception.printStackTrace()
+                                        }
+                                }
+                            }
+
+                            // 논의 후 주석 풀어야 함
+                            /*Firebase
+                                .auth
+                                .currentUser
+                                ?.delete() // 파이어베이스에서 유저 데이터 삭제
+                                // -> 1. 동일한 UUID로 다시 로그인 불가 2. 동일한 UUID가 다시 생성되지 않음
+                                ?.addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        logoutWithDeleteAccount()
+                                    } else {
+                                        toast("회원탈퇴에 실패했어요.")
+                                        task.exception?.printStackTrace()
+                                    }
+                                }
+                                ?:*/ logoutWithDeleteAccount()
                         },
                     )
                 }

@@ -60,6 +60,7 @@ fun HomeMain(
     onMyQuizSectionClick: () -> Unit = {},
     onQuizClick: (index: Int) -> Unit = {},
     onLogoutClick: () -> Unit = {},
+    onDeleteAccountClick: () -> Unit = {},
 ) {
     val roundedCornerShape16 = remember { RoundedCornerShape(16.dp) }
 
@@ -191,11 +192,45 @@ fun HomeMain(
                         )
                     }
                 }
-                .padding(top = 26.dp, bottom = 40.dp - 27.dp)
+                .padding(top = 26.dp)
                 .noRippleClickable(onLogoutClick),
             text = "로그아웃",
             style = WeQuizTypography.R16
                 .change(color = WeQuizColor.G4)
+                .asRememberComposeStyle(),
+        )
+        BasicText(
+            modifier = Modifier
+                .layout { measurable, constraints ->
+                    val looseConstraints = constraints.asLoose(width = true, height = true)
+                    val placeable = measurable.measure(looseConstraints)
+
+                    val width = constraints.maxWidth
+                    val height = placeable.height
+
+                    layout(width = width, height = height) {
+                        placeable.place(
+                            x = Alignment
+                                .CenterHorizontally
+                                .align(
+                                    size = placeable.width,
+                                    space = width,
+                                    layoutDirection = layoutDirection,
+                                ),
+                            y = Alignment
+                                .CenterVertically
+                                .align(
+                                    size = placeable.height,
+                                    space = height,
+                                ),
+                        )
+                    }
+                }
+                .padding(top = 15.dp, bottom = 40.dp - 27.dp)
+                .noRippleClickable(onDeleteAccountClick),
+            text = "회원탈퇴",
+            style = WeQuizTypography.R12
+                .change(color = WeQuizColor.G5)
                 .asRememberComposeStyle(),
         )
     }
