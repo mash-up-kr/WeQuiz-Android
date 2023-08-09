@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
@@ -130,6 +132,7 @@ class HomeMainActivity : ComponentActivity() {
 
                 if (user != null) {
                     HomeMain(
+                        modifier = Modifier.verticalScroll(state = rememberScrollState()),
                         nickname = user.data.nickname,
                         profileMessage = user.data.description,
                         profileImageSrc = R.drawable.ic_color_profile_image,

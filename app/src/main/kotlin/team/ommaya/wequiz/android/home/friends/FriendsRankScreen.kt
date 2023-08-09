@@ -13,11 +13,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
@@ -29,6 +28,7 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastForEachIndexed
 import kotlinx.collections.immutable.ImmutableList
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
@@ -54,13 +54,13 @@ fun FriendsRank(
     val roundedCornerShape4 = remember { RoundedCornerShape(4.dp) }
     val roundedCornerShape16 = remember { RoundedCornerShape(16.dp) }
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .then(modifier),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        itemsIndexed(friendsRanking) { rankNumber, (nickname, uuid, score) ->
+        friendsRanking.fastForEachIndexed { rankNumber, (nickname, uuid, score) ->
             @Suppress("NAME_SHADOWING")
             val rankNumber = rankNumber + 1
 

@@ -17,11 +17,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
@@ -37,6 +36,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastFirstOrNull
+import androidx.compose.ui.util.fastForEachIndexed
 import kotlinx.collections.immutable.PersistentList
 import team.ommaya.wequiz.android.R
 import team.ommaya.wequiz.android.design.resource.compose.WeQuizColor
@@ -86,13 +86,13 @@ fun QuizList(
         animationSpec = tween(QuizListAninmationMillis),
     )
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .then(modifier),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        itemsIndexed(quizs) { index, (name, wip) ->
+        quizs.fastForEachIndexed { index, (name, wip) ->
             @Suppress("RememberReturnType")
             remember(name) {
                 check(name.length in 1..38) { "시험지명 길이가 1..38 이여야 합니다. ($name)" }
