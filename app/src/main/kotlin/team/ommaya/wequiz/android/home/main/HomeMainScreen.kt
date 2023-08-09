@@ -68,11 +68,12 @@ fun HomeMain(
         modifier = Modifier
             .fillMaxSize()
             .background(color = WeQuizColor.G9.value)
-            .padding(vertical = 27.dp, horizontal = 20.dp)
+            .padding(top = 17.dp, start = 20.dp, end = 20.dp)
             .then(modifier),
     ) {
         Row(
             modifier = Modifier
+                .padding(top = 10.dp)
                 .fillMaxWidth()
                 .height(85.dp),
             horizontalArrangement = Arrangement.spacedBy(24.dp),
@@ -226,7 +227,7 @@ fun HomeMain(
                         )
                     }
                 }
-                .padding(top = 15.dp, bottom = 40.dp - 27.dp)
+                .padding(top = 15.dp, bottom = 30.dp)
                 .noRippleClickable(onDeleteAccountClick),
             text = "회원탈퇴",
             style = WeQuizTypography.R12

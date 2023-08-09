@@ -22,7 +22,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -97,7 +99,6 @@ class QuizListActivity : ComponentActivity() {
                             quizIds = quiz.map(Quiz::id)
                         }
                         ?.map { item ->
-                            // TODO: 문제 만들기 상태인지 값이 안 넘어옴
                             Pair(item.title, false)
                         }
                         ?.toPersistentList()
@@ -210,7 +211,11 @@ class QuizListActivity : ComponentActivity() {
                 val quizList = quizList
 
                 if (quizList != null) {
-                    Column(modifier = Modifier.fillMaxSize()) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(bottom = 15.dp),
+                    ) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -239,7 +244,9 @@ class QuizListActivity : ComponentActivity() {
                             )
                         }
                         QuizListComposable(
-                            modifier = Modifier.padding(horizontal = 20.dp),
+                            modifier = Modifier
+                                .padding(horizontal = 20.dp)
+                                .verticalScroll(state = rememberScrollState()),
                             quizs = quizList,
                             deleteModeEnable = deleteModeEnable,
                             onDeleteIconClick = { index ->
