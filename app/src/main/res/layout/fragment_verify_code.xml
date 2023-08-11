@@ -79,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="54dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="15dp"
         android:textAppearance="@style/WeQuizTextAppearance.Caption1.Regular"
         android:textColor="@color/P1"
         app:layout_constraintBottom_toBottomOf="@id/text_input_layout_verify_code_input"
