@@ -37,9 +37,14 @@ class OnboardingFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         setStatusBarColor(true)
         setNavigationBarPadding()
-        initView()
     }
 
     private fun setNavigationBarPadding() {
