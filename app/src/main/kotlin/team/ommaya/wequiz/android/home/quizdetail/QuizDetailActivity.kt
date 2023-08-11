@@ -325,7 +325,7 @@ class QuizDetailActivity : ComponentActivity() {
                                         }
                                     },
                                 index = index,
-                                totalQuizIndex = questionSize,
+                                totalQuestionSize = questionSize,
                                 title = question.questionTitle,
                                 answerDatas = remember(question.options) {
                                     question
@@ -380,7 +380,7 @@ private fun rememberFullyCustomizedSnapFlingBehavior(
 private fun QuizDetail(
     modifier: Modifier = Modifier,
     index: Int,
-    totalQuizIndex: Int,
+    totalQuestionSize: Int,
     title: String,
     answerDatas: ImmutableList<AnswerDetailData>,
 ) {
@@ -393,7 +393,7 @@ private fun QuizDetail(
         title = title,
         answerDatas = answerDatas,
         quizIndex = index,
-        totalQuizIndex = totalQuizIndex,
+        totalQuestionSize = totalQuestionSize,
         viewMode = viewMode,
         onViewModeToggleClick = { viewMode = !viewMode },
     )
